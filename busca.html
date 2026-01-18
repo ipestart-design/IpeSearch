@@ -17,7 +17,7 @@
         .search-section { 
             background-color: #003366; 
             position: relative; 
-            overflow: hidden; 
+            overflow: hidden; /* Corta o vídeo para não vazar */
             z-index: 1;
         }
         
@@ -185,15 +185,15 @@
         
         let todosPesquisadores = [];
 
-        // --- AUTOMAÇÃO: CORRETOR AUTOMÁTICO (RADICAIS E SIGLAS UFLA) ---
+        // --- AUTOMAÇÃO: FORMATAÇÃO INTELIGENTE + SIGLAS UFLA ---
         function formatarTextoInteligente(texto) {
             if (!texto) return "Não informado";
             
             let limpo = texto.trim().toLowerCase();
             
-            // 1. CORREÇÕES EXATAS (SIGLAS DEPTOS UFLA + TERMOS ESPECÍFICOS)
-            const correcoesExatas = {
-                // ESAL - Escola de Ciências Agrárias de Lavras
+            // MAPA DE CORREÇÕES BASEADO NO SITE OFICIAL DA UFLA
+            const correcoes = {
+                // ESAL
                 "dga": "Departamento de Gestão Agroindustrial",
                 "dfp": "Departamento de Fitopatologia", "df": "Departamento de Fitopatologia",
                 "den": "Departamento de Entomologia",
@@ -202,100 +202,108 @@
                 "dca": "Departamento de Ciência dos Alimentos",
                 "dag": "Departamento de Agricultura",
                 
-                // EENG - Escola de Engenharia
+                // EENG
                 "dam": "Departamento de Engenharia Ambiental",
                 "drh": "Departamento de Recursos Hídricos",
                 "dea": "Departamento de Engenharia Agrícola",
                 "dat": "Departamento de Automática",
                 "deg": "Departamento de Engenharia",
                 
-                // FCS - Faculdade de Ciências da Saúde
+                // FCS
                 "dnu": "Departamento de Nutrição",
                 "def": "Departamento de Educação Física",
                 "dme": "Departamento de Medicina",
+                "dsa": "Departamento de Saúde",
                 
-                // FCSA - Faculdade de Ciências Sociais Aplicadas
+                // FCSA
                 "dir": "Departamento de Direito",
                 "dae": "Departamento de Administração e Economia",
                 "dap": "Departamento de Administração Pública",
                 
-                // FAELCH - Fac. Filosofia, Ciências Humanas, Educação e Letras
+                // FAELCH
                 "del": "Departamento de Estudos da Linguagem",
                 "ded": "Departamento de Educação",
                 "dch": "Departamento de Ciências Humanas",
                 
-                // FZMV - Fac. Zootecnia e Medicina Veterinária
+                // FZMV
                 "dzo": "Departamento de Zootecnia",
                 "dmv": "Departamento de Medicina Veterinária",
                 
-                // ICET - Instituto de Ciências Exatas e Tecnológicas
+                // ICET
                 "des": "Departamento de Estatística",
                 "dac": "Departamento de Computação Aplicada",
                 "dfm": "Departamento de Educação em Ciências Físicas e Matemática",
                 "dmm": "Departamento de Matemática e Matemática Aplicada",
                 "dcc": "Departamento de Ciência da Computação",
                 
-                // ICN - Instituto de Ciências Naturais
+                // ICN
                 "dqi": "Departamento de Química",
                 "dfi": "Departamento de Física",
                 "dbi": "Departamento de Biologia",
                 "dec": "Departamento de Ecologia e Conservação",
-
-                // ICTIN - Instituto de Ciência, Tecnologia e Inovação (Paraíso)
-                "ictin": "Instituto de Ciência, Tecnologia e Inovação",
+                
+                // Variações Genéricas
+                "dep": "Departamento", "dep.": "Departamento",
+                "depto": "Departamento", "depto.": "Departamento",
+                "dept": "Departamento", "dept.": "Departamento",
                 
                 // Abreviações Gerais
-                "dep": "Departamento", "depto": "Departamento", "dept": "Departamento",
-                "eng": "Engenharia", "ed": "Educação", "med": "Medicina",
-                "vet": "Veterinária", "prof": "Professor"
+                "eng": "Engenharia", "eng.": "Engenharia",
+                "ed": "Educação", "ed.": "Educação",
+                "med": "Medicina", "med.": "Medicina",
+                "vet": "Veterinária", "vet.": "Veterinária",
+                "prof": "Professor", "prof.": "Professor",
+                
+                // Ortografia e Acentos
+                "computacao": "Computação",
+                "informacao": "Informação",
+                "producao": "Produção",
+                "construcao": "Construção",
+                "automacao": "Automação",
+                "educacao": "Educação",
+                "graduacao": "Graduação",
+                "pos-graduacao": "Pós-Graduação",
+                "administracao": "Administração",
+                "nutricao": "Nutrição",
+                "eletrica": "Elétrica",
+                "eletronica": "Eletrônica",
+                "mecanica": "Mecânica",
+                "quimica": "Química",
+                "fisica": "Física",
+                "biologica": "Biológica",
+                "agricola": "Agrícola",
+                "hirdricos": "Hídricos",
+                "agua": "Água",
+                "genetica": "Genética",
+                "ciencia": "Ciência",
+                "ciencias": "Ciências",
+                "biologia": "Biologia",
+                "zootecnia": "Zootecnia",
+                "agronomia": "Agronomia"
             };
 
             const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
-            const siglasMaiusculas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
+            // Siglas que devem ficar APENAS maiúsculas (sem expandir)
+            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
 
             let palavras = limpo.split(/[\s/]+/); 
             
             for (let i = 0; i < palavras.length; i++) {
                 let p = palavras[i];
                 
-                // PRIORIDADE 1: CORREÇÃO EXATA (Se estiver na lista acima, troca)
-                if (correcoesExatas[p]) {
-                    palavras[i] = correcoesExatas[p];
+                // Prioridade 1: Correção do Dicionário (Sigla de Depto ou Acento)
+                if (correcoes[p]) {
+                    palavras[i] = correcoes[p];
                 }
-                // PRIORIDADE 2: CORRETOR AUTOMÁTICO POR RADICAL (Detecta o início da palavra)
-                // Isso corrige "Engenhria", "Engenharia", "Engenheiro" automaticamente
-                else if (p.startsWith("engen")) { palavras[i] = "Engenharia"; }
-                else if (p.startsWith("comput")) { palavras[i] = "Computação"; }
-                else if (p.startsWith("cienc")) { palavras[i] = "Ciência"; }
-                else if (p.startsWith("admin")) { palavras[i] = "Administração"; }
-                else if (p.startsWith("educ")) { palavras[i] = "Educação"; }
-                else if (p.startsWith("biolog")) { palavras[i] = "Biológica"; }
-                else if (p.startsWith("quim")) { palavras[i] = "Química"; }
-                else if (p.startsWith("fisic")) { palavras[i] = "Física"; }
-                else if (p.startsWith("agron")) { palavras[i] = "Agronomia"; }
-                else if (p.startsWith("zoot")) { palavras[i] = "Zootecnia"; }
-                else if (p.startsWith("veterin")) { palavras[i] = "Veterinária"; }
-                else if (p.startsWith("florest")) { palavras[i] = "Florestal"; }
-                else if (p.startsWith("mecan")) { palavras[i] = "Mecânica"; }
-                else if (p.startsWith("hidir") || p.startsWith("hidr")) { palavras[i] = "Hídricos"; }
-                else if (p.startsWith("produ")) { palavras[i] = "Produção"; }
-                else if (p.startsWith("constru")) { palavras[i] = "Construção"; }
-                else if (p.startsWith("autom")) { palavras[i] = "Automação"; }
-                else if (p.startsWith("gradua")) { palavras[i] = "Graduação"; }
-                else if (p.startsWith("nutri")) { palavras[i] = "Nutrição"; }
-                else if (p.startsWith("genetic")) { palavras[i] = "Genética"; }
-                else if (p.startsWith("depar")) { palavras[i] = "Departamento"; }
-
-                
-                // PRIORIDADE 3: MAIÚSCULAS
-                else if (siglasMaiusculas.includes(p)) {
+                // Prioridade 2: Sigla Simples (UFLA, CNPQ)
+                else if (siglas.includes(p)) {
                     palavras[i] = p.toUpperCase();
                 } 
-                // PRIORIDADE 4: PREPOSIÇÕES
+                // Prioridade 3: Preposição
                 else if (preposicoes.includes(p) && i !== 0) {
                     palavras[i] = p;
                 } 
-                // PADRÃO: PRIMEIRA LETRA MAIÚSCULA
+                // Prioridade 4: Formatação Padrão (Capitalize)
                 else {
                     palavras[i] = p.charAt(0).toUpperCase() + p.slice(1);
                 }
@@ -329,18 +337,26 @@
             filtrarResultados(tag);
         }
 
-        // --- BUSCA AVANÇADA (TURBO) ---
+        // --- BUSCA AVANÇADA (TURBO - CORREÇÃO DE RIGIDEZ) ---
         function filtrarResultados(termo) {
-            // 1. TRUQUE: Expande siglas antes de buscar (ex: "dat" -> "Departamento de Automática")
-            const termoExpandido = formatarTextoInteligente(termo);
-            
-            // 2. Limpa o termo e divide em palavras
-            const termoLimpo = removerAcentos(termoExpandido);
-            const palavrasBusca = termoLimpo.split(" ").filter(p => p.length > 0);
+            const termoLower = termo.toLowerCase().trim();
+            let palavrasBusca;
+
+            // CASO ESPECIAL: "DAT" -> Busca por "Automa" (pega Automática e Automação)
+            if (termoLower === 'dat') {
+                palavrasBusca = ['automa'];
+            } else {
+                // 1. Expande siglas (ex: "dcc" -> "Departamento de Ciência da Computação")
+                const termoExpandido = formatarTextoInteligente(termo);
+                const termoLimpo = removerAcentos(termoExpandido);
+                
+                // 2. CORREÇÃO CRÍTICA: Remove preposições da busca (de, da, do)
+                // Isso permite que "Departamento Automática" encontre "Departamento DE Automática"
+                const stopWords = ['de', 'da', 'do', 'em', 'para', 'com', 'no', 'na'];
+                palavrasBusca = termoLimpo.split(" ").filter(p => p.length > 0 && !stopWords.includes(p));
+            }
 
             const filtrados = todosPesquisadores.filter(p => {
-                // 3. Cria um "texto único" com TUDO o que sabemos sobre o professor
-                // Busca em Nome, Depto, Área, Projetos e Biografia
                 const textoGeral = `
                     ${p.Nome} 
                     ${p.Departamento} 
@@ -352,7 +368,7 @@
                 
                 const textoNormalizado = removerAcentos(textoGeral);
 
-                // 4. Lógica AND: Verifica se TODAS as palavras digitadas existem nos dados
+                // 3. Lógica AND: Verifica se TODAS as palavras digitadas (exceto stopWords) existem
                 return palavrasBusca.every(palavra => textoNormalizado.includes(palavra));
             });
             
