@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -18,7 +17,7 @@
         .search-section { 
             background-color: #003366; 
             position: relative; 
-            overflow: hidden; /* Corta o vídeo para não vazar */
+            overflow: hidden; 
             z-index: 1;
         }
         
@@ -186,15 +185,15 @@
         
         let todosPesquisadores = [];
 
-        // --- AUTOMAÇÃO: FORMATAÇÃO INTELIGENTE + SIGLAS UFLA ---
+        // --- AUTOMAÇÃO: CORRETOR AUTOMÁTICO (RADICAIS E SIGLAS UFLA) ---
         function formatarTextoInteligente(texto) {
             if (!texto) return "Não informado";
             
             let limpo = texto.trim().toLowerCase();
             
-            // MAPA DE CORREÇÕES BASEADO NO SITE OFICIAL DA UFLA
-            const correcoes = {
-                // ESAL
+            // 1. CORREÇÕES EXATAS (SIGLAS DEPTOS UFLA + TERMOS ESPECÍFICOS)
+            const correcoesExatas = {
+                // ESAL - Escola de Ciências Agrárias de Lavras
                 "dga": "Departamento de Gestão Agroindustrial",
                 "dfp": "Departamento de Fitopatologia", "df": "Departamento de Fitopatologia",
                 "den": "Departamento de Entomologia",
@@ -203,107 +202,100 @@
                 "dca": "Departamento de Ciência dos Alimentos",
                 "dag": "Departamento de Agricultura",
                 
-                // EENG
+                // EENG - Escola de Engenharia
                 "dam": "Departamento de Engenharia Ambiental",
                 "drh": "Departamento de Recursos Hídricos",
                 "dea": "Departamento de Engenharia Agrícola",
                 "dat": "Departamento de Automática",
                 "deg": "Departamento de Engenharia",
                 
-                // FCS
+                // FCS - Faculdade de Ciências da Saúde
                 "dnu": "Departamento de Nutrição",
                 "def": "Departamento de Educação Física",
                 "dme": "Departamento de Medicina",
+                "dsa": "Departamento de Saúde", // Mantido por compatibilidade
                 
-                // FCSA
+                // FCSA - Faculdade de Ciências Sociais Aplicadas
                 "dir": "Departamento de Direito",
                 "dae": "Departamento de Administração e Economia",
                 "dap": "Departamento de Administração Pública",
                 
-                // FAELCH
+                // FAELCH - Fac. Filosofia, Ciências Humanas, Educação e Letras
                 "del": "Departamento de Estudos da Linguagem",
                 "ded": "Departamento de Educação",
                 "dch": "Departamento de Ciências Humanas",
                 
-                // FZMV
+                // FZMV - Fac. Zootecnia e Medicina Veterinária
                 "dzo": "Departamento de Zootecnia",
                 "dmv": "Departamento de Medicina Veterinária",
                 
-                // ICET
+                // ICET - Instituto de Ciências Exatas e Tecnológicas
                 "des": "Departamento de Estatística",
                 "dac": "Departamento de Computação Aplicada",
                 "dfm": "Departamento de Educação em Ciências Físicas e Matemática",
                 "dmm": "Departamento de Matemática e Matemática Aplicada",
                 "dcc": "Departamento de Ciência da Computação",
                 
-                // ICN
+                // ICN - Instituto de Ciências Naturais
                 "dqi": "Departamento de Química",
                 "dfi": "Departamento de Física",
                 "dbi": "Departamento de Biologia",
                 "dec": "Departamento de Ecologia e Conservação",
-                
-                // Variações Genéricas
-                "dep": "Departamento", "dep.": "Departamento",
-                "depto": "Departamento", "depto.": "Departamento",
-                "dept": "Departamento", "dept.": "Departamento",
+
+                // ICTIN - Instituto de Ciência, Tecnologia e Inovação (Paraíso)
+                "ictin": "Instituto de Ciência, Tecnologia e Inovação",
                 
                 // Abreviações Gerais
-                "eng": "Engenharia", "eng.": "Engenharia",
-                "ed": "Educação", "ed.": "Educação",
-                "med": "Medicina", "med.": "Medicina",
-                "vet": "Veterinária", "vet.": "Veterinária",
-                "prof": "Professor", "prof.": "Professor",
-                
-                // Ortografia e Acentos
-                "computacao": "Computação",
-                "informacao": "Informação",
-                "producao": "Produção",
-                "construcao": "Construção",
-                "automacao": "Automação",
-                "educacao": "Educação",
-                "graduacao": "Graduação",
-                "pos-graduacao": "Pós-Graduação",
-                "administracao": "Administração",
-                "nutricao": "Nutrição",
-                "eletrica": "Elétrica",
-                "eletronica": "Eletrônica",
-                "mecanica": "Mecânica",
-                "quimica": "Química",
-                "fisica": "Física",
-                "biologica": "Biológica",
-                "agricola": "Agrícola",
-                "hirdricos": "Hídricos",
-                "agua": "Água",
-                "genetica": "Genética",
-                "ciencia": "Ciência",
-                "ciencias": "Ciências",
-                "biologia": "Biologia",
-                "zootecnia": "Zootecnia",
-                "agronomia": "Agronomia"
+                "dep": "Departamento", "depto": "Departamento", "dept": "Departamento",
+                "eng": "Engenharia", "ed": "Educação", "med": "Medicina",
+                "vet": "Veterinária", "prof": "Professor"
             };
 
             const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
-            // Siglas que devem ficar APENAS maiúsculas (sem expandir)
-            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
+            const siglasMaiusculas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
 
             let palavras = limpo.split(/[\s/]+/); 
             
             for (let i = 0; i < palavras.length; i++) {
                 let p = palavras[i];
                 
-                // Prioridade 1: Correção do Dicionário (Sigla de Depto ou Acento)
-                if (correcoes[p]) {
-                    palavras[i] = correcoes[p];
+                // PRIORIDADE 1: CORREÇÃO EXATA (Se estiver na lista acima, troca)
+                if (correcoesExatas[p]) {
+                    palavras[i] = correcoesExatas[p];
                 }
-                // Prioridade 2: Sigla Simples (UFLA, CNPQ)
-                else if (siglas.includes(p)) {
+                // PRIORIDADE 2: CORRETOR AUTOMÁTICO POR RADICAL (Detecta o início da palavra)
+                // Isso corrige "Engenhria", "Engenharia", "Engenheiro" automaticamente
+                else if (p.startsWith("engen")) { palavras[i] = "Engenharia"; }
+                else if (p.startsWith("comput")) { palavras[i] = "Computação"; }
+                else if (p.startsWith("cienc")) { palavras[i] = "Ciência"; }
+                else if (p.startsWith("admin")) { palavras[i] = "Administração"; }
+                else if (p.startsWith("educ")) { palavras[i] = "Educação"; }
+                else if (p.startsWith("biolog")) { palavras[i] = "Biológica"; }
+                else if (p.startsWith("quim")) { palavras[i] = "Química"; }
+                else if (p.startsWith("fisic")) { palavras[i] = "Física"; }
+                else if (p.startsWith("agron")) { palavras[i] = "Agronomia"; }
+                else if (p.startsWith("zoot")) { palavras[i] = "Zootecnia"; }
+                else if (p.startsWith("veterin")) { palavras[i] = "Veterinária"; }
+                else if (p.startsWith("florest")) { palavras[i] = "Florestal"; }
+                else if (p.startsWith("eletr")) { palavras[i] = "Elétrica"; } // Cuidado com Eletrônica
+                else if (p.startsWith("mecan")) { palavras[i] = "Mecânica"; }
+                else if (p.startsWith("hidir") || p.startsWith("hidr")) { palavras[i] = "Hídricos"; }
+                else if (p.startsWith("produ")) { palavras[i] = "Produção"; }
+                else if (p.startsWith("constru")) { palavras[i] = "Construção"; }
+                else if (p.startsWith("autom")) { palavras[i] = "Automação"; }
+                else if (p.startsWith("gradua")) { palavras[i] = "Graduação"; }
+                else if (p.startsWith("nutri")) { palavras[i] = "Nutrição"; }
+                else if (p.startsWith("genetic")) { palavras[i] = "Genética"; }
+                
+                // PRIORIDADE 3: MAIÚSCULAS
+                else if (siglasMaiusculas.includes(p)) {
                     palavras[i] = p.toUpperCase();
                 } 
-                // Prioridade 3: Preposição
+                // PRIORIDADE 4: PREPOSIÇÕES
                 else if (preposicoes.includes(p) && i !== 0) {
                     palavras[i] = p;
                 } 
-                // Prioridade 4: Formatação Padrão (Capitalize)
+                // PADRÃO: PRIMEIRA LETRA MAIÚSCULA
                 else {
                     palavras[i] = p.charAt(0).toUpperCase() + p.slice(1);
                 }
