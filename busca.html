@@ -213,7 +213,6 @@
                 "dnu": "Departamento de Nutrição",
                 "def": "Departamento de Educação Física",
                 "dme": "Departamento de Medicina",
-                "dsa": "Departamento de Saúde", // Mantido por compatibilidade
                 
                 // FCSA - Faculdade de Ciências Sociais Aplicadas
                 "dir": "Departamento de Direito",
@@ -277,7 +276,6 @@
                 else if (p.startsWith("zoot")) { palavras[i] = "Zootecnia"; }
                 else if (p.startsWith("veterin")) { palavras[i] = "Veterinária"; }
                 else if (p.startsWith("florest")) { palavras[i] = "Florestal"; }
-                else if (p.startsWith("eletr")) { palavras[i] = "Elétrica"; } // Cuidado com Eletrônica
                 else if (p.startsWith("mecan")) { palavras[i] = "Mecânica"; }
                 else if (p.startsWith("hidir") || p.startsWith("hidr")) { palavras[i] = "Hídricos"; }
                 else if (p.startsWith("produ")) { palavras[i] = "Produção"; }
@@ -286,6 +284,8 @@
                 else if (p.startsWith("gradua")) { palavras[i] = "Graduação"; }
                 else if (p.startsWith("nutri")) { palavras[i] = "Nutrição"; }
                 else if (p.startsWith("genetic")) { palavras[i] = "Genética"; }
+                else if (p.startsWith("depar")) { palavras[i] = "Departamento"; }
+
                 
                 // PRIORIDADE 3: MAIÚSCULAS
                 else if (siglasMaiusculas.includes(p)) {
