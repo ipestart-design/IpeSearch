@@ -185,24 +185,75 @@
         
         let todosPesquisadores = [];
 
-        // --- AUTOMAÇÃO: FORMATAÇÃO, ORTOGRAFIA E ABREVIAÇÕES ---
-        // Essa função "limpa" os dados feios que vêm da planilha
+        // --- AUTOMAÇÃO: FORMATAÇÃO INTELIGENTE + SIGLAS UFLA ---
         function formatarTextoInteligente(texto) {
             if (!texto) return "Não informado";
             
             let limpo = texto.trim().toLowerCase();
             
-            // DICIONÁRIO DE CORREÇÃO E ACENTUAÇÃO
+            // MAPA DE CORREÇÕES BASEADO NO SITE OFICIAL DA UFLA
             const correcoes = {
-                // Abreviações -> Completas
+                // ESAL
+                "dga": "Departamento de Gestão Agroindustrial",
+                "dfp": "Departamento de Fitopatologia", "df": "Departamento de Fitopatologia",
+                "den": "Departamento de Entomologia",
+                "dcf": "Departamento de Ciências Florestais",
+                "dcs": "Departamento de Ciência do Solo",
+                "dca": "Departamento de Ciência dos Alimentos",
+                "dag": "Departamento de Agricultura",
+                
+                // EENG
+                "dam": "Departamento de Engenharia Ambiental",
+                "drh": "Departamento de Recursos Hídricos",
+                "dea": "Departamento de Engenharia Agrícola",
+                "dat": "Departamento de Automática",
+                "deg": "Departamento de Engenharia",
+                
+                // FCS
+                "dnu": "Departamento de Nutrição",
+                "def": "Departamento de Educação Física",
+                "dme": "Departamento de Medicina",
+                
+                // FCSA
+                "dir": "Departamento de Direito",
+                "dae": "Departamento de Administração e Economia",
+                "dap": "Departamento de Administração Pública",
+                
+                // FAELCH
+                "del": "Departamento de Estudos da Linguagem",
+                "ded": "Departamento de Educação",
+                "dch": "Departamento de Ciências Humanas",
+                
+                // FZMV
+                "dzo": "Departamento de Zootecnia",
+                "dmv": "Departamento de Medicina Veterinária",
+                
+                // ICET
+                "des": "Departamento de Estatística",
+                "dac": "Departamento de Computação Aplicada",
+                "dfm": "Departamento de Educação em Ciências Físicas e Matemática",
+                "dmm": "Departamento de Matemática e Matemática Aplicada",
+                "dcc": "Departamento de Ciência da Computação",
+                
+                // ICN
+                "dqi": "Departamento de Química",
+                "dfi": "Departamento de Física",
+                "dbi": "Departamento de Biologia",
+                "dec": "Departamento de Ecologia e Conservação",
+                
+                // Variações Genéricas
+                "dep": "Departamento", "dep.": "Departamento",
+                "depto": "Departamento", "depto.": "Departamento",
+                "dept": "Departamento", "dept.": "Departamento",
+                
+                // Abreviações Gerais
                 "eng": "Engenharia", "eng.": "Engenharia",
                 "ed": "Educação", "ed.": "Educação",
                 "med": "Medicina", "med.": "Medicina",
                 "vet": "Veterinária", "vet.": "Veterinária",
                 "prof": "Professor", "prof.": "Professor",
-                "dept": "Departamento", "dept.": "Departamento",
                 
-                // Erros de Acentuação Comuns
+                // Ortografia e Acentos
                 "computacao": "Computação",
                 "informacao": "Informação",
                 "producao": "Produção",
@@ -213,8 +264,6 @@
                 "pos-graduacao": "Pós-Graduação",
                 "administracao": "Administração",
                 "nutricao": "Nutrição",
-                
-                // Cursos e Áreas
                 "eletrica": "Elétrica",
                 "eletronica": "Eletrônica",
                 "mecanica": "Mecânica",
@@ -233,26 +282,27 @@
             };
 
             const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
-            const siglas = ['dcc', 'deg', 'dbi', 'dex', 'dfi', 'dqi', 'ufla', 'cnpq', 'mg', 'ti', 'rh'];
+            // Siglas que devem ficar APENAS maiúsculas (sem expandir)
+            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
 
             let palavras = limpo.split(/[\s/]+/); 
             
             for (let i = 0; i < palavras.length; i++) {
                 let p = palavras[i];
                 
-                // 1. Verifica Dicionário (Abreviação/Acento)
+                // Prioridade 1: Correção do Dicionário (Sigla de Depto ou Acento)
                 if (correcoes[p]) {
                     palavras[i] = correcoes[p];
                 }
-                // 2. Siglas -> Maiúsculo
+                // Prioridade 2: Sigla Simples (UFLA, CNPQ)
                 else if (siglas.includes(p)) {
                     palavras[i] = p.toUpperCase();
                 } 
-                // 3. Preposições -> Minúsculo (se não for a 1ª)
+                // Prioridade 3: Preposição
                 else if (preposicoes.includes(p) && i !== 0) {
                     palavras[i] = p;
                 } 
-                // 4. Padrão -> Primeira Maiúscula
+                // Prioridade 4: Formatação Padrão (Capitalize)
                 else {
                     palavras[i] = p.charAt(0).toUpperCase() + p.slice(1);
                 }
