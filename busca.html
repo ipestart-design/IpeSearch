@@ -17,7 +17,7 @@
         .search-section { 
             background-color: #003366; 
             position: relative; 
-            overflow: hidden; /* Corta o vídeo para não vazar */
+            overflow: hidden; 
             z-index: 1;
         }
         
@@ -59,7 +59,7 @@
                 <div class="search-container-modern">
                     <div class="search-icon-wrapper" style="display: none;"></div>
 
-                    <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento...">
+                    <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento, projeto...">
                     
                     <button id="clearBtn" class="btn-clear-modern hidden" type="button" aria-label="Limpar pesquisa">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -336,12 +336,30 @@
             filtrarResultados(tag);
         }
 
+        // --- BUSCA AVANÇADA (TURBO) ---
         function filtrarResultados(termo) {
-            const termoNormalizado = removerAcentos(termo);
+            // 1. Limpa o termo e divide em palavras
+            const termoLimpo = removerAcentos(termo);
+            const palavrasBusca = termoLimpo.split(" ").filter(p => p.length > 0);
+
             const filtrados = todosPesquisadores.filter(p => {
-                const textoGeral = `${p.Nome} ${p.Departamento} ${p.Area} ${p.Subarea}`;
-                return removerAcentos(textoGeral).includes(termoNormalizado);
+                // 2. Cria um "texto único" com TUDO o que sabemos sobre o professor
+                // Busca em Nome, Depto, Área, Projetos e Biografia
+                const textoGeral = `
+                    ${p.Nome} 
+                    ${p.Departamento} 
+                    ${p.Area} 
+                    ${p.Subarea} 
+                    ${p.Projetos} 
+                    ${p.Apresentacao}
+                `;
+                
+                const textoNormalizado = removerAcentos(textoGeral);
+
+                // 3. Lógica AND: Verifica se TODAS as palavras digitadas existem nos dados
+                return palavrasBusca.every(palavra => textoNormalizado.includes(palavra));
             });
+            
             renderizarCards(filtrados);
         }
 
