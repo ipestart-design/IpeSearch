@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,7 +18,7 @@
         .search-section { 
             background-color: #003366; 
             position: relative; 
-            overflow: hidden; 
+            overflow: hidden; /* Corta o vídeo para não vazar */
             z-index: 1;
         }
         
@@ -338,12 +339,15 @@
 
         // --- BUSCA AVANÇADA (TURBO) ---
         function filtrarResultados(termo) {
-            // 1. Limpa o termo e divide em palavras
-            const termoLimpo = removerAcentos(termo);
+            // 1. TRUQUE: Expande siglas antes de buscar (ex: "dat" -> "Departamento de Automática")
+            const termoExpandido = formatarTextoInteligente(termo);
+            
+            // 2. Limpa o termo e divide em palavras
+            const termoLimpo = removerAcentos(termoExpandido);
             const palavrasBusca = termoLimpo.split(" ").filter(p => p.length > 0);
 
             const filtrados = todosPesquisadores.filter(p => {
-                // 2. Cria um "texto único" com TUDO o que sabemos sobre o professor
+                // 3. Cria um "texto único" com TUDO o que sabemos sobre o professor
                 // Busca em Nome, Depto, Área, Projetos e Biografia
                 const textoGeral = `
                     ${p.Nome} 
@@ -356,7 +360,7 @@
                 
                 const textoNormalizado = removerAcentos(textoGeral);
 
-                // 3. Lógica AND: Verifica se TODAS as palavras digitadas existem nos dados
+                // 4. Lógica AND: Verifica se TODAS as palavras digitadas existem nos dados
                 return palavrasBusca.every(palavra => textoNormalizado.includes(palavra));
             });
             
