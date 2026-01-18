@@ -13,21 +13,21 @@
     <title>Pesquisar - IPÊ SEARCH</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* CORREÇÃO PARA O VÍDEO NÃO VAZAR */
+        /* CORREÇÃO VISUAL: VÍDEO E FUNDO */
         .search-section { 
             background-color: #003366; 
             position: relative; 
-            overflow: hidden; /* Corta qualquer coisa que tente sair da caixa */
+            overflow: hidden; /* Corta o vídeo para não vazar */
             z-index: 1;
         }
         
-        /* CORREÇÃO PARA O CONTADOR TER FUNDO SÓLIDO */
+        /* Garante que os resultados tenham fundo sólido e cubram o vídeo */
         #counter {
             position: relative;
-            z-index: 2; /* Fica acima do vídeo */
-            background-color: var(--bg-body, #eef2f6); /* Garante fundo sólido */
+            z-index: 2; 
+            background-color: var(--bg-body, #eef2f6); 
             padding-top: 30px;
-            margin-top: 0 !important; /* Remove margem que causava buraco */
+            margin-top: 0 !important; 
         }
 
         #resultsContainer {
@@ -70,7 +70,9 @@
                     <button class="tag-btn" onclick="filtrarTag('Agronomia')">Agronomia</button>
                     <button class="tag-btn" onclick="filtrarTag('Zootecnia')">Zootecnia</button>
                     <button class="tag-btn" onclick="filtrarTag('Veterinária')">Veterinária</button>
-                    <button class="tag-btn" onclick="filtrarTag('Eng. Florestal')">Eng. Florestal</button>
+                    
+                    <button class="tag-btn" onclick="filtrarTag('Engenharia Florestal')">Eng. Florestal</button>
+                    
                     <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharias</button>
                     <button class="tag-btn" onclick="filtrarTag('Computação')">Computação</button>
                     <button class="tag-btn" onclick="filtrarTag('Sistemas')">Sistemas</button>
@@ -85,7 +87,8 @@
                     <button class="tag-btn" onclick="filtrarTag('Pedagogia')">Pedagogia</button>
                     <button class="tag-btn" onclick="filtrarTag('Filosofia')">Filosofia</button>
                     <button class="tag-btn" onclick="filtrarTag('Letras')">Letras</button>
-                    <button class="tag-btn" onclick="filtrarTag('Ed. Física')">Ed. Física</button>
+                    
+                    <button class="tag-btn" onclick="filtrarTag('Educação Física')">Ed. Física</button>
                 </div>
                 
                 <p style="margin-top: 25px; color: #003366; font-size: 0.95rem; font-weight: 600; opacity: 0.8; position: relative; z-index: 2;">
@@ -182,6 +185,82 @@
         
         let todosPesquisadores = [];
 
+        // --- AUTOMAÇÃO: FORMATAÇÃO, ORTOGRAFIA E ABREVIAÇÕES ---
+        // Essa função "limpa" os dados feios que vêm da planilha
+        function formatarTextoInteligente(texto) {
+            if (!texto) return "Não informado";
+            
+            let limpo = texto.trim().toLowerCase();
+            
+            // DICIONÁRIO DE CORREÇÃO E ACENTUAÇÃO
+            const correcoes = {
+                // Abreviações -> Completas
+                "eng": "Engenharia", "eng.": "Engenharia",
+                "ed": "Educação", "ed.": "Educação",
+                "med": "Medicina", "med.": "Medicina",
+                "vet": "Veterinária", "vet.": "Veterinária",
+                "prof": "Professor", "prof.": "Professor",
+                "dept": "Departamento", "dept.": "Departamento",
+                
+                // Erros de Acentuação Comuns
+                "computacao": "Computação",
+                "informacao": "Informação",
+                "producao": "Produção",
+                "construcao": "Construção",
+                "automacao": "Automação",
+                "educacao": "Educação",
+                "graduacao": "Graduação",
+                "pos-graduacao": "Pós-Graduação",
+                "administracao": "Administração",
+                "nutricao": "Nutrição",
+                
+                // Cursos e Áreas
+                "eletrica": "Elétrica",
+                "eletronica": "Eletrônica",
+                "mecanica": "Mecânica",
+                "quimica": "Química",
+                "fisica": "Física",
+                "biologica": "Biológica",
+                "agricola": "Agrícola",
+                "hirdricos": "Hídricos",
+                "agua": "Água",
+                "genetica": "Genética",
+                "ciencia": "Ciência",
+                "ciencias": "Ciências",
+                "biologia": "Biologia",
+                "zootecnia": "Zootecnia",
+                "agronomia": "Agronomia"
+            };
+
+            const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
+            const siglas = ['dcc', 'deg', 'dbi', 'dex', 'dfi', 'dqi', 'ufla', 'cnpq', 'mg', 'ti', 'rh'];
+
+            let palavras = limpo.split(/[\s/]+/); 
+            
+            for (let i = 0; i < palavras.length; i++) {
+                let p = palavras[i];
+                
+                // 1. Verifica Dicionário (Abreviação/Acento)
+                if (correcoes[p]) {
+                    palavras[i] = correcoes[p];
+                }
+                // 2. Siglas -> Maiúsculo
+                else if (siglas.includes(p)) {
+                    palavras[i] = p.toUpperCase();
+                } 
+                // 3. Preposições -> Minúsculo (se não for a 1ª)
+                else if (preposicoes.includes(p) && i !== 0) {
+                    palavras[i] = p;
+                } 
+                // 4. Padrão -> Primeira Maiúscula
+                else {
+                    palavras[i] = p.charAt(0).toUpperCase() + p.slice(1);
+                }
+            }
+
+            return palavras.join(' ');
+        }
+
         function removerAcentos(texto) {
             if (!texto) return "";
             return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -240,6 +319,7 @@
                 const card = document.createElement('div');
                 card.classList.add('card');
                 card.onclick = () => abrirPerfil(p);
+                // NOTA: A formatação já foi feita no processarCSVRobusto
                 card.innerHTML = `
                     <div class="lattes-badge">Fonte: Lattes</div>
                     <h3>${p.Nome}</h3>
@@ -311,11 +391,12 @@
                 if (cols.length < 2) continue;
                 resultado.push({
                     UltimaAtualizacao: cols[0]?.trim() || '',
-                    Nome: cols[1]?.trim() || 'Não informado',
-                    Departamento: cols[2]?.trim() || 'Não informado',
+                    // APLICAÇÃO DA FORMATAÇÃO INTELIGENTE AQUI:
+                    Nome: formatarTextoInteligente(cols[1]?.trim()) || 'Não informado',
+                    Departamento: formatarTextoInteligente(cols[2]?.trim()) || 'Não informado',
                     Email: cols[3]?.trim() || '',
                     Telefone: cols[4]?.trim() || '',
-                    Area: cols[5]?.trim() || '',
+                    Area: formatarTextoInteligente(cols[5]?.trim()) || '',
                     Subarea: cols[6]?.trim() || '',
                     Projetos: cols[8]?.trim() || '', 
                     Apresentacao: cols[9]?.trim() || ''
