@@ -12,92 +12,6 @@
 
     <title>Pesquisar - IPÊ SEARCH</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* CORREÇÃO VISUAL: VÍDEO E FUNDO */
-        .search-section { 
-            background-color: #003366; 
-            position: relative; 
-            overflow: hidden; 
-            z-index: 1;
-            padding-bottom: 80px; 
-        }
-        
-        #counter {
-            position: relative;
-            z-index: 2; 
-            background-color: var(--bg-body, #eef2f6); 
-            padding-top: 30px;
-            margin-top: 0 !important; 
-        }
-
-        #resultsContainer {
-            position: relative;
-            z-index: 2;
-            background-color: var(--bg-body, #eef2f6);
-        }
-
-        /* --- ESTILO DO AVISO (CORRIGIDO PARA O VÍDEO) --- */
-        .info-disclaimer {
-            /* Fundo Branco Leitoso (Garante leitura sobre o vídeo) */
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            
-            /* Design Limpo */
-            border-left: 5px solid #00c2cb; /* Detalhe Ciano */
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra para destacar do fundo */
-            
-            /* Layout */
-            margin: 40px auto 0 auto;
-            padding: 25px;
-            max-width: 800px;
-            
-            /* Flexbox */
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            text-align: left;
-            position: relative;
-            z-index: 5;
-        }
-
-        .disclaimer-icon {
-            flex-shrink: 0;
-            color: #003366; 
-            margin-top: 3px;
-            background: rgba(0, 194, 203, 0.2); /* Fundo suave no ícone */
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .disclaimer-content {
-            font-size: 0.9rem;
-            color: #4a5568; /* Texto Cinza Escuro (Ótimo contraste) */   
-            line-height: 1.6;  
-            font-weight: 500;
-        }
-
-        .disclaimer-content strong {
-            color: #003366; /* Negrito em Azul UFLA */
-            font-weight: 800;
-        }
-        
-        /* Mobile */
-        @media (max-width: 600px) {
-            .info-disclaimer {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                padding: 20px;
-            }
-            .disclaimer-icon { margin-bottom: 15px; }
-        }
-    </style>
 </head>
 <body>
 
@@ -132,9 +46,7 @@
                     <button class="tag-btn" onclick="filtrarTag('Agronomia')">Agronomia</button>
                     <button class="tag-btn" onclick="filtrarTag('Zootecnia')">Zootecnia</button>
                     <button class="tag-btn" onclick="filtrarTag('Veterinária')">Veterinária</button>
-                    
                     <button class="tag-btn" onclick="filtrarTag('Engenharia Florestal')">Eng. Florestal</button>
-                    
                     <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharias</button>
                     <button class="tag-btn" onclick="filtrarTag('Computação')">Computação</button>
                     <button class="tag-btn" onclick="filtrarTag('Sistemas')">Sistemas</button>
@@ -149,8 +61,8 @@
                     <button class="tag-btn" onclick="filtrarTag('Pedagogia')">Pedagogia</button>
                     <button class="tag-btn" onclick="filtrarTag('Filosofia')">Filosofia</button>
                     <button class="tag-btn" onclick="filtrarTag('Letras')">Letras</button>
-                    
                     <button class="tag-btn" onclick="filtrarTag('Educação Física')">Ed. Física</button>
+                    <button class="tag-btn" onclick="filtrarTag('ICTIN')" style="background-color: #e65100;">Campus Paraíso</button>
                 </div>
                 
                 <div class="info-disclaimer">
@@ -191,6 +103,7 @@
         <div class="profile-card">
             <div class="profile-header">
                 <h1 id="prof-nome">Nome do Professor</h1>
+                <div id="prof-campus-badge-modal" style="margin-top: 10px;"></div>
                 <span class="dept-badge" id="prof-dept">Departamento</span>
             </div>
 
@@ -234,12 +147,7 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // Lógica de Carregamento e Busca
-        fetch('footer.html?v=2')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('footer-placeholder').innerHTML = data;
-            });
+        fetch('footer.html?v=2').then(r => r.text()).then(d => { document.getElementById('footer-placeholder').innerHTML = d; });
 
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
@@ -255,19 +163,31 @@
             }
         }
 
-        // --- SEGURANÇA: ID OFUSCADO (BASE64) ---
         const SHEET_ID = atob("MXo1bVNkeUxuSkc3elpjNnk0RTZhYXJQUXROMmsyckRLTFFEUzM4d2Rfc0E=");
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
         
         let todosPesquisadores = [];
 
-        // --- AUTOMAÇÃO: FORMATAÇÃO INTELIGENTE + SIGLAS UFLA ---
+        // --- LÓGICA DE DETECÇÃO DE CAMPUS (LAVRAS vs PARAÍSO) ---
+        function detectarCampus(departamento) {
+            if (!departamento) return { class: 'badge-lavras', text: 'Campus Lavras' };
+            const depLower = departamento.toLowerCase();
+            
+            // Palavras-chave do ICTIN / Paraíso
+            if (depLower.includes("ictin") || 
+                depLower.includes("instituto de ciência, tecnologia e inovação") || 
+                depLower.includes("são sebastião") || 
+                depLower.includes("paraiso")) {
+                return { class: 'badge-paraiso', text: 'Campus Paraíso' };
+            }
+            return { class: 'badge-lavras', text: 'Campus Lavras' };
+        }
+
         function formatarTextoInteligente(texto) {
             if (!texto) return "Não informado";
-            
             let limpo = texto.trim().toLowerCase();
-            
             const correcoes = {
+                "ictin": "Instituto de Ciência, Tecnologia e Inovação",
                 "dga": "Departamento de Gestão Agroindustrial", "dfp": "Departamento de Fitopatologia", "df": "Departamento de Fitopatologia", "den": "Departamento de Entomologia", "dcf": "Departamento de Ciências Florestais", "dcs": "Departamento de Ciência do Solo", "dca": "Departamento de Ciência dos Alimentos", "dag": "Departamento de Agricultura",
                 "dam": "Departamento de Engenharia Ambiental", "drh": "Departamento de Recursos Hídricos", "dea": "Departamento de Engenharia Agrícola", "dat": "Departamento de Automática", "deg": "Departamento de Engenharia",
                 "dnu": "Departamento de Nutrição", "def": "Departamento de Educação Física", "dme": "Departamento de Medicina", "dsa": "Departamento de Saúde",
@@ -282,7 +202,7 @@
             };
 
             const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
-            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
+            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec', 'ictin'];
 
             let palavras = limpo.split(/[\s/]+/); 
             
@@ -362,11 +282,16 @@
                 return;
             }
             lista.forEach(p => {
+                const campusInfo = detectarCampus(p.Departamento);
+                
                 const card = document.createElement('div');
                 card.classList.add('card');
                 card.onclick = () => abrirPerfil(p);
+                
                 card.innerHTML = `
-                    <div class="lattes-badge">Fonte: Lattes</div>
+                    <div class="card-header-badges">
+                        <span class="campus-badge ${campusInfo.class}">${campusInfo.text}</span>
+                    </div>
                     <h3>${p.Nome}</h3>
                     <div class="card-dept">${p.Departamento}</div>
                     <div class="card-content-area">
@@ -383,7 +308,14 @@
         }
 
         function abrirPerfil(dados) {
+            const campusInfo = detectarCampus(dados.Departamento);
+            
             document.getElementById('prof-nome').innerText = dados.Nome;
+            
+            // Injeta o selo do campus no modal também
+            const badgesContainer = document.getElementById('prof-campus-badge-modal');
+            badgesContainer.innerHTML = `<span class="campus-badge ${campusInfo.class}" style="font-size: 0.9rem;">${campusInfo.text}</span>`;
+            
             document.getElementById('prof-dept').innerText = dados.Departamento;
             const em = document.getElementById('prof-email');
             em.innerText = dados.Email || 'Não informado';
