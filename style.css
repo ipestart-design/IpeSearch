@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL (BOTÕES UNIFICADOS E IDENTICOS) */
+/* ARQUIVO: style.css - VERSÃO FINAL (BOTÕES UNIFICADOS, MODAL + DISCLAIMER) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -447,3 +447,70 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     color: #aaa; cursor: pointer; background: none; border: none;
 }
 .close-modal:hover { color: #003366; }
+
+/* --- 17. AVISO DE DADOS (DISCLAIMER) - NOVO --- */
+.info-disclaimer {
+    /* Fundo Branco Leitoso (Alta legibilidade sobre vídeo) */
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* Bordas e Sombra */
+    border-left: 5px solid #00e5f0; /* Ciano Brilhante */
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    
+    /* Layout */
+    margin: 40px auto 0 auto;
+    padding: 25px;
+    max-width: 800px;
+    
+    /* Flexbox */
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    text-align: left;
+    position: relative;
+    z-index: 5;
+}
+
+.disclaimer-icon {
+    flex-shrink: 0;
+    color: #003366; 
+    margin-top: 2px;
+    background: rgba(0, 229, 240, 0.15);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disclaimer-content {
+    font-size: 0.9rem;
+    color: #4a5568;    
+    line-height: 1.6;  
+    font-weight: 500;
+}
+
+.disclaimer-content strong {
+    color: #003366;
+    font-weight: 800;
+}
+
+/* Ajuste específico para a seção de busca ter espaço para o aviso */
+.search-section {
+    padding-bottom: 80px; 
+}
+
+/* Mobile: Ajuste do Disclaimer */
+@media (max-width: 600px) {
+    .info-disclaimer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+    .disclaimer-icon { margin-bottom: 15px; }
+}
