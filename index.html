@@ -12,30 +12,6 @@
 
     <title>IPÊ SEARCH - Hub de Pesquisa</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Estilo sutil para o botão de empresas */
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        .btn-secondary:hover {
-            background: white;
-            color: #003366;
-        }
-        .hero-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-    </style>
 </head>
 <body>
 
@@ -48,7 +24,7 @@
             <ul>
                 <li><a href="#como-funciona">Como Funciona</a></li>
                 <li><a href="#sobre">Objetivo</a></li>
-                <li><a href="busca-empresas.html">Empresas</a></li> 
+                <li><a href="busca-empresas.html" class="nav-highlight">Buscar Empresas</a></li> 
                 <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
@@ -69,7 +45,7 @@
         <div class="side-menu-content">
             <a href="#como-funciona" onclick="toggleMenu()">Como Funciona</a>
             <a href="#sobre" onclick="toggleMenu()">Objetivo</a>
-            <a href="busca-empresas.html" onclick="toggleMenu()">Buscar Empresas</a>
+            <a href="busca-empresas.html" onclick="toggleMenu()" style="color: #00e5f0;">Buscar Empresas</a>
             <a href="#contato" onclick="toggleMenu()">Contato</a>
             <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
             <a href="busca.html" class="btn-side-cta">PESQUISAR AGORA</a>
@@ -87,8 +63,8 @@
             <p>Conecte-se aos departamentos e pesquisadores da UFLA. A inovação começa com a busca certa.</p>
             
             <div class="hero-actions">
-                <a href="busca.html" class="btn-cta">BUSCAR PROFESSORES</a>
-                <a href="busca-empresas.html" class="btn-secondary">BUSCAR EMPRESAS</a>
+                <a href="busca.html" class="btn-cta">ENCONTRAR PROFESSORES</a>
+                <a href="busca-empresas.html" class="btn-secondary">ENCONTRAR EMPRESAS</a>
             </div>
         </div>
     </div>
@@ -128,7 +104,7 @@
             <div class="step-card">
                 <span class="step-number">01</span>
                 <div class="step-title">Pesquise</div>
-                <div class="step-text">Utilize nossa busca inteligente para encontrar professores ou empresas por área de atuação.</div>
+                <div class="step-text">Utilize nossa busca inteligente para encontrar professores por nome, departamento ou área de especialização.</div>
             </div>
             <div class="step-card">
                 <span class="step-number">02</span>
@@ -198,7 +174,6 @@
             menu.classList.toggle('active');
         }
 
-        // Função para abrir/fechar o aviso de LGPD do rodapé
         function toggleLGPD() {
             const card = document.getElementById('card-lgpd');
             if (card) {
