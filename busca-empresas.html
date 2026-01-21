@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
+
+    <title>Pesquisar Empresas - IPÊ SEARCH</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para ajustes visuais dos cards de empresa */
+        .empresa-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .empresa-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #e0e6ed;
+            background-color: #fff;
+        }
+        .empresa-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #003366;
+        }
+        .empresa-setor {
+            font-size: 0.9rem;
+            color: #00c2cb;
+            font-weight: 500;
+        }
+        /* Ajuste no badge para empresas */
+        .card .source-badge {
+            background-color: #00c2cb; /* Ciano para diferenciar do Lattes */
+            color: #003366;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
+        </a>
+        <a href="index.html" class="btn-voltar-home">INÍCIO</a>
+    </header>
+    
+    <div id="search-view">
+        <section class="search-section">
+            <video class="video-bg" autoplay muted loop playsinline>
+                <source src="video.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+
+            <div class="search-content-wrapper">
+                <h1 class="search-title">Encontre Empresas Parceiras</h1>
+                
+                <div class="search-container-modern">
+                    <input type="text" id="searchInput" placeholder="Busque por nome, setor, produto, serviço ou tecnologia...">
+                    
+                    <button id="clearBtn" class="btn-clear-modern hidden" type="button" aria-label="Limpar pesquisa">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+
+                <div class="quick-tags-container">
+                    <button class="tag-btn" onclick="filtrarTag('Agrotech')">Agrotech</button>
+                    <button class="tag-btn" onclick="filtrarTag('Biotecnologia')">Biotecnologia</button>
+                    <button class="tag-btn" onclick="filtrarTag('TI & Software')">TI & Software</button>
+                    <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharia</button>
+                    <button class="tag-btn" onclick="filtrarTag('Alimentos')">Alimentos</button>
+                    <button class="tag-btn" onclick="filtrarTag('Sustentabilidade')">Sustentabilidade</button>
+                    <button class="tag-btn" onclick="filtrarTag('Educação')">Educação</button>
+                    <button class="tag-btn" onclick="filtrarTag('Saúde')">Saúde</button>
+                    <button class="tag-btn" onclick="filtrarTag('Consultoria')">Consultoria</button>
+                </div>
+                
+                <div class="info-disclaimer">
+                    <div class="disclaimer-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </div>
+                    <div class="disclaimer-content">
+                        <p style="margin-bottom: 10px;">
+                            As empresas listadas fazem parte do <strong>ecossistema de inovação da UFLA/IpêTech</strong>. As informações são fornecidas pelas próprias organizações.
+                        </p>
+                        <p style="margin: 0;">
+                            (Nota: Para fins de demonstração, os dados e logotipos abaixo são <strong>fictícios</strong>).
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div id="counter" style="text-align: center; color: #5A6A85; font-weight: 500; margin-top: 30px;"></div>
+        <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando dados...</div>
+
+        <div class="results-container" id="resultsContainer"></div>
+    </div>
+
+    <div id="profile-view" class="hidden">
+        <div style="height: 100px;"></div> <div class="back-btn-container">
+            <button type="button" class="btn-text-back" onclick="fecharPerfil()">
+                ← Voltar para a pesquisa
+            </button>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-header" style="display: flex; align-items: center; gap: 20px;">
+                <img id="empresa-logo-modal" src="" alt="Logo" style="width: 80px; height: 80px; border-radius: 10px; border: 2px solid #eee;">
+                <div>
+                    <h1 id="empresa-nome">Nome da Empresa</h1>
+                    <span class="dept-badge" id="empresa-setor" style="background: #00c2cb; color: #003366;">Setor</span>
+                </div>
+            </div>
+
+            <div class="profile-body">
+                <div style="background: #eef4ff; border-left: 4px solid #003366; padding: 15px 20px; margin-bottom: 25px; border-radius: 6px; font-size: 0.85rem; color: #334e68; line-height: 1.5; text-align: left;">
+                    <strong>🤝 Conexão Corporativa:</strong> Utilize os contatos abaixo para propostas de negócios, parcerias tecnológicas, P&D conjunto ou contratação de serviços.
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>E-mail de Contato</label>
+                        <p><a href="#" id="empresa-email">contato@empresa.com</a></p>
+                    </div>
+                    <div class="info-item">
+                        <label>Telefone / WhatsApp</label>
+                        <p id="empresa-tel">N/A</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Site Oficial</label>
+                        <p><a href="#" target="_blank" id="empresa-site">www.empresa.com</a></p>
+                    </div>
+                    <div class="info-item">
+                        <label>Especialidade Principal</label>
+                        <p id="empresa-especialidade">-</p>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Sobre a Empresa</h2>
+                <div class="text-content" id="empresa-sobre"></div>
+
+                <h2 class="section-title">Produtos & Serviços Inovadores</h2>
+                <div class="text-content" id="empresa-produtos"></div>
+
+                <div class="last-update" id="empresa-local"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Carrega o rodapé
+        fetch('footer.html?v=2').then(res=>res.text()).then(data=>{document.getElementById('footer-placeholder').innerHTML=data;});
+
+        // Efeito de scroll no header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (header && window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // --- DADOS FICTÍCIOS DAS EMPRESAS ---
+        // Gerador de logos falsos (placehold.co)
+        const getFakeLogo = (text) => `https://placehold.co/80x80/003366/FFFFFF/png?text=${text.substring(0,2).toUpperCase()}`;
+
+        const empresasFicticias = [
+            {
+                id: 1,
+                nome: "AgroTech Solutions",
+                setor: "Agrotech",
+                especialidade: "Agricultura de Precisão",
+                email: "contato@agrotech.fake",
+                telefone: "(35) 3829-0001",
+                site: "https://agrotech.fake",
+                sobre: "Desenvolvemos soluções baseadas em IoT e IA para otimizar a produção agrícola, monitorando lavouras em tempo real e reduzindo desperdícios.",
+                produtos: "Sensores de solo IoT; Plataforma de análise de dados climáticos; Drones para mapeamento de pragas.",
+                local: "Lavras, MG",
+                logo: getFakeLogo("AgroTech")
+            },
+            {
+                id: 2,
+                nome: "BioSyntesis Lab",
+                setor: "Biotecnologia",
+                especialidade: "Bioinsumos",
+                email: "lab@biosyntesis.fake",
+                telefone: "(35) 3829-0002",
+                site: "https://biosyntesis.fake",
+                sobre: "Startup focada no desenvolvimento de bioinsumos agrícolas a partir de microrganismos nativos do cerrado brasileiro.",
+                produtos: "Biofungicidas naturais; Inoculantes para fixação de nitrogênio; Consultoria em bioprocessos.",
+                local: "Parque Tecnológico - UFLA",
+                logo: getFakeLogo("BioSyn")
+            },
+            {
+                id: 3,
+                nome: "CodeMaster Softwares",
+                setor: "TI & Software",
+                especialidade: "Desenvolvimento Web/App",
+                email: "comercial@codemaster.fake",
+                telefone: "(35) 99999-0003",
+                site: "https://codemaster.fake",
+                sobre: "Empresa júnior especializada em desenvolvimento de software sob demanda, aplicativos móveis e sistemas de gestão integrados.",
+                produtos: "Desenvolvimento de Apps (iOS/Android); Sistemas ERP personalizados; Websites institucionais e e-commerce.",
+                local: "Lavras, MG",
+                logo: getFakeLogo("CodeMaster")
+            },
+            {
+                id: 4,
+                nome: "EcoEngenharia Ambiental",
+                setor: "Engenharia",
+                especialidade: "Gestão de Resíduos",
+                email: "contato@ecoeng.fake",
+                telefone: "(35) 3821-0004",
+                site: "https://ecoeng.fake",
+                sobre: "Consultoria especializada em engenharia ambiental, focada em projetos de sustentabilidade e gestão eficiente de resíduos sólidos industriais.",
+                produtos: "Planos de Gerenciamento de Resíduos Sólidos (PGRS); Auditoria ambiental; Projetos de compostagem industrial.",
+                local: "Lavras, MG",
+                logo: getFakeLogo("EcoEng")
+            },
+            {
+                id: 5,
+                nome: "NutriFoods Inovação",
+                setor: "Alimentos",
+                especialidade: "Tecnologia de Alimentos",
+                email: "inovacao@nutrifoods.fake",
+                telefone: "(35) 3829-0005",
+                site: "https://nutrifoods.fake",
+                sobre: "P&D focado na criação de alimentos funcionais e plant-based, utilizando ingredientes regionais com alto valor nutricional.",
+                produtos: "Hambúrguer de lentilha com ora-pro-nóbis; Bebidas proteicas vegetais; Snacks saudáveis de frutas desidratadas.",
+                local: "Incubadora UFLA",
+                logo: getFakeLogo("NutriFoods")
+            },
+             {
+                id: 6,
+                nome: "EduTec Plataformas",
+                setor: "Educação",
+                especialidade: "E-learning Corporativo",
+                email: "suporte@edutec.fake",
+                telefone: "(35) 3822-0006",
+                site: "https://edutec.fake",
+                sobre: "Desenvolvimento de plataformas de ensino a distância e gamificação para treinamento corporativo e instituições de ensino.",
+                produtos: "LMS (Learning Management System) personalizado; Conteúdos interativos em SCORM; Jogos sérios para treinamento.",
+                local: "Lavras, MG",
+                logo: getFakeLogo("EduTec")
+            },
+            {
+                id: 7,
+                nome: "GeoAnalytics",
+                setor: "Agrotech",
+                especialidade: "Geoprocessamento",
+                email: "geo@analytics.fake",
+                telefone: "(35) 98888-0007",
+                site: "https://geoanalytics.fake",
+                sobre: "Especialistas em análise de dados espaciais e sensoriamento remoto para monitoramento ambiental e agrícola.",
+                produtos: "Mapeamento de uso do solo; Monitoramento de desmatamento via satélite; Cadastro Ambiental Rural (CAR).",
+                local: "Parque Tecnológico - UFLA",
+                logo: getFakeLogo("GeoAnalytics")
+            },
+            {
+                id: 8,
+                nome: "VetPharma P&D",
+                setor: "Saúde",
+                especialidade: "Saúde Animal",
+                email: "pd@vetpharma.fake",
+                telefone: "(35) 3829-0008",
+                site: "https://vetpharma.fake",
+                sobre: "Pesquisa e desenvolvimento de medicamentos veterinários e suplementos nutricionais para animais de grande porte.",
+                produtos: "Suplementos vitamínicos para bovinos; Pesquisa de novos fármacos veterinários; Testes clínicos.",
+                local: "Lavras, MG",
+                logo: getFakeLogo("VetPharma")
+            },
+             {
+                id: 9,
+                nome: "TechData Solutions",
+                setor: "TI & Software",
+                especialidade: "Big Data & Analytics",
+                email: "dados@techdata.fake",
+                telefone: "(35) 3821-0009",
+                site: "https://techdata.fake",
+                sobre: "Consultoria em ciência de dados, ajudando empresas a transformarem dados brutos em insights estratégicos para tomada de decisão.",
+                produtos: "Dashboards de Business Intelligence (BI); Modelos preditivos de vendas; Análise de sentimento em redes sociais.",
+                local: "Lavras, MG",
+                logo: getFakeLogo("TechData")
+            },
+            {
+                id: 10,
+                nome: "CaféTech Equipamentos",
+                setor: "Engenharia",
+                especialidade: "Maquinário Agrícola",
+                email: "vendas@cafetech.fake",
+                telefone: "(35) 3829-0010",
+                site: "https://cafetech.fake",
+                sobre: "Indústria focada no desenvolvimento de pequenas máquinas e adaptadores para otimizar a colheita de café em terrenos montanhosos.",
+                produtos: "Derriçadeiras portáteis; Sopradores costais adaptados; Peneiras vibratórias compactas.",
+                local: "Distrito Industrial, Lavras",
+                logo: getFakeLogo("CafeTech")
+            },
+            {
+                 id: 11,
+                 nome: "Sustenta Consultoria",
+                 setor: "Sustentabilidade",
+                 especialidade: "ESG e Crédito de Carbono",
+                 email: "esg@sustenta.fake",
+                 telefone: "(35) 99123-4567",
+                 site: "https://sustenta.fake",
+                 sobre: "Apoiamos empresas na implementação de práticas ESG e na estruturação de projetos para o mercado de crédito de carbono.",
+                 produtos: "Relatórios de sustentabilidade; Inventário de emissões de GEE; Projetos de compensação ambiental.",
+                 local: "Coworking UFLA",
+                 logo: getFakeLogo("Sustenta")
+             },
+             {
+                 id: 12,
+                 nome: "MinasBiotec",
+                 setor: "Biotecnologia",
+                 especialidade: "Genética Vegetal",
+                 email: "contato@minasbiotec.fake",
+                 telefone: "(35) 3822-9988",
+                 site: "https://minasbiotec.fake",
+                 sobre: "Laboratório especializado em melhoramento genético vegetal e produção de mudas in vitro de alta qualidade.",
+                 produtos: "Clonagem de plantas in vitro; Análise genética de cultivares; Mudas pré-brotadas de cana-de-açúcar.",
+                 local: "Parque Tecnológico - UFLA",
+                 logo: getFakeLogo("MinasBiotec")
+             }
+        ];
+        // ------------------------------------
+
+        // Inicialização
+        window.onload = function() {
+            renderizarCards(empresasFicticias);
+        };
+
+        // Função de filtragem por tag rápida
+        function filtrarTag(tag) {
+            document.getElementById('searchInput').value = tag;
+            document.getElementById('clearBtn').classList.remove('hidden');
+            filtrarResultados(tag);
+        }
+
+        // Lógica de busca (Funciona igual à de professores, mas nos campos da empresa)
+        function filtrarResultados(termo) {
+            const termoLower = termo.toLowerCase().trim();
+            // Remove acentos para a busca ficar mais flexível
+            const termoLimpo = termoLower.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            
+            const stopWords = ['de', 'da', 'do', 'em', 'para', 'com', 'no', 'na', '&', 'e'];
+            const palavrasBusca = termoLimpo.split(" ").filter(p => p.length > 0 && !stopWords.includes(p));
+
+            const filtrados = empresasFicticias.filter(emp => {
+                // Junta todo o texto relevante da empresa para pesquisar dentro
+                const textoGeral = `
+                    ${emp.nome} 
+                    ${emp.setor} 
+                    ${emp.especialidade} 
+                    ${emp.sobre} 
+                    ${emp.produtos}
+                `;
+                const textoNormalizado = textoGeral.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+                // Verifica se TODAS as palavras digitadas estão presentes no texto da empresa
+                return palavrasBusca.every(palavra => textoNormalizado.includes(palavra));
+            });
+            
+            renderizarCards(filtrados);
+        }
+
+        // Controles do input de busca
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        searchInput.addEventListener('input', (e) => {
+            if (e.target.value) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+            filtrarResultados(e.target.value);
+        });
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = ''; clearBtn.classList.add('hidden'); filtrarResultados(''); searchInput.focus();
+        });
+
+        // Renderiza os cards na tela
+        function renderizarCards(lista) {
+            const container = document.getElementById('resultsContainer');
+            const counter = document.getElementById('counter');
+            container.innerHTML = '';
+            counter.innerText = lista.length > 0 ? `${lista.length} empresas encontradas` : '';
+            
+            if (lista.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666; padding: 20px;">Nenhuma empresa encontrada para essa busca.</p>';
+                return;
+            }
+            
+            lista.forEach(emp => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.onclick = () => abrirPerfil(emp);
+                // Estrutura adaptada para o logo da empresa
+                card.innerHTML = `
+                    <div class="lattes-badge source-badge">Fonte: Ecossistema UFLA</div>
+                    
+                    <div class="empresa-card-header">
+                        <img src="${emp.logo}" alt="Logo ${emp.nome}" class="empresa-logo">
+                        <div class="empresa-info">
+                            <h3>${emp.nome}</h3>
+                            <div class="empresa-setor">${emp.setor}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content-area">
+                        <div class="area-main" style="margin-bottom: 8px;"><strong>Especialidade:</strong> ${emp.especialidade}</div>
+                        <div style="font-size: 0.85rem; color: #555; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                            ${emp.sobre}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span style="font-size: 0.75rem; color: #aaa;">Local: ${emp.local}</span>
+                        <div class="card-hint">Ver perfil →</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Abre o modal de perfil completo
+        function abrirPerfil(dados) {
+            document.getElementById('empresa-logo-modal').src = dados.logo;
+            document.getElementById('empresa-nome').innerText = dados.nome;
+            document.getElementById('empresa-setor').innerText = dados.setor;
+            
+            const em = document.getElementById('empresa-email');
+            em.innerText = dados.email;
+            em.href = `mailto:${dados.email}`;
+            
+            document.getElementById('empresa-tel').innerText = dados.telefone;
+            
+            const site = document.getElementById('empresa-site');
+            site.innerText = dados.site.replace('https://', '');
+            site.href = dados.site;
+
+            document.getElementById('empresa-especialidade').innerText = dados.especialidade;
+            document.getElementById('empresa-sobre').innerText = dados.sobre;
+            document.getElementById('empresa-produtos').innerText = dados.produtos;
+            document.getElementById('empresa-local').innerText = `Localização: ${dados.local}`;
+            
+            document.getElementById('search-view').classList.add('hidden');
+            document.getElementById('profile-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        // Fecha o modal
+        function fecharPerfil() {
+            document.getElementById('profile-view').classList.add('hidden');
+            document.getElementById('search-view').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
