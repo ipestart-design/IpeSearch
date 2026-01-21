@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO COMPLETA E FINALIZADA */
+/* ARQUIVO: style.css - VERSÃO FINAL CONSOLIDADA */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -103,6 +103,13 @@ nav a:hover::after { width: 100%; }
 }
 .hero { height: 100vh; min-height: 600px; }
 
+/* Ajuste específico para a seção de busca (fundo escuro para vídeo) */
+.search-section {
+    background-color: #003366; /* Fallback */
+    z-index: 1;
+    padding-bottom: 80px;
+}
+
 .video-bg {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     object-fit: cover; z-index: 0; opacity: 0.45; mix-blend-mode: multiply;
@@ -133,7 +140,7 @@ nav a:hover::after { width: 100%; }
 .hero-subtitle:hover { color: var(--bright-cyan); cursor: pointer; }
 .hero p { font-size: 1.6rem; color: var(--primary-blue); margin: 0 auto 40px auto; font-weight: 500; opacity: 0.9; }
 
-/* Botões CTA Principais (Usados para Professores e Empresas) */
+/* Botões CTA Principais */
 .btn-cta, form button {
     background: var(--gradient-tech) !important; color: white !important;
     border: none !important; border-radius: 50px; font-weight: 700;
@@ -144,13 +151,8 @@ nav a:hover::after { width: 100%; }
 form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 .btn-cta:hover, form button:hover { transform: translateY(-3px); background: linear-gradient(135deg, #00c2cb, #003366) !important; }
 
-/* Container dos Botões da Capa */
 .hero-actions {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 35px;
-    flex-wrap: wrap;
+    display: flex; gap: 20px; justify-content: center; margin-top: 35px; flex-wrap: wrap;
 }
 
 /* --- 5. BARRA DE BUSCA --- */
@@ -210,6 +212,7 @@ section { padding: 40px 20px; max-width: 1000px; margin: auto; }
 .results-container {
     max-width: 1200px; margin: 30px auto; padding: 0 20px;
     display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;
+    position: relative; z-index: 2;
 }
 
 /* Card Principal */
@@ -263,7 +266,7 @@ form label:not(.consent-label) { color: var(--primary-blue); font-weight: 700; d
 #status-message { display: none; margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; }
 .success { background-color: #d4edda; color: #155724; } .error { background-color: #f8d7da; color: #721c24; }
 
-/* Consentimento (Novas Classes) */
+/* Consentimento */
 .consent-wrapper { margin: 20px 0; display: flex; align-items: flex-start; gap: 12px; text-align: left; }
 .consent-checkbox { width: 18px; height: 18px; cursor: pointer; margin-top: 3px; }
 .consent-label { font-size: 0.85rem; color: #444; line-height: 1.4; cursor: pointer; }
@@ -302,11 +305,11 @@ footer {
 .stat-item h2 { font-size: 3rem; margin: 0; color: white; font-weight: 800; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 .stat-item p { color: var(--bright-cyan); font-size: 0.95rem; font-weight: 700; margin-top: 12px; text-transform: uppercase; letter-spacing: 1.5px; }
 
-/* Seção Como Funciona (Com espaçamento corrigido) */
+/* Seção Como Funciona */
 #como-funciona { 
     background-color: #f8fbfe; 
     padding: 60px 20px;
-    margin-top: 80px; /* Desgruda das estatísticas */
+    margin-top: 80px; 
 }
 .section-intro { text-align: center; max-width: 800px; margin: 0 auto 60px auto; }
 .section-intro h3 { margin-bottom: 10px; }
@@ -419,7 +422,6 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     border: 2px solid transparent;
 }
 
-/* Botões do Modal (Idênticos) */
 .btn-prof, .btn-empresa {
     background: #003366;
     color: white;
@@ -437,24 +439,17 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
 }
 .close-modal:hover { color: #003366; }
 
-/* --- 16. AVISO DE DADOS (DISCLAIMER) - NOVO --- */
+/* --- 16. AVISO DE DADOS (DISCLAIMER) --- */
 .info-disclaimer {
-    /* Fundo Branco Leitoso (Alta legibilidade sobre vídeo) */
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.95); /* Branco sólido leitoso */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    
-    /* Bordas e Sombra */
-    border-left: 5px solid #00e5f0; /* Ciano Brilhante */
+    border-left: 5px solid #00c2cb;
     border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    
-    /* Layout */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     margin: 40px auto 0 auto;
     padding: 25px;
     max-width: 800px;
-    
-    /* Flexbox */
     display: flex;
     gap: 20px;
     align-items: flex-start;
@@ -466,8 +461,8 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
 .disclaimer-icon {
     flex-shrink: 0;
     color: #003366; 
-    margin-top: 2px;
-    background: rgba(0, 229, 240, 0.15);
+    margin-top: 3px;
+    background: rgba(0, 194, 203, 0.2);
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -488,10 +483,7 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     font-weight: 800;
 }
 
-/* Ajuste específico para a seção de busca ter espaço para o aviso */
-.search-section {
-    padding-bottom: 80px; 
-}
+#counter { margin-top: 30px; }
 
 /* Mobile: Ajuste do Disclaimer */
 @media (max-width: 600px) {
@@ -502,4 +494,70 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
         padding: 20px;
     }
     .disclaimer-icon { margin-bottom: 15px; }
+}
+
+/* --- 17. SELOS DE CAMPUS (PARAÍSO vs LAVRAS) --- */
+.campus-badge {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+    display: inline-block;
+    letter-spacing: 0.5px;
+}
+
+.badge-lavras {
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #bbdefb;
+}
+
+.badge-paraiso {
+    background-color: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffe0b2;
+}
+
+.card-header-badges {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+
+#prof-badges-modal .campus-badge {
+    padding: 5px 12px;
+    font-size: 0.85rem;
+}
+
+/* --- 18. ESTILOS DE EMPRESAS --- */
+.empresa-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.empresa-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #e0e6ed;
+    background-color: #fff;
+}
+.empresa-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #003366;
+}
+.empresa-setor {
+    font-size: 0.9rem;
+    color: #00c2cb;
+    font-weight: 500;
+}
+.source-badge {
+    background-color: #00c2cb !important;
+    color: #003366 !important;
+    border-color: #00a9b0 !important;
 }
