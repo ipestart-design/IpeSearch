@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -119,7 +118,7 @@
     <section id="como-funciona" style="margin-top: 80px;">
         <div class="section-intro">
             <h3>Como Funciona?</h3>
-            <p>Conectar sua empresa ou projeto à universidade nunca foi tão simples.</p>
+            <p>Conectando o ecossistema de inovação em três passos simples.</p>
         </div>
         <div class="steps-grid">
             <div class="step-card">
@@ -144,14 +143,13 @@
         <div class="content-card">
             <h3>Nossa Missão</h3>
             <p>
-                O <strong>IPÊ SEARCH</strong> é uma plataforma desenvolvida no ecossistema do 
+                Nascido no ecossistema 
                 <a href="https://ipetech.ufla.br/" target="_blank" class="text-link">
                     IpêTech – Parque Científico e Tecnológico da UFLA
                 </a>, 
-                criada para conectar conhecimento, inovação e oportunidades. 
-                Atuamos como um hub estratégico que elimina barreiras e facilita o acesso 
-                de empresas, estudantes e da comunidade ao capital intelectual, 
-                aos projetos de pesquisa e às iniciativas de inovação desenvolvidas na universidade.
+                o <strong>IPÊ SEARCH</strong> é a ponte estratégica entre a universidade e o mercado. 
+                Conectamos pesquisadores de ponta a empresas inovadoras, fomentando uma rede de colaboração 
+                onde a ciência resolve problemas reais e o mercado impulsiona a tecnologia.
             </p>
         </div>
     </section>
@@ -190,7 +188,6 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // --- FUNÇÕES DO MODAL ---
         function openSearchModal() {
             document.getElementById('search-choice-modal').classList.add('active');
         }
@@ -203,7 +200,6 @@
             }
         });
 
-        // --- MENU E OUTRAS FUNÇÕES ---
         function toggleMenu() {
             const menu = document.getElementById('side-menu');
             menu.classList.toggle('active');
@@ -221,7 +217,7 @@
             }
         }
 
-        fetch('footer.html')
+        fetch('footer.html?v=3')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('footer-placeholder').innerHTML = data;
