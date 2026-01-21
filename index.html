@@ -24,7 +24,6 @@
             <ul>
                 <li><a href="#como-funciona">Como Funciona</a></li>
                 <li><a href="#sobre">Objetivo</a></li>
-                <li><a href="busca-empresas.html" class="nav-highlight">Buscar Empresas</a></li> 
                 <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
@@ -45,10 +44,9 @@
         <div class="side-menu-content">
             <a href="#como-funciona" onclick="toggleMenu()">Como Funciona</a>
             <a href="#sobre" onclick="toggleMenu()">Objetivo</a>
-            <a href="busca-empresas.html" onclick="toggleMenu()" style="color: #00e5f0;">Buscar Empresas</a>
             <a href="#contato" onclick="toggleMenu()">Contato</a>
-            <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
-            <button onclick="openSearchModal(); toggleMenu()" class="btn-side-cta" style="width: 100%; cursor: pointer;">PESQUISAR AGORA</button>
+            <hr class="menu-divider">
+            <button onclick="openSearchModal(); toggleMenu()" class="btn-side-cta">PESQUISAR AGORA</button>
         </div>
     </div>
 
@@ -83,7 +81,7 @@
             
             <div class="hero-actions">
                 <a href="busca.html" class="btn-cta">ENCONTRAR PROFESSORES</a>
-                <a href="busca-empresas.html" class="btn-secondary">ENCONTRAR EMPRESAS</a>
+                <a href="busca-empresas.html" class="btn-cta">ENCONTRAR EMPRESAS</a>
             </div>
         </div>
     </div>
@@ -106,17 +104,17 @@
             </div>
             <div class="stat-item">
                 <div class="icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share-2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                 </div>
                 <h2><span class="counter" data-target="100">0</span>%</h2>
-                <p>Gratuito e Público</p>
+                <p>Conexão UFLA</p>
             </div>
         </div>
     </div>
 
     <section id="como-funciona">
-        <div style="text-align: center; max-width: 800px; margin: 0 auto 60px auto;">
-            <h3 style="margin-bottom: 10px;">Como Funciona?</h3>
+        <div class="section-intro">
+            <h3>Como Funciona?</h3>
             <p>Conectar sua empresa ou projeto à universidade nunca foi tão simples.</p>
         </div>
         <div class="steps-grid">
@@ -157,7 +155,7 @@
     <section id="contato">
         <div class="content-card">
             <h3>Fale Conosco</h3>
-            <p style="margin-bottom: 30px;">Dúvidas, sugestões ou interesse em parcerias institucionais? Envie sua mensagem.</p>
+            <p class="contact-intro">Dúvidas, sugestões ou interesse em parcerias institucionais? Envie sua mensagem.</p>
             
             <form id="contactForm" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                 <input type="hidden" name="_captcha" value="false">
@@ -172,9 +170,9 @@
                 <label>Como podemos ajudar?</label>
                 <textarea name="mensagem" rows="5" placeholder="Descreva sua solicitação..." required></textarea>
 
-                <div style="margin: 20px 0; display: flex; align-items: flex-start; gap: 12px; text-align: left;">
-                    <input type="checkbox" id="consentimento" required style="width: 18px; height: 18px; cursor: pointer; margin-top: 3px;">
-                    <label for="consentimento" style="font-size: 0.85rem; color: #444; line-height: 1.4; cursor: pointer;">
+                <div class="consent-wrapper">
+                    <input type="checkbox" id="consentimento" required class="consent-checkbox">
+                    <label for="consentimento" class="consent-label">
                         Estou de acordo em fornecer meus dados para que a equipe do <strong>IPÊ SEARCH</strong> possa responder minha solicitação, conforme a LGPD.
                     </label>
                 </div>
