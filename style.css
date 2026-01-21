@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL CONSOLIDADA */
+/* ARQUIVO: style.css - VERSÃO FINAL COM SELOS MODERNOS */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -105,7 +105,7 @@ nav a:hover::after { width: 100%; }
 
 /* Ajuste específico para a seção de busca (fundo escuro para vídeo) */
 .search-section {
-    background-color: #003366; /* Fallback */
+    background-color: #003366; 
     z-index: 1;
     padding-bottom: 80px;
 }
@@ -496,39 +496,63 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     .disclaimer-icon { margin-bottom: 15px; }
 }
 
-/* --- 17. SELOS DE CAMPUS (PARAÍSO vs LAVRAS) --- */
-.campus-badge {
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 4px;
-    margin-right: 8px;
-    display: inline-block;
-    letter-spacing: 0.5px;
-}
-
-.badge-lavras {
-    background-color: #e3f2fd;
-    color: #0d47a1;
-    border: 1px solid #bbdefb;
-}
-
-.badge-paraiso {
-    background-color: #fff3e0;
-    color: #e65100;
-    border: 1px solid #ffe0b2;
-}
-
+/* --- 17. SELOS DE CAMPUS (ESTILO MODERNO) --- */
 .card-header-badges {
     display: flex;
     gap: 5px;
-    margin-bottom: 8px;
+    margin-bottom: 12px; /* Mais espaço para não colar */
 }
 
+.campus-badge {
+    display: inline-flex; /* Permite alinhar ícone e texto */
+    align-items: center;
+    gap: 6px; /* Espaço entre ícone e texto */
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 6px 14px; /* Mais preenchimento (Pílula) */
+    border-radius: 50px; /* Borda redondinha */
+    letter-spacing: 0.6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra suave */
+    transition: all 0.3s ease;
+    border: none; /* Remove borda dura antiga */
+}
+
+/* Efeito Hover no Card afeta o Badge */
+.card:hover .campus-badge {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+}
+
+/* Estilo do ícone SVG dentro do badge */
+.badge-icon {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.5; /* Ícone mais forte */
+}
+
+/* Badge Lavras (Azul Institucional) */
+.badge-lavras {
+    background-color: #eef6fc; /* Fundo azul bem claro */
+    color: #004a99; /* Texto azul forte */
+}
+.badge-lavras .badge-icon {
+    stroke: #004a99;
+}
+
+/* Badge Paraíso (Laranja de Destaque) */
+.badge-paraiso {
+    background-color: #fff5eb; /* Fundo laranja bem claro */
+    color: #d9534f; /* Texto laranja forte */
+}
+.badge-paraiso .badge-icon {
+    stroke: #d9534f;
+}
+
+/* Ajustes no Modal (Badges maiores) */
 #prof-badges-modal .campus-badge {
-    padding: 5px 12px;
-    font-size: 0.85rem;
+    padding: 8px 16px;
+    font-size: 0.8rem;
 }
 
 /* --- 18. ESTILOS DE EMPRESAS --- */
