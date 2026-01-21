@@ -62,7 +62,6 @@
                     <button class="tag-btn" onclick="filtrarTag('Filosofia')">Filosofia</button>
                     <button class="tag-btn" onclick="filtrarTag('Letras')">Letras</button>
                     <button class="tag-btn" onclick="filtrarTag('Educação Física')">Ed. Física</button>
-                    <button class="tag-btn" onclick="filtrarTag('ICTIN')" style="background-color: #e65100;">Campus Paraíso</button>
                 </div>
                 
                 <div class="info-disclaimer">
@@ -168,19 +167,31 @@
         
         let todosPesquisadores = [];
 
-        // --- LÓGICA DE DETECÇÃO DE CAMPUS (LAVRAS vs PARAÍSO) ---
+        // --- FUNÇÃO AUXILIAR PARA REMOVER ACENTOS ---
+        function removerAcentos(texto) {
+            if (!texto) return "";
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        }
+
+        // --- LÓGICA DE DETECÇÃO DE CAMPUS (COM ÍCONES SVG) ---
         function detectarCampus(departamento) {
-            if (!departamento) return { class: 'badge-lavras', text: 'Campus Lavras' };
-            const depLower = departamento.toLowerCase();
+            // Ícones SVG para os badges
+            const iconLavras = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="12"></line><line x1="15" y1="22" x2="15" y2="12"></line><line x1="12" y1="22" x2="12" y2="12"></line><line x1="4" y1="7" x2="20" y2="7"></line></svg>`;
+            const iconParaiso = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+
+            if (!departamento) return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
             
-            // Palavras-chave do ICTIN / Paraíso
-            if (depLower.includes("ictin") || 
-                depLower.includes("instituto de ciência, tecnologia e inovação") || 
-                depLower.includes("são sebastião") || 
-                depLower.includes("paraiso")) {
-                return { class: 'badge-paraiso', text: 'Campus Paraíso' };
+            const depNormalizado = removerAcentos(departamento); 
+            
+            // Lógica robusta para detectar Paraíso
+            if (depNormalizado.includes("ictin") || 
+                depNormalizado.includes("instituto de ciencia, tecnologia e inovacao") || 
+                depNormalizado.includes("sao sebastiao") || 
+                depNormalizado.includes("paraiso")) {
+                return { class: 'badge-paraiso', html: `${iconParaiso} Campus Paraíso` };
             }
-            return { class: 'badge-lavras', text: 'Campus Lavras' };
+            // Padrão
+            return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
         }
 
         function formatarTextoInteligente(texto) {
@@ -214,11 +225,6 @@
                 else { palavras[i] = p.charAt(0).toUpperCase() + p.slice(1); }
             }
             return palavras.join(' ');
-        }
-
-        function removerAcentos(texto) {
-            if (!texto) return "";
-            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         }
 
         window.onload = async function() {
@@ -290,7 +296,7 @@
                 
                 card.innerHTML = `
                     <div class="card-header-badges">
-                        <span class="campus-badge ${campusInfo.class}">${campusInfo.text}</span>
+                        <span class="campus-badge ${campusInfo.class}">${campusInfo.html}</span>
                     </div>
                     <h3>${p.Nome}</h3>
                     <div class="card-dept">${p.Departamento}</div>
@@ -312,9 +318,8 @@
             
             document.getElementById('prof-nome').innerText = dados.Nome;
             
-            // Injeta o selo do campus no modal também
             const badgesContainer = document.getElementById('prof-campus-badge-modal');
-            badgesContainer.innerHTML = `<span class="campus-badge ${campusInfo.class}" style="font-size: 0.9rem;">${campusInfo.text}</span>`;
+            badgesContainer.innerHTML = `<span class="campus-badge ${campusInfo.class}">${campusInfo.html}</span>`;
             
             document.getElementById('prof-dept').innerText = dados.Departamento;
             const em = document.getElementById('prof-email');
