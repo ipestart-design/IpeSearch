@@ -12,85 +12,6 @@
 
     <title>Pesquisar - IPÊ SEARCH</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* CORREÇÃO VISUAL: VÍDEO E FUNDO */
-        .search-section { 
-            background-color: #003366; 
-            position: relative; 
-            overflow: hidden; 
-            z-index: 1;
-            padding-bottom: 80px; /* Mais espaço para não ficar apertado */
-        }
-        
-        #counter {
-            position: relative;
-            z-index: 2; 
-            background-color: var(--bg-body, #eef2f6); 
-            padding-top: 30px;
-            margin-top: 0 !important; 
-        }
-
-        #resultsContainer {
-            position: relative;
-            z-index: 2;
-            background-color: var(--bg-body, #eef2f6);
-        }
-
-        /* --- NOVO ESTILO DO AVISO (PREMIUM / CLEAN) --- */
-        .info-disclaimer {
-            /* Fundo Branco Translúcido (Efeito Vidro Limpo) */
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            
-            /* Bordas Suaves */
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-left: 4px solid #00e5f0; /* Ciano Brilhante */
-            border-radius: 8px;
-            
-            /* Espaçamento e Layout */
-            margin: 40px auto 0 auto;
-            padding: 20px;
-            max-width: 800px;
-            
-            /* Flexbox para alinhar ícone e texto */
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-            text-align: left;
-        }
-
-        .disclaimer-icon {
-            flex-shrink: 0;
-            color: #00e5f0;
-            margin-top: 2px;
-        }
-
-        .disclaimer-content {
-            font-size: 0.9rem; /* Tamanho legível */
-            color: #f0f4f8;    /* Branco Gelo (Melhor que branco puro para leitura) */
-            line-height: 1.6;  /* Mais respiro entre as linhas */
-            font-weight: 400;
-        }
-
-        .disclaimer-content strong {
-            color: #ffffff;
-            font-weight: 700;
-            text-decoration: underline;
-            text-decoration-color: rgba(0, 229, 240, 0.5); /* Sublinhado sutil ciano */
-            text-underline-offset: 3px;
-        }
-        
-        /* Mobile: Ajuste para empilhar se necessário */
-        @media (max-width: 600px) {
-            .info-disclaimer {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            .disclaimer-icon { margin-bottom: 10px; }
-        }
-    </style>
 </head>
 <body>
 
@@ -148,7 +69,7 @@
                 
                 <div class="info-disclaimer">
                     <div class="disclaimer-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="12" y1="16" x2="12" y2="12"></line>
                             <line x1="12" y1="8" x2="12.01" y2="8"></line>
