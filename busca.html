@@ -17,8 +17,9 @@
         .search-section { 
             background-color: #003366; 
             position: relative; 
-            overflow: hidden; /* Corta o vídeo para não vazar */
+            overflow: hidden; 
             z-index: 1;
+            padding-bottom: 60px; /* Espaço extra para o disclaimer */
         }
         
         /* Garante que os resultados tenham fundo sólido e cubram o vídeo */
@@ -34,6 +35,28 @@
             position: relative;
             z-index: 2;
             background-color: var(--bg-body, #eef2f6);
+        }
+
+        /* NOVO ESTILO: CAIXA DE TRANSPARÊNCIA (DISCLAIMER) */
+        .info-disclaimer {
+            background: rgba(0, 0, 0, 0.3); /* Fundo escuro transparente */
+            backdrop-filter: blur(5px);
+            border-left: 4px solid #00c2cb; /* Detalhe Ciano */
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 30px auto 0 auto;
+            max-width: 850px;
+            text-align: left;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .info-disclaimer strong {
+            color: #00c2cb;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -91,9 +114,19 @@
                     <button class="tag-btn" onclick="filtrarTag('Educação Física')">Ed. Física</button>
                 </div>
                 
-                <p style="margin-top: 25px; color: #003366; font-size: 0.95rem; font-weight: 600; opacity: 0.8; position: relative; z-index: 2;">
+                <p style="margin-top: 25px; color: #003366; font-size: 0.95rem; font-weight: 600; opacity: 0.8; position: relative; z-index: 2; display: none;">
                     Toque em uma área acima ou digite para pesquisar.
                 </p>
+
+                <div class="info-disclaimer">
+                    <p style="margin-bottom: 8px;">
+                        ℹ️ <strong>Origem dos Dados:</strong> As informações apresentadas são obtidas de <strong>fontes públicas oficiais (Currículo Lattes e sites institucionais)</strong>. Eventuais desatualizações ou inconsistências refletem o conteúdo disponível na fonte original no momento da coleta.
+                    </p>
+                    <p style="margin: 0;">
+                        Caso identifique dados incorretos, é possível <strong>solicitar a correção via formulário</strong>. Recomendamos fortemente que os docentes mantenham seus <strong>Lattes sempre atualizados</strong>, pois isso garante que a plataforma permaneça consistente e aderente à realidade.
+                    </p>
+                </div>
+
             </div>
         </section>
 
