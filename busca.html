@@ -180,7 +180,6 @@
             
             const depLower = removerAcentos(departamento); 
             
-            // LÓGICA DE DETECÇÃO (Corresponde às suas variações)
             if (depLower.includes("ictin") || 
                 depLower.includes("sao sebastiao") || 
                 depLower.includes("paraiso") ||
@@ -197,8 +196,6 @@
             let limpo = texto.trim().toLowerCase();
             const limpoSemAcento = removerAcentos(limpo);
 
-            // --- REGRA ESPECIAL PARA O ICTIN (PARAÍSO) ---
-            // Se encontrar qualquer variação do nome de Paraíso, retorna o nome padronizado.
             if (limpoSemAcento.includes("ictin") || 
                 limpoSemAcento.includes("sao sebastiao do paraiso") ||
                 (limpoSemAcento.includes("instituto") && limpoSemAcento.includes("ciencia") && limpoSemAcento.includes("inovacao"))) {
@@ -256,6 +253,13 @@
 
         function filtrarResultados(termo) {
             const termoLower = termo.toLowerCase().trim();
+            
+            // --- CORREÇÃO AQUI: SE ESTIVER VAZIO, MOSTRA TUDO ---
+            if (termoLower === "") {
+                renderizarCards(todosPesquisadores);
+                return;
+            }
+
             let palavrasBusca;
 
             if (termoLower === 'dat') { palavrasBusca = ['automa']; } 
@@ -295,7 +299,7 @@
                 return;
             }
             lista.forEach(p => {
-                const campusInfo = detectingCampus(p.Departamento); // Chama a função que define o selo
+                const campusInfo = detectingCampus(p.Departamento); 
                 
                 const card = document.createElement('div');
                 card.classList.add('card');
