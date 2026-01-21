@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL (SEM VLIBRAS + BUSCA E LOGO CORRIGIDAS) */
+/* ARQUIVO: style.css - VERSÃO FINAL (SEM VLIBRAS + BUSCA E LOGO CORRIGIDAS + NOVOS BOTÕES) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -48,8 +48,8 @@ header.scrolled {
     height: 100%; display: flex; align-items: center; text-decoration: none;
     opacity: 1; visibility: visible; width: auto; 
     margin-right: auto; 
-    outline: none !important;      
-    box-shadow: none !important;   
+    outline: none !important;       
+    box-shadow: none !important;    
     -webkit-tap-highlight-color: transparent; 
     transition: none !important; 
     transform: none !important;
@@ -57,7 +57,7 @@ header.scrolled {
 .logo-link:hover, .logo-link:active, .logo-link:focus { 
     transform: none !important; 
     opacity: 1 !important; 
-    background: transparent !important;
+    background: transparent !important; 
     outline: none !important;
 }
 .logo-img { max-height: 75px; width: auto; display: block; }
@@ -76,6 +76,12 @@ nav a::after {
     background: var(--bright-cyan); transition: width 0.3s;
 }
 nav a:hover::after { width: 100%; }
+
+/* Destaque do link Buscar Empresas no menu */
+.nav-highlight {
+    color: #00e5f0 !important; 
+    font-weight: 700;
+}
 
 /* Botões do Menu */
 .nav-btn-busca, .btn-voltar-home {
@@ -133,7 +139,7 @@ nav a:hover::after { width: 100%; }
 .hero-subtitle:hover { color: var(--bright-cyan); cursor: pointer; }
 .hero p { font-size: 1.6rem; color: var(--primary-blue); margin: 0 auto 40px auto; font-weight: 500; opacity: 0.9; }
 
-/* Botões CTA */
+/* Botões CTA Principais */
 .btn-cta, form button {
     background: var(--gradient-tech) !important; color: white !important;
     border: none !important; border-radius: 50px; font-weight: 700;
@@ -143,6 +149,36 @@ nav a:hover::after { width: 100%; }
 .btn-cta { padding: 20px 60px; font-size: 1.3rem; display: inline-block; text-decoration: none; }
 form button { padding: 18px 40px; font-size: 1.1rem; width: 100%; }
 .btn-cta:hover, form button:hover { transform: translateY(-3px); background: linear-gradient(135deg, #00c2cb, #003366) !important; }
+
+/* --- NOVOS ESTILOS PARA BOTÕES DO HERO --- */
+.hero-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 35px;
+    flex-wrap: wrap;
+}
+
+/* Estilo do botão secundário (Empresas) */
+.btn-secondary {
+    background-color: #00e5f0; /* Ciano brilhante */
+    color: #003366; /* Azul escuro para contraste */
+    border: none;
+    padding: 12px 30px; /* Um pouco menor que o principal */
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 229, 240, 0.3);
+    text-transform: uppercase;
+}
+
+.btn-secondary:hover {
+    background-color: #ffffff;
+    color: #003366;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+}
 
 /* --- 5. BARRA DE BUSCA (X TRAVADO, SEM QUADRADO, SEM LUPA) --- */
 .input-wrapper { position: relative; width: 100%; max-width: 700px; margin: 0 auto; display: flex; align-items: center; }
