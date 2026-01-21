@@ -378,29 +378,6 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     flex-wrap: wrap;
 }
 
-/* Agora o botão secundário (Empresa) é IDÊNTICO ao .btn-cta (Professor) */
-.btn-secondary {
-    background: var(--gradient-tech) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 50px;
-    padding: 20px 60px;
-    font-size: 1.3rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 10px 30px rgba(0, 194, 203, 0.4);
-    text-decoration: none;
-    display: inline-block;
-}
-
-.btn-secondary:hover {
-    transform: translateY(-3px);
-    background: linear-gradient(135deg, #00c2cb, #003366) !important;
-}
-
 /* --- 16. MODAL DE ESCOLHA (PESQUISA) --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
