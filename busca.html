@@ -12,6 +12,92 @@
 
     <title>Pesquisar - IPÊ SEARCH</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* CORREÇÃO VISUAL: VÍDEO E FUNDO */
+        .search-section { 
+            background-color: #003366; 
+            position: relative; 
+            overflow: hidden; 
+            z-index: 1;
+            padding-bottom: 80px; 
+        }
+        
+        #counter {
+            position: relative;
+            z-index: 2; 
+            background-color: var(--bg-body, #eef2f6); 
+            padding-top: 30px;
+            margin-top: 0 !important; 
+        }
+
+        #resultsContainer {
+            position: relative;
+            z-index: 2;
+            background-color: var(--bg-body, #eef2f6);
+        }
+
+        /* --- ESTILO DO AVISO (CORRIGIDO PARA O VÍDEO) --- */
+        .info-disclaimer {
+            /* Fundo Branco Leitoso (Garante leitura sobre o vídeo) */
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            
+            /* Design Limpo */
+            border-left: 5px solid #00c2cb; /* Detalhe Ciano */
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra para destacar do fundo */
+            
+            /* Layout */
+            margin: 40px auto 0 auto;
+            padding: 25px;
+            max-width: 800px;
+            
+            /* Flexbox */
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            text-align: left;
+            position: relative;
+            z-index: 5;
+        }
+
+        .disclaimer-icon {
+            flex-shrink: 0;
+            color: #003366; 
+            margin-top: 3px;
+            background: rgba(0, 194, 203, 0.2); /* Fundo suave no ícone */
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .disclaimer-content {
+            font-size: 0.9rem;
+            color: #4a5568; /* Texto Cinza Escuro (Ótimo contraste) */   
+            line-height: 1.6;  
+            font-weight: 500;
+        }
+
+        .disclaimer-content strong {
+            color: #003366; /* Negrito em Azul UFLA */
+            font-weight: 800;
+        }
+        
+        /* Mobile */
+        @media (max-width: 600px) {
+            .info-disclaimer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+            }
+            .disclaimer-icon { margin-bottom: 15px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -76,11 +162,11 @@
                         </svg>
                     </div>
                     <div class="disclaimer-content">
-                        <p style="margin-bottom: 10px;">
-                            As informações apresentadas nesta plataforma são obtidas a partir de <strong>fontes públicas oficiais</strong>, como o Currículo Lattes e sites institucionais. Eventuais desatualizações ou inconsistências refletem o conteúdo disponível nessas fontes no momento da coleta.
+                        <p style="margin-bottom: 8px;">
+                            Dados extraídos de <strong>fontes públicas oficiais</strong> (Lattes/Sites). Divergências refletem a base original no momento da coleta.
                         </p>
                         <p style="margin: 0;">
-                            Caso identifique algum dado incorreto, é possível <strong>solicitar a correção via formulário</strong>. Recomendamos fortemente que os docentes mantenham suas <strong>fontes públicas sempre atualizadas</strong> (Lattes), pois isso contribui para que a plataforma permaneça consistente e aderente à realidade.
+                            Encontrou erros? <strong>Solicite correção via formulário</strong>. A precisão da busca depende de <strong>Lattes sempre atualizados</strong> pelos docentes.
                         </p>
                     </div>
                 </div>
@@ -170,7 +256,6 @@
         }
 
         // --- SEGURANÇA: ID OFUSCADO (BASE64) ---
-        // Decodifica o ID da planilha na hora do carregamento
         const SHEET_ID = atob("MXo1bVNkeUxuSkc3elpjNnk0RTZhYXJQUXROMmsyckRLTFFEUzM4d2Rfc0E=");
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
         
@@ -182,124 +267,32 @@
             
             let limpo = texto.trim().toLowerCase();
             
-            // MAPA DE CORREÇÕES BASEADO NO SITE OFICIAL DA UFLA
             const correcoes = {
-                // ESAL
-                "dga": "Departamento de Gestão Agroindustrial",
-                "dfp": "Departamento de Fitopatologia", "df": "Departamento de Fitopatologia",
-                "den": "Departamento de Entomologia",
-                "dcf": "Departamento de Ciências Florestais",
-                "dcs": "Departamento de Ciência do Solo",
-                "dca": "Departamento de Ciência dos Alimentos",
-                "dag": "Departamento de Agricultura",
-                
-                // EENG
-                "dam": "Departamento de Engenharia Ambiental",
-                "drh": "Departamento de Recursos Hídricos",
-                "dea": "Departamento de Engenharia Agrícola",
-                "dat": "Departamento de Automática",
-                "deg": "Departamento de Engenharia",
-                
-                // FCS
-                "dnu": "Departamento de Nutrição",
-                "def": "Departamento de Educação Física",
-                "dme": "Departamento de Medicina",
-                "dsa": "Departamento de Saúde",
-                
-                // FCSA
-                "dir": "Departamento de Direito",
-                "dae": "Departamento de Administração e Economia",
-                "dap": "Departamento de Administração Pública",
-                
-                // FAELCH
-                "del": "Departamento de Estudos da Linguagem",
-                "ded": "Departamento de Educação",
-                "dch": "Departamento de Ciências Humanas",
-                
-                // FZMV
-                "dzo": "Departamento de Zootecnia",
-                "dmv": "Departamento de Medicina Veterinária",
-                
-                // ICET
-                "des": "Departamento de Estatística",
-                "dac": "Departamento de Computação Aplicada",
-                "dfm": "Departamento de Educação em Ciências Físicas e Matemática",
-                "dmm": "Departamento de Matemática e Matemática Aplicada",
-                "dcc": "Departamento de Ciência da Computação",
-                
-                // ICN
-                "dqi": "Departamento de Química",
-                "dfi": "Departamento de Física",
-                "dbi": "Departamento de Biologia",
-                "dec": "Departamento de Ecologia e Conservação",
-                
-                // Variações Genéricas
-                "dep": "Departamento", "dep.": "Departamento",
-                "depto": "Departamento", "depto.": "Departamento",
-                "dept": "Departamento", "dept.": "Departamento",
-                
-                // Abreviações Gerais
-                "eng": "Engenharia", "eng.": "Engenharia",
-                "ed": "Educação", "ed.": "Educação",
-                "med": "Medicina", "med.": "Medicina",
-                "vet": "Veterinária", "vet.": "Veterinária",
-                "prof": "Professor", "prof.": "Professor",
-                
-                // Ortografia e Acentos
-                "computacao": "Computação",
-                "informacao": "Informação",
-                "producao": "Produção",
-                "construcao": "Construção",
-                "automacao": "Automação",
-                "educacao": "Educação",
-                "graduacao": "Graduação",
-                "pos-graduacao": "Pós-Graduação",
-                "administracao": "Administração",
-                "nutricao": "Nutrição",
-                "eletrica": "Elétrica",
-                "eletronica": "Eletrônica",
-                "mecanica": "Mecânica",
-                "quimica": "Química",
-                "fisica": "Física",
-                "biologica": "Biológica",
-                "agricola": "Agrícola",
-                "hirdricos": "Hídricos",
-                "agua": "Água",
-                "genetica": "Genética",
-                "ciencia": "Ciência",
-                "ciencias": "Ciências",
-                "biologia": "Biologia",
-                "zootecnia": "Zootecnia",
-                "agronomia": "Agronomia"
+                "dga": "Departamento de Gestão Agroindustrial", "dfp": "Departamento de Fitopatologia", "df": "Departamento de Fitopatologia", "den": "Departamento de Entomologia", "dcf": "Departamento de Ciências Florestais", "dcs": "Departamento de Ciência do Solo", "dca": "Departamento de Ciência dos Alimentos", "dag": "Departamento de Agricultura",
+                "dam": "Departamento de Engenharia Ambiental", "drh": "Departamento de Recursos Hídricos", "dea": "Departamento de Engenharia Agrícola", "dat": "Departamento de Automática", "deg": "Departamento de Engenharia",
+                "dnu": "Departamento de Nutrição", "def": "Departamento de Educação Física", "dme": "Departamento de Medicina", "dsa": "Departamento de Saúde",
+                "dir": "Departamento de Direito", "dae": "Departamento de Administração e Economia", "dap": "Departamento de Administração Pública",
+                "del": "Departamento de Estudos da Linguagem", "ded": "Departamento de Educação", "dch": "Departamento de Ciências Humanas",
+                "dzo": "Departamento de Zootecnia", "dmv": "Departamento de Medicina Veterinária",
+                "des": "Departamento de Estatística", "dac": "Departamento de Computação Aplicada", "dfm": "Departamento de Educação em Ciências Físicas e Matemática", "dmm": "Departamento de Matemática e Matemática Aplicada", "dcc": "Departamento de Ciência da Computação",
+                "dqi": "Departamento de Química", "dfi": "Departamento de Física", "dbi": "Departamento de Biologia", "dec": "Departamento de Ecologia e Conservação",
+                "dep": "Departamento", "dep.": "Departamento", "depto": "Departamento", "depto.": "Departamento", "dept": "Departamento", "dept.": "Departamento",
+                "eng": "Engenharia", "eng.": "Engenharia", "ed": "Educação", "ed.": "Educação", "med": "Medicina", "med.": "Medicina", "vet": "Veterinária", "vet.": "Veterinária", "prof": "Professor", "prof.": "Professor",
+                "computacao": "Computação", "informacao": "Informação", "producao": "Produção", "construcao": "Construção", "automacao": "Automação", "educacao": "Educação", "graduacao": "Graduação", "pos-graduacao": "Pós-Graduação", "administracao": "Administração", "nutricao": "Nutrição", "eletrica": "Elétrica", "eletronica": "Eletrônica", "mecanica": "Mecânica", "quimica": "Química", "fisica": "Física", "biologica": "Biológica", "agricola": "Agrícola", "hirdricos": "Hídricos", "agua": "Água", "genetica": "Genética", "ciencia": "Ciência", "ciencias": "Ciências", "biologia": "Biologia", "zootecnia": "Zootecnia", "agronomia": "Agronomia"
             };
 
             const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
-            // Siglas que devem ficar APENAS maiúsculas (sem expandir)
             const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
 
             let palavras = limpo.split(/[\s/]+/); 
             
             for (let i = 0; i < palavras.length; i++) {
                 let p = palavras[i];
-                
-                // Prioridade 1: Correção do Dicionário (Sigla de Depto ou Acento)
-                if (correcoes[p]) {
-                    palavras[i] = correcoes[p];
-                }
-                // Prioridade 2: Sigla Simples (UFLA, CNPQ)
-                else if (siglas.includes(p)) {
-                    palavras[i] = p.toUpperCase();
-                } 
-                // Prioridade 3: Preposição
-                else if (preposicoes.includes(p) && i !== 0) {
-                    palavras[i] = p;
-                } 
-                // Prioridade 4: Formatação Padrão (Capitalize)
-                else {
-                    palavras[i] = p.charAt(0).toUpperCase() + p.slice(1);
-                }
+                if (correcoes[p]) { palavras[i] = correcoes[p]; }
+                else if (siglas.includes(p)) { palavras[i] = p.toUpperCase(); } 
+                else if (preposicoes.includes(p) && i !== 0) { palavras[i] = p; } 
+                else { palavras[i] = p.charAt(0).toUpperCase() + p.slice(1); }
             }
-
             return palavras.join(' ');
         }
 
@@ -328,41 +321,23 @@
             filtrarResultados(tag);
         }
 
-        // --- BUSCA AVANÇADA (TURBO - CORREÇÃO DE RIGIDEZ) ---
         function filtrarResultados(termo) {
             const termoLower = termo.toLowerCase().trim();
             let palavrasBusca;
 
-            // CASO ESPECIAL: "DAT" -> Busca por "Automa" (pega Automática e Automação)
-            if (termoLower === 'dat') {
-                palavrasBusca = ['automa'];
-            } else {
-                // 1. Expande siglas (ex: "dcc" -> "Departamento de Ciência da Computação")
+            if (termoLower === 'dat') { palavrasBusca = ['automa']; } 
+            else {
                 const termoExpandido = formatarTextoInteligente(termo);
                 const termoLimpo = removerAcentos(termoExpandido);
-                
-                // 2. CORREÇÃO CRÍTICA: Remove preposições da busca (de, da, do)
-                // Isso permite que "Departamento Automática" encontre "Departamento DE Automática"
                 const stopWords = ['de', 'da', 'do', 'em', 'para', 'com', 'no', 'na'];
                 palavrasBusca = termoLimpo.split(" ").filter(p => p.length > 0 && !stopWords.includes(p));
             }
 
             const filtrados = todosPesquisadores.filter(p => {
-                const textoGeral = `
-                    ${p.Nome} 
-                    ${p.Departamento} 
-                    ${p.Area} 
-                    ${p.Subarea} 
-                    ${p.Projetos} 
-                    ${p.Apresentacao}
-                `;
-                
+                const textoGeral = `${p.Nome} ${p.Departamento} ${p.Area} ${p.Subarea} ${p.Projetos} ${p.Apresentacao}`;
                 const textoNormalizado = removerAcentos(textoGeral);
-
-                // 3. Lógica AND: Verifica se TODAS as palavras digitadas (exceto stopWords) existem
                 return palavrasBusca.every(palavra => textoNormalizado.includes(palavra));
             });
-            
             renderizarCards(filtrados);
         }
 
@@ -390,7 +365,6 @@
                 const card = document.createElement('div');
                 card.classList.add('card');
                 card.onclick = () => abrirPerfil(p);
-                // NOTA: A formatação já foi feita no processarCSVRobusto
                 card.innerHTML = `
                     <div class="lattes-badge">Fonte: Lattes</div>
                     <h3>${p.Nome}</h3>
@@ -462,7 +436,6 @@
                 if (cols.length < 2) continue;
                 resultado.push({
                     UltimaAtualizacao: cols[0]?.trim() || '',
-                    // APLICAÇÃO DA FORMATAÇÃO INTELIGENTE AQUI:
                     Nome: formatarTextoInteligente(cols[1]?.trim()) || 'Não informado',
                     Departamento: formatarTextoInteligente(cols[2]?.trim()) || 'Não informado',
                     Email: cols[3]?.trim() || '',
