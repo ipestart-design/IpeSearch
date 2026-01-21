@@ -167,38 +167,45 @@
         
         let todosPesquisadores = [];
 
-        // --- FUNÇÃO AUXILIAR PARA REMOVER ACENTOS ---
         function removerAcentos(texto) {
             if (!texto) return "";
             return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         }
 
-        // --- LÓGICA DE DETECÇÃO DE CAMPUS (COM ÍCONES SVG) ---
-        function detectarCampus(departamento) {
-            // Ícones SVG para os badges
+        function detectingCampus(departamento) {
             const iconLavras = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="12"></line><line x1="15" y1="22" x2="15" y2="12"></line><line x1="12" y1="22" x2="12" y2="12"></line><line x1="4" y1="7" x2="20" y2="7"></line></svg>`;
             const iconParaiso = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
 
             if (!departamento) return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
             
-            const depNormalizado = removerAcentos(departamento); 
+            const depLower = removerAcentos(departamento); 
             
-            // Lógica robusta para detectar Paraíso
-            if (depNormalizado.includes("ictin") || 
-                depNormalizado.includes("instituto de ciencia, tecnologia e inovacao") || 
-                depNormalizado.includes("sao sebastiao") || 
-                depNormalizado.includes("paraiso")) {
+            // LÓGICA DE DETECÇÃO (Corresponde às suas variações)
+            if (depLower.includes("ictin") || 
+                depLower.includes("sao sebastiao") || 
+                depLower.includes("paraiso") ||
+                depLower.includes("bict") || 
+                (depLower.includes("instituto") && depLower.includes("ciencia") && depLower.includes("tecnologia"))) {
                 return { class: 'badge-paraiso', html: `${iconParaiso} Campus Paraíso` };
             }
-            // Padrão
+            
             return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
         }
 
         function formatarTextoInteligente(texto) {
             if (!texto) return "Não informado";
             let limpo = texto.trim().toLowerCase();
+            const limpoSemAcento = removerAcentos(limpo);
+
+            // --- REGRA ESPECIAL PARA O ICTIN (PARAÍSO) ---
+            // Se encontrar qualquer variação do nome de Paraíso, retorna o nome padronizado.
+            if (limpoSemAcento.includes("ictin") || 
+                limpoSemAcento.includes("sao sebastiao do paraiso") ||
+                (limpoSemAcento.includes("instituto") && limpoSemAcento.includes("ciencia") && limpoSemAcento.includes("inovacao"))) {
+                return "Instituto de Ciência, Tecnologia e Inovação (ICTIN)";
+            }
+
             const correcoes = {
-                "ictin": "Instituto de Ciência, Tecnologia e Inovação",
                 "dga": "Departamento de Gestão Agroindustrial", "dfp": "Departamento de Fitopatologia", "df": "Departamento de Fitopatologia", "den": "Departamento de Entomologia", "dcf": "Departamento de Ciências Florestais", "dcs": "Departamento de Ciência do Solo", "dca": "Departamento de Ciência dos Alimentos", "dag": "Departamento de Agricultura",
                 "dam": "Departamento de Engenharia Ambiental", "drh": "Departamento de Recursos Hídricos", "dea": "Departamento de Engenharia Agrícola", "dat": "Departamento de Automática", "deg": "Departamento de Engenharia",
                 "dnu": "Departamento de Nutrição", "def": "Departamento de Educação Física", "dme": "Departamento de Medicina", "dsa": "Departamento de Saúde",
@@ -213,7 +220,7 @@
             };
 
             const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
-            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec', 'ictin'];
+            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
 
             let palavras = limpo.split(/[\s/]+/); 
             
@@ -288,7 +295,7 @@
                 return;
             }
             lista.forEach(p => {
-                const campusInfo = detectarCampus(p.Departamento);
+                const campusInfo = detectingCampus(p.Departamento); // Chama a função que define o selo
                 
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -314,7 +321,7 @@
         }
 
         function abrirPerfil(dados) {
-            const campusInfo = detectarCampus(dados.Departamento);
+            const campusInfo = detectingCampus(dados.Departamento);
             
             document.getElementById('prof-nome').innerText = dados.Nome;
             
