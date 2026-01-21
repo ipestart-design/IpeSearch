@@ -19,10 +19,9 @@
             position: relative; 
             overflow: hidden; 
             z-index: 1;
-            padding-bottom: 60px; /* Espaço extra para o disclaimer */
+            padding-bottom: 80px; /* Mais espaço para não ficar apertado */
         }
         
-        /* Garante que os resultados tenham fundo sólido e cubram o vídeo */
         #counter {
             position: relative;
             z-index: 2; 
@@ -37,26 +36,59 @@
             background-color: var(--bg-body, #eef2f6);
         }
 
-        /* NOVO ESTILO: CAIXA DE TRANSPARÊNCIA (DISCLAIMER) */
+        /* --- NOVO ESTILO DO AVISO (PREMIUM / CLEAN) --- */
         .info-disclaimer {
-            background: rgba(0, 0, 0, 0.3); /* Fundo escuro transparente */
-            backdrop-filter: blur(5px);
-            border-left: 4px solid #00c2cb; /* Detalhe Ciano */
-            padding: 15px 20px;
+            /* Fundo Branco Translúcido (Efeito Vidro Limpo) */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            
+            /* Bordas Suaves */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 4px solid #00e5f0; /* Ciano Brilhante */
             border-radius: 8px;
-            margin: 30px auto 0 auto;
-            max-width: 850px;
+            
+            /* Espaçamento e Layout */
+            margin: 40px auto 0 auto;
+            padding: 20px;
+            max-width: 800px;
+            
+            /* Flexbox para alinhar ícone e texto */
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
             text-align: left;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5;
-            position: relative;
-            z-index: 5;
+        }
+
+        .disclaimer-icon {
+            flex-shrink: 0;
+            color: #00e5f0;
+            margin-top: 2px;
+        }
+
+        .disclaimer-content {
+            font-size: 0.9rem; /* Tamanho legível */
+            color: #f0f4f8;    /* Branco Gelo (Melhor que branco puro para leitura) */
+            line-height: 1.6;  /* Mais respiro entre as linhas */
+            font-weight: 400;
+        }
+
+        .disclaimer-content strong {
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 229, 240, 0.5); /* Sublinhado sutil ciano */
+            text-underline-offset: 3px;
         }
         
-        .info-disclaimer strong {
-            color: #00c2cb;
-            font-weight: 700;
+        /* Mobile: Ajuste para empilhar se necessário */
+        @media (max-width: 600px) {
+            .info-disclaimer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .disclaimer-icon { margin-bottom: 10px; }
         }
     </style>
 </head>
@@ -114,17 +146,22 @@
                     <button class="tag-btn" onclick="filtrarTag('Educação Física')">Ed. Física</button>
                 </div>
                 
-                <p style="margin-top: 25px; color: #003366; font-size: 0.95rem; font-weight: 600; opacity: 0.8; position: relative; z-index: 2; display: none;">
-                    Toque em uma área acima ou digite para pesquisar.
-                </p>
-
                 <div class="info-disclaimer">
-                    <p style="margin-bottom: 8px;">
-                        ℹ️ <strong>Origem dos Dados:</strong> As informações apresentadas são obtidas de <strong>fontes públicas oficiais (Currículo Lattes e sites institucionais)</strong>. Eventuais desatualizações ou inconsistências refletem o conteúdo disponível na fonte original no momento da coleta.
-                    </p>
-                    <p style="margin: 0;">
-                        Caso identifique dados incorretos, é possível <strong>solicitar a correção via formulário</strong>. Recomendamos fortemente que os docentes mantenham seus <strong>Lattes sempre atualizados</strong>, pois isso garante que a plataforma permaneça consistente e aderente à realidade.
-                    </p>
+                    <div class="disclaimer-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </div>
+                    <div class="disclaimer-content">
+                        <p style="margin-bottom: 10px;">
+                            As informações apresentadas nesta plataforma são obtidas a partir de <strong>fontes públicas oficiais</strong>, como o Currículo Lattes e sites institucionais. Eventuais desatualizações ou inconsistências refletem o conteúdo disponível nessas fontes no momento da coleta.
+                        </p>
+                        <p style="margin: 0;">
+                            Caso identifique algum dado incorreto, é possível <strong>solicitar a correção via formulário</strong>. Recomendamos fortemente que os docentes mantenham suas <strong>fontes públicas sempre atualizadas</strong> (Lattes), pois isso contribui para que a plataforma permaneça consistente e aderente à realidade.
+                        </p>
+                    </div>
                 </div>
 
             </div>
