@@ -13,24 +13,27 @@
     <title>IPÊ SEARCH - Hub de Pesquisa</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilo rápido para o botão secundário (Empresas) */
-        .btn-outline {
-            background: transparent !important;
-            border: 2px solid #00e5f0 !important;
-            color: #00e5f0 !important;
+        /* Estilo sutil para o botão de empresas */
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
         }
-        .btn-outline:hover {
-            background: rgba(0, 229, 240, 0.1) !important;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 229, 240, 0.2);
+        .btn-secondary:hover {
+            background: white;
+            color: #003366;
         }
-        /* Ajuste para agrupar botões no mobile */
-        .hero-buttons {
-            display: flex; 
-            gap: 20px; 
-            justify-content: center; 
-            flex-wrap: wrap; 
-            margin-top: 30px;
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
         }
     </style>
 </head>
@@ -45,7 +48,7 @@
             <ul>
                 <li><a href="#como-funciona">Como Funciona</a></li>
                 <li><a href="#sobre">Objetivo</a></li>
-                <li><a href="busca-empresas.html" style="color: var(--bright-cyan);">Buscar Empresas</a></li>
+                <li><a href="busca-empresas.html">Empresas</a></li> 
                 <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
@@ -66,10 +69,10 @@
         <div class="side-menu-content">
             <a href="#como-funciona" onclick="toggleMenu()">Como Funciona</a>
             <a href="#sobre" onclick="toggleMenu()">Objetivo</a>
-            <a href="busca-empresas.html" style="color: #00e5f0;">Buscar Empresas</a>
+            <a href="busca-empresas.html" onclick="toggleMenu()">Buscar Empresas</a>
             <a href="#contato" onclick="toggleMenu()">Contato</a>
             <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
-            <a href="busca.html" class="btn-side-cta">BUSCAR PROFESSORES</a>
+            <a href="busca.html" class="btn-side-cta">PESQUISAR AGORA</a>
         </div>
     </div>
 
@@ -81,11 +84,11 @@
         <div class="hero-content">
             <a href="https://ipetech.ufla.br/" target="_blank" class="hero-subtitle">UMA INICIATIVA IPÊTECH UFLA</a>
             <h2>CONHECIMENTO QUE TRANSFORMA</h2>
-            <p>Conecte-se aos departamentos, pesquisadores e empresas parceiras da UFLA. A inovação começa com a busca certa.</p>
+            <p>Conecte-se aos departamentos e pesquisadores da UFLA. A inovação começa com a busca certa.</p>
             
-            <div class="hero-buttons">
-                <a href="busca.html" class="btn-cta">ENCONTRAR ESPECIALISTAS</a>
-                <a href="busca-empresas.html" class="btn-cta btn-outline">ENCONTRAR EMPRESAS</a>
+            <div class="hero-actions">
+                <a href="busca.html" class="btn-cta">BUSCAR PROFESSORES</a>
+                <a href="busca-empresas.html" class="btn-secondary">BUSCAR EMPRESAS</a>
             </div>
         </div>
     </div>
@@ -116,21 +119,6 @@
         </div>
     </div>
 
-    <section id="empresas-hub" style="background-color: #f8faff; border-bottom: 1px solid #eef2f6;">
-        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-            <h3 style="color: #003366; margin-bottom: 15px;">Ecossistema Conectado</h3>
-            <p style="color: #555; margin-bottom: 30px;">
-                O IPÊ SEARCH agora opera em mão dupla. Professores e pesquisadores podem localizar empresas do parque tecnológico e parceiros industriais para viabilizar seus projetos.
-            </p>
-            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                <a href="busca-empresas.html" style="background: #003366; color: white; padding: 12px 30px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 10px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    Buscar Empresas
-                </a>
-            </div>
-        </div>
-    </section>
-
     <section id="como-funciona">
         <div style="text-align: center; max-width: 800px; margin: 0 auto 60px auto;">
             <h3 style="margin-bottom: 10px;">Como Funciona?</h3>
@@ -140,7 +128,7 @@
             <div class="step-card">
                 <span class="step-number">01</span>
                 <div class="step-title">Pesquise</div>
-                <div class="step-text">Utilize nossa busca inteligente para encontrar professores ou empresas parceiras por área de atuação.</div>
+                <div class="step-text">Utilize nossa busca inteligente para encontrar professores ou empresas por área de atuação.</div>
             </div>
             <div class="step-card">
                 <span class="step-number">02</span>
