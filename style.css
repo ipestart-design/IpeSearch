@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL COM SELOS MODERNOS */
+/* ARQUIVO: style.css - VERSÃO FINAL CONSOLIDADA (COM WHATSAPP) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -227,6 +227,7 @@ section { padding: 40px 20px; max-width: 1000px; margin: auto; }
 .card-dept { font-size: 0.8rem; color: var(--text-gray); font-weight: 600; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
 .card-area { font-size: 0.95rem; color: #444; margin-bottom: 20px; flex-grow: 1; line-height: 1.5; }
 .lattes-badge { font-size: 0.75rem; color: #003366; background-color: #eef2f6; padding: 4px 10px; border-radius: 4px; display: inline-block; font-weight: 700; margin-bottom: 15px; border: 1px solid #dae3f0; }
+
 .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid #f0f0f0; padding-top: 15px; }
 .card-hint { font-size: 0.85rem; color: var(--bright-cyan); font-weight: 700; }
 
@@ -270,6 +271,9 @@ form label:not(.consent-label) { color: var(--primary-blue); font-weight: 700; d
 .consent-wrapper { margin: 20px 0; display: flex; align-items: flex-start; gap: 12px; text-align: left; }
 .consent-checkbox { width: 18px; height: 18px; cursor: pointer; margin-top: 3px; }
 .consent-label { font-size: 0.85rem; color: #444; line-height: 1.4; cursor: pointer; }
+
+/* Ajuste de Espaçamento no Formulário (Correção do "Nome Completo" colado) */
+.contact-intro { margin-bottom: 40px; }
 
 /* --- 9. FOOTER --- */
 footer {
@@ -584,4 +588,43 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     background-color: #00c2cb !important;
     color: #003366 !important;
     border-color: #00a9b0 !important;
+}
+
+/* --- 19. BOTÃO DE COMPARTILHAMENTO (NOVO) --- */
+.footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre data e botão */
+}
+
+.btn-share-card {
+    background: #e7fcf0; /* Fundo verde bem clarinho */
+    border: 1px solid #dcfce7;
+    color: #25D366; /* Verde WhatsApp */
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.btn-share-card:hover {
+    background: #25D366;
+    color: white;
+    transform: scale(1.15) rotate(-5deg);
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+    border-color: #25D366;
+}
+
+.btn-share-card svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    stroke: none;
 }
