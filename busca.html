@@ -149,14 +149,13 @@
         // Carrega o rodapé
         fetch('footer.html?v=3').then(r => r.text()).then(d => { document.getElementById('footer-placeholder').innerHTML = d; });
 
-        // Efeito Scroll no Header
+        // Efeito Scroll Header
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (header && window.scrollY > 50) header.classList.add('scrolled');
             else header.classList.remove('scrolled');
         });
 
-        // Função LGPD
         function toggleLGPD() {
             const card = document.getElementById('card-lgpd');
             if (card) {
@@ -181,8 +180,9 @@
             return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
         }
 
-        // --- DETECÇÃO DE CAMPUS (COM ÍCONES) ---
+        // --- LÓGICA DE DETECÇÃO DE CAMPUS ---
         function detectarCampus(departamento) {
+            // Ícones SVG
             const iconLavras = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="12"></line><line x1="15" y1="22" x2="15" y2="12"></line><line x1="12" y1="22" x2="12" y2="12"></line><line x1="4" y1="7" x2="20" y2="7"></line></svg>`;
             const iconParaiso = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
 
@@ -190,7 +190,7 @@
             
             const depLower = removerAcentos(departamento); 
             
-            // Verifica todas as variações possíveis para o Campus Paraíso
+            // Verifica todas as variações do ICTIN / Paraíso
             if (depLower.includes("corpo docente do ictin") ||
                 depLower.includes("ictin") || 
                 depLower.includes("sao sebastiao") || 
@@ -203,12 +203,13 @@
             return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
         }
 
+        // --- FORMATAÇÃO INTELIGENTE DOS NOMES DE DEPARTAMENTO ---
         function formatarTextoInteligente(texto) {
             if (!texto) return "Não informado";
             let limpo = texto.trim().toLowerCase();
             const limpoSemAcento = removerAcentos(limpo);
 
-            // Padronização forçada para o ICTIN
+            // Padroniza o nome do ICTIN se encontrado
             if (limpoSemAcento.includes("ictin") || 
                 limpoSemAcento.includes("sao sebastiao do paraiso") ||
                 (limpoSemAcento.includes("instituto") && limpoSemAcento.includes("ciencia") && limpoSemAcento.includes("inovacao"))) {
@@ -230,7 +231,7 @@
             };
 
             const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
-            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec'];
+            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec', 'ictin', 'bict'];
 
             let palavras = limpo.split(/[\s/]+/); 
             
@@ -259,7 +260,7 @@
             renderizarCards(todosPesquisadores);
         };
 
-        // --- FUNÇÕES DE BUSCA ---
+        // --- LÓGICA DE PESQUISA ---
         function filtrarTag(tag) {
             document.getElementById('searchInput').value = tag;
             document.getElementById('clearBtn').classList.remove('hidden');
@@ -269,7 +270,7 @@
         function filtrarResultados(termo) {
             const termoLower = termo.toLowerCase().trim();
             
-            // CORREÇÃO: Se busca estiver vazia, mostra tudo
+            // CORREÇÃO: Campo vazio = recarrega tudo
             if (termoLower === "") {
                 renderizarCards(todosPesquisadores);
                 return;
@@ -293,7 +294,6 @@
             renderizarCards(filtrados);
         }
 
-        // Controles da barra de busca
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
         searchInput.addEventListener('input', (e) => {
@@ -305,27 +305,26 @@
             searchInput.value = ''; clearBtn.classList.add('hidden'); filtrarResultados(''); searchInput.focus();
         });
 
-        // --- FUNÇÃO PARA COMPARTILHAR NO WHATSAPP ---
+        // --- BOTÃO DE COMPARTILHAR ---
         function compartilharCard(event, nome, departamento, email) {
-            event.stopPropagation(); // Impede abrir o modal ao clicar no botão
-            
+            event.stopPropagation(); // Evita abrir o modal
             const texto = `Olá! Encontrei este pesquisador no IPÊ SEARCH e achei interessante:\n\n👤 *${nome}*\n🏛 ${departamento}\n📧 ${email}\n\nSaiba mais acessando a plataforma: https://gabriel2003fonseca-prog.github.io/IpeSearch/`;
-            
-            // Abre o WhatsApp Web ou App
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
             window.open(url, '_blank');
         }
 
-        // --- RENDERIZAÇÃO ---
+        // --- RENDERIZAÇÃO DOS CARDS ---
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
             const counter = document.getElementById('counter');
             container.innerHTML = '';
             counter.innerText = lista.length > 0 ? `${lista.length} resultados encontrados` : '';
+            
             if (lista.length === 0) {
                 container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Nenhum professor encontrado.</p>';
                 return;
             }
+            
             lista.forEach(p => {
                 const campusInfo = detectarCampus(p.Departamento);
                 
@@ -333,6 +332,7 @@
                 card.classList.add('card');
                 card.onclick = () => abrirPerfil(p);
                 
+                // Card com botão de compartilhamento (Ícone genérico de share)
                 card.innerHTML = `
                     <div class="card-header-badges">
                         <span class="campus-badge ${campusInfo.class}">${campusInfo.html}</span>
@@ -346,8 +346,8 @@
                     <div class="card-footer">
                         <div class="footer-actions">
                             <span style="font-size: 0.75rem; color: #aaa;">Atualizado: ${p.UltimaAtualizacao || 'Recente'}</span>
-                            <button class="btn-share-card" onclick="compartilharCard(event, '${p.Nome}', '${p.Departamento}', '${p.Email}')" title="Compartilhar no WhatsApp">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                            <button class="btn-share-card" onclick="compartilharCard(event, '${p.Nome}', '${p.Departamento}', '${p.Email}')" title="Compartilhar este perfil">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share-2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                             </button>
                         </div>
                         <div class="card-hint">Ver perfil →</div>
@@ -357,6 +357,7 @@
             });
         }
 
+        // --- CONTROLE DE MODAL ---
         function abrirPerfil(dados) {
             const campusInfo = detectarCampus(dados.Departamento);
             
@@ -386,6 +387,7 @@
             window.scrollTo(0, 0);
         }
 
+        // --- PROCESSAMENTO CSV ---
         function processarCSVRobusto(textoCSV) {
             const linhas = [];
             let linhaAtual = [];
