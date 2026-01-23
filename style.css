@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL CONSOLIDADA (COM WHATSAPP) */
+/* ARQUIVO: style.css - VERSÃO FINAL CORRIGIDA (BOTÃO NEUTRO) */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -272,7 +272,7 @@ form label:not(.consent-label) { color: var(--primary-blue); font-weight: 700; d
 .consent-checkbox { width: 18px; height: 18px; cursor: pointer; margin-top: 3px; }
 .consent-label { font-size: 0.85rem; color: #444; line-height: 1.4; cursor: pointer; }
 
-/* Ajuste de Espaçamento no Formulário (Correção do "Nome Completo" colado) */
+/* Ajuste de Espaçamento no Formulário */
 .contact-intro { margin-bottom: 40px; }
 
 /* --- 9. FOOTER --- */
@@ -590,17 +590,17 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     border-color: #00a9b0 !important;
 }
 
-/* --- 19. BOTÃO DE COMPARTILHAMENTO (NOVO) --- */
+/* --- 19. BOTÃO DE COMPARTILHAMENTO (ATUALIZADO) --- */
 .footer-actions {
     display: flex;
     align-items: center;
-    gap: 15px; /* Espaço entre data e botão */
+    gap: 15px;
 }
 
 .btn-share-card {
-    background: #e7fcf0; /* Fundo verde bem clarinho */
-    border: 1px solid #dcfce7;
-    color: #25D366; /* Verde WhatsApp */
+    background: #f0f2f5; /* CINZA NEUTRO */
+    border: 1px solid #dae3f0;
+    color: #5A6A85; /* Ícone cinza escuro */
     cursor: pointer;
     width: 32px;
     height: 32px;
@@ -615,7 +615,7 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
 }
 
 .btn-share-card:hover {
-    background: #25D366;
+    background: #25D366; /* Verde WhatsApp só no hover */
     color: white;
     transform: scale(1.15) rotate(-5deg);
     box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
@@ -623,8 +623,9 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
 }
 
 .btn-share-card svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-    stroke: none;
+    width: 16px;
+    height: 16px;
+    fill: none; /* SVG de share usa stroke, não fill */
+    stroke: currentColor;
+    stroke-width: 2;
 }
