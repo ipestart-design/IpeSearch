@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO FINAL CORRIGIDA (BOTÃO NEUTRO) */
+/* ARQUIVO: style.css - VERSÃO FINAL COM CHAT FLUTUANTE */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -48,7 +48,7 @@ header.scrolled {
     height: 100%; display: flex; align-items: center; text-decoration: none;
     opacity: 1; visibility: visible; width: auto; 
     margin-right: auto; 
-    outline: none !important;       
+    outline: none !important;        
     box-shadow: none !important;    
     -webkit-tap-highlight-color: transparent; 
     transition: none !important; 
@@ -477,8 +477,8 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
 
 .disclaimer-content {
     font-size: 0.9rem;
-    color: #4a5568;    
-    line-height: 1.6;  
+    color: #4a5568;     
+    line-height: 1.6;   
     font-weight: 500;
 }
 
@@ -628,4 +628,160 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     fill: none; /* SVG de share usa stroke, não fill */
     stroke: currentColor;
     stroke-width: 2;
+}
+
+/* --- 20. CHAT FLUTUANTE (IPÊ ASSISTANT) --- */
+/* (ESTA PARTE FALTAVA NO SEU CÓDIGO) */
+
+#chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#chat-btn {
+    background-color: #003366; /* Azul Oficial */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+#chat-btn:hover {
+    transform: scale(1.05);
+    background-color: #002244;
+}
+
+#chat-window {
+    display: none; /* Começa oculto */
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    flex-direction: column;
+    overflow: hidden;
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    border: 1px solid #e0e0e0;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+    background: #003366;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.chat-close {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0 5px;
+}
+
+#chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f4f6f9;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.msg {
+    padding: 12px 16px;
+    border-radius: 12px;
+    max-width: 85%;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.msg-user {
+    background: #003366;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.msg-ai {
+    background: white;
+    color: #333;
+    align-self: flex-start;
+    border: 1px solid #e0e0e0;
+    border-bottom-left-radius: 2px;
+}
+
+.chat-input-area {
+    padding: 12px;
+    border-top: 1px solid #eee;
+    display: flex;
+    background: white;
+    align-items: center;
+}
+
+#chat-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 24px;
+    outline: none;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+#chat-input:focus {
+    border-color: #003366;
+}
+
+#chat-send {
+    background: none;
+    border: none;
+    color: #003366;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+#chat-send:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Responsivo para celular */
+@media (max-width: 480px) {
+    #chat-window {
+        width: 90vw;
+        height: 70vh;
+        right: 0;
+        bottom: 70px;
+    }
 }
