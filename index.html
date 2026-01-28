@@ -185,6 +185,26 @@
 
     <div id="footer-placeholder"></div>
 
+    <div id="chat-widget">
+        <div id="chat-window">
+            <div class="chat-header">
+                <span>🤖 Ipê Assistant (IA)</span>
+                <button class="chat-close" onclick="toggleChat()">×</button>
+            </div>
+            <div id="chat-messages">
+                <div class="msg msg-ai">Olá! Sou a IA do Ipê Search. Posso ajudar você a encontrar pesquisadores ou laboratórios específicos. O que você procura?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Digite sua dúvida..." onkeypress="handleEnter(event)">
+                <button id="chat-send" onclick="sendMessage()">➤</button>
+            </div>
+        </div>
+
+        <button id="chat-btn" onclick="toggleChat()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </button>
+    </div>
+
     <script>
         function openSearchModal() {
             document.getElementById('search-choice-modal').classList.add('active');
@@ -234,34 +254,36 @@
         const statusMsg = document.getElementById('status-message');
         const btnSubmit = document.getElementById('btnSubmit');
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            const originalBtnText = btnSubmit.innerText;
-            btnSubmit.innerText = "Enviando...";
-            btnSubmit.disabled = true;
+        if(form){
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); 
+                const originalBtnText = btnSubmit.innerText;
+                btnSubmit.innerText = "Enviando...";
+                btnSubmit.disabled = true;
 
-            fetch("https://formsubmit.co/ajax/ipestart@ufla.br", {
-                method: "POST",
-                body: new FormData(form)
-            })
-            .then(response => response.json())
-            .then(data => {
-                statusMsg.innerText = "Mensagem enviada com sucesso!";
-                statusMsg.className = "success";
-                statusMsg.style.display = "block";
-                form.reset(); 
-                btnSubmit.innerText = originalBtnText;
-                btnSubmit.disabled = false;
-                setTimeout(() => { statusMsg.style.display = "none"; }, 5000);
-            })
-            .catch(() => {
-                statusMsg.innerText = "Erro ao enviar a mensagem. Tente novamente.";
-                statusMsg.className = "error";
-                statusMsg.style.display = "block";
-                btnSubmit.innerText = originalBtnText;
-                btnSubmit.disabled = false;
+                fetch("https://formsubmit.co/ajax/ipestart@ufla.br", {
+                    method: "POST",
+                    body: new FormData(form)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    statusMsg.innerText = "Mensagem enviada com sucesso!";
+                    statusMsg.className = "success";
+                    statusMsg.style.display = "block";
+                    form.reset(); 
+                    btnSubmit.innerText = originalBtnText;
+                    btnSubmit.disabled = false;
+                    setTimeout(() => { statusMsg.style.display = "none"; }, 5000);
+                })
+                .catch(() => {
+                    statusMsg.innerText = "Erro ao enviar a mensagem. Tente novamente.";
+                    statusMsg.className = "error";
+                    statusMsg.style.display = "block";
+                    btnSubmit.innerText = originalBtnText;
+                    btnSubmit.disabled = false;
+                });
             });
-        });
+        }
 
         const counters = document.querySelectorAll('.counter');
         const speed = 100;
@@ -291,11 +313,85 @@
 
         const statsSection = document.querySelector('.stats-bar');
         if (statsSection) observer.observe(statsSection);
+
+        // --- LÓGICA DO CHAT IPÊ ASSISTANT ---
+        function toggleChat() {
+            const win = document.getElementById('chat-window');
+            if (win.style.display === 'flex') {
+                win.style.display = 'none';
+            } else {
+                win.style.display = 'flex';
+                const input = document.getElementById('chat-input');
+                if(input) input.focus();
+            }
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const btn = document.getElementById('chat-send');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            addMessage(text, 'user');
+            input.value = '';
+            input.disabled = true;
+            btn.disabled = true;
+
+            const loadingId = addMessage('Consultando IA...', 'ai');
+
+            try {
+                // Chama o Backend no Netlify
+                const response = await fetch('/.netlify/functions/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+
+                const data = await response.json();
+                
+                const loadingMsg = document.getElementById(loadingId);
+                if (loadingMsg) loadingMsg.remove();
+
+                if (data.reply) {
+                    addMessage(data.reply, 'ai');
+                } else {
+                    addMessage("Erro técnico na IA.", 'ai');
+                }
+
+            } catch (error) {
+                console.error(error);
+                const loadingMsg = document.getElementById(loadingId);
+                if (loadingMsg) loadingMsg.remove();
+                addMessage("Erro de conexão com o servidor.", 'ai');
+            }
+
+            input.disabled = false;
+            btn.disabled = false;
+            input.focus();
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            const id = 'msg-' + Date.now();
+            div.id = id;
+            div.classList.add('msg', 'msg-' + sender);
+            
+            if (sender === 'ai') {
+                div.innerHTML = text.replace(/\n/g, '<br>');
+            } else {
+                div.innerText = text;
+            }
+            
+            const container = document.getElementById('chat-messages');
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
     </script>
 </body>
 </html>
-
-
-
-
-
