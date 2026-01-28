@@ -1,7 +1,0 @@
-[build]
-  functions = "netlify/functions"
-
-[functions]
-  # Essa linha OBRIGA o Netlify a levar o arquivo junto!
-  included_files = ["netlify/functions/professores.json"]
-  node_bundler = "esbuild"
