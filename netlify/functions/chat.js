@@ -1,63 +1,3 @@
-// --- CONFIGURAÇÃO ---
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
-
-// Variáveis de memória (Cache)
-let cacheDados = null;
-let ultimaAtualizacao = 0;
-
-// --- FUNÇÃO 1: LER A PLANILHA ---
-async function carregarDadosPlanilha() {
-    const agora = Date.now();
-    if (cacheDados && (agora - ultimaAtualizacao < 300000)) return cacheDados;
-
-    try {
-        const response = await fetch(SHEET_URL);
-        if (!response.ok) return "Erro ao baixar planilha.";
-        
-        const textoCSV = await response.text();
-        const linhas = textoCSV.split('\n');
-        if (linhas.length < 2) return "Planilha vazia.";
-
-        // Mapeamento automático
-        const cabecalho = linhas[0].toLowerCase().split(',').map(c => c.replace(/"/g, '').trim());
-        const idxNome = cabecalho.findIndex(c => c.includes("nome"));
-        const idxDepto = cabecalho.findIndex(c => c.includes("departamento") || c.includes("unidade"));
-        const idxEmail = cabecalho.findIndex(c => c.includes("e-mail"));
-        const idxArea = cabecalho.findIndex(c => c.includes("área") || c.includes("atuação"));
-        const idxLinha = cabecalho.findIndex(c => c.includes("linha") || c.includes("pesquisa"));
-
-        if (idxNome === -1) return "Erro: Coluna de Nome não encontrada.";
-
-        const lista = [];
-        for (let i = 1; i < linhas.length; i++) {
-            const colunas = linhas[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || linhas[i].split(',');
-            if (!colunas || colunas.length <= idxNome) continue;
-
-            const limpar = (t) => t ? t.replace(/^"|"$/g, '').trim() : "";
-            const nome = limpar(colunas[idxNome]);
-            if (!nome) continue;
-
-            const depto = idxDepto > -1 ? limpar(colunas[idxDepto]) : "UFLA";
-            const email = idxEmail > -1 ? limpar(colunas[idxEmail]) : "Não informado";
-            
-            let expertise = [];
-            if (idxArea > -1) expertise.push(limpar(colunas[idxArea]));
-            if (idxLinha > -1) expertise.push(limpar(colunas[idxLinha]));
-
-            lista.push(`- ${nome} (${depto}) | Email: ${email} | Areas: ${expertise.join('. ')}`);
-        }
-        
-        const resultado = lista.join('\n');
-        cacheDados = resultado;
-        ultimaAtualizacao = agora;
-        return resultado;
-
-    } catch (e) {
-        return "Erro técnico na planilha.";
-    }
-}
-
-// --- FUNÇÃO 2: O CÉREBRO (HANDLER) ---
 exports.handler = async function(event, context) {
     const headers = {
         'Access-Control-Allow-Origin': '*',
@@ -68,66 +8,42 @@ exports.handler = async function(event, context) {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
     try {
-        // Pega a chave do Netlify.
-        // SE DER ERRO DE CHAVE NOVAMENTE, COLE SUA CHAVE 'AIza...' DENTRO DAS ASPAS ABAIXO:
         const API_KEY = process.env.GEMINI_API_KEY; 
         
-        if (!API_KEY) return { statusCode: 200, headers, body: JSON.stringify({ reply: "⚠️ Erro: Chave API ausente ou incorreta." }) };
-
-        const body = JSON.parse(event.body || '{}');
-        const dadosUFLA = await carregarDadosPlanilha();
-
-        const promptSistema = `
-          Você é o 'Ipê Assistant', IA da UFLA.
-          DADOS DA PLANILHA:
-          ---
-          ${dadosUFLA.substring(0, 30000)}
-          ---
-          PERGUNTA: "${body.message}"
-          Responda indicando Nome, Departamento, Email e justificativa.
-        `;
-
-        // 🔥 MUDANÇA CRÍTICA: VERSÃO v1 + MODELO gemini-pro 🔥
-        // Essa URL é a mais antiga e compatível que existe.
-        const urlGoogle = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
+        // Vamos perguntar pro Google quais modelos estão disponíveis
+        // Usamos a versão v1beta que é a mais abrangente
+        const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`;
         
-        const respostaGoogle = await fetch(urlGoogle, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: promptSistema }] }]
-            })
-        });
+        const response = await fetch(url);
+        const data = await response.json();
 
-        if (!respostaGoogle.ok) {
-            const erroDetalhe = await respostaGoogle.text();
-            throw new Error(`Google API Erro: ${respostaGoogle.status} - ${erroDetalhe}`);
+        if (data.error) {
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ reply: `❌ ERRO NA CONTA: ${data.error.message}` })
+            };
         }
 
-        const jsonGoogle = await respostaGoogle.json();
-        
-        if (!jsonGoogle.candidates || !jsonGoogle.candidates[0] || !jsonGoogle.candidates[0].content) {
-             // Tenta pegar o erro de segurança se houver
-             if (jsonGoogle.promptFeedback) {
-                 throw new Error("Bloqueio de segurança do Google (Prompt Feedback).");
-             }
-             throw new Error("O Google retornou uma resposta vazia.");
-        }
-
-        const textoResposta = jsonGoogle.candidates[0].content.parts[0].text;
+        // Filtra só os modelos que servem para gerar texto (generateContent)
+        const modelosDisponiveis = data.models
+            .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent"))
+            .map(m => m.name) // Pega o nome técnico (ex: models/gemini-pro)
+            .join('\n');
 
         return {
             statusCode: 200,
             headers,
-            body: JSON.stringify({ reply: textoResposta })
+            body: JSON.stringify({ 
+                reply: `🕵️‍♂️ LISTA DE MODELOS DISPONÍVEIS:\n\n${modelosDisponiveis}\n\n(Copie essa lista e mande pro dev!)` 
+            })
         };
 
     } catch (error) {
-        console.error("Erro:", error);
         return {
-            statusCode: 200, 
+            statusCode: 200,
             headers,
-            body: JSON.stringify({ reply: `Desculpe, erro técnico: ${error.message}` })
+            body: JSON.stringify({ reply: `💥 Erro fatal: ${error.message}` })
         };
     }
 };
