@@ -68,11 +68,11 @@ exports.handler = async function(event, context) {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
     try {
-        // Pega a chave do Netlify. 
-        // SE NÃO FUNCIONAR, APAGUE O 'process.env...' E COLE SUA CHAVE 'AIza...' NAS ASPAS.
+        // Pega a chave do Netlify.
+        // SE DER ERRO DE CHAVE NOVAMENTE, COLE SUA CHAVE 'AIza...' DENTRO DAS ASPAS ABAIXO:
         const API_KEY = process.env.GEMINI_API_KEY; 
         
-        if (!API_KEY) return { statusCode: 200, headers, body: JSON.stringify({ reply: "⚠️ Erro: Chave API não encontrada no Netlify." }) };
+        if (!API_KEY) return { statusCode: 200, headers, body: JSON.stringify({ reply: "⚠️ Erro: Chave API ausente ou incorreta." }) };
 
         const body = JSON.parse(event.body || '{}');
         const dadosUFLA = await carregarDadosPlanilha();
@@ -87,10 +87,9 @@ exports.handler = async function(event, context) {
           Responda indicando Nome, Departamento, Email e justificativa.
         `;
 
-        // 🔥 AQUI ESTÁ A CORREÇÃO 🔥
-        // Usamos 'v1beta' (versão nova) com 'gemini-1.5-flash' (modelo novo).
-        // Essa combinação é garantida.
-        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        // 🔥 MUDANÇA CRÍTICA: VERSÃO v1 + MODELO gemini-pro 🔥
+        // Essa URL é a mais antiga e compatível que existe.
+        const urlGoogle = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
         
         const respostaGoogle = await fetch(urlGoogle, {
             method: "POST",
@@ -102,15 +101,17 @@ exports.handler = async function(event, context) {
 
         if (!respostaGoogle.ok) {
             const erroDetalhe = await respostaGoogle.text();
-            // Se der erro, ele devolve pro chat para a gente ler
             throw new Error(`Google API Erro: ${respostaGoogle.status} - ${erroDetalhe}`);
         }
 
         const jsonGoogle = await respostaGoogle.json();
         
-        // Verifica se veio resposta
         if (!jsonGoogle.candidates || !jsonGoogle.candidates[0] || !jsonGoogle.candidates[0].content) {
-             throw new Error("O Google não retornou texto (bloqueio de segurança ou erro vazio).");
+             // Tenta pegar o erro de segurança se houver
+             if (jsonGoogle.promptFeedback) {
+                 throw new Error("Bloqueio de segurança do Google (Prompt Feedback).");
+             }
+             throw new Error("O Google retornou uma resposta vazia.");
         }
 
         const textoResposta = jsonGoogle.candidates[0].content.parts[0].text;
