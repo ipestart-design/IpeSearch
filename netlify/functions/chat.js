@@ -68,7 +68,7 @@ exports.handler = async function(event, context) {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
     try {
-        // Pega a chave do Netlify
+        // Pega a chave do Netlify (que agora está com o nome certo GEMINI_API_KEY)
         const API_KEY = process.env.GEMINI_API_KEY; 
         if (!API_KEY) return { statusCode: 500, headers, body: JSON.stringify({ error: "Chave API faltando." }) };
 
@@ -78,17 +78,17 @@ exports.handler = async function(event, context) {
         // Prompt para a IA
         const promptSistema = `
           Você é o 'Ipê Assistant', IA da UFLA.
-          DADOS REAIS DA PLANILHA:
+          DADOS DA PLANILHA:
           ---
           ${dadosUFLA.substring(0, 30000)}
           ---
           PERGUNTA: "${body.message}"
-          Responda indicando Nome, Departamento, Email e por que escolheu esse professor.
+          Responda indicando Nome, Departamento, Email e justificativa.
         `;
 
-        // --- AQUI ESTÁ A MÁGICA (CHAMADA DIRETA SEM BIBLIOTECA) ---
-        // Usamos a versão v1beta que aceita o modelo flash
-        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        // --- AQUI ESTÁ A MUDANÇA ---
+        // Usamos o modelo 'gemini-pro' que é universal
+        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
         
         const respostaGoogle = await fetch(urlGoogle, {
             method: "POST",
@@ -104,6 +104,12 @@ exports.handler = async function(event, context) {
         }
 
         const jsonGoogle = await respostaGoogle.json();
+        
+        // Proteção extra caso o Google responda vazio
+        if (!jsonGoogle.candidates || !jsonGoogle.candidates[0] || !jsonGoogle.candidates[0].content) {
+             throw new Error("O Google não retornou texto.");
+        }
+
         const textoResposta = jsonGoogle.candidates[0].content.parts[0].text;
 
         return {
@@ -115,7 +121,7 @@ exports.handler = async function(event, context) {
     } catch (error) {
         console.error("Erro:", error);
         return {
-            statusCode: 200, // Retorna 200 pro chat mostrar o erro amigável
+            statusCode: 200, 
             headers,
             body: JSON.stringify({ reply: `Desculpe, erro técnico: ${error.message}` })
         };
