@@ -74,18 +74,30 @@ exports.handler = async function(event, context) {
         const body = JSON.parse(event.body || '{}');
         const dadosUFLA = await carregarDadosPlanilha();
 
+        // 🔥 AQUI ESTÁ A MUDANÇA DE PERSONALIDADE 🔥
         const promptSistema = `
-          Você é o 'Ipê Assistant', IA da UFLA.
-          DADOS DA PLANILHA:
+          Você é o 'Ipê Assistant', a Inteligência Artificial oficial de inovação da UFLA.
+          Seu tom é profissional, mas amigável e direto.
+
+          BASE DE CONHECIMENTO (PLANILHA):
           ---
           ${dadosUFLA.substring(0, 30000)}
           ---
-          PERGUNTA: "${body.message}"
-          Responda indicando Nome, Departamento, Email e justificativa.
+          
+          MENSAGEM DO USUÁRIO: "${body.message}"
+          
+          DIRETRIZES DE RESPOSTA:
+          1. SAUDAÇÃO: Se o usuário disser apenas "Oi", "Olá" ou "Tudo bem", NÃO tente inventar dados. Apenas se apresente cordialmente: "Olá! Sou o Ipê Assistant. Posso te ajudar a encontrar professores e pesquisadores na UFLA. Sobre qual tema você procura?"
+          
+          2. BUSCA: Se o usuário perguntar sobre um tema (ex: café, IA, solos):
+             - Procure na lista quem tem essa expertise.
+             - Responda em TEXTO CORRIDO e natural (NÃO use tabelas Markdown).
+             - Use **negrito** no Nome do Professor e no Departamento.
+             - Exemplo: "Encontrei o **Prof. Fulano** do **Departamento de X**. Ele trabalha com [Área]. O email de contato é [Email]."
+          
+          3. SEM RESULTADOS: Se não achar nada, diga que não encontrou na base atual e sugira contato com o IpêTech (ipestart@ufla.br).
         `;
 
-        // 🔥 O PULO DO GATO 🔥
-        // Usando o nome exato que apareceu na SUA lista de diagnóstico.
         const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
         
         const respostaGoogle = await fetch(urlGoogle, {
