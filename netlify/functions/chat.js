@@ -1,44 +1,63 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-// Seu link convertido para CSV
+// --- CONFIGURAÇÃO ---
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
-//TESTE
-async function diagnosticarPlanilha() {
+
+// Variáveis de memória (Cache)
+let cacheDados = null;
+let ultimaAtualizacao = 0;
+
+// --- FUNÇÃO 1: LER A PLANILHA ---
+async function carregarDadosPlanilha() {
+    const agora = Date.now();
+    if (cacheDados && (agora - ultimaAtualizacao < 300000)) return cacheDados;
+
     try {
-        // 1. Teste de Conexão
         const response = await fetch(SHEET_URL);
-        if (!response.ok) {
-            return `❌ ERRO DE CONEXÃO: O Google recusou o acesso (Status ${response.status}). Verifique se a planilha está mesmo "Publicada na Web".`;
-        }
+        if (!response.ok) return "Erro ao baixar planilha.";
         
         const textoCSV = await response.text();
         const linhas = textoCSV.split('\n');
-        
-        if (linhas.length < 2) return `❌ ERRO: A planilha baixou mas parece vazia (tem apenas ${linhas.length} linhas).`;
+        if (linhas.length < 2) return "Planilha vazia.";
 
-        // 2. Teste de Colunas (Mostra o que ele enxerga)
-        const cabecalhoBruto = linhas[0].trim();
-        const cabecalho = cabecalhoBruto.toLowerCase().split(',').map(c => c.replace(/"/g, '').trim());
-
-        // Tenta achar as colunas
+        // Mapeamento automático (inteligente)
+        const cabecalho = linhas[0].toLowerCase().split(',').map(c => c.replace(/"/g, '').trim());
         const idxNome = cabecalho.findIndex(c => c.includes("nome"));
-        const idxArea = cabecalho.findIndex(c => c.includes("área") || c.includes("area") || c.includes("atuação"));
+        const idxDepto = cabecalho.findIndex(c => c.includes("departamento") || c.includes("unidade"));
+        const idxEmail = cabecalho.findIndex(c => c.includes("e-mail"));
+        const idxArea = cabecalho.findIndex(c => c.includes("área") || c.includes("atuação"));
         const idxLinha = cabecalho.findIndex(c => c.includes("linha") || c.includes("pesquisa"));
 
-        // Se não achar o nome, avisa e mostra o cabeçalho para você conferir
-        if (idxNome === -1) {
-            return `⚠️ ERRO DE COLUNA: Não achei a coluna 'Nome'.\n\nO robô leu este cabeçalho:\n[${cabecalho.join(' | ')}]\n\nVerifique se o nome está escrito diferente.`;
+        if (idxNome === -1) return "Erro: Coluna de Nome não encontrada.";
+
+        const lista = [];
+        for (let i = 1; i < linhas.length; i++) {
+            const colunas = linhas[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || linhas[i].split(',');
+            if (!colunas || colunas.length <= idxNome) continue;
+
+            const limpar = (t) => t ? t.replace(/^"|"$/g, '').trim() : "";
+            const nome = limpar(colunas[idxNome]);
+            if (!nome) continue;
+
+            const depto = idxDepto > -1 ? limpar(colunas[idxDepto]) : "UFLA";
+            const email = idxEmail > -1 ? limpar(colunas[idxEmail]) : "Não informado";
+            
+            let expertise = [];
+            if (idxArea > -1) expertise.push(limpar(colunas[idxArea]));
+            if (idxLinha > -1) expertise.push(limpar(colunas[idxLinha]));
+
+            lista.push(`- ${nome} (${depto}) | Email: ${email} | Areas: ${expertise.join('. ')}`);
         }
+        
+        const resultado = lista.join('\n');
+        cacheDados = resultado;
+        ultimaAtualizacao = agora;
+        return resultado;
 
-        // Se chegou aqui, leu pelo menos o nome!
-        // Tenta ler a primeira linha de dados para ver se funciona
-        const primeiraLinha = linhas[1] || "";
-        return `✅ SUCESSO NO TESTE!\nPlanilha lida corretamente.\nColunas encontradas: Nome (Index ${idxNome}), Área (Index ${idxArea}).\nExemplo de dado lido: ${primeiraLinha.substring(0, 50)}...`;
-
-    } catch (error) {
-        return `❌ ERRO FATAL: ${error.message}`;
+    } catch (e) {
+        return "Erro técnico na planilha.";
     }
 }
 
+// --- FUNÇÃO 2: O CÉREBRO (HANDLER) ---
 exports.handler = async function(event, context) {
     const headers = {
         'Access-Control-Allow-Origin': '*',
@@ -49,54 +68,56 @@ exports.handler = async function(event, context) {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
     try {
-        // 1. Verifica Chave API
-        if (!process.env.GEMINI_API_KEY) {
-            return { statusCode: 200, headers, body: JSON.stringify({ reply: "🔒 ERRO: A chave 'GEMINI_API_KEY' não está configurada no Netlify." }) };
-        }
+        // Pega a chave do Netlify
+        const API_KEY = process.env.GEMINI_API_KEY; 
+        if (!API_KEY) return { statusCode: 500, headers, body: JSON.stringify({ error: "Chave API faltando." }) };
 
         const body = JSON.parse(event.body || '{}');
-        
-        // --- MODO DIAGNÓSTICO ---
-        // Ele tenta ler a planilha e te conta o resultado
-        const resultadoDiagnostico = await diagnosticarPlanilha();
+        const dadosUFLA = await carregarDadosPlanilha();
 
-        // Se der erro no diagnóstico, a IA te avisa
-        if (resultadoDiagnostico.includes("❌") || resultadoDiagnostico.includes("⚠️")) {
-            return { 
-                statusCode: 200, 
-                headers, 
-                body: JSON.stringify({ reply: `🚨 OPA! Identifiquei o problema:\n\n${resultadoDiagnostico}` }) 
-            };
-        }
-
-        // Se passou no teste, segue o fluxo normal da IA...
-        // (Aqui recarregamos os dados para a IA usar)
-        const response = await fetch(SHEET_URL);
-        const textoCSV = await response.text();
-        const linhas = textoCSV.split('\n');
-        
-        // Mapeamento simples para o prompt
-        const dadosParaIA = linhas.slice(1).map(l => l.replace(/,/g, ' | ')).join('\n').substring(0, 30000); // Limite de caracteres
-
-        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        const prompt = `
-            Você é o assistente da UFLA.
-            DADOS DA PLANILHA:
-            ${dadosParaIA}
-            
-            PERGUNTA DO USUÁRIO: "${body.message}"
-            Responda com base nos dados.
+        // Prompt para a IA
+        const promptSistema = `
+          Você é o 'Ipê Assistant', IA da UFLA.
+          DADOS REAIS DA PLANILHA:
+          ---
+          ${dadosUFLA.substring(0, 30000)}
+          ---
+          PERGUNTA: "${body.message}"
+          Responda indicando Nome, Departamento, Email e por que escolheu esse professor.
         `;
 
-        const result = await model.generateContent(prompt);
-        return { statusCode: 200, headers, body: JSON.stringify({ reply: result.response.text() }) };
+        // --- AQUI ESTÁ A MÁGICA (CHAMADA DIRETA SEM BIBLIOTECA) ---
+        // Usamos a versão v1beta que aceita o modelo flash
+        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        
+        const respostaGoogle = await fetch(urlGoogle, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: promptSistema }] }]
+            })
+        });
+
+        if (!respostaGoogle.ok) {
+            const erroDetalhe = await respostaGoogle.text();
+            throw new Error(`Erro do Google: ${respostaGoogle.status} - ${erroDetalhe}`);
+        }
+
+        const jsonGoogle = await respostaGoogle.json();
+        const textoResposta = jsonGoogle.candidates[0].content.parts[0].text;
+
+        return {
+            statusCode: 200,
+            headers,
+            body: JSON.stringify({ reply: textoResposta })
+        };
 
     } catch (error) {
-        return { 
-            statusCode: 200, // Retorna 200 para mostrar o erro no chat em vez de "Erro Técnico"
-            headers, 
-            body: JSON.stringify({ reply: `💥 Ocorreu um erro interno no código: ${error.message}` }) 
+        console.error("Erro:", error);
+        return {
+            statusCode: 200, // Retorna 200 pro chat mostrar o erro amigável
+            headers,
+            body: JSON.stringify({ reply: `Desculpe, erro técnico: ${error.message}` })
         };
     }
 };
