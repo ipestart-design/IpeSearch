@@ -79,8 +79,7 @@ exports.handler = async function(event, context) {
         const dadosParaIA = linhas.slice(1).map(l => l.replace(/,/g, ' | ')).join('\n').substring(0, 30000); // Limite de caracteres
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         const prompt = `
             Você é o assistente da UFLA.
             DADOS DA PLANILHA:
