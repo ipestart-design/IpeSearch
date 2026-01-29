@@ -8,16 +8,14 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
-
-    <title>Pesquisar - IPÊ SEARCH</title>
+    <title>Pesquisar - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo IPÊ SEARCH" class="logo-img">
+            <img src="logo.png" alt="Logo IPÊ CONECT" class="logo-img">
         </a>
         <a href="index.html" class="btn-voltar-home">INÍCIO</a>
     </header>
@@ -152,7 +150,7 @@
                 <button class="chat-close" onclick="toggleChat()">×</button>
             </div>
             <div id="chat-messages">
-                <div class="msg msg-ai">Olá! Sou a IA do Ipê Search. Posso ajudar você a encontrar pesquisadores ou laboratórios específicos. O que você procura?</div>
+                <div class="msg msg-ai">Olá! Sou a IA do Ipê CONECT. Posso ajudar você a encontrar pesquisadores ou laboratórios específicos. O que você procura?</div>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chat-input" placeholder="Digite sua dúvida..." onkeypress="handleEnter(event)">
@@ -305,7 +303,6 @@
                 const stopWords = ['de', 'da', 'do', 'em', 'para', 'com', 'no', 'na'];
                 palavrasBusca = termoLimpo.split(" ").filter(p => p.length > 0 && !stopWords.includes(p));
             }
-
             const filtrados = todosPesquisadores.filter(p => {
                 const textoGeral = `${p.Nome} ${p.Departamento} ${p.Area} ${p.Subarea} ${p.Projetos} ${p.Apresentacao}`;
                 const textoNormalizado = removerAcentos(textoGeral);
@@ -313,7 +310,6 @@
             });
             renderizarCards(filtrados);
         }
-
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
         searchInput.addEventListener('input', (e) => {
@@ -328,7 +324,7 @@
         // --- BOTÃO DE COMPARTILHAR ---
         function compartilharCard(event, nome, departamento, email) {
             event.stopPropagation(); // Evita abrir o modal
-            const texto = `Olá! Encontrei este pesquisador no IPÊ SEARCH e achei interessante:\n\n👤 *${nome}*\n🏛 ${departamento}\n📧 ${email}\n\nSaiba mais acessando a plataforma: https://gabriel2003fonseca-prog.github.io/IpeSearch/`;
+            const texto = `Olá! Encontrei este pesquisador no IPÊ CONECT e achei interessante:\n\n👤 *${nome}*\n🏛 ${departamento}\n📧 ${email}\n\nSaiba mais acessando a plataforma: https://gabriel2003fonseca-prog.github.io/IpeSearch/`;
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
             window.open(url, '_blank');
         }
