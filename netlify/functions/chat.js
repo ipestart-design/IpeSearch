@@ -18,7 +18,7 @@ async function carregarDadosPlanilha() {
         const linhas = textoCSV.split('\n');
         if (linhas.length < 2) return "Planilha vazia.";
 
-        // Mapeamento automático (inteligente)
+        // Mapeamento automático
         const cabecalho = linhas[0].toLowerCase().split(',').map(c => c.replace(/"/g, '').trim());
         const idxNome = cabecalho.findIndex(c => c.includes("nome"));
         const idxDepto = cabecalho.findIndex(c => c.includes("departamento") || c.includes("unidade"));
@@ -68,14 +68,15 @@ exports.handler = async function(event, context) {
     if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
     try {
-        // Pega a chave do Netlify (que agora está com o nome certo GEMINI_API_KEY)
+        // Pega a chave do Netlify. 
+        // SE NÃO FUNCIONAR, APAGUE O 'process.env...' E COLE SUA CHAVE 'AIza...' NAS ASPAS.
         const API_KEY = process.env.GEMINI_API_KEY; 
-        if (!API_KEY) return { statusCode: 500, headers, body: JSON.stringify({ error: "Chave API faltando." }) };
+        
+        if (!API_KEY) return { statusCode: 200, headers, body: JSON.stringify({ reply: "⚠️ Erro: Chave API não encontrada no Netlify." }) };
 
         const body = JSON.parse(event.body || '{}');
         const dadosUFLA = await carregarDadosPlanilha();
 
-        // Prompt para a IA
         const promptSistema = `
           Você é o 'Ipê Assistant', IA da UFLA.
           DADOS DA PLANILHA:
@@ -86,9 +87,10 @@ exports.handler = async function(event, context) {
           Responda indicando Nome, Departamento, Email e justificativa.
         `;
 
-        // --- AQUI ESTÁ A MUDANÇA ---
-        // Usamos o modelo 'gemini-pro' que é universal
-        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+        // 🔥 AQUI ESTÁ A CORREÇÃO 🔥
+        // Usamos 'v1beta' (versão nova) com 'gemini-1.5-flash' (modelo novo).
+        // Essa combinação é garantida.
+        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
         
         const respostaGoogle = await fetch(urlGoogle, {
             method: "POST",
@@ -100,14 +102,15 @@ exports.handler = async function(event, context) {
 
         if (!respostaGoogle.ok) {
             const erroDetalhe = await respostaGoogle.text();
-            throw new Error(`Erro do Google: ${respostaGoogle.status} - ${erroDetalhe}`);
+            // Se der erro, ele devolve pro chat para a gente ler
+            throw new Error(`Google API Erro: ${respostaGoogle.status} - ${erroDetalhe}`);
         }
 
         const jsonGoogle = await respostaGoogle.json();
         
-        // Proteção extra caso o Google responda vazio
+        // Verifica se veio resposta
         if (!jsonGoogle.candidates || !jsonGoogle.candidates[0] || !jsonGoogle.candidates[0].content) {
-             throw new Error("O Google não retornou texto.");
+             throw new Error("O Google não retornou texto (bloqueio de segurança ou erro vazio).");
         }
 
         const textoResposta = jsonGoogle.candidates[0].content.parts[0].text;
