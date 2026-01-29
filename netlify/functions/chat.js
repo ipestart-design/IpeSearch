@@ -8,7 +8,6 @@ let ultimaAtualizacao = 0;
 // --- FUNÇÃO 1: LER A PLANILHA ---
 async function carregarDadosPlanilha() {
     const agora = Date.now();
-    // Cache de 5 minutos
     if (cacheDados && (agora - ultimaAtualizacao < 300000)) return cacheDados;
 
     try {
@@ -19,7 +18,7 @@ async function carregarDadosPlanilha() {
         const linhas = textoCSV.split('\n');
         if (linhas.length < 2) return "Planilha vazia.";
 
-        // Mapeamento automático (inteligente)
+        // Mapeamento automático
         const cabecalho = linhas[0].toLowerCase().split(',').map(c => c.replace(/"/g, '').trim());
         const idxNome = cabecalho.findIndex(c => c.includes("nome"));
         const idxDepto = cabecalho.findIndex(c => c.includes("departamento") || c.includes("unidade"));
@@ -70,7 +69,7 @@ exports.handler = async function(event, context) {
 
     try {
         const API_KEY = process.env.GEMINI_API_KEY; 
-        if (!API_KEY) return { statusCode: 200, headers, body: JSON.stringify({ reply: "⚠️ Erro: Chave API ausente no Netlify." }) };
+        if (!API_KEY) return { statusCode: 200, headers, body: JSON.stringify({ reply: "⚠️ Erro: Chave API ausente." }) };
 
         const body = JSON.parse(event.body || '{}');
         const dadosUFLA = await carregarDadosPlanilha();
@@ -82,12 +81,12 @@ exports.handler = async function(event, context) {
           ${dadosUFLA.substring(0, 30000)}
           ---
           PERGUNTA: "${body.message}"
-          Responda indicando Nome, Departamento, Email e justificativa baseada na área de atuação.
+          Responda indicando Nome, Departamento, Email e justificativa.
         `;
 
-        // 🔥 AQUI ESTÁ A CORREÇÃO: USANDO O MODELO GEMINI 2.0 🔥
-        // Este modelo apareceu na sua lista e está ativo.
-        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+        // 🔥 O PULO DO GATO 🔥
+        // Usando o nome exato que apareceu na SUA lista de diagnóstico.
+        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
         
         const respostaGoogle = await fetch(urlGoogle, {
             method: "POST",
@@ -103,11 +102,6 @@ exports.handler = async function(event, context) {
         }
 
         const jsonGoogle = await respostaGoogle.json();
-        
-        if (!jsonGoogle.candidates || !jsonGoogle.candidates[0] || !jsonGoogle.candidates[0].content) {
-             throw new Error("O Google não retornou texto.");
-        }
-
         const textoResposta = jsonGoogle.candidates[0].content.parts[0].text;
 
         return {
