@@ -1,7 +1,7 @@
 // --- CONFIGURAÇÃO ---
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
 
-// Variáveis de memória (Cache)
+// Cache
 let cacheDados = null;
 let ultimaAtualizacao = 0;
 
@@ -18,7 +18,6 @@ async function carregarDadosPlanilha() {
         const linhas = textoCSV.split('\n');
         if (linhas.length < 2) return "Planilha vazia.";
 
-        // Mapeamento automático
         const cabecalho = linhas[0].toLowerCase().split(',').map(c => c.replace(/"/g, '').trim());
         const idxNome = cabecalho.findIndex(c => c.includes("nome"));
         const idxDepto = cabecalho.findIndex(c => c.includes("departamento") || c.includes("unidade"));
@@ -57,7 +56,7 @@ async function carregarDadosPlanilha() {
     }
 }
 
-// --- FUNÇÃO 2: O CÉREBRO (HANDLER) ---
+// --- FUNÇÃO 2: O CÉREBRO ---
 exports.handler = async function(event, context) {
     const headers = {
         'Access-Control-Allow-Origin': '*',
@@ -74,28 +73,26 @@ exports.handler = async function(event, context) {
         const body = JSON.parse(event.body || '{}');
         const dadosUFLA = await carregarDadosPlanilha();
 
-        // 🔥 AQUI ESTÁ A MUDANÇA DE PERSONALIDADE 🔥
+        // 🔥 MUDANÇA AQUI: Instrução para usar HTML <b> 🔥
         const promptSistema = `
-          Você é o 'Ipê Assistant', a Inteligência Artificial oficial de inovação da UFLA.
-          Seu tom é profissional, mas amigável e direto.
-
-          BASE DE CONHECIMENTO (PLANILHA):
+          Você é o 'Ipê Assistant', IA oficial da UFLA.
+          
+          DADOS DA PLANILHA:
           ---
           ${dadosUFLA.substring(0, 30000)}
           ---
           
-          MENSAGEM DO USUÁRIO: "${body.message}"
+          PERGUNTA: "${body.message}"
           
-          DIRETRIZES DE RESPOSTA:
-          1. SAUDAÇÃO: Se o usuário disser apenas "Oi", "Olá" ou "Tudo bem", NÃO tente inventar dados. Apenas se apresente cordialmente: "Olá! Sou o Ipê Assistant. Posso te ajudar a encontrar professores e pesquisadores na UFLA. Sobre qual tema você procura?"
+          REGRAS DE FORMATAÇÃO:
+          1. Use tags HTML <b> e </b> para deixar palavras em negrito. NÃO use asteriscos (**).
+          2. Exemplo correto: "Encontrei o <b>Professor Silva</b>..."
+          3. Exemplo errado: "Encontrei o **Professor Silva**..."
+          4. Use <br> para pular linhas se precisar.
           
-          2. BUSCA: Se o usuário perguntar sobre um tema (ex: café, IA, solos):
-             - Procure na lista quem tem essa expertise.
-             - Responda em TEXTO CORRIDO e natural (NÃO use tabelas Markdown).
-             - Use **negrito** no Nome do Professor e no Departamento.
-             - Exemplo: "Encontrei o **Prof. Fulano** do **Departamento de X**. Ele trabalha com [Área]. O email de contato é [Email]."
-          
-          3. SEM RESULTADOS: Se não achar nada, diga que não encontrou na base atual e sugira contato com o IpêTech (ipestart@ufla.br).
+          COMPORTAMENTO:
+          - Se for saudação ("Oi"), apresente-se cordialmente sem inventar dados.
+          - Se for busca, responda com Nome, Departamento e Email em texto corrido e agradável.
         `;
 
         const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
@@ -123,11 +120,10 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
-        console.error("Erro:", error);
         return {
             statusCode: 200, 
             headers,
-            body: JSON.stringify({ reply: `Desculpe, erro técnico: ${error.message}` })
+            body: JSON.stringify({ reply: `Erro técnico: ${error.message}` })
         };
     }
 };
