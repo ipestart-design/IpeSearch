@@ -1,31 +1,30 @@
 // --- CONFIGURAÇÃO ---
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
 
-// Cache
+// Cache Global
 let cacheDados = null;
 let ultimaAtualizacao = 0;
 
-// --- FUNÇÃO 1: LER A PLANILHA ---
+// --- FUNÇÃO 1: LER E ESTRUTURAR DADOS ---
 async function carregarDadosPlanilha() {
     const agora = Date.now();
-    if (cacheDados && (agora - ultimaAtualizacao < 300000)) return cacheDados;
+    if (cacheDados && (agora - ultimaAtualizacao < 3600000)) return cacheDados;
 
     try {
         const response = await fetch(SHEET_URL);
-        if (!response.ok) return "Erro ao baixar planilha.";
+        if (!response.ok) return "Erro ao baixar dados.";
         
         const textoCSV = await response.text();
         const linhas = textoCSV.split('\n');
-        if (linhas.length < 2) return "Planilha vazia.";
+        if (linhas.length < 2) return "Base vazia.";
 
         const cabecalho = linhas[0].toLowerCase().split(',').map(c => c.replace(/"/g, '').trim());
         const idxNome = cabecalho.findIndex(c => c.includes("nome"));
         const idxDepto = cabecalho.findIndex(c => c.includes("departamento") || c.includes("unidade"));
         const idxEmail = cabecalho.findIndex(c => c.includes("e-mail"));
         const idxArea = cabecalho.findIndex(c => c.includes("área") || c.includes("atuação"));
-        const idxLinha = cabecalho.findIndex(c => c.includes("linha") || c.includes("pesquisa"));
 
-        if (idxNome === -1) return "Erro: Coluna de Nome não encontrada.";
+        if (idxNome === -1) return "Erro base.";
 
         const lista = [];
         for (let i = 1; i < linhas.length; i++) {
@@ -41,9 +40,8 @@ async function carregarDadosPlanilha() {
             
             let expertise = [];
             if (idxArea > -1) expertise.push(limpar(colunas[idxArea]));
-            if (idxLinha > -1) expertise.push(limpar(colunas[idxLinha]));
 
-            lista.push(`- ${nome} (${depto}) | Email: ${email} | Areas: ${expertise.join('. ')}`);
+            lista.push(`ESPECIALISTA/MENTOR: ${nome} | DEPTO: ${depto} | CONTATO: ${email} | EXPERTISE: ${expertise.join(', ')}`);
         }
         
         const resultado = lista.join('\n');
@@ -52,7 +50,7 @@ async function carregarDadosPlanilha() {
         return resultado;
 
     } catch (e) {
-        return "Erro técnico na planilha.";
+        return "Erro técnico.";
     }
 }
 
@@ -73,27 +71,44 @@ exports.handler = async function(event, context) {
         const body = JSON.parse(event.body || '{}');
         const dadosUFLA = await carregarDadosPlanilha();
 
-        // 🔥 MUDANÇA AQUI: Instrução para usar HTML <b> 🔥
+        // 🔥 PROMPT DE COMPORTAMENTO ESTRATÉGICO 🔥
         const promptSistema = `
-          Você é o 'Ipê Assistant', IA oficial da UFLA.
+          Você é o 'Ipê Assistant', IA do Ecossistema de Inovação da UFLA.
           
-          DADOS DA PLANILHA:
+          BASE DE CONHECIMENTO (INTERNA):
           ---
           ${dadosUFLA.substring(0, 30000)}
           ---
           
-          PERGUNTA: "${body.message}"
+          PERGUNTA DO USUÁRIO: "${body.message}"
           
-          REGRAS DE FORMATAÇÃO:
-          1. Use tags HTML <b> e </b> para deixar palavras em negrito. NÃO use asteriscos (**).
-          2. Exemplo correto: "Encontrei o <b>Professor Silva</b>..."
-          3. Exemplo errado: "Encontrei o **Professor Silva**..."
-          4. Use <br> para pular linhas se precisar.
+          REGRAS DE OURO (SIGA ESTRITAMENTE):
           
-          COMPORTAMENTO:
-          - Se for saudação ("Oi"), apresente-se cordialmente sem inventar dados.
-          - Se for busca, responda com Nome, Departamento e Email em texto corrido e agradável.
+          1. **APRESENTAÇÃO INICIAL (Gatilho: "Oi", "Olá", "Tudo bem", "Começar"):**
+             - Se for a primeira interação ou saudação, apresente-se de forma SUSCINTA e liste seus objetivos:
+             - "Olá! Sou o Ipê Assistant. Conecto você ao ecossistema da UFLA para:
+                • Encontrar Pesquisadores e Mentores;
+                • Conectar Empresas;
+                • Cadastrar Desafios de Inovação.
+                Como posso ajudar?"
+          
+          2. **DIRECIONAMENTO ESTRATÉGICO (Gatilho: Perguntas Genéricas):**
+             - Se o usuário fizer perguntas do dia a dia (ex: "O que é IA?", "Como plantar café?", "Previsão do tempo"), responda a dúvida de forma prestativa e resumida, MAS...
+             - **OBRIGATORIAMENTE** termine a resposta conectando ao objetivo do site.
+             - Exemplo: "Para plantar café você precisa de solo X e Y. Aliás, a UFLA tem os maiores especialistas em cafeicultura do mundo. Quer que eu busque um pesquisador dessa área para te auxiliar?"
+          
+          3. **FUNÇÕES DO SITE:**
+             - Busca de **Pesquisadores/Mentores** (use a base de dados).
+             - Cadastro de **Empresas/Dores** (instrua a clicar no botão de cadastro).
+          
+          4. **TOM DE VOZ:** Profissional, inteligente e focado em gerar conexões.
+          5. **FORMATAÇÃO:** Use <b>Nome</b> para destaque e listas simples.
         `;
+
+        const configGeracao = {
+            temperature: 0.7,
+            maxOutputTokens: 600,
+        };
 
         const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
         
@@ -101,14 +116,12 @@ exports.handler = async function(event, context) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: promptSistema }] }]
+                contents: [{ parts: [{ text: promptSistema }] }],
+                generationConfig: configGeracao
             })
         });
 
-        if (!respostaGoogle.ok) {
-            const erroDetalhe = await respostaGoogle.text();
-            throw new Error(`Google API Erro: ${respostaGoogle.status} - ${erroDetalhe}`);
-        }
+        if (!respostaGoogle.ok) throw new Error("Google API Error");
 
         const jsonGoogle = await respostaGoogle.json();
         const textoResposta = jsonGoogle.candidates[0].content.parts[0].text;
@@ -123,7 +136,7 @@ exports.handler = async function(event, context) {
         return {
             statusCode: 200, 
             headers,
-            body: JSON.stringify({ reply: `Erro técnico: ${error.message}` })
+            body: JSON.stringify({ reply: `Momentaneamente indisponível. Tente recarregar.` })
         };
     }
 };
