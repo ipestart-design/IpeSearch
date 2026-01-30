@@ -31,8 +31,6 @@
                 <h1 class="search-title">Encontre Professores da UFLA</h1>
                 
                 <div class="search-container-modern">
-                    <div class="search-icon-wrapper" style="display: none;"></div>
-
                     <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento, projeto...">
                     
                     <button id="clearBtn" class="btn-clear-modern hidden" type="button" aria-label="Limpar pesquisa">
@@ -83,7 +81,7 @@
             </div>
         </section>
 
-        <div id="counter" style="text-align: center; color: #5A6A85; font-weight: 500;"></div>
+        <div id="counter" style="text-align: center; color: #5A6A85; font-weight: 500; margin-top: 30px;"></div>
         <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando dados...</div>
 
         <div class="results-container" id="resultsContainer"></div>
@@ -144,13 +142,19 @@
     <div id="footer-placeholder"></div>
 
     <div id="chat-widget">
+        
+        <div id="chat-cta" class="chat-cta" onclick="toggleChat()">
+            <span class="cta-close" onclick="fecharCta(event)">×</span>
+            👋 Olá! Tem alguma dúvida? <strong>Fale com nossa IA agora!</strong>
+        </div>
+
         <div id="chat-window">
             <div class="chat-header">
                 <span>🤖 Ipê Assistant (IA)</span>
                 <button class="chat-close" onclick="toggleChat()">×</button>
             </div>
             <div id="chat-messages">
-                <div class="msg msg-ai">Olá! Sou a IA do Ipê CONECT. Posso ajudar você a encontrar pesquisadores ou laboratórios específicos. O que você procura?</div>
+                <div class="msg msg-ai">Olá! Sou a IA do Ipê Conect. Posso ajudar você a encontrar pesquisadores ou laboratórios específicos. O que você procura?</div>
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chat-input" placeholder="Digite sua dúvida..." onkeypress="handleEnter(event)">
@@ -174,18 +178,6 @@
             else header.classList.remove('scrolled');
         });
 
-        function toggleLGPD() {
-            const card = document.getElementById('card-lgpd');
-            if (card) {
-                if (card.style.display === 'none' || card.style.display === '') {
-                    card.style.display = 'block';
-                    card.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    card.style.display = 'none';
-                }
-            }
-        }
-
         // --- CONFIGURAÇÃO DA PLANILHA ---
         const SHEET_ID = atob("MXo1bVNkeUxuSkc3elpjNnk0RTZhYXJQUXROMmsyckRLTFFEUzM4d2Rfc0E=");
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
@@ -200,24 +192,15 @@
 
         // --- LÓGICA DE DETECÇÃO DE CAMPUS ---
         function detectarCampus(departamento) {
-            // Ícones SVG
             const iconLavras = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="12"></line><line x1="15" y1="22" x2="15" y2="12"></line><line x1="12" y1="22" x2="12" y2="12"></line><line x1="4" y1="7" x2="20" y2="7"></line></svg>`;
             const iconParaiso = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
 
             if (!departamento) return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
             
             const depLower = removerAcentos(departamento); 
-            
-            // Verifica todas as variações do ICTIN / Paraíso
-            if (depLower.includes("corpo docente do ictin") ||
-                depLower.includes("ictin") || 
-                depLower.includes("sao sebastiao") || 
-                depLower.includes("paraiso") ||
-                depLower.includes("bict") || 
-                (depLower.includes("instituto") && depLower.includes("ciencia") && depLower.includes("tecnologia"))) {
+            if (depLower.includes("corpo docente do ictin") || depLower.includes("ictin") || depLower.includes("sao sebastiao") || depLower.includes("paraiso") || depLower.includes("bict") || (depLower.includes("instituto") && depLower.includes("ciencia") && depLower.includes("tecnologia"))) {
                 return { class: 'badge-paraiso', html: `${iconParaiso} Campus Paraíso` };
             }
-            
             return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
         }
 
@@ -227,10 +210,7 @@
             let limpo = texto.trim().toLowerCase();
             const limpoSemAcento = removerAcentos(limpo);
 
-            // Padroniza o nome do ICTIN se encontrado
-            if (limpoSemAcento.includes("ictin") || 
-                limpoSemAcento.includes("sao sebastiao do paraiso") ||
-                (limpoSemAcento.includes("instituto") && limpoSemAcento.includes("ciencia") && limpoSemAcento.includes("inovacao"))) {
+            if (limpoSemAcento.includes("ictin") || limpoSemAcento.includes("sao sebastiao do paraiso") || (limpoSemAcento.includes("instituto") && limpoSemAcento.includes("ciencia") && limpoSemAcento.includes("inovacao"))) {
                 return "Instituto de Ciência, Tecnologia e Inovação (ICTIN)";
             }
 
@@ -252,7 +232,6 @@
             const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec', 'ictin', 'bict'];
 
             let palavras = limpo.split(/[\s/]+/); 
-            
             for (let i = 0; i < palavras.length; i++) {
                 let p = palavras[i];
                 if (correcoes[p]) { palavras[i] = correcoes[p]; }
@@ -287,14 +266,9 @@
 
         function filtrarResultados(termo) {
             const termoLower = termo.toLowerCase().trim();
-            
-            if (termoLower === "") {
-                renderizarCards(todosPesquisadores);
-                return;
-            }
+            if (termoLower === "") { renderizarCards(todosPesquisadores); return; }
 
             let palavrasBusca;
-
             if (termoLower === 'dat') { palavrasBusca = ['automa']; } 
             else {
                 const termoExpandido = formatarTextoInteligente(termo);
@@ -312,8 +286,7 @@
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
         searchInput.addEventListener('input', (e) => {
-            if (e.target.value) clearBtn.classList.remove('hidden');
-            else clearBtn.classList.add('hidden');
+            if (e.target.value) clearBtn.classList.remove('hidden'); else clearBtn.classList.add('hidden');
             filtrarResultados(e.target.value);
         });
         clearBtn.addEventListener('click', () => {
@@ -322,7 +295,7 @@
 
         // --- BOTÃO DE COMPARTILHAR ---
         function compartilharCard(event, nome, departamento, email) {
-            event.stopPropagation(); // Evita abrir o modal
+            event.stopPropagation();
             const texto = `Olá! Encontrei este pesquisador no IPÊ CONECT e achei interessante:\n\n👤 *${nome}*\n🏛 ${departamento}\n📧 ${email}\n\nSaiba mais acessando a plataforma: https://gabriel2003fonseca-prog.github.io/IpeSearch/`;
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
             window.open(url, '_blank');
@@ -342,11 +315,9 @@
             
             lista.forEach(p => {
                 const campusInfo = detectarCampus(p.Departamento);
-                
                 const card = document.createElement('div');
                 card.classList.add('card');
                 card.onclick = () => abrirPerfil(p);
-                
                 card.innerHTML = `
                     <div class="card-header-badges">
                         <span class="campus-badge ${campusInfo.class}">${campusInfo.html}</span>
@@ -374,16 +345,12 @@
         // --- CONTROLE DE MODAL ---
         function abrirPerfil(dados) {
             const campusInfo = detectarCampus(dados.Departamento);
-            
             document.getElementById('prof-nome').innerText = dados.Nome;
-            
             const badgesContainer = document.getElementById('prof-campus-badge-modal');
             badgesContainer.innerHTML = `<span class="campus-badge ${campusInfo.class}">${campusInfo.html}</span>`;
-            
             document.getElementById('prof-dept').innerText = dados.Departamento;
             const em = document.getElementById('prof-email');
-            em.innerText = dados.Email || 'Não informado';
-            em.href = dados.Email ? `mailto:${dados.Email}` : '#';
+            em.innerText = dados.Email || 'Não informado'; em.href = dados.Email ? `mailto:${dados.Email}` : '#';
             document.getElementById('prof-tel').innerText = dados.Telefone || 'N/A';
             document.getElementById('prof-area').innerText = dados.Area || '-';
             document.getElementById('prof-subarea').innerText = dados.Subarea || '-';
@@ -446,10 +413,26 @@
             return resultado;
         }
 
-        // --- LÓGICA DO CHAT IPÊ ASSISTANT COM EFEITO DIGITAÇÃO ---
-        
+        // --- LÓGICA DO CHAT IPÊ ASSISTANT ---
+
+        // 1. Controle do Balão CTA (Aparece após 3s)
+        setTimeout(() => {
+            const chatWindow = document.getElementById('chat-window');
+            if (chatWindow.style.display !== 'flex') {
+                document.getElementById('chat-cta').style.display = 'block';
+            }
+        }, 3000);
+
+        function fecharCta(event) {
+            event.stopPropagation();
+            document.getElementById('chat-cta').style.display = 'none';
+        }
+
         function toggleChat() {
             const win = document.getElementById('chat-window');
+            const cta = document.getElementById('chat-cta');
+            if(cta) cta.style.display = 'none'; // Esconde o balão ao abrir o chat
+
             if (win.style.display === 'flex') {
                 win.style.display = 'none';
             } else {
@@ -459,32 +442,35 @@
             }
         }
 
-        function handleEnter(e) {
-            if (e.key === 'Enter') sendMessage();
-        }
+        function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
 
-        // Função para efeito digitação respeitando HTML
-        function typeWriter(element, text, speed = 20) {
+        // 2. FUNÇÃO DIGITAÇÃO ROBUSTA (Corrige o bug do Negrito <b>)
+        function typeWriter(element, text, speed = 15) {
             let i = 0;
+            element.innerHTML = ""; // Limpa antes de começar
+
             function type() {
                 if (i < text.length) {
-                    let char = text.charAt(i);
-                    // Se encontrar tag HTML, processa ela inteira
-                    if (char === '<') {
-                        let tag = '';
-                        while (text.charAt(i) !== '>' && i < text.length) {
-                            tag += text.charAt(i);
-                            i++;
+                    // Verifica se o caractere atual abre uma tag HTML
+                    if (text.charAt(i) === '<') {
+                        // Encontra o fechamento da tag (>)
+                        let tagEnd = text.indexOf('>', i);
+                        if (tagEnd !== -1) {
+                            i = tagEnd + 1; // Avança o índice para depois da tag inteira
                         }
-                        tag += '>';
-                        i++;
-                        element.innerHTML += tag;
                     } else {
-                        element.innerHTML += char;
-                        i++;
+                        i++; // Caractere normal, avança um
                     }
+
+                    // Define o HTML como a parte do texto processada até agora
+                    // Isso evita que tags abertas (ex: <b>) fiquem "penduradas" e sejam fechadas automaticamente pelo browser incorretamente
+                    element.innerHTML = text.substring(0, i);
+
+                    // Rola para baixo
                     const container = document.getElementById('chat-messages');
                     container.scrollTop = container.scrollHeight;
+                    
+                    // Chama a próxima letra
                     setTimeout(type, speed);
                 }
             }
@@ -499,14 +485,11 @@
 
             if (!text) return;
 
-            // 1. Mostra msg usuário
             addMessage(text, 'user');
             
-            input.value = '';
-            input.disabled = true;
-            btn.disabled = true;
+            input.value = ''; input.disabled = true; btn.disabled = true;
 
-            // 2. Cria balão de "Digitando..." da IA
+            // Balão da IA com "..."
             const loadingDiv = document.createElement('div');
             loadingDiv.classList.add('msg', 'msg-ai');
             loadingDiv.innerHTML = '<span class="typing-indicator">...</span>';
@@ -514,7 +497,6 @@
             container.scrollTop = container.scrollHeight;
 
             try {
-                // 3. Chama backend
                 const response = await fetch('/.netlify/functions/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -523,11 +505,13 @@
 
                 const data = await response.json();
                 
-                // 4. Limpa e digita
-                loadingDiv.innerHTML = '';
+                // Limpa o indicador
+                loadingDiv.innerHTML = ''; 
                 
                 if (data.reply) {
+                    // Prepara o texto com <br>
                     const formattedText = data.reply.replace(/\n/g, '<br>');
+                    // Chama a função de digitação corrigida
                     typeWriter(loadingDiv, formattedText);
                 } else {
                     loadingDiv.innerHTML = "Erro técnico na IA.";
@@ -535,22 +519,16 @@
 
             } catch (error) {
                 console.error(error);
-                loadingDiv.innerHTML = "Erro de conexão com o servidor.";
+                loadingDiv.innerHTML = "Erro de conexão.";
             }
 
-            input.disabled = false;
-            btn.disabled = false;
-            input.focus();
+            input.disabled = false; btn.disabled = false; input.focus();
         }
 
         function addMessage(text, sender) {
             const div = document.createElement('div');
             div.classList.add('msg', 'msg-' + sender);
-            if (sender === 'ai') {
-                div.innerHTML = text;
-            } else {
-                div.innerText = text;
-            }
+            if (sender === 'ai') div.innerHTML = text; else div.innerText = text;
             const container = document.getElementById('chat-messages');
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
