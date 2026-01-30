@@ -204,6 +204,7 @@
     </div>
 
     <script>
+        // --- FUNÇÕES GERAIS ---
         function openSearchModal() {
             document.getElementById('search-choice-modal').classList.add('active');
         }
@@ -221,18 +222,7 @@
             menu.classList.toggle('active');
         }
 
-        function toggleLGPD() {
-            const card = document.getElementById('card-lgpd');
-            if (card) {
-                if (card.style.display === 'none' || card.style.display === '') {
-                    card.style.display = 'block';
-                    card.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    card.style.display = 'none';
-                }
-            }
-        }
-
+        // --- RODAPÉ ---
         fetch('footer.html?v=3')
             .then(response => response.text())
             .then(data => {
@@ -240,6 +230,7 @@
             })
             .catch(error => console.log('Erro ao carregar rodapé.'));
 
+        // --- SCROLL HEADER ---
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (header) {
@@ -248,6 +239,7 @@
             }
         });
 
+        // --- FORMULÁRIO ---
         const form = document.getElementById('contactForm');
         const statusMsg = document.getElementById('status-message');
         const btnSubmit = document.getElementById('btnSubmit');
@@ -283,6 +275,7 @@
             });
         }
 
+        // --- CONTADORES ---
         const counters = document.querySelectorAll('.counter');
         const speed = 100;
         const animateCounters = () => {
@@ -312,7 +305,8 @@
         const statsSection = document.querySelector('.stats-bar');
         if (statsSection) observer.observe(statsSection);
 
-        // --- LÓGICA DO CHAT IPÊ ASSISTANT ---
+        // --- LÓGICA DO CHAT IPÊ ASSISTANT COM EFEITO DIGITAÇÃO ---
+        
         function toggleChat() {
             const win = document.getElementById('chat-window');
             if (win.style.display === 'flex') {
@@ -328,22 +322,65 @@
             if (e.key === 'Enter') sendMessage();
         }
 
+        // Função que faz o efeito "Typewriter" (Digitação) respeitando HTML
+        function typeWriter(element, text, speed = 20) {
+            let i = 0;
+            
+            function type() {
+                if (i < text.length) {
+                    let char = text.charAt(i);
+                    
+                    // Se encontrar uma tag HTML (ex: <b> ou <br>), coloca ela inteira de uma vez
+                    if (char === '<') {
+                        let tag = '';
+                        while (text.charAt(i) !== '>' && i < text.length) {
+                            tag += text.charAt(i);
+                            i++;
+                        }
+                        tag += '>'; // Fecha a tag
+                        i++;
+                        element.innerHTML += tag;
+                    } else {
+                        // Se for letra normal
+                        element.innerHTML += char;
+                        i++;
+                    }
+                    
+                    // Rola a tela para baixo
+                    const container = document.getElementById('chat-messages');
+                    container.scrollTop = container.scrollHeight;
+                    
+                    // Chama a próxima letra
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
         async function sendMessage() {
             const input = document.getElementById('chat-input');
             const btn = document.getElementById('chat-send');
             const text = input.value.trim();
+            const container = document.getElementById('chat-messages');
 
             if (!text) return;
 
+            // 1. Mostra msg do usuário (sem efeito)
             addMessage(text, 'user');
+            
             input.value = '';
             input.disabled = true;
             btn.disabled = true;
 
-            const loadingId = addMessage('Consultando IA...', 'ai');
+            // 2. Cria balão de "Digitando..." da IA
+            const loadingDiv = document.createElement('div');
+            loadingDiv.classList.add('msg', 'msg-ai');
+            loadingDiv.innerHTML = '<span class="typing-indicator">...</span>'; // Pode estilizar isso no CSS se quiser
+            container.appendChild(loadingDiv);
+            container.scrollTop = container.scrollHeight;
 
             try {
-                // Chama o Backend no Netlify
+                // 3. Chama o Backend
                 const response = await fetch('/.netlify/functions/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -352,20 +389,21 @@
 
                 const data = await response.json();
                 
-                const loadingMsg = document.getElementById(loadingId);
-                if (loadingMsg) loadingMsg.remove();
-
+                // 4. Remove o "..." e prepara para digitar
+                loadingDiv.innerHTML = ''; // Limpa
+                
                 if (data.reply) {
-                    addMessage(data.reply, 'ai');
+                    // 5. Inicia o efeito de digitação na div que já criamos
+                    // Converte quebras de linha normais para <br> antes de digitar
+                    const formattedText = data.reply.replace(/\n/g, '<br>');
+                    typeWriter(loadingDiv, formattedText);
                 } else {
-                    addMessage("Erro técnico na IA.", 'ai');
+                    loadingDiv.innerHTML = "Erro técnico na IA.";
                 }
 
             } catch (error) {
                 console.error(error);
-                const loadingMsg = document.getElementById(loadingId);
-                if (loadingMsg) loadingMsg.remove();
-                addMessage("Erro de conexão com o servidor.", 'ai');
+                loadingDiv.innerHTML = "Erro de conexão com o servidor.";
             }
 
             input.disabled = false;
@@ -373,14 +411,13 @@
             input.focus();
         }
 
+        // Função simples apenas para criar a div (usada pelo usuário)
         function addMessage(text, sender) {
             const div = document.createElement('div');
-            const id = 'msg-' + Date.now();
-            div.id = id;
             div.classList.add('msg', 'msg-' + sender);
             
             if (sender === 'ai') {
-                div.innerHTML = text.replace(/\n/g, '<br>');
+                div.innerHTML = text;
             } else {
                 div.innerText = text;
             }
@@ -388,10 +425,7 @@
             const container = document.getElementById('chat-messages');
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
-            return id;
         }
     </script>
 </body>
 </html>
-
-
