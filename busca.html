@@ -8,18 +8,14 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <title>Pesquisar - IPÊ CONECT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
+
+    <title>Pesquisar Pesquisadores - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo-link">
-            <img src="logo.png" alt="Logo IPÊ CONECT" class="logo-img">
-        </a>
-        <a href="index.html" class="btn-voltar-home">INÍCIO</a>
-    </header>
-    
     <div id="search-view">
         <section class="search-section">
             <video class="video-bg" autoplay muted loop playsinline>
@@ -28,56 +24,32 @@
             <div class="video-overlay"></div>
 
             <div class="search-content-wrapper">
-                <h1 class="search-title">Encontre Professores da UFLA</h1>
+                <h1 class="search-title">Encontre Pesquisadores da UFLA</h1>
                 
                 <div class="search-container-modern">
                     <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento, projeto...">
-                    
                     <button id="clearBtn" class="btn-clear-modern hidden" type="button" aria-label="Limpar pesquisa">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
 
                 <div class="quick-tags-container">
                     <button class="tag-btn" onclick="filtrarTag('Agronomia')">Agronomia</button>
-                    <button class="tag-btn" onclick="filtrarTag('Zootecnia')">Zootecnia</button>
-                    <button class="tag-btn" onclick="filtrarTag('Veterinária')">Veterinária</button>
-                    <button class="tag-btn" onclick="filtrarTag('Engenharia Florestal')">Eng. Florestal</button>
-                    <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharias</button>
                     <button class="tag-btn" onclick="filtrarTag('Computação')">Computação</button>
-                    <button class="tag-btn" onclick="filtrarTag('Sistemas')">Sistemas</button>
-                    <button class="tag-btn" onclick="filtrarTag('Direito')">Direito</button>
+                    <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharias</button>
                     <button class="tag-btn" onclick="filtrarTag('Administração')">Administração</button>
                     <button class="tag-btn" onclick="filtrarTag('Medicina')">Medicina</button>
-                    <button class="tag-btn" onclick="filtrarTag('Nutrição')">Nutrição</button>
                     <button class="tag-btn" onclick="filtrarTag('Biologia')">Biologia</button>
-                    <button class="tag-btn" onclick="filtrarTag('Química')">Química</button>
-                    <button class="tag-btn" onclick="filtrarTag('Física')">Física</button>
-                    <button class="tag-btn" onclick="filtrarTag('Matemática')">Matemática</button>
-                    <button class="tag-btn" onclick="filtrarTag('Pedagogia')">Pedagogia</button>
-                    <button class="tag-btn" onclick="filtrarTag('Filosofia')">Filosofia</button>
-                    <button class="tag-btn" onclick="filtrarTag('Letras')">Letras</button>
-                    <button class="tag-btn" onclick="filtrarTag('Educação Física')">Ed. Física</button>
                 </div>
                 
                 <div class="info-disclaimer">
                     <div class="disclaimer-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                        </svg>
+                        <i class="fas fa-info-circle"></i>
                     </div>
                     <div class="disclaimer-content">
-                        <p style="margin-bottom: 8px;">
-                            Dados extraídos de <strong>fontes públicas oficiais</strong> (Lattes/Sites). Divergências refletem a base original no momento da coleta.
-                        </p>
-                        <p style="margin: 0;">
-                            Encontrou erros? <strong>Solicite correção via formulário</strong>. A precisão da busca depende de <strong>Lattes sempre atualizados</strong> pelos docentes.
-                        </p>
+                        <p>Dados extraídos de fontes públicas oficiais. Divergências refletem a base original do Lattes no momento da coleta.</p>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -91,7 +63,7 @@
         <div style="height: 100px;"></div> 
         <div class="back-btn-container">
             <button type="button" class="btn-text-back" onclick="fecharPerfil()">
-                ← Voltar para a pesquisa
+                <i class="fas fa-arrow-left"></i> Voltar para a pesquisa
             </button>
         </div>
 
@@ -103,32 +75,30 @@
             </div>
 
             <div class="profile-body">
-                <div style="background: #eef4ff; border-left: 4px solid #003366; padding: 15px 20px; margin-bottom: 25px; border-radius: 6px; font-size: 0.85rem; color: #334e68; line-height: 1.5; text-align: left;">
-                    <strong>🛡️ Uso Ético e Conexões:</strong> As informações abaixo são de caráter público (Plataforma Lattes) e destinam-se a fins de pesquisa, extensão e parcerias de inovação. 
-                    <br><br>
-                    <strong>Empresas e instituições são incentivadas a utilizar estes contatos para propostas de cooperação técnica e projetos de P&D</strong>, sendo vedado o uso para spam ou ofertas comerciais genéricas.
+                <div style="background: #eef4ff; border-left: 4px solid #003366; padding: 15px 20px; margin-bottom: 25px; border-radius: 6px; font-size: 0.85rem; color: #334e68;">
+                    <strong>🛡️ Uso Ético:</strong> As informações abaixo são de caráter público e destinam-se a parcerias de inovação e pesquisa.
                 </div>
 
                 <div class="info-grid">
                     <div class="info-item">
                         <label>E-mail Institucional</label>
-                        <p><a href="#" id="prof-email">email@ufla.br</a></p>
+                        <p><a href="#" id="prof-email"></a></p>
                     </div>
                     <div class="info-item">
                         <label>Telefone / Ramal</label>
-                        <p id="prof-tel">N/A</p>
+                        <p id="prof-tel"></p>
                     </div>
                     <div class="info-item">
                         <label>Área de Atuação</label>
-                        <p id="prof-area">Área Principal</p>
+                        <p id="prof-area"></p>
                     </div>
                     <div class="info-item">
-                        <label>Subárea</label>
-                        <p id="prof-subarea">Especialidade</p>
+                        <label>Especialidades</label>
+                        <p id="prof-subarea"></p>
                     </div>
                 </div>
 
-                <h2 class="section-title">Apresentação / Biografia</h2>
+                <h2 class="section-title">Biografia</h2>
                 <div class="text-content" id="prof-apresentacao"></div>
 
                 <h2 class="section-title">Projetos de Pesquisa</h2>
@@ -139,224 +109,70 @@
         </div>
     </div>
 
-    <div id="footer-placeholder"></div>
-
-    <div id="chat-widget">
-        
-        <div id="chat-cta" class="chat-cta" onclick="toggleChat()">
-            <span class="cta-close" onclick="fecharCta(event)">×</span>
-            👋 Olá! Tem alguma dúvida? <strong>Fale com nossa IA agora!</strong>
-        </div>
-
-        <div id="chat-window">
-            <div class="chat-header">
-                <span>🤖 Ipê Assistant (IA)</span>
-                <button class="chat-close" onclick="toggleChat()">×</button>
-            </div>
-            <div id="chat-messages">
-                <div class="msg msg-ai">Olá! Sou a IA do Ipê Conect. Posso ajudar você a encontrar pesquisadores ou laboratórios específicos. O que você procura?</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Digite sua dúvida..." onkeypress="handleEnter(event)">
-                <button id="chat-send" onclick="sendMessage()">➤</button>
-            </div>
-        </div>
-
-        <button id="chat-btn" onclick="toggleChat()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-        </button>
-    </div>
+    <script src="header.js"></script>
+    <script src="footer.js"></script>
 
     <script>
-        // Carrega o rodapé
-        fetch('footer.html?v=3').then(r => r.text()).then(d => { document.getElementById('footer-placeholder').innerHTML = d; });
-
-        // Efeito Scroll Header
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (header && window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        });
-
-        // --- CONFIGURAÇÃO DA PLANILHA ---
         const SHEET_ID = atob("MXo1bVNkeUxuSkc3elpjNnk0RTZhYXJQUXROMmsyckRLTFFEUzM4d2Rfc0E=");
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
-        
         let todosPesquisadores = [];
 
-        // --- FUNÇÕES AUXILIARES ---
         function removerAcentos(texto) {
-            if (!texto) return "";
-            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            return texto ? texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() : "";
         }
 
-        // --- LÓGICA DE DETECÇÃO DE CAMPUS ---
-        function detectarCampus(departamento) {
-            const iconLavras = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="12"></line><line x1="15" y1="22" x2="15" y2="12"></line><line x1="12" y1="22" x2="12" y2="12"></line><line x1="4" y1="7" x2="20" y2="7"></line></svg>`;
-            const iconParaiso = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="badge-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
-
-            if (!departamento) return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
-            
-            const depLower = removerAcentos(departamento); 
-            if (depLower.includes("corpo docente do ictin") || depLower.includes("ictin") || depLower.includes("sao sebastiao") || depLower.includes("paraiso") || depLower.includes("bict") || (depLower.includes("instituto") && depLower.includes("ciencia") && depLower.includes("tecnologia"))) {
-                return { class: 'badge-paraiso', html: `${iconParaiso} Campus Paraíso` };
-            }
-            return { class: 'badge-lavras', html: `${iconLavras} Campus Lavras` };
-        }
-
-        // --- FORMATAÇÃO INTELIGENTE DOS NOMES DE DEPARTAMENTO ---
-        function formatarTextoInteligente(texto) {
-            if (!texto) return "Não informado";
-            let limpo = texto.trim().toLowerCase();
-            const limpoSemAcento = removerAcentos(limpo);
-
-            if (limpoSemAcento.includes("ictin") || limpoSemAcento.includes("sao sebastiao do paraiso") || (limpoSemAcento.includes("instituto") && limpoSemAcento.includes("ciencia") && limpoSemAcento.includes("inovacao"))) {
-                return "Instituto de Ciência, Tecnologia e Inovação (ICTIN)";
-            }
-
-            const correcoes = {
-                "dga": "Departamento de Gestão Agroindustrial", "dfp": "Departamento de Fitopatologia", "df": "Departamento de Fitopatologia", "den": "Departamento de Entomologia", "dcf": "Departamento de Ciências Florestais", "dcs": "Departamento de Ciência do Solo", "dca": "Departamento de Ciência dos Alimentos", "dag": "Departamento de Agricultura",
-                "dam": "Departamento de Engenharia Ambiental", "drh": "Departamento de Recursos Hídricos", "dea": "Departamento de Engenharia Agrícola", "dat": "Departamento de Automática", "deg": "Departamento de Engenharia",
-                "dnu": "Departamento de Nutrição", "def": "Departamento de Educação Física", "dme": "Departamento de Medicina", "dsa": "Departamento de Saúde",
-                "dir": "Departamento de Direito", "dae": "Departamento de Administração e Economia", "dap": "Departamento de Administração Pública",
-                "del": "Departamento de Estudos da Linguagem", "ded": "Departamento de Educação", "dch": "Departamento de Ciências Humanas",
-                "dzo": "Departamento de Zootecnia", "dmv": "Departamento de Medicina Veterinária",
-                "des": "Departamento de Estatística", "dac": "Departamento de Computação Aplicada", "dfm": "Departamento de Educação em Ciências Físicas e Matemática", "dmm": "Departamento de Matemática e Matemática Aplicada", "dcc": "Departamento de Ciência da Computação",
-                "dqi": "Departamento de Química", "dfi": "Departamento de Física", "dbi": "Departamento de Biologia", "dec": "Departamento de Ecologia e Conservação",
-                "dep": "Departamento", "dep.": "Departamento", "depto": "Departamento", "depto.": "Departamento", "dept": "Departamento", "dept.": "Departamento",
-                "eng": "Engenharia", "eng.": "Engenharia", "ed": "Educação", "ed.": "Educação", "med": "Medicina", "med.": "Medicina", "vet": "Veterinária", "vet.": "Veterinária", "prof": "Professor", "prof.": "Professor",
-                "computacao": "Computação", "informacao": "Informação", "producao": "Produção", "construcao": "Construção", "automacao": "Automação", "educacao": "Educação", "graduacao": "Graduação", "pos-graduacao": "Pós-Graduação", "administracao": "Administração", "nutricao": "Nutrição", "eletrica": "Elétrica", "eletronica": "Eletrônica", "mecanica": "Mecânica", "quimica": "Química", "fisica": "Física", "biologica": "Biológica", "agricola": "Agrícola", "hirdricos": "Hídricos", "agua": "Água", "genetica": "Genética", "ciencia": "Ciência", "ciencias": "Ciências", "biologia": "Biologia", "zootecnia": "Zootecnia", "agronomia": "Agronomia"
-            };
-
-            const preposicoes = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'no', 'na'];
-            const siglas = ['ufla', 'cnpq', 'mg', 'ti', 'rh', 'mec', 'ictin', 'bict'];
-
-            let palavras = limpo.split(/[\s/]+/); 
-            for (let i = 0; i < palavras.length; i++) {
-                let p = palavras[i];
-                if (correcoes[p]) { palavras[i] = correcoes[p]; }
-                else if (siglas.includes(p)) { palavras[i] = p.toUpperCase(); } 
-                else if (preposicoes.includes(p) && i !== 0) { palavras[i] = p; } 
-                else { palavras[i] = p.charAt(0).toUpperCase() + p.slice(1); }
-            }
-            return palavras.join(' ');
-        }
-
-        // --- CARREGAMENTO INICIAL ---
+        // Carregamento Inicial
         window.onload = async function() {
             const loading = document.getElementById('loading');
             loading.style.display = 'block';
             try {
                 const response = await fetch(`${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`);
                 const texto = await response.text();
-                todosPesquisadores = processarCSVRobusto(texto); 
-            } catch (erro) {
-                console.error("Erro na carga:", erro);
-            }
+                todosPesquisadores = processarCSV(texto);
+            } catch (erro) { console.error(erro); }
             loading.style.display = 'none';
             renderizarCards(todosPesquisadores);
         };
 
-        // --- LÓGICA DE PESQUISA ---
         function filtrarTag(tag) {
             document.getElementById('searchInput').value = tag;
-            document.getElementById('clearBtn').classList.remove('hidden');
             filtrarResultados(tag);
         }
 
         function filtrarResultados(termo) {
-            const termoLower = termo.toLowerCase().trim();
-            if (termoLower === "") { renderizarCards(todosPesquisadores); return; }
-
-            let palavrasBusca;
-            if (termoLower === 'dat') { palavrasBusca = ['automa']; } 
-            else {
-                const termoExpandido = formatarTextoInteligente(termo);
-                const termoLimpo = removerAcentos(termoExpandido);
-                const stopWords = ['de', 'da', 'do', 'em', 'para', 'com', 'no', 'na'];
-                palavrasBusca = termoLimpo.split(" ").filter(p => p.length > 0 && !stopWords.includes(p));
-            }
-            const filtrados = todosPesquisadores.filter(p => {
-                const textoGeral = `${p.Nome} ${p.Departamento} ${p.Area} ${p.Subarea} ${p.Projetos} ${p.Apresentacao}`;
-                const textoNormalizado = removerAcentos(textoGeral);
-                return palavrasBusca.every(palavra => textoNormalizado.includes(palavra));
-            });
+            const t = removerAcentos(termo);
+            const filtrados = todosPesquisadores.filter(p => 
+                removerAcentos(`${p.Nome} ${p.Departamento} ${p.Area}`).includes(t)
+            );
             renderizarCards(filtrados);
         }
-        const searchInput = document.getElementById('searchInput');
-        const clearBtn = document.getElementById('clearBtn');
-        searchInput.addEventListener('input', (e) => {
-            if (e.target.value) clearBtn.classList.remove('hidden'); else clearBtn.classList.add('hidden');
-            filtrarResultados(e.target.value);
-        });
-        clearBtn.addEventListener('click', () => {
-            searchInput.value = ''; clearBtn.classList.add('hidden'); filtrarResultados(''); searchInput.focus();
-        });
 
-        // --- BOTÃO DE COMPARTILHAR ---
-        function compartilharCard(event, nome, departamento, email) {
-            event.stopPropagation();
-            const texto = `Olá! Encontrei este pesquisador no IPÊ CONECT e achei interessante:\n\n👤 *${nome}*\n🏛 ${departamento}\n📧 ${email}\n\nSaiba mais acessando a plataforma: https://gabriel2003fonseca-prog.github.io/IpeSearch/`;
-            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
-            window.open(url, '_blank');
-        }
-
-        // --- RENDERIZAÇÃO DOS CARDS ---
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
-            const counter = document.getElementById('counter');
-            container.innerHTML = '';
-            counter.innerText = lista.length > 0 ? `${lista.length} resultados encontrados` : '';
-            
-            if (lista.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Nenhum professor encontrado.</p>';
-                return;
-            }
+            container.innerHTML = lista.length ? '' : '<p style="text-align:center">Nenhum professor encontrado.</p>';
+            document.getElementById('counter').innerText = lista.length ? `${lista.length} pesquisadores encontrados` : '';
             
             lista.forEach(p => {
-                const campusInfo = detectarCampus(p.Departamento);
                 const card = document.createElement('div');
-                card.classList.add('card');
+                card.className = 'card';
                 card.onclick = () => abrirPerfil(p);
                 card.innerHTML = `
-                    <div class="card-header-badges">
-                        <span class="campus-badge ${campusInfo.class}">${campusInfo.html}</span>
-                    </div>
                     <h3>${p.Nome}</h3>
                     <div class="card-dept">${p.Departamento}</div>
-                    <div class="card-content-area">
-                        <div class="area-main"><strong>Área:</strong> ${p.Area}</div>
-                        ${p.Subarea ? `<div class="subarea-box"><span>Especialidades:</span> ${p.Subarea}</div>` : ''}
-                    </div>
-                    <div class="card-footer">
-                        <div class="footer-actions">
-                            <span style="font-size: 0.75rem; color: #aaa;">Atualizado: ${p.UltimaAtualizacao || 'Recente'}</span>
-                            <button class="btn-share-card" onclick="compartilharCard(event, '${p.Nome}', '${p.Departamento}', '${p.Email}')" title="Compartilhar este perfil">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share-2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-                            </button>
-                        </div>
-                        <div class="card-hint">Ver perfil →</div>
-                    </div>
+                    <div class="card-content-area"><strong>Área:</strong> ${p.Area}</div>
+                    <div class="card-footer"><div class="card-hint">Ver perfil →</div></div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        // --- CONTROLE DE MODAL ---
-        function abrirPerfil(dados) {
-            const campusInfo = detectarCampus(dados.Departamento);
-            document.getElementById('prof-nome').innerText = dados.Nome;
-            const badgesContainer = document.getElementById('prof-campus-badge-modal');
-            badgesContainer.innerHTML = `<span class="campus-badge ${campusInfo.class}">${campusInfo.html}</span>`;
-            document.getElementById('prof-dept').innerText = dados.Departamento;
-            const em = document.getElementById('prof-email');
-            em.innerText = dados.Email || 'Não informado'; em.href = dados.Email ? `mailto:${dados.Email}` : '#';
-            document.getElementById('prof-tel').innerText = dados.Telefone || 'N/A';
-            document.getElementById('prof-area').innerText = dados.Area || '-';
-            document.getElementById('prof-subarea').innerText = dados.Subarea || '-';
-            document.getElementById('prof-apresentacao').innerText = dados.Apresentacao || 'Sem biografia.';
-            document.getElementById('prof-projetos').innerText = dados.Projetos || 'Sem projetos.';
-            document.getElementById('prof-update').innerText = `Dados atualizados em: ${dados.UltimaAtualizacao || 'N/A'}`;
+        function abrirPerfil(d) {
+            document.getElementById('prof-nome').innerText = d.Nome;
+            document.getElementById('prof-dept').innerText = d.Departamento;
+            document.getElementById('prof-email').innerText = d.Email;
+            document.getElementById('prof-email').href = `mailto:${d.Email}`;
+            document.getElementById('prof-area').innerText = d.Area;
+            document.getElementById('prof-apresentacao').innerText = d.Apresentacao;
             document.getElementById('search-view').classList.add('hidden');
             document.getElementById('profile-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -365,173 +181,17 @@
         function fecharPerfil() {
             document.getElementById('profile-view').classList.add('hidden');
             document.getElementById('search-view').classList.remove('hidden');
-            window.scrollTo(0, 0);
         }
 
-        // --- PROCESSAMENTO CSV ---
-        function processarCSVRobusto(textoCSV) {
-            const linhas = [];
-            let linhaAtual = [];
-            let celulaAtual = "";
-            let dentroDeAspas = false;
-            for (let i = 0; i < textoCSV.length; i++) {
-                let char = textoCSV[i];
-                let proximoChar = textoCSV[i+1];
-                if (char === '"') {
-                    if (dentroDeAspas && proximoChar === '"') { celulaAtual += '"'; i++; } 
-                    else { dentroDeAspas = !dentroDeAspas; }
-                } 
-                else if (char === ',' && !dentroDeAspas) { linhaAtual.push(celulaAtual); celulaAtual = ""; } 
-                else if ((char === '\r' || char === '\n') && !dentroDeAspas) {
-                    if (char === '\r' && proximoChar === '\n') i++;
-                    if (linhaAtual.length > 0 || celulaAtual.length > 0) {
-                        linhaAtual.push(celulaAtual); linhas.push(linhaAtual);
-                    }
-                    linhaAtual = []; celulaAtual = "";
-                } 
-                else { celulaAtual += char; }
-            }
-            if (linhaAtual.length > 0 || celulaAtual.length > 0) {
-                linhaAtual.push(celulaAtual); linhas.push(linhaAtual);
-            }
-            const resultado = [];
-            for (let i = 1; i < linhas.length; i++) {
-                const cols = linhas[i];
-                if (cols.length < 2) continue;
-                resultado.push({
-                    UltimaAtualizacao: cols[0]?.trim() || '',
-                    Nome: formatarTextoInteligente(cols[1]?.trim()) || 'Não informado',
-                    Departamento: formatarTextoInteligente(cols[2]?.trim()) || 'Não informado',
-                    Email: cols[3]?.trim() || '',
-                    Telefone: cols[4]?.trim() || '',
-                    Area: formatarTextoInteligente(cols[5]?.trim()) || '',
-                    Subarea: cols[6]?.trim() || '',
-                    Projetos: cols[8]?.trim() || '', 
-                    Apresentacao: cols[9]?.trim() || ''
-                });
-            }
-            return resultado;
-        }
-
-        // --- LÓGICA DO CHAT IPÊ ASSISTANT ---
-
-        // 1. Controle do Balão CTA (Aparece após 3s)
-        setTimeout(() => {
-            const chatWindow = document.getElementById('chat-window');
-            if (chatWindow.style.display !== 'flex') {
-                document.getElementById('chat-cta').style.display = 'block';
-            }
-        }, 3000);
-
-        function fecharCta(event) {
-            event.stopPropagation();
-            document.getElementById('chat-cta').style.display = 'none';
-        }
-
-        function toggleChat() {
-            const win = document.getElementById('chat-window');
-            const cta = document.getElementById('chat-cta');
-            if(cta) cta.style.display = 'none'; // Esconde o balão ao abrir o chat
-
-            if (win.style.display === 'flex') {
-                win.style.display = 'none';
-            } else {
-                win.style.display = 'flex';
-                const input = document.getElementById('chat-input');
-                if(input) input.focus();
-            }
-        }
-
-        function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
-
-        // 2. FUNÇÃO DIGITAÇÃO ROBUSTA (Corrige o bug do Negrito <b>)
-        function typeWriter(element, text, speed = 15) {
-            let i = 0;
-            element.innerHTML = ""; // Limpa antes de começar
-
-            function type() {
-                if (i < text.length) {
-                    // Verifica se o caractere atual abre uma tag HTML
-                    if (text.charAt(i) === '<') {
-                        // Encontra o fechamento da tag (>)
-                        let tagEnd = text.indexOf('>', i);
-                        if (tagEnd !== -1) {
-                            i = tagEnd + 1; // Avança o índice para depois da tag inteira
-                        }
-                    } else {
-                        i++; // Caractere normal, avança um
-                    }
-
-                    // Define o HTML como a parte do texto processada até agora
-                    // Isso evita que tags abertas (ex: <b>) fiquem "penduradas" e sejam fechadas automaticamente pelo browser incorretamente
-                    element.innerHTML = text.substring(0, i);
-
-                    // Rola para baixo
-                    const container = document.getElementById('chat-messages');
-                    container.scrollTop = container.scrollHeight;
-                    
-                    // Chama a próxima letra
-                    setTimeout(type, speed);
-                }
-            }
-            type();
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const btn = document.getElementById('chat-send');
-            const text = input.value.trim();
-            const container = document.getElementById('chat-messages');
-
-            if (!text) return;
-
-            addMessage(text, 'user');
-            
-            input.value = ''; input.disabled = true; btn.disabled = true;
-
-            // Balão da IA com "..."
-            const loadingDiv = document.createElement('div');
-            loadingDiv.classList.add('msg', 'msg-ai');
-            loadingDiv.innerHTML = '<span class="typing-indicator">...</span>';
-            container.appendChild(loadingDiv);
-            container.scrollTop = container.scrollHeight;
-
-            try {
-                const response = await fetch('/.netlify/functions/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: text })
-                });
-
-                const data = await response.json();
-                
-                // Limpa o indicador
-                loadingDiv.innerHTML = ''; 
-                
-                if (data.reply) {
-                    // Prepara o texto com <br>
-                    const formattedText = data.reply.replace(/\n/g, '<br>');
-                    // Chama a função de digitação corrigida
-                    typeWriter(loadingDiv, formattedText);
-                } else {
-                    loadingDiv.innerHTML = "Erro técnico na IA.";
-                }
-
-            } catch (error) {
-                console.error(error);
-                loadingDiv.innerHTML = "Erro de conexão.";
-            }
-
-            input.disabled = false; btn.disabled = false; input.focus();
-        }
-
-        function addMessage(text, sender) {
-            const div = document.createElement('div');
-            div.classList.add('msg', 'msg-' + sender);
-            if (sender === 'ai') div.innerHTML = text; else div.innerText = text;
-            const container = document.getElementById('chat-messages');
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+        function processarCSV(csv) {
+            const lines = csv.split('\n').slice(1);
+            return lines.map(line => {
+                const cols = line.split(',');
+                return {
+                    Nome: cols[1], Departamento: cols[2], Email: cols[3],
+                    Area: cols[5], Apresentacao: cols[9]
+                };
+            }).filter(p => p.Nome);
         }
     </script>
 </body>
