@@ -36,25 +36,17 @@
     <div class="stats-bar">
         <div class="stats-grid">
             <div class="stat-item">
-                <div class="icon-wrapper">
-                    <i class="fas fa-users"></i>
-                </div>
+                <div class="icon-wrapper"><i class="fas fa-users"></i></div>
                 <h2>+<span class="counter" data-target="800">0</span></h2>
                 <p>Pesquisadores</p>
             </div>
-            
             <div class="stat-item">
-                <div class="icon-wrapper">
-                    <i class="fas fa-layer-group"></i>
-                </div>
+                <div class="icon-wrapper"><i class="fas fa-layer-group"></i></div>
                 <h2>+<span class="counter" data-target="150">0</span></h2>
                 <p>Grupos de Pesquisa</p>
             </div>
-
             <div class="stat-item">
-                <div class="icon-wrapper">
-                    <i class="fas fa-file-alt"></i>
-                </div>
+                <div class="icon-wrapper"><i class="fas fa-file-alt"></i></div>
                 <h2>+<span class="counter" data-target="3000">0</span></h2>
                 <p>Projetos Cadastrados</p>
             </div>
@@ -69,17 +61,17 @@
             <div class="step-card">
                 <span class="step-number">01</span>
                 <div class="step-title">Pesquise</div>
-                <div class="step-text">Utilize nossa busca para encontrar <strong>pesquisadores</strong> ou <strong>empresas</strong> filtrando por área de atuação.</div>
+                <div class="step-text">Utilize nossa busca para encontrar <strong>pesquisadores</strong> ou <strong>empresas</strong> filtrando por competências técnicas.</div>
             </div>
             <div class="step-card">
                 <span class="step-number">02</span>
                 <div class="step-title">Analise</div>
-                <div class="step-text">Acesse perfis detalhados e verifique a sinergia com seu objetivo inovador.</div>
+                <div class="step-text">Explore portfólios, linhas de pesquisa e verifique a sinergia com seus desafios tecnológicos.</div>
             </div>
             <div class="step-card">
                 <span class="step-number">03</span>
                 <div class="step-title">Conecte-se</div>
-                <div class="step-text">Proponha parcerias e novos negócios de impacto direto através dos contatos oficiais.</div>
+                <div class="step-text">Estabeleça parcerias estratégicas e fomente novos negócios de impacto através de contatos diretos.</div>
             </div>
         </div>
     </section>
@@ -87,10 +79,13 @@
     <section id="sobre">
         <div class="content-card">
             <h3>Nossa Missão</h3>
-            <p>
-                Nascido no ecossistema 
-                <a href="https://ipetech.ufla.br/" target="_blank" class="text-link">IpêTech – Parque Tecnológico da UFLA</a>, 
-                o <strong>IPÊ CONECT</strong> é a ponte entre a ciência e o mercado.
+            <p style="margin-bottom: 20px; font-size: 1.1rem; line-height: 1.8;">
+                O <strong>IPÊ CONECT</strong> é a plataforma oficial de integração do ecossistema de inovação da Universidade Federal de Lavras. Gestado no âmago do 
+                <a href="https://ipetech.ufla.br/" target="_blank" class="text-link">IpêTech – Parque Científico e Tecnológico da UFLA</a>, 
+                nossa missão é derrubar as barreiras entre a academia e o setor produtivo.
+            </p>
+            <p style="font-size: 1.1rem; line-height: 1.8;">
+                Acreditamos que a ciência de excelência produzida nos laboratórios deve servir como combustível para a competitividade das empresas brasileiras. Ao conectar o capital intelectual de mais de 800 pesquisadores às demandas reais do mercado, fomentamos uma rede onde a **inovação deixa de ser um conceito e se torna um ativo econômico e social**, gerando riqueza, sustentabilidade e tecnologia de ponta para a sociedade.
             </p>
         </div>
     </section>
@@ -100,23 +95,18 @@
             <h3>Fale Conosco</h3>
             <form id="contactForm" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                 <input type="hidden" name="_captcha" value="false">
-                
                 <label>Nome Completo</label>
                 <input type="text" name="nome" placeholder="Digite seu nome" required>
-                
                 <label>E-mail</label>
                 <input type="email" name="email" placeholder="exemplo@email.com" required>
-                
                 <label>Como podemos ajudar?</label>
                 <textarea name="mensagem" rows="5" placeholder="Descreva sua solicitação..." required></textarea>
-
                 <div class="consent-wrapper">
                     <input type="checkbox" id="consentimento" required>
                     <label for="consentimento" class="consent-label">
                         Estou de acordo com o tratamento dos meus dados conforme a LGPD.
                     </label>
                 </div>
-                
                 <button type="submit" id="btnSubmit">Enviar Mensagem</button>
             </form>
             <div id="status-message"></div>
@@ -125,10 +115,55 @@
 
     <script src="header.js"></script>
     <script src="footer.js"></script>
-    <script src="chat.js"></script>
 
     <script>
-        // Lógica dos Contadores Animados
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatHTML = `
+        <style>
+            #chat-widget { position: fixed !important; bottom: 30px !important; right: 30px !important; z-index: 2147483647 !important; display: flex !important; flex-direction: column !important; align-items: flex-end !important; }
+            .btn-ia-flutuante { width: 70px !important; height: 70px !important; border-radius: 50% !important; background: linear-gradient(135deg, #003366, #00c2cb) !important; color: white !important; border: 2px solid white !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important; font-size: 28px !important; transition: transform 0.3s ease !important; }
+            .btn-ia-flutuante:hover { transform: scale(1.1) !important; }
+            #chat-window { position: fixed; bottom: 110px; right: 30px; width: 350px; height: 480px; background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 2147483647; font-family: sans-serif; }
+        </style>
+        <div id="chat-widget">
+            <div id="chat-cta" onclick="toggleChat()" style="background:white; padding:10px 20px; border-radius:50px; margin-bottom:15px; cursor:pointer; box-shadow:0 4px-15px rgba(0,0,0,0.1); font-size:13px; border:1px solid #eee; color:#003366;">👋 Dúvidas? <strong>Fale com a IA!</strong></div>
+            <button class="btn-ia-flutuante" onclick="toggleChat()"><i class="fas fa-robot"></i></button>
+        </div>
+        <div id="chat-window">
+            <div style="background:#003366; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center;"><span style="font-weight:bold;">🤖 Ipê Assistant</span><button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer; font-size:20px;">&times;</button></div>
+            <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f9f9f9; display:flex; flex-direction:column; gap:10px; font-size:14px;"></div>
+            <div style="padding:15px; border-top:1px solid #eee; display:flex; gap:10px;">
+                <input type="text" id="chat-input" placeholder="Digite sua dúvida..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:20px; outline:none;">
+                <button onclick="sendChatMessage()" style="background:#00c2cb; color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer;">➤</button>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', chatHTML);
+
+        window.toggleChat = () => {
+            const win = document.getElementById('chat-window');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+            if(document.getElementById('chat-cta')) document.getElementById('chat-cta').style.display = 'none';
+        };
+
+        window.sendChatMessage = async () => {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            const msgDiv = document.getElementById('chat-messages');
+            msgDiv.innerHTML += `<div style="align-self:flex-end; background:#00c2cb; color:white; padding:10px; border-radius:10px; max-width:80%;">${text}</div>`;
+            input.value = '';
+            try {
+                const response = await fetch('/.netlify/functions/chat', { method: 'POST', body: JSON.stringify({ message: text }) });
+                const data = await response.json();
+                msgDiv.innerHTML += `<div style="align-self:flex-start; background:white; color:#333; padding:10px; border-radius:10px; border:1px solid #eee; max-width:80%;">${data.reply}</div>`;
+                msgDiv.scrollTop = msgDiv.scrollHeight;
+            } catch (e) { msgDiv.innerHTML += `<div style="color:red; font-size:12px;">Erro de conexão.</div>`; }
+        };
+    });
+    </script>
+
+    <script>
+        // Lógica dos Contadores
         const counters = document.querySelectorAll('.counter');
         const speed = 100;
         const observer = new IntersectionObserver((entries) => {
@@ -138,12 +173,7 @@
                     const update = () => {
                         const count = +c.innerText;
                         const inc = target / speed;
-                        if(count < target) { 
-                            c.innerText = Math.ceil(count + inc); 
-                            setTimeout(update, 20); 
-                        } else { 
-                            c.innerText = target; 
-                        }
+                        if(count < target) { c.innerText = Math.ceil(count + inc); setTimeout(update, 20); } else { c.innerText = target; }
                     }; 
                     update();
                 });
@@ -154,17 +184,12 @@
         const stats = document.querySelector('.stats-bar');
         if(stats) observer.observe(stats);
 
-        // Rolagem Suave para links internos
+        // Rolagem Suave
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 90,
-                        behavior: 'smooth'
-                    });
-                }
+                if (target) { window.scrollTo({ top: target.offsetTop - 90, behavior: 'smooth' }); }
             });
         });
     </script>
