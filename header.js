@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 2000;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
-            /* USANDO A MESMA FONTE DO SEU STYLE.CSS */
             font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
         }
 
@@ -23,14 +22,27 @@ document.addEventListener('DOMContentLoaded', function() {
         .logo-img { height: 70px; width: auto; transition: 0.3s; }
         #main-header.scrolled .logo-img { height: 55px; }
 
-        .nav-container { display: flex; align-items: center; margin-left: auto; }
+        /* Aumentando o espaçamento geral entre os itens do menu */
+        .nav-container { 
+            display: flex; 
+            align-items: center; 
+            margin-left: auto; 
+            gap: 40px; /* Mais espaço entre os links e o botão de pesquisa */
+        }
 
-        /* Links com tamanho aumentado (1rem = 16px) */
-        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; margin: 0; padding: 0; }
+        .nav-links { 
+            display: flex; 
+            gap: 35px; /* Mais espaço entre cada link individual */
+            list-style: none; 
+            align-items: center; 
+            margin: 0; 
+            padding: 0; 
+        }
+
         .nav-links li a {
             color: #003366; 
             text-decoration: none; 
-            font-weight: 700; /* Negrito para combinar com o estilo institucional */
+            font-weight: 700;
             font-size: 1rem; 
             text-transform: uppercase; 
             white-space: nowrap;
@@ -38,13 +50,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         .nav-links li a:hover { color: #00c2cb; }
 
-        /* --- DROPDOWN PESQUISAR CORRIGIDO --- */
-        .nav-dropdown { position: relative; display: inline-block; }
+        /* --- CORREÇÃO DEFINITIVA DO BOTÃO PESQUISAR --- */
+        .nav-dropdown { 
+            position: relative; 
+            display: inline-block; 
+            padding-bottom: 15px; /* "Ponte" para o mouse não perder o foco */
+            margin-bottom: -15px;
+        }
 
         .btn-pesquisa-header {
             background: #00c2cb; 
             color: white !important; 
-            padding: 12px 25px; 
+            padding: 12px 28px; 
             border-radius: 50px; 
             display: flex; 
             align-items: center; 
@@ -61,53 +78,64 @@ document.addEventListener('DOMContentLoaded', function() {
         .dropdown-menu {
             display: none; 
             position: absolute; 
-            top: 100%; 
+            top: 100%; /* Cola exatamente onde o padding da 'ponte' termina */
             right: 0; 
             background: white; 
-            min-width: 220px; 
+            min-width: 230px; 
             box-shadow: 0 10px 30px rgba(0,51,102,0.15);
-            border-radius: 12px; 
+            border-radius: 15px; 
             padding: 10px 0; 
             list-style: none;
             border: 1px solid #f0f0f0;
-            margin-top: 15px; /* Espaço para não encostar no botão */
+            z-index: 2100;
+            margin-top: -5px; /* Ajuste fino de posicionamento */
         }
+
+        /* O segredo: Cria uma área invisível entre o botão e o menu */
+        .nav-dropdown::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            display: none;
+        }
+        .nav-dropdown:hover::after { display: block; }
 
         .dropdown-menu li { width: 100%; border: none !important; margin: 0 !important; }
         .dropdown-menu li a {
-            padding: 12px 20px;
+            padding: 14px 20px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             color: #003366 !important;
             text-transform: none !important;
-            font-size: 0.95rem !important;
+            font-size: 1rem !important;
             font-weight: 600 !important;
         }
         .dropdown-menu li a:hover { background: #f8fbfe; color: #00c2cb !important; }
         
+        /* Mostra o menu e a ponte ao pairar */
         .nav-dropdown:hover .dropdown-menu { display: block; }
 
+        /* Botão Mobile */
         .mobile-menu-btn {
-            display: none; 
-            font-size: 2rem; 
-            color: #003366; 
-            cursor: pointer; 
-            background: none; border: none;
-            margin-left: 20px;
+            display: none; font-size: 2.2rem; color: #003366; 
+            cursor: pointer; background: none; border: none; margin-left: 20px;
         }
 
-        @media (max-width: 1150px) {
+        @media (max-width: 1200px) {
             .mobile-menu-btn { display: block; }
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 300px; height: 100vh; 
                 background: white; flex-direction: column; padding: 100px 30px; 
                 box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s ease; 
-                gap: 25px; align-items: flex-start;
+                gap: 30px; align-items: flex-start;
             }
             .nav-links.active { right: 0; }
-            .nav-dropdown { width: 100%; }
-            .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: #f9f9f9; }
+            .nav-dropdown { width: 100%; padding-bottom: 0; margin-bottom: 0; }
+            .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: #f9f9f9; width: 100%; }
         }
     </style>
     `;
@@ -125,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li><a href="cadastro.html">Quero Participar</a></li>
                 <li><a href="mentores.html">Mentores</a></li>
                 <li><a href="desafios.html">Desafios</a></li>
+                <li><a href="index.html#contato">Fale Conosco</a></li>
                 <li class="nav-dropdown">
                     <div class="btn-pesquisa-header">
                         <i class="fas fa-search"></i> Pesquisar <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
