@@ -12,6 +12,31 @@
 
     <title>IPÊ CONECT - Conexões que Transformam</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para o destaque do título */
+        .section-title-large {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-align: center;
+            background: linear-gradient(135deg, #003366, #00c2cb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 50px;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .section-title-large { font-size: 2.2rem; }
+        }
+    </style>
 </head>
 <body>
 
@@ -53,9 +78,10 @@
         </div>
     </div>
 
-    <section id="como-funciona" style="margin-top: 80px;">
+    <section id="como-funciona" style="margin-top: 120px; padding: 60px 20px;">
         <div class="section-intro">
-            <h3>Como Funciona?</h3>
+            <h2 class="section-title-large">COMO FUNCIONA?</h2>
+            <p class="section-subtitle">Conectamos o seu desafio à solução acadêmica ideal em 3 passos</p>
         </div>
         <div class="steps-grid">
             <div class="step-card">
@@ -184,7 +210,7 @@
             #chat-window { position: fixed; bottom: 110px; right: 30px; width: 350px; height: 480px; background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 2147483647; font-family: sans-serif; }
         </style>
         <div id="chat-widget">
-            <div id="chat-cta" onclick="toggleChat()" style="background:white; padding:10px 20px; border-radius:50px; margin-bottom:15px; cursor:pointer; box-shadow:0 4px-15px rgba(0,0,0,0.1); font-size:13px; border:1px solid #eee; color:#003366;">👋 Dúvidas? <strong>Fale com a IA!</strong></div>
+            <div id="chat-cta" onclick="toggleChat()" style="background:white; padding:10px 20px; border-radius:50px; margin-bottom:15px; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.1); font-size:13px; border:1px solid #eee; color:#003366;">👋 Dúvidas? <strong>Fale com a IA!</strong></div>
             <button class="btn-ia-flutuante" onclick="toggleChat()"><i class="fas fa-robot"></i></button>
         </div>
         <div id="chat-window">
