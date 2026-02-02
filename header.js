@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         .nav-links { 
             display: flex; 
-            gap: 30px; /* Espaçamento entre os links */
+            gap: 30px;
             list-style: none; 
             align-items: center; 
             margin: 0; 
@@ -133,29 +133,163 @@ document.addEventListener('DOMContentLoaded', function() {
 
         /* MOBILE */
         .mobile-menu-btn {
-            display: none; font-size: 2.2rem; color: #003366; 
-            cursor: pointer; background: none; border: none; margin-left: 20px;
+            display: none; 
+            font-size: 2rem; 
+            color: #003366; 
+            cursor: pointer; 
+            background: none; 
+            border: none; 
+            margin-left: 20px;
+            z-index: 2200;
+        }
+
+        /* OVERLAY ESCURO */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
         }
 
         @media (max-width: 1200px) {
-            #main-header { height: 80px; padding: 0 4%; }
-            .logo-img { height: 50px; }
-            .mobile-menu-btn { display: block; }
-            .nav-links {
-                position: fixed; top: 0; right: -100%; width: 300px; height: 100vh; 
-                background: white; flex-direction: column; padding: 100px 30px; 
-                box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s ease; 
-                gap: 30px; align-items: flex-start;
+            #main-header { 
+                height: 70px; 
+                padding: 0 20px; 
             }
-            .nav-links.active { right: 0; }
-            .nav-dropdown { width: 100%; padding-bottom: 0; margin-bottom: 0; }
-            .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: #f9f9f9; width: 100%; }
+            
+            #main-header.scrolled { height: 70px; }
+            
+            .logo-img { 
+                height: 45px !important; 
+            }
+            
+            .mobile-menu-btn { 
+                display: block; 
+            }
+            
+            .nav-links {
+                position: fixed; 
+                top: 0; 
+                right: -100%; 
+                width: 85%; 
+                max-width: 320px;
+                height: 100vh; 
+                background: white; 
+                flex-direction: column; 
+                padding: 80px 0 30px 0;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.2); 
+                transition: right 0.4s ease; 
+                gap: 0;
+                align-items: stretch;
+                overflow-y: auto;
+                z-index: 2100;
+            }
+            
+            .nav-links.active { 
+                right: 0; 
+            }
+
+            /* Itens do menu mobile */
+            .nav-links > li {
+                border-bottom: 1px solid #f0f0f0;
+                margin: 0 !important;
+            }
+
+            .nav-links > li > a {
+                padding: 18px 25px;
+                display: block;
+                font-size: 1rem;
+                white-space: normal;
+            }
+
+            /* DROPDOWN NO MOBILE */
+            .nav-dropdown { 
+                width: 100%; 
+                padding-bottom: 0; 
+                margin-bottom: 0;
+            }
+
+            .btn-pesquisa-header {
+                width: 100%;
+                padding: 18px 25px;
+                border-radius: 0;
+                justify-content: space-between;
+                font-size: 1rem;
+            }
+
+            .btn-pesquisa-header .fa-chevron-down {
+                transition: transform 0.3s ease;
+            }
+
+            .nav-dropdown.open .btn-pesquisa-header .fa-chevron-down {
+                transform: rotate(180deg);
+            }
+
+            .dropdown-menu { 
+                position: static; 
+                display: none;
+                box-shadow: none; 
+                border: none; 
+                background: #f8fbfe; 
+                width: 100%;
+                border-radius: 0;
+                padding: 0;
+            }
+
+            .nav-dropdown.open .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-menu li a {
+                padding: 15px 25px 15px 45px !important;
+                font-size: 0.9rem !important;
+            }
+
+            /* Fechar menu ao clicar nos links */
+            .nav-links a:not(.btn-pesquisa-header) {
+                position: relative;
+            }
+        }
+
+        /* Tablets */
+        @media (max-width: 768px) {
+            .nav-links {
+                width: 90%;
+                max-width: 280px;
+            }
+        }
+
+        /* Celulares pequenos */
+        @media (max-width: 480px) {
+            #main-header {
+                padding: 0 15px;
+            }
+            
+            .logo-img {
+                height: 40px !important;
+            }
+
+            .nav-links {
+                width: 100%;
+                max-width: 100%;
+            }
         }
     </style>
     `;
 
     const headerHTML = `
     ${headerStyle}
+    <div class="menu-overlay" id="menuOverlay"></div>
     <header id="main-header">
         <a href="index.html" class="logo-link">
             <img src="logo.png" alt="IPÊ CONECT" class="logo-img">
@@ -169,9 +303,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li><a href="mentores.html">Mentores</a></li>
                 <li><a href="desafios.html">Desafios</a></li>
                 <li><a href="index.html#contato">Fale Conosco</a></li>
-                <li class="nav-dropdown">
+                <li class="nav-dropdown" id="navDropdown">
                     <div class="btn-pesquisa-header">
-                        <i class="fas fa-search"></i> Pesquisar <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                        <span><i class="fas fa-search"></i> Pesquisar</span>
+                        <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
                     </div>
                     <ul class="dropdown-menu">
                         <li><a href="busca.html"><i class="fas fa-user-graduate"></i> Pesquisadores</a></li>
@@ -191,17 +326,66 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const mobileBtn = document.getElementById('mobileBtn');
     const navLinks = document.getElementById('navLinks');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const navDropdown = document.getElementById('navDropdown');
+    const dropdownBtn = navDropdown.querySelector('.btn-pesquisa-header');
 
+    // Toggle menu mobile
     mobileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         navLinks.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
         mobileBtn.querySelector('i').classList.toggle('fa-bars');
         mobileBtn.querySelector('i').classList.toggle('fa-times');
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
     });
 
+    // Fechar menu ao clicar no overlay
+    menuOverlay.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        mobileBtn.querySelector('i').classList.add('fa-bars');
+        mobileBtn.querySelector('i').classList.remove('fa-times');
+        document.body.style.overflow = '';
+    });
+
+    // Dropdown toggle no mobile
+    dropdownBtn.addEventListener('click', (e) => {
+        if (window.innerWidth <= 1200) {
+            e.preventDefault();
+            navDropdown.classList.toggle('open');
+        }
+    });
+
+    // Fechar menu ao clicar em links (exceto dropdown)
+    navLinks.querySelectorAll('a:not(.btn-pesquisa-header)').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 1200) {
+                navLinks.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                mobileBtn.querySelector('i').classList.add('fa-bars');
+                mobileBtn.querySelector('i').classList.remove('fa-times');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+
+    // Scroll header effect
     window.addEventListener('scroll', () => {
         const header = document.getElementById('main-header');
         if (window.scrollY > 50) header.classList.add('scrolled');
         else header.classList.remove('scrolled');
+    });
+
+    // Fechar menu ao redimensionar para desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1200) {
+            navLinks.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            navDropdown.classList.remove('open');
+            mobileBtn.querySelector('i').classList.add('fa-bars');
+            mobileBtn.querySelector('i').classList.remove('fa-times');
+            document.body.style.overflow = '';
+        }
     });
 });
