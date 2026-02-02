@@ -12,29 +12,38 @@
 
     <title>IPÊ CONECT - Conexões que Transformam</title>
     <link rel="stylesheet" href="style.css">
+    
     <style>
-        /* Estilos específicos para o destaque do título */
-        .section-title-large {
-            font-size: 3.5rem;
+        /* Estilo Moderno e Equilibrado para as Seções */
+        .section-intro-modern {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .main-title-modern {
+            font-size: 2.8rem;
             font-weight: 800;
             text-transform: uppercase;
-            text-align: center;
-            background: linear-gradient(135deg, #003366, #00c2cb);
+            background: linear-gradient(135deg, #002244, #00c2cb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -1px;
-            margin-bottom: 10px;
-            line-height: 1.1;
+            line-height: 1.2;
+            margin-bottom: 8px;
         }
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #4a5568;
-            margin-bottom: 50px;
-            font-weight: 500;
+
+        .section-subtitle-modern {
+            font-size: 1.1rem;
+            color: #2d3748;
+            font-weight: 600;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
         }
+
         @media (max-width: 768px) {
-            .section-title-large { font-size: 2.2rem; }
+            .main-title-modern { font-size: 2rem; }
+            .section-subtitle-modern { font-size: 1rem; padding: 0 15px; }
         }
     </style>
 </head>
@@ -78,11 +87,12 @@
         </div>
     </div>
 
-    <section id="como-funciona" style="margin-top: 120px; padding: 60px 20px;">
-        <div class="section-intro">
-            <h2 class="section-title-large">COMO FUNCIONA?</h2>
-            <p class="section-subtitle">Conectamos o seu desafio à solução acadêmica ideal em 3 passos</p>
+    <section id="como-funciona" style="margin-top: 100px; padding: 40px 20px;">
+        <div class="section-intro-modern">
+            <h2 class="main-title-modern">COMO FUNCIONA?</h2>
+            <p class="section-subtitle-modern">Conectamos o seu desafio à solução acadêmica ideal em 3 passos simples.</p>
         </div>
+        
         <div class="steps-grid">
             <div class="step-card">
                 <span class="step-number">01</span>
@@ -109,7 +119,7 @@
                 
                 <p class="mission-text">
                     O <strong>IPÊ CONECT</strong> é a plataforma oficial de integração do ecossistema de inovação da 
-                    <span class="highlight-ufla">Universidade Federal de Lavras</span>. 
+                    <span class="highlight-ufla">Universidade Federal de Lavras</span>.
                 </p>
 
                 <p class="mission-text">
@@ -124,8 +134,7 @@
                     <p>
                         Acreditamos que a ciência de excelência deve servir como combustível para a competitividade das empresas. 
                         Ao conectar o capital intelectual de mais de <strong>800 pesquisadores</strong>, fomentamos uma rede onde a 
-                        <strong class="impact-text">inovação deixa de ser um conceito e se torna um ativo econômico e social</strong>, 
-                        gerando tecnologia de ponta e desenvolvimento para a sociedade.
+                        <strong class="impact-text">inovação deixa de ser um conceito e se torna um ativo econômico e social</strong>.
                     </p>
                 </div>
             </div>
@@ -192,7 +201,6 @@
                     <span>Enviar Mensagem</span>
                     <i class="fas fa-paper-plane"></i>
                 </button>
-                <div id="status-message"></div>
             </form>
         </div>
     </section>
@@ -202,6 +210,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Injeção do Widget de Chat
         const chatHTML = `
         <style>
             #chat-widget { position: fixed !important; bottom: 30px !important; right: 30px !important; z-index: 2147483647 !important; display: flex !important; flex-direction: column !important; align-items: flex-end !important; }
@@ -229,24 +238,6 @@
             if(document.getElementById('chat-cta')) document.getElementById('chat-cta').style.display = 'none';
         };
 
-        window.sendChatMessage = async () => {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text) return;
-            const msgDiv = document.getElementById('chat-messages');
-            msgDiv.innerHTML += `<div style="align-self:flex-end; background:#00c2cb; color:white; padding:10px; border-radius:10px; max-width:80%;">${text}</div>`;
-            input.value = '';
-            try {
-                const response = await fetch('/.netlify/functions/chat', { method: 'POST', body: JSON.stringify({ message: text }) });
-                const data = await response.json();
-                msgDiv.innerHTML += `<div style="align-self:flex-start; background:white; color:#333; padding:10px; border-radius:10px; border:1px solid #eee; max-width:80%;">${data.reply}</div>`;
-                msgDiv.scrollTop = msgDiv.scrollHeight;
-            } catch (e) { msgDiv.innerHTML += `<div style="color:red; font-size:12px;">Erro de conexão.</div>`; }
-        };
-    });
-    </script>
-
-    <script>
         // Lógica dos Contadores
         const counters = document.querySelectorAll('.counter');
         const observer = new IntersectionObserver((entries) => {
@@ -273,16 +264,7 @@
                 if (target) { window.scrollTo({ top: target.offsetTop - 90, behavior: 'smooth' }); }
             });
         });
-
-        // Feedback de envio do formulário
-        const form = document.getElementById('contactForm');
-        if(form) {
-            form.addEventListener('submit', function() {
-                const btn = document.getElementById('btnSubmit');
-                btn.innerHTML = '<span>Enviando...</span><i class="fas fa-spinner fa-spin"></i>';
-                btn.disabled = true;
-            });
-        }
+    });
     </script>
 </body>
 </html>
