@@ -71,22 +71,45 @@
             <div class="step-card">
                 <span class="step-number">03</span>
                 <div class="step-title">Conecte-se</div>
-                <div class="step-text">Estabeleça parcerias estratégicas e fomente novos negócios de impacto através de contatos diretos.</div>
+                <div class="step-text">Estabeleça parcerias estratégicas e fomente novos negócios através de contatos diretos.</div>
             </div>
         </div>
     </section>
 
     <section id="sobre">
-        <div class="content-card">
-            <h3>Nossa Missão</h3>
-            <p style="margin-bottom: 20px; font-size: 1.1rem; line-height: 1.8;">
-                O <strong>IPÊ CONECT</strong> é a plataforma oficial de integração do ecossistema de inovação da Universidade Federal de Lavras. Gestado no âmago do 
-                <a href="https://ipetech.ufla.br/" target="_blank" class="text-link">IpêTech – Parque Científico e Tecnológico da UFLA</a>, 
-                nossa missão é derrubar as barreiras entre a academia e o setor produtivo.
-            </p>
-            <p style="font-size: 1.1rem; line-height: 1.8;">
-                Acreditamos que a ciência de excelência produzida nos laboratórios deve servir como combustível para a competitividade das empresas brasileiras. Ao conectar o capital intelectual de mais de 800 pesquisadores às demandas reais do mercado, fomentamos uma rede onde a **inovação deixa de ser um conceito e se torna um ativo econômico e social**, gerando riqueza, sustentabilidade e tecnologia de ponta para a sociedade.
-            </p>
+        <div class="content-card mission-container">
+            <div class="mission-content">
+                <h3 class="section-badge">Nossa Missão</h3>
+                
+                <p class="mission-text">
+                    O <strong>IPÊ CONECT</strong> é a plataforma oficial de integração do ecossistema de inovação da 
+                    <span class="highlight-ufla">Universidade Federal de Lavras</span>. 
+                </p>
+
+                <p class="mission-text">
+                    Gestado no âmago do 
+                    <a href="https://ipetech.ufla.br/" target="_blank" class="highlight-ipetech">
+                        IpêTech – Parque Científico e Tecnológico da UFLA
+                    </a>, 
+                    nossa missão é derrubar as barreiras entre a academia e o setor produtivo.
+                </p>
+
+                <div class="mission-vision-box">
+                    <p>
+                        Acreditamos que a ciência de excelência deve servir como combustível para a competitividade das empresas. 
+                        Ao conectar o capital intelectual de mais de <strong>800 pesquisadores</strong>, fomentamos uma rede onde a 
+                        <strong class="impact-text">inovação deixa de ser um conceito e se torna um ativo econômico e social</strong>, 
+                        gerando tecnologia de ponta para a sociedade.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mission-visual">
+                <div class="visual-wrapper">
+                    <i class="fas fa-seedling mission-icon-main"></i>
+                    <div class="tech-dots"></div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -163,28 +186,23 @@
     </script>
 
     <script>
-        // Lógica dos Contadores
         const counters = document.querySelectorAll('.counter');
-        const speed = 100;
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
                 counters.forEach(c => {
                     const target = +c.getAttribute('data-target');
                     const update = () => {
                         const count = +c.innerText;
-                        const inc = target / speed;
+                        const inc = target / 100;
                         if(count < target) { c.innerText = Math.ceil(count + inc); setTimeout(update, 20); } else { c.innerText = target; }
-                    }; 
-                    update();
+                    }; update();
                 });
                 observer.disconnect();
             }
         }, { threshold: 0.5 });
-        
         const stats = document.querySelector('.stats-bar');
         if(stats) observer.observe(stats);
 
-        // Rolagem Suave
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
