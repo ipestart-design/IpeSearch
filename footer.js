@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. Estilos modernos com Glassmorphism, Assinatura e Card Jurídico
     const footerStyles = `
     <style>
         #main-footer {
@@ -53,23 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         .footer-nav a:hover { color: white; transform: translateX(5px); }
 
-        /* Botão IA Estilizado */
-        .btn-footer-ia {
-            background: var(--gradient-tech);
-            border: none;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 20px rgba(0, 194, 203, 0.2);
-            transition: 0.3s;
-        }
-        .btn-footer-ia:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(0, 194, 203, 0.4); }
-
+        /* --- DESTAQUE DA ASSINATURA --- */
         .footer-bottom {
             margin-top: 60px;
             padding-top: 30px;
@@ -81,27 +66,103 @@ document.addEventListener('DOMContentLoaded', function() {
             gap: 20px;
         }
 
-        .dev-credit { font-size: 0.75rem; opacity: 0.5; }
-        
+        .signature-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s ease;
+        }
+
+        .signature-container:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--bright-cyan);
+        }
+
+        .signature-text {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .signature-name {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- CARD JURÍDICO LGPD --- */
         #card-lgpd {
             display: none; 
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            margin-top: 30px;
+            position: relative;
+            max-width: 900px; 
+            margin: 40px auto 0; 
+            padding: 45px;
+            background: rgba(255, 255, 255, 0.07); 
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px; 
+            text-align: left; 
+            color: #ffffff; 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            line-height: 1.8;
+            animation: fadeInLGPD 0.4s ease-out;
         }
+
+        @keyframes fadeInLGPD {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lgpd-header { border-bottom: 2px solid var(--bright-cyan); padding-bottom: 15px; margin-bottom: 25px; }
+        .lgpd-header h3 { font-size: 1.5rem; color: var(--bright-cyan); text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+
+        .lgpd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 25px; }
+        
+        .lgpd-item h4 { color: var(--bright-cyan); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+        .lgpd-item p { font-size: 0.9rem; opacity: 0.9; margin: 0; }
+
+        .legal-notice { 
+            background: rgba(0, 0, 0, 0.2); 
+            padding: 20px; 
+            border-radius: 12px; 
+            font-size: 0.85rem; 
+            border-left: 4px solid var(--bright-cyan); 
+            margin-top: 20px;
+        }
+
+        .btn-close-lgpd {
+            background: var(--bright-cyan); 
+            color: #003366; 
+            border: none; 
+            padding: 12px 35px; 
+            border-radius: 50px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .btn-close-lgpd:hover { transform: scale(1.05); background: #ffffff; }
+
+        /* VLibras Fix */
+        [vw] { z-index: 2147483647 !important; position: fixed !important; }
 
         @media (max-width: 900px) {
             .footer-container { grid-template-columns: 1fr; text-align: center; }
             .footer-brand p { margin: 0 auto; }
-            .footer-nav a:hover { transform: none; }
-            .footer-bottom { justify-content: center; text-align: center; }
+            .footer-bottom { justify-content: center; flex-direction: column; text-align: center; }
+            .lgpd-grid { grid-template-columns: 1fr; }
         }
     </style>
     `;
 
+    // 2. Estrutura HTML
     const footerHTML = `
     ${footerStyles}
     <footer id="main-footer">
@@ -109,9 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="footer-brand">
                 <img src="logo-ufla-branca.png" alt="UFLA">
                 <p>O Ipê Conect é o ecossistema digital que une a excelência acadêmica da UFLA às demandas reais do mercado tecnológico.</p>
-                <button class="btn-footer-ia" onclick="if(typeof toggleChat === 'function') toggleChat()">
-                    <i class="fas fa-robot"></i> ASSISTENTE VIRTUAL
-                </button>
             </div>
 
             <div class="footer-column">
@@ -136,14 +194,50 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2026 IPÊ CONECT. Todos os direitos reservados.</p>
-            <p class="dev-credit">Powered by Gabriel Fonseca - Bolsista IpêTech</p>
+            <p style="opacity: 0.7; font-size: 0.9rem;">&copy; 2026 IPÊ CONECT. Todos os direitos reservados.</p>
+            
+            <div class="signature-container">
+                <span class="signature-text">Desenvolvido por</span>
+                <span class="signature-name">GABRIEL FONSECA</span>
+                <i class="fas fa-code" style="color: var(--bright-cyan); font-size: 0.8rem; margin-left: 5px;"></i>
+            </div>
         </div>
 
         <div id="card-lgpd">
-            <h3 style="color:var(--bright-cyan)">🛡️ Proteção de Dados</h3>
-            <p style="font-size:0.85rem; opacity:0.8">Operamos sob a Lei 13.709/2018. Seus dados são usados exclusivamente para fins de conexão técnico-científica.</p>
-            <button id="btn-accept-lgpd" style="margin-top:15px; background:var(--bright-cyan); border:none; padding:8px 20px; border-radius:5px; cursor:pointer; font-weight:bold;">FECHAR</button>
+            <div class="lgpd-header">
+                <h3>🛡️ Termos de Uso e Governança de Dados</h3>
+            </div>
+
+            <div class="lgpd-grid">
+                <div class="lgpd-item">
+                    <h4>1. Natureza da Plataforma</h4>
+                    <p>O IPÊ CONECT é uma plataforma de interesse público científico, atuando como um catálogo de competências para fins de inovação tecnológica e parcerias institucionais.</p>
+                </div>
+                <div class="lgpd-item">
+                    <h4>2. Fonte e Coleta de Dados</h4>
+                    <p>Os dados de pesquisadores são provenientes da <strong>Plataforma Lattes (CNPq)</strong>, base pública de acesso aberto. Dados empresariais são coletados via consentimento direto (Art. 7º, I, LGPD).</p>
+                </div>
+            </div>
+
+            <div class="lgpd-grid">
+                <div class="lgpd-item">
+                    <h4>3. Base Legal (LGPD)</h4>
+                    <p>O tratamento de dados fundamenta-se no <strong>Art. 7º, inciso V</strong> (execução de contrato/parcerias) e <strong>inciso IX</strong> (legítimo interesse do controlador) da Lei 13.709/2018.</p>
+                </div>
+                <div class="lgpd-item">
+                    <h4>4. Direitos do Titular</h4>
+                    <p>Em conformidade com o <strong>Art. 18 da LGPD</strong>, é garantido ao titular o direito de acesso, correção ou exclusão de seu perfil mediante solicitação via e-mail oficial.</p>
+                </div>
+            </div>
+
+            <div class="legal-notice">
+                <strong>AVISO DE RESPONSABILIDADE:</strong> É estritamente proibida a extração automatizada de dados (scraping) para fins comerciais ou marketing direto sem autorização prévia. O uso indevido sujeitará o infrator às sanções previstas em lei.
+            </div>
+
+            <div style="margin-top: 30px; overflow: hidden; display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 0.8rem; opacity: 0.7; margin: 0;">Contato: <a href="mailto:ipestart@ufla.br" style="color:var(--bright-cyan)">ipestart@ufla.br</a></p>
+                <button class="btn-close-lgpd" id="btn-accept-lgpd">Entendi e Aceito</button>
+            </div>
         </div>
     </footer>
 
@@ -155,12 +249,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.body.insertAdjacentHTML('beforeend', footerHTML);
 
+    // 3. Script VLibras
     const scriptVLibras = document.createElement('script');
     scriptVLibras.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
     scriptVLibras.onload = () => { new window.VLibras.Widget('https://vlibras.gov.br/app'); };
     document.body.appendChild(scriptVLibras);
 
+    // 4. Lógica do Card Jurídico LGPD
     const card = document.getElementById('card-lgpd');
-    document.getElementById('btn-toggle-lgpd').onclick = () => card.style.display = 'block';
-    document.getElementById('btn-accept-lgpd').onclick = () => card.style.display = 'none';
+    const toggleBtn = document.getElementById('btn-toggle-lgpd');
+    const acceptBtn = document.getElementById('btn-accept-lgpd');
+
+    toggleBtn.onclick = (e) => {
+        e.preventDefault();
+        card.style.display = 'block';
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
+    acceptBtn.onclick = () => {
+        card.style.display = 'none';
+    };
 });
