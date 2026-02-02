@@ -16,15 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
             font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
         }
 
-        /* Altura reduzida no scroll, mas sem sumir nada */
         #main-header.scrolled { height: 80px; }
 
-        /* LOGO - GARANTINDO VISIBILIDADE TOTAL */
+        /* LOGO - VISIBILIDADE TOTAL */
         .logo-link { 
             display: flex !important; 
             align-items: center; 
             flex-shrink: 0; 
-            min-width: 180px; /* Garante que o espaço da logo seja respeitado */
+            min-width: 180px;
             opacity: 1 !important;
             visibility: visible !important;
             text-decoration: none;
@@ -37,10 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
             display: block !important;
         }
         
-        /* Logo diminui no scroll, mas continua nítida */
         #main-header.scrolled .logo-img { height: 55px; }
 
-        /* Container do Menu */
+        /* CONTAINER DO MENU */
         .nav-container { 
             display: flex; 
             align-items: center; 
@@ -50,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         .nav-links { 
             display: flex; 
-            gap: 35px; 
+            gap: 30px; /* Espaçamento entre os links */
             list-style: none; 
             align-items: center; 
             margin: 0; 
@@ -61,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             color: #003366; 
             text-decoration: none; 
             font-weight: 700;
-            font-size: 1rem; 
+            font-size: 0.95rem; 
             text-transform: uppercase; 
             white-space: nowrap;
             transition: 0.2s;
@@ -85,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             align-items: center; 
             gap: 10px;
             cursor: pointer;
-            font-size: 1rem; 
+            font-size: 0.95rem; 
             font-weight: 800;
             text-transform: uppercase;
             border: none;
@@ -108,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 2100;
         }
 
-        /* Ponte invisível para o mouse não perder o foco */
         .nav-dropdown::after {
             content: "";
             position: absolute;
@@ -129,12 +126,12 @@ document.addEventListener('DOMContentLoaded', function() {
             gap: 12px;
             color: #003366 !important;
             text-transform: none !important;
-            font-size: 1rem !important;
+            font-size: 0.95rem !important;
             font-weight: 600 !important;
         }
         .dropdown-menu li a:hover { background: #f8fbfe; color: #00c2cb !important; }
 
-        /* Botão Mobile */
+        /* MOBILE */
         .mobile-menu-btn {
             display: none; font-size: 2.2rem; color: #003366; 
             cursor: pointer; background: none; border: none; margin-left: 20px;
@@ -167,6 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="nav-container">
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Início</a></li>
+                <li><a href="index.html#sobre">Nossa Missão</a></li>
                 <li><a href="cadastro.html">Quero Participar</a></li>
                 <li><a href="mentores.html">Mentores</a></li>
                 <li><a href="desafios.html">Desafios</a></li>
