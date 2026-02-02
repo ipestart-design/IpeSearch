@@ -838,3 +838,94 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     50% { transform: translateY(-5px); }
     100% { transform: translateY(0); }
 }
+/* --- ADIÇÕES PARA A SEÇÃO NOSSA MISSÃO --- */
+
+/* Layout em duas colunas */
+.mission-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 50px;
+    align-items: center;
+    text-align: left;
+}
+
+/* Destaques das Instituições */
+.highlight-ufla {
+    color: var(--primary-blue);
+    font-weight: 700;
+    border-bottom: 2px solid var(--bright-cyan);
+}
+
+.highlight-ipetech {
+    color: var(--primary-blue);
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(0, 194, 203, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.highlight-ipetech:hover {
+    background: var(--bright-cyan);
+    color: white;
+}
+
+/* Caixa de Impacto e Correção do Negrito */
+.mission-vision-box {
+    background: #f8fbfe;
+    padding: 25px;
+    border-left: 5px solid var(--primary-blue);
+    border-radius: 0 15px 15px 0;
+    margin-top: 30px;
+}
+
+/* Forçar Negrito */
+.mission-container strong, 
+.mission-container b {
+    font-weight: 850 !important;
+    color: var(--primary-blue);
+}
+
+.impact-text {
+    background: linear-gradient(120deg, rgba(0, 194, 203, 0.2) 0%, rgba(0, 194, 203, 0.2) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 35%;
+    background-position: 0 85%;
+}
+
+/* Visual do Ícone (Blob Animado) */
+.visual-wrapper {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: blobMorph 8s infinite alternate ease-in-out;
+}
+
+.mission-icon-main {
+    font-size: 110px;
+    color: var(--primary-blue);
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+}
+
+@keyframes blobMorph {
+    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    100% { border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%; }
+}
+
+/* Responsividade para o novo layout */
+@media (max-width: 992px) {
+    .mission-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .mission-visual {
+        order: -1;
+        margin-bottom: 40px;
+    }
+}
