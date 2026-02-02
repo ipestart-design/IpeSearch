@@ -16,23 +16,41 @@ document.addEventListener('DOMContentLoaded', function() {
             font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
         }
 
+        /* Altura reduzida no scroll, mas sem sumir nada */
         #main-header.scrolled { height: 80px; }
 
-        .logo-link { display: flex !important; align-items: center; flex-shrink: 0; }
-        .logo-img { height: 70px; width: auto; transition: 0.3s; }
+        /* LOGO - GARANTINDO VISIBILIDADE TOTAL */
+        .logo-link { 
+            display: flex !important; 
+            align-items: center; 
+            flex-shrink: 0; 
+            min-width: 180px; /* Garante que o espaço da logo seja respeitado */
+            opacity: 1 !important;
+            visibility: visible !important;
+            text-decoration: none;
+        }
+        
+        .logo-img { 
+            height: 70px; 
+            width: auto; 
+            transition: all 0.3s ease; 
+            display: block !important;
+        }
+        
+        /* Logo diminui no scroll, mas continua nítida */
         #main-header.scrolled .logo-img { height: 55px; }
 
-        /* Aumentando o espaçamento geral entre os itens do menu */
+        /* Container do Menu */
         .nav-container { 
             display: flex; 
             align-items: center; 
             margin-left: auto; 
-            gap: 40px; /* Mais espaço entre os links e o botão de pesquisa */
+            gap: 40px; 
         }
 
         .nav-links { 
             display: flex; 
-            gap: 35px; /* Mais espaço entre cada link individual */
+            gap: 35px; 
             list-style: none; 
             align-items: center; 
             margin: 0; 
@@ -50,12 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         .nav-links li a:hover { color: #00c2cb; }
 
-        /* --- CORREÇÃO DEFINITIVA DO BOTÃO PESQUISAR --- */
+        /* DROPDOWN PESQUISAR */
         .nav-dropdown { 
             position: relative; 
             display: inline-block; 
-            padding-bottom: 15px; /* "Ponte" para o mouse não perder o foco */
-            margin-bottom: -15px;
+            padding-bottom: 20px; 
+            margin-bottom: -20px;
         }
 
         .btn-pesquisa-header {
@@ -78,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .dropdown-menu {
             display: none; 
             position: absolute; 
-            top: 100%; /* Cola exatamente onde o padding da 'ponte' termina */
+            top: 100%; 
             right: 0; 
             background: white; 
             min-width: 230px; 
@@ -88,20 +106,20 @@ document.addEventListener('DOMContentLoaded', function() {
             list-style: none;
             border: 1px solid #f0f0f0;
             z-index: 2100;
-            margin-top: -5px; /* Ajuste fino de posicionamento */
         }
 
-        /* O segredo: Cria uma área invisível entre o botão e o menu */
+        /* Ponte invisível para o mouse não perder o foco */
         .nav-dropdown::after {
             content: "";
             position: absolute;
             top: 100%;
             left: 0;
             width: 100%;
-            height: 20px;
+            height: 25px;
             display: none;
         }
         .nav-dropdown:hover::after { display: block; }
+        .nav-dropdown:hover .dropdown-menu { display: block; }
 
         .dropdown-menu li { width: 100%; border: none !important; margin: 0 !important; }
         .dropdown-menu li a {
@@ -115,9 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
             font-weight: 600 !important;
         }
         .dropdown-menu li a:hover { background: #f8fbfe; color: #00c2cb !important; }
-        
-        /* Mostra o menu e a ponte ao pairar */
-        .nav-dropdown:hover .dropdown-menu { display: block; }
 
         /* Botão Mobile */
         .mobile-menu-btn {
@@ -126,6 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         @media (max-width: 1200px) {
+            #main-header { height: 80px; padding: 0 4%; }
+            .logo-img { height: 50px; }
             .mobile-menu-btn { display: block; }
             .nav-links {
                 position: fixed; top: 0; right: -100%; width: 300px; height: 100vh; 
