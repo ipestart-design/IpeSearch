@@ -1,103 +1,149 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Estilos isolados do Footer e ajustes de Z-Index
     const footerStyles = `
     <style>
         #main-footer {
-            background-color: var(--primary-blue);
-            color: rgba(255,255,255,0.8);
-            padding: 60px 20px;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: auto;
+            background: linear-gradient(to bottom, #003366, #002244);
+            color: #ffffff;
+            padding: 80px 5% 40px;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            position: relative;
+            overflow: hidden;
         }
-        .footer-logos img { height: 60px; width: auto; transition: 0.3s; }
-        .footer-links { margin-bottom: 25px; font-weight: 600; font-size: 0.85rem; }
-        .footer-links a { color: white; text-decoration: none; margin: 0 12px; transition: 0.3s; text-transform: uppercase; }
-        .footer-links a:hover { color: var(--bright-cyan); }
-        
-        /* Card LGPD Detalhado */
-        #card-lgpd {
-            display: none; max-width: 800px; margin: 30px auto 0; padding: 35px;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 15px; text-align: left; color: white; backdrop-filter: blur(15px);
-            line-height: 1.6; font-size: 0.9rem;
+
+        /* Elemento Decorativo de Fundo */
+        #main-footer::before {
+            content: "";
+            position: absolute;
+            top: -50px; left: -50px;
+            width: 200px; height: 200px;
+            background: rgba(0, 194, 203, 0.05);
+            border-radius: 50%;
+            filter: blur(50px);
         }
-        .lgpd-highlight { color: var(--bright-cyan); font-weight: 700; }
-        .lgpd-section { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-        [vw] { z-index: 999999 !important; position: fixed !important; }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px;
+            text-align: left;
+        }
 
+        .footer-brand img { height: 70px; margin-bottom: 20px; filter: brightness(0) invert(1); }
+        .footer-brand p { font-size: 0.9rem; opacity: 0.7; line-height: 1.6; max-width: 300px; }
+
+        .footer-column h4 {
+            color: var(--bright-cyan);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .footer-nav { list-style: none; padding: 0; }
+        .footer-nav li { margin-bottom: 12px; }
+        .footer-nav a { 
+            color: rgba(255,255,255,0.7); 
+            text-decoration: none; 
+            font-weight: 600; 
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .footer-nav a:hover { color: white; transform: translateX(5px); }
+
+        /* Botão IA Estilizado */
         .btn-footer-ia {
-            background: rgba(0, 194, 203, 0.1); border: 1px solid var(--bright-cyan);
-            color: var(--bright-cyan); padding: 8px 15px; border-radius: 50px;
-            cursor: pointer; font-weight: 700; margin-top: 20px; transition: 0.3s;
+            background: var(--gradient-tech);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0, 194, 203, 0.2);
+            transition: 0.3s;
         }
-        .btn-footer-ia:hover { background: var(--bright-cyan); color: var(--primary-blue); }
+        .btn-footer-ia:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(0, 194, 203, 0.4); }
+
+        .footer-bottom {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .dev-credit { font-size: 0.75rem; opacity: 0.5; }
+        
+        #card-lgpd {
+            display: none; 
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .footer-container { grid-template-columns: 1fr; text-align: center; }
+            .footer-brand p { margin: 0 auto; }
+            .footer-nav a:hover { transform: none; }
+            .footer-bottom { justify-content: center; text-align: center; }
+        }
     </style>
     `;
 
-    // 2. Estrutura HTML (Menus atualizados e Card LGPD completo)
     const footerHTML = `
     ${footerStyles}
     <footer id="main-footer">
-        <div class="footer-logos" style="margin-bottom: 35px;">
-            <a href="https://ufla.br" target="_blank">
+        <div class="footer-container">
+            <div class="footer-brand">
                 <img src="logo-ufla-branca.png" alt="UFLA">
-            </a>
-        </div>
-
-        <div class="footer-links">
-            <a href="index.html">Início</a>
-            <a href="cadastro.html">Quero Participar</a>
-            <a href="mentores.html">Mentores</a>
-            <a href="desafios.html">Desafios</a>
-            <a href="busca.html">Pesquisadores</a>
-            <a href="busca-empresas.html">Empresas</a>
-        </div>
-
-        <p>&copy; 2026 <strong>IPÊ CONECT</strong>. Conectando Ciência e Mercado.</p>
-        <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 5px;">Desenvolvido por Gabriel Fonseca - Bolsista IpêTech/UFLA</p>
-
-        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-            <button id="btn-toggle-lgpd" style="background:none; border:none; color:inherit; cursor:pointer; text-decoration:underline; font-size: 0.8rem; margin-top: 15px;">
-                Transparência e Proteção de Dados (LGPD)
-            </button>
-            <button class="btn-footer-ia" onclick="if(typeof toggleChat === 'function') toggleChat()">
-                <i class="fas fa-robot"></i> AJUDA DA IA
-            </button>
-        </div>
-
-        <div id="card-lgpd">
-            <div class="lgpd-section">
-                <h3 class="lgpd-highlight">🛡️ Transparência e Governança de Dados</h3>
-                <p>O <strong>IPÊ CONECT</strong> é uma plataforma de interesse público dedicada a fomentar a inovação. Nossa operação está em total conformidade com a <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018)</strong>.</p>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" class="lgpd-section">
-                <div>
-                    <span class="lgpd-highlight">FONTE DOS DADOS</span>
-                    <p style="font-size: 0.8rem;">Dados de pesquisadores são extraídos de bases públicas oficiais (Plataforma Lattes/CNPq). Dados empresariais são fornecidos voluntariamente pelas organizações parceiras.</p>
-                </div>
-                <div>
-                    <span class="lgpd-highlight">FINALIDADE</span>
-                    <p style="font-size: 0.8rem;">Promover conexões técnico-científicas, facilitar parcerias de P&D+I e fortalecer o ecossistema de inovação da UFLA.</p>
-                </div>
+                <p>O Ipê Conect é o ecossistema digital que une a excelência acadêmica da UFLA às demandas reais do mercado tecnológico.</p>
+                <button class="btn-footer-ia" onclick="if(typeof toggleChat === 'function') toggleChat()">
+                    <i class="fas fa-robot"></i> ASSISTENTE VIRTUAL
+                </button>
             </div>
 
-            <div class="lgpd-section">
-                <span class="lgpd-highlight">TRATAMENTO ÉTICO</span>
-                <ul style="font-size: 0.8rem; margin-top: 10px;">
-                    <li>Exibimos apenas dados profissionais e acadêmicos pertinentes.</li>
-                    <li>É vedado o uso destas informações para fins de spam ou extração automatizada (scraping).</li>
-                    <li>Garantimos ao titular o direito de retificação ou exclusão conforme o Art. 18 da LGPD.</li>
+            <div class="footer-column">
+                <h4>Navegação</h4>
+                <ul class="footer-nav">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="index.html#sobre">Nossa Missão</a></li>
+                    <li><a href="mentores.html">Mentores</a></li>
+                    <li><a href="desafios.html">Desafios</a></li>
                 </ul>
             </div>
 
-            <p style="font-size: 0.8rem; opacity: 0.8;">Solicitações de privacidade: <a href="mailto:ipestart@ufla.br" style="color: var(--bright-cyan);">ipestart@ufla.br</a></p>
-            
-            <div style="text-align: right;">
-                <button id="btn-accept-lgpd" style="background:var(--bright-cyan); border:none; padding:12px 25px; cursor:pointer; font-weight:bold; border-radius: 5px; color: var(--primary-blue);">CONCORDO E FECHAR</button>
+            <div class="footer-column">
+                <h4>Oportunidades</h4>
+                <ul class="footer-nav">
+                    <li><a href="cadastro.html">Quero Participar</a></li>
+                    <li><a href="busca.html">Pesquisadores</a></li>
+                    <li><a href="busca-empresas.html">Empresas</a></li>
+                    <li><a href="#" id="btn-toggle-lgpd">Privacidade (LGPD)</a></li>
+                </ul>
             </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 IPÊ CONECT. Todos os direitos reservados.</p>
+            <p class="dev-credit">Powered by Gabriel Fonseca - Bolsista IpêTech</p>
+        </div>
+
+        <div id="card-lgpd">
+            <h3 style="color:var(--bright-cyan)">🛡️ Proteção de Dados</h3>
+            <p style="font-size:0.85rem; opacity:0.8">Operamos sob a Lei 13.709/2018. Seus dados são usados exclusivamente para fins de conexão técnico-científica.</p>
+            <button id="btn-accept-lgpd" style="margin-top:15px; background:var(--bright-cyan); border:none; padding:8px 20px; border-radius:5px; cursor:pointer; font-weight:bold;">FECHAR</button>
         </div>
     </footer>
 
@@ -109,23 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.body.insertAdjacentHTML('beforeend', footerHTML);
 
-    // 4. Script VLibras
     const scriptVLibras = document.createElement('script');
     scriptVLibras.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
     scriptVLibras.onload = () => { new window.VLibras.Widget('https://vlibras.gov.br/app'); };
     document.body.appendChild(scriptVLibras);
 
-    // 5. Lógica LGPD
     const card = document.getElementById('card-lgpd');
-    const toggleBtn = document.getElementById('btn-toggle-lgpd');
-    const acceptBtn = document.getElementById('btn-accept-lgpd');
-
-    const toggleLGPD = () => {
-        const isVisible = card.style.display === 'block';
-        card.style.display = isVisible ? 'none' : 'block';
-        if (!isVisible) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    };
-
-    toggleBtn.addEventListener('click', toggleLGPD);
-    acceptBtn.addEventListener('click', toggleLGPD);
+    document.getElementById('btn-toggle-lgpd').onclick = () => card.style.display = 'block';
+    document.getElementById('btn-accept-lgpd').onclick = () => card.style.display = 'none';
 });
