@@ -838,8 +838,6 @@ a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
     50% { transform: translateY(-5px); }
     100% { transform: translateY(0); }
 }
-/* --- ADIÇÕES PARA A SEÇÃO NOSSA MISSÃO --- */
-
 /* Layout em duas colunas */
 .mission-container {
     display: grid;
