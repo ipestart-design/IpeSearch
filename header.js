@@ -1,15 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Adicionando a fonte Montserrat para um visual mais moderno e limpo
-    const fontLink = document.createElement('link');
-    fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap';
-    fontLink.rel = 'stylesheet';
-    document.head.appendChild(fontLink);
-
     const headerStyle = `
     <style>
         #main-header {
             background-color: #ffffff;
-            height: 100px; /* Aumentado para acomodar fontes maiores */
+            height: 100px; 
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -19,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 2000;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
-            font-family: 'Montserrat', sans-serif; /* Nova Fonte */
+            /* USANDO A MESMA FONTE DO SEU STYLE.CSS */
+            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
         }
 
         #main-header.scrolled { height: 80px; }
@@ -30,20 +25,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         .nav-container { display: flex; align-items: center; margin-left: auto; }
 
-        /* Links Principais Aumentados */
+        /* Links com tamanho aumentado (1rem = 16px) */
         .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; margin: 0; padding: 0; }
         .nav-links li a {
             color: #003366; 
             text-decoration: none; 
-            font-weight: 600;
-            font-size: 1rem; /* Aumentado */
+            font-weight: 700; /* Negrito para combinar com o estilo institucional */
+            font-size: 1rem; 
             text-transform: uppercase; 
             white-space: nowrap;
             transition: 0.2s;
         }
         .nav-links li a:hover { color: #00c2cb; }
 
-        /* --- CORREÇÃO DEFINITIVA DO PESQUISAR --- */
+        /* --- DROPDOWN PESQUISAR CORRIGIDO --- */
         .nav-dropdown { position: relative; display: inline-block; }
 
         .btn-pesquisa-header {
@@ -55,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
             align-items: center; 
             gap: 10px;
             cursor: pointer;
-            font-size: 1rem; /* Aumentado */
-            font-weight: 700;
+            font-size: 1rem; 
+            font-weight: 800;
             text-transform: uppercase;
             border: none;
             transition: 0.3s;
@@ -66,19 +61,19 @@ document.addEventListener('DOMContentLoaded', function() {
         .dropdown-menu {
             display: none; 
             position: absolute; 
-            top: calc(100% + 10px); /* Garante que apareça abaixo do botão */
+            top: 100%; 
             right: 0; 
             background: white; 
             min-width: 220px; 
             box-shadow: 0 10px 30px rgba(0,51,102,0.15);
-            border-radius: 15px; 
+            border-radius: 12px; 
             padding: 10px 0; 
             list-style: none;
             border: 1px solid #f0f0f0;
-            z-index: 2100;
+            margin-top: 15px; /* Espaço para não encostar no botão */
         }
 
-        .dropdown-menu li { width: 100%; border: none !important; }
+        .dropdown-menu li { width: 100%; border: none !important; margin: 0 !important; }
         .dropdown-menu li a {
             padding: 12px 20px;
             display: flex;
@@ -91,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         .dropdown-menu li a:hover { background: #f8fbfe; color: #00c2cb !important; }
         
-        /* Mostrar dropdown ao passar o mouse */
         .nav-dropdown:hover .dropdown-menu { display: block; }
 
         .mobile-menu-btn {
@@ -103,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
             margin-left: 20px;
         }
 
-        /* --- MOBILE --- */
         @media (max-width: 1150px) {
             .mobile-menu-btn { display: block; }
             .nav-links {
@@ -114,10 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             .nav-links.active { right: 0; }
             .nav-dropdown { width: 100%; }
-            .dropdown-menu { 
-                position: static; display: block; box-shadow: none; border: none; 
-                padding-left: 20px; background: #f9f9f9; margin-top: 10px;
-            }
+            .dropdown-menu { position: static; display: block; box-shadow: none; border: none; background: #f9f9f9; }
         }
     </style>
     `;
