@@ -43,9 +43,7 @@
                 </div>
                 
                 <div class="info-disclaimer">
-                    <div class="disclaimer-icon">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
+                    <div class="disclaimer-icon"><i class="fas fa-info-circle"></i></div>
                     <div class="disclaimer-content">
                         <p>As empresas listadas integram o <strong>ecossistema de inovação da UFLA/IpêTech</strong>.</p>
                     </div>
@@ -55,7 +53,6 @@
 
         <div id="counter" style="text-align: center; color: #5A6A85; font-weight: 500; margin-top: 30px;"></div>
         <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando dados...</div>
-
         <div class="results-container" id="resultsContainer"></div>
     </div>
 
@@ -82,30 +79,16 @@
                 </div>
 
                 <div class="info-grid">
-                    <div class="info-item">
-                        <strong>E-mail de Contato</strong>
-                        <p><a href="#" id="empresa-email"></a></p>
-                    </div>
-                    <div class="info-item">
-                        <strong>Telefone / WhatsApp</strong>
-                        <p id="empresa-tel"></p>
-                    </div>
-                    <div class="info-item">
-                        <strong>Site Oficial</strong>
-                        <p><a href="#" target="_blank" id="empresa-site"></a></p>
-                    </div>
-                    <div class="info-item">
-                        <strong>Especialidade</strong>
-                        <p id="empresa-especialidade"></p>
-                    </div>
+                    <div class="info-item"><strong>E-mail</strong><p><a href="#" id="empresa-email"></a></p></div>
+                    <div class="info-item"><strong>WhatsApp</strong><p id="empresa-tel"></p></div>
+                    <div class="info-item"><strong>Site</strong><p><a href="#" target="_blank" id="empresa-site"></a></p></div>
+                    <div class="info-item"><strong>Especialidade</strong><p id="empresa-especialidade"></p></div>
                 </div>
 
                 <h2 class="section-title">Sobre a Empresa</h2>
                 <div class="text-content" id="empresa-sobre"></div>
-
-                <h2 class="section-title">Produtos & Serviços Inovadores</h2>
+                <h2 class="section-title">Inovações</h2>
                 <div class="text-content" id="empresa-produtos"></div>
-
                 <div class="last-update" id="empresa-local"></div>
             </div>
         </div>
@@ -113,10 +96,53 @@
 
     <script src="header.js"></script>
     <script src="footer.js"></script>
-    
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatHTML = `
+        <style>
+            #chat-widget { position: fixed !important; bottom: 30px !important; right: 30px !important; z-index: 2147483647 !important; display: flex !important; flex-direction: column !important; align-items: flex-end !important; }
+            .btn-ia-flutuante { width: 70px !important; height: 70px !important; border-radius: 50% !important; background: linear-gradient(135deg, #003366, #00c2cb) !important; color: white !important; border: 2px solid white !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important; font-size: 28px !important; }
+            #chat-window { position: fixed; bottom: 110px; right: 30px; width: 350px; height: 480px; background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 2147483647; font-family: sans-serif; }
+        </style>
+        <div id="chat-widget">
+            <div class="chat-cta" onclick="toggleChat()" style="background:white; padding:10px 20px; border-radius:50px; margin-bottom:15px; cursor:pointer; box-shadow:0 4px-15px rgba(0,0,0,0.1); font-size:13px; border:1px solid #eee; color:#003366;">👋 Dúvidas? <strong>Fale com a IA!</strong></div>
+            <button class="btn-ia-flutuante" onclick="toggleChat()"><i class="fas fa-robot"></i></button>
+        </div>
+        <div id="chat-window">
+            <div style="background:#003366; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center;"><span style="font-weight:bold;">🤖 Ipê Assistant</span><button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer; font-size:20px;">&times;</button></div>
+            <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f9f9f9; display:flex; flex-direction:column; gap:10px; font-size:14px;"></div>
+            <div style="padding:15px; border-top:1px solid #eee; display:flex; gap:10px;">
+                <input type="text" id="chat-input" placeholder="Digite sua dúvida..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:20px; outline:none;">
+                <button onclick="sendChatMessage()" style="background:#00c2cb; color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer;">➤</button>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', chatHTML);
+
+        window.toggleChat = () => {
+            const win = document.getElementById('chat-window');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        };
+
+        window.sendChatMessage = async () => {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            const msgDiv = document.getElementById('chat-messages');
+            msgDiv.innerHTML += `<div style="align-self:flex-end; background:#00c2cb; color:white; padding:10px; border-radius:10px; max-width:80%;">${text}</div>`;
+            input.value = '';
+            try {
+                const response = await fetch('/.netlify/functions/chat', { method: 'POST', body: JSON.stringify({ message: text }) });
+                const data = await response.json();
+                msgDiv.innerHTML += `<div style="align-self:flex-start; background:white; color:#333; padding:10px; border-radius:10px; border:1px solid #eee; max-width:80%;">${data.reply}</div>`;
+                msgDiv.scrollTop = msgDiv.scrollHeight;
+            } catch (e) { msgDiv.innerHTML += `<div style="color:red; font-size:12px;">Erro de conexão.</div>`; }
+        };
+    });
+    </script>
+
     <script>
         const getFakeLogo = (text) => `https://placehold.co/80x80/003366/FFFFFF/png?text=${text.substring(0,2).toUpperCase()}`;
-
         const empresasFicticias = [
             { id: 1, nome: "AgroTech Solutions", setor: "Agrotech", especialidade: "Agricultura de Precisão", email: "contato@agrotech.fake", telefone: "(35) 3829-0001", site: "https://agrotech.fake", sobre: "Soluções IoT e IA para otimizar produção.", produtos: "Sensores IoT; Drones.", local: "Lavras, MG", logo: getFakeLogo("AgroTech") },
             { id: 2, nome: "BioSyntesis Lab", setor: "Biotecnologia", especialidade: "Bioinsumos", email: "lab@biosyntesis.fake", telefone: "(35) 3829-0002", site: "https://biosyntesis.fake", sobre: "Bioinsumos agrícolas e microrganismos.", produtos: "Biofungicidas; Inoculantes.", local: "Parque UFLA", logo: getFakeLogo("BioSyn") },
@@ -136,44 +162,33 @@
 
         function filtrarTag(tag) {
             document.getElementById('searchInput').value = tag;
-            document.getElementById('clearBtn').classList.remove('hidden');
             filtrarResultados(tag);
         }
 
         function filtrarResultados(termo) {
-            const termoLower = termo.toLowerCase().trim();
-            const filtrados = empresasFicticias.filter(emp => {
-                const textoGeral = `${emp.nome} ${emp.setor} ${emp.especialidade} ${emp.sobre} ${emp.produtos}`.toLowerCase();
-                return textoGeral.includes(termoLower);
-            });
+            const t = termo.toLowerCase().trim();
+            const filtrados = empresasFicticias.filter(emp => `${emp.nome} ${emp.setor} ${emp.especialidade}`.toLowerCase().includes(t));
             renderizarCards(filtrados);
         }
 
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
-            const counter = document.getElementById('counter');
             container.innerHTML = '';
-            counter.innerText = lista.length > 0 ? `${lista.length} empresas encontradas` : '';
-            
+            document.getElementById('counter').innerText = lista.length ? `${lista.length} empresas encontradas` : '';
             lista.forEach(emp => {
                 const card = document.createElement('div');
-                card.classList.add('card');
+                card.className = 'card';
                 card.onclick = () => abrirPerfil(emp);
                 card.innerHTML = `
                     <div class="empresa-card-header">
-                        <img src="${emp.logo}" alt="Logo ${emp.nome}" class="empresa-logo">
+                        <img src="${emp.logo}" alt="Logo" class="empresa-logo">
                         <div class="empresa-info">
                             <h3>${emp.nome}</h3>
                             <div class="empresa-setor">${emp.setor}</div>
                         </div>
                     </div>
-                    <div class="card-content-area">
-                        <div class="area-main"><strong>Especialidade:</strong> ${emp.especialidade}</div>
-                    </div>
-                    <div class="card-footer">
-                        <span style="font-size: 0.75rem; color: #aaa;">${emp.local}</span>
-                        <div class="card-hint">Ver perfil →</div>
-                    </div>
+                    <div class="card-content-area"><strong>Especialidade:</strong> ${emp.especialidade}</div>
+                    <div class="card-footer"><span>${emp.local}</span><div class="card-hint">Ver perfil →</div></div>
                 `;
                 container.appendChild(card);
             });
@@ -183,11 +198,11 @@
             document.getElementById('empresa-logo-modal').src = dados.logo;
             document.getElementById('empresa-nome').innerText = dados.nome;
             document.getElementById('empresa-setor').innerText = dados.setor;
-            const em = document.getElementById('empresa-email');
-            em.innerText = dados.email; em.href = `mailto:${dados.email}`;
+            document.getElementById('empresa-email').innerText = dados.email;
+            document.getElementById('empresa-email').href = `mailto:${dados.email}`;
             document.getElementById('empresa-tel').innerText = dados.telefone;
-            const site = document.getElementById('empresa-site');
-            site.innerText = dados.site.replace('https://', ''); site.href = dados.site;
+            document.getElementById('empresa-site').innerText = dados.site.replace('https://', '');
+            document.getElementById('empresa-site').href = dados.site;
             document.getElementById('empresa-especialidade').innerText = dados.especialidade;
             document.getElementById('empresa-sobre').innerText = dados.sobre;
             document.getElementById('empresa-produtos').innerText = dados.produtos;
@@ -200,9 +215,7 @@
         function fecharPerfil() {
             document.getElementById('profile-view').classList.add('hidden');
             document.getElementById('search-view').classList.remove('hidden');
-            window.scrollTo(0, 0);
         }
     </script>
-
 </body>
 </html>
