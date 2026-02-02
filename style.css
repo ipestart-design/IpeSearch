@@ -1,4 +1,4 @@
-/* ARQUIVO: style.css - VERSÃO INTEGRAL (800+ LINHAS) */
+/* ARQUIVO: style.css - VERSÃO FINAL COM CHAT FLUTUANTE E BALÃO CTA */
 
 /* --- 1. VARIÁVEIS GLOBAIS --- */
 :root {
@@ -103,6 +103,7 @@ nav a:hover::after { width: 100%; }
 }
 .hero { height: 100vh; min-height: 600px; }
 
+/* Ajuste específico para a seção de busca (fundo escuro para vídeo) */
 .search-section {
     background-color: #003366; 
     z-index: 1;
@@ -256,7 +257,755 @@ section { padding: 40px 20px; max-width: 1000px; margin: auto; }
 .text-content { line-height: 1.7; color: #444; white-space: pre-wrap; font-size: 1rem; }
 .last-update { margin-top: 40px; text-align: center; font-size: 0.8rem; color: #aaa; font-style: italic; }
 
-/* --- 8. FORMULÁRIO (VERSÃO MODERNIZADA) --- */
+/* --- 8. FORMULÁRIO (INPUTS & CHECKBOX) --- */
+form input:not([type="checkbox"]), form textarea {
+    width: 100%; padding: 18px; margin-bottom: 25px; background: #ffffff;
+    border: 2px solid #e2e8f0; color: var(--text-dark); border-radius: 10px; font-size: 1rem; transition: 0.3s;
+}
+form input:focus, form textarea:focus { outline: none; border-color: var(--bright-cyan); box-shadow: 0 0 0 4px rgba(0, 194, 203, 0.1); }
+form label:not(.consent-label) { color: var(--primary-blue); font-weight: 700; display: block; margin-bottom: 8px; }
+#status-message { display: none; margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; }
+.success { background-color: #d4edda; color: #155724; } .error { background-color: #f8d7da; color: #721c24; }
+
+/* Consentimento */
+.consent-wrapper { margin: 20px 0; display: flex; align-items: flex-start; gap: 12px; text-align: left; }
+.consent-checkbox { width: 18px; height: 18px; cursor: pointer; margin-top: 3px; }
+.consent-label { font-size: 0.85rem; color: #444; line-height: 1.4; cursor: pointer; }
+
+/* Ajuste de Espaçamento no Formulário */
+.contact-intro { margin-bottom: 40px; }
+
+/* --- 9. FOOTER --- */
+footer {
+    text-align: center; padding: 40px 20px; background: var(--primary-blue);
+    color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-top: 0; width: 100%;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+.footer-highlight { color: var(--bright-cyan); font-weight: 700; text-decoration: none; transition: 0.3s; }
+.footer-highlight:hover { color: #ffffff; text-decoration: underline; }
+
+/* --- 10. ESTATÍSTICAS E COMO FUNCIONA --- */
+.stats-bar {
+    background: linear-gradient(to bottom, var(--primary-blue), #002244);
+    padding: 80px 20px; color: white; text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 51, 102, 0.3); position: relative; z-index: 10; overflow: hidden;
+}
+.stats-grid { display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap; max-width: 1100px; margin: 0 auto; gap: 50px; }
+.stat-item { text-align: center; flex: 1; min-width: 220px; animation: fadeInUp 1s ease-out; animation-fill-mode: both; }
+.stat-item:nth-child(1) { animation-delay: 0.2s; }
+.stat-item:nth-child(2) { animation-delay: 0.4s; }
+.stat-item:nth-child(3) { animation-delay: 0.6s; }
+.icon-wrapper {
+    width: 90px; height: 90px; margin: 0 auto 25px auto;
+    background: rgba(255,255,255,0.05); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; position: relative;
+    box-shadow: 0 0 0 4px rgba(0, 194, 203, 0.2), 0 0 0 10px rgba(0, 194, 203, 0.1), 0 0 30px rgba(0, 194, 203, 0.3);
+    transition: transform 0.3s ease;
+}
+.stat-item:hover .icon-wrapper {
+    transform: scale(1.1); box-shadow: 0 0 0 4px rgba(0, 194, 203, 0.4), 0 0 0 12px rgba(0, 194, 203, 0.2), 0 0 50px rgba(0, 194, 203, 0.6);
+}
+.icon-wrapper svg { stroke: var(--bright-cyan); stroke-width: 1.5; }
+.stat-item h2 { font-size: 3rem; margin: 0; color: white; font-weight: 800; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+.stat-item p { color: var(--bright-cyan); font-size: 0.95rem; font-weight: 700; margin-top: 12px; text-transform: uppercase; letter-spacing: 1.5px; }
+
+/* Seção Como Funciona */
+#como-funciona { 
+    background-color: #f8fbfe; 
+    padding: 60px 20px;
+    margin-top: 80px; 
+}
+.section-intro { text-align: center; max-width: 800px; margin: 0 auto 60px auto; }
+.section-intro h3 { margin-bottom: 10px; }
+
+.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto; }
+.step-card {
+    background: white; padding: 50px 30px; border-radius: 20px;
+    border: 1px solid #dae3f0; text-align: center; transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); position: relative; overflow: hidden;
+}
+.step-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 51, 102, 0.1); border-color: var(--bright-cyan); }
+.step-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--bright-cyan); opacity: 0; transition: 0.3s; }
+.step-card:hover::before { opacity: 1; }
+.step-number { font-size: 4rem; font-weight: 900; color: rgba(0, 194, 203, 0.15); line-height: 1; margin-bottom: 10px; display: block; }
+.step-title { font-size: 1.6rem; color: var(--primary-blue); font-weight: 800; margin-bottom: 20px; }
+.step-text { font-size: 1.05rem; color: var(--text-gray); line-height: 1.7; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- 11. MENU MOBILE --- */
+.hamburger-btn { display: none; background: none; border: none; cursor: pointer; }
+.side-menu { 
+    position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; 
+    background: var(--primary-blue); box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+    z-index: 2000; transition: right 0.4s ease; display: flex; flex-direction: column;
+}
+.side-menu.active { right: 0; }
+.side-menu-content { padding: 80px 30px; display: flex; flex-direction: column; gap: 25px; }
+.side-menu-content a { color: white; text-decoration: none; font-size: 1.2rem; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+.menu-divider { border-color: rgba(255,255,255,0.1); margin: 20px 0; }
+.btn-side-cta { 
+    background: var(--bright-cyan) !important; color: white !important; 
+    padding: 15px; border-radius: 50px; text-align: center; border: none !important; 
+    margin-top: 10px; width: 100%; cursor: pointer;
+}
+.close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; color: white; font-size: 2.5rem; cursor: pointer; }
+
+/* --- 12. MEDIA QUERIES (MOBILE) --- */
+@media (max-width: 900px) { .steps-grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+    .desktop-nav, .desktop-only { display: none !important; }
+    .hamburger-btn { display: block; }
+    header, header.scrolled { padding: 0 20px; height: 70px; flex-direction: row !important; justify-content: space-between; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .header-spacer { height: 70px; }
+    .logo-img { max-height: 40px; } 
+    .hero { min-height: auto; padding-bottom: 50px; } 
+    .hero-content { margin-top: 40px; padding: 0 20px; }
+    .hero h2 { font-size: 2.2rem; } .hero p { font-size: 1.1rem; }
+    .search-section { padding: 40px 20px; min-height: auto; } 
+    .search-content-wrapper { margin-top: 40px; }
+    .search-title { font-size: 1.8rem; }
+    .results-container, .info-grid { grid-template-columns: 1fr; }
+    .profile-header { padding: 30px 20px; } .profile-header h1 { font-size: 1.6rem; } .profile-body { padding: 30px 20px; }
+    .quick-tags-container { gap: 8px; } .tag-btn { padding: 8px 14px; font-size: 0.75rem; }
+    footer { padding: 30px 20px; }
+    .stats-grid { flex-direction: column; gap: 40px; }
+    .stat-item { width: 100%; }
+    .step-card { padding: 30px 20px; }
+    #como-funciona { padding: 60px 20px; }
+    
+    .search-container-modern { height: 60px; }
+    #searchInput { padding-left: 20px !important; }
+}
+
+/* --- 13. ACESSIBILIDADE GERAL --- */
+a:focus, button:focus, input:focus, textarea:focus, [onclick]:focus {
+    outline: 3px solid var(--bright-cyan) !important;
+    outline-offset: 3px; box-shadow: 0 0 0 5px rgba(0, 194, 203, 0.3) !important;
+}
+
+/* --- 14. ORGANIZAÇÃO DE CARDS E SUBAREA --- */
+.card-content-area { flex-grow: 1; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
+.area-main { font-size: 0.95rem; color: var(--primary-blue); line-height: 1.4; font-weight: 600; }
+.subarea-box {
+    font-size: 0.8rem; color: #555; background: #f8f9fa; padding: 10px 12px;
+    border-radius: 6px; border-left: 3px solid var(--bright-cyan);
+    max-height: 85px; overflow-y: auto; line-height: 1.4; text-align: left;
+}
+.subarea-box span { font-weight: 800; color: var(--text-gray); display: block; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 4px; }
+.subarea-box::-webkit-scrollbar { width: 4px; }
+.subarea-box::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 10px; }
+.card h3 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 3.2rem; }
+
+/* --- 15. MODAL DE ESCOLHA (PESQUISA) --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 51, 102, 0.85); backdrop-filter: blur(5px);
+    z-index: 9999; display: none; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.modal-overlay.active { display: flex; opacity: 1; }
+
+.choice-card {
+    background: white; padding: 40px; border-radius: 20px;
+    text-align: center; max-width: 480px; width: 90%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3); position: relative;
+    transform: translateY(20px); transition: transform 0.3s ease;
+}
+.modal-overlay.active .choice-card { transform: translateY(0); }
+
+.choice-title { font-size: 1.8rem; color: #003366; margin-bottom: 10px; font-weight: 800; }
+.choice-text { color: #666; margin-bottom: 30px; font-size: 1.05rem; }
+
+.choice-buttons { display: flex; flex-direction: column; gap: 15px; }
+
+.btn-choice {
+    padding: 15px; border-radius: 50px; text-decoration: none;
+    font-weight: 700; font-size: 1.1rem; transition: 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    border: 2px solid transparent;
+}
+
+.btn-prof, .btn-empresa {
+    background: #003366;
+    color: white;
+    border: none;
+}
+.btn-prof:hover, .btn-empresa:hover {
+    background: #002244;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.close-modal {
+    position: absolute; top: 15px; right: 20px; font-size: 2rem;
+    color: #aaa; cursor: pointer; background: none; border: none;
+}
+.close-modal:hover { color: #003366; }
+
+/* --- 16. AVISO DE DADOS (DISCLAIMER) --- */
+.info-disclaimer {
+    background: rgba(255, 255, 255, 0.95); /* Branco sólido leitoso */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-left: 5px solid #00c2cb;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin: 40px auto 0 auto;
+    padding: 25px;
+    max-width: 800px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    text-align: left;
+    position: relative;
+    z-index: 5;
+}
+
+.disclaimer-icon {
+    flex-shrink: 0;
+    color: #003366; 
+    margin-top: 3px;
+    background: rgba(0, 194, 203, 0.2);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disclaimer-content {
+    font-size: 0.9rem;
+    color: #4a5568;      
+    line-height: 1.6;    
+    font-weight: 500;
+}
+
+.disclaimer-content strong {
+    color: #003366;
+    font-weight: 800;
+}
+
+#counter { margin-top: 30px; }
+
+/* Mobile: Ajuste do Disclaimer */
+@media (max-width: 600px) {
+    .info-disclaimer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+    }
+    .disclaimer-icon { margin-bottom: 15px; }
+}
+
+/* --- 17. SELOS DE CAMPUS (ESTILO MODERNO) --- */
+.card-header-badges {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 12px; /* Mais espaço para não colar */
+}
+
+.campus-badge {
+    display: inline-flex; /* Permite alinhar ícone e texto */
+    align-items: center;
+    gap: 6px; /* Espaço entre ícone e texto */
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 6px 14px; /* Mais preenchimento (Pílula) */
+    border-radius: 50px; /* Borda redondinha */
+    letter-spacing: 0.6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra suave */
+    transition: all 0.3s ease;
+    border: none; /* Remove borda dura antiga */
+}
+
+/* Efeito Hover no Card afeta o Badge */
+.card:hover .campus-badge {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+}
+
+/* Estilo do ícone SVG dentro do badge */
+.badge-icon {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.5; /* Ícone mais forte */
+}
+
+/* Badge Lavras (Azul Institucional) */
+.badge-lavras {
+    background-color: #eef6fc; /* Fundo azul bem claro */
+    color: #004a99; /* Texto azul forte */
+}
+.badge-lavras .badge-icon {
+    stroke: #004a99;
+}
+
+/* Badge Paraíso (Laranja de Destaque) */
+.badge-paraiso {
+    background-color: #fff5eb; /* Fundo laranja bem claro */
+    color: #d9534f; /* Texto laranja forte */
+}
+.badge-paraiso .badge-icon {
+    stroke: #d9534f;
+}
+
+/* Ajustes no Modal (Badges maiores) */
+#prof-badges-modal .campus-badge {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+}
+
+/* --- 18. ESTILOS DE EMPRESAS --- */
+.empresa-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.empresa-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #e0e6ed;
+    background-color: #fff;
+}
+.empresa-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #003366;
+}
+.empresa-setor {
+    font-size: 0.9rem;
+    color: #00c2cb;
+    font-weight: 500;
+}
+.source-badge {
+    background-color: #00c2cb !important;
+    color: #003366 !important;
+    border-color: #00a9b0 !important;
+}
+
+/* --- 19. BOTÃO DE COMPARTILHAMENTO (ATUALIZADO) --- */
+.footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-share-card {
+    background: #f0f2f5; /* CINZA NEUTRO */
+    border: 1px solid #dae3f0;
+    color: #5A6A85; /* Ícone cinza escuro */
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.btn-share-card:hover {
+    background: #25D366; /* Verde WhatsApp só no hover */
+    color: white;
+    transform: scale(1.15) rotate(-5deg);
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+    border-color: #25D366;
+}
+
+.btn-share-card svg {
+    width: 16px;
+    height: 16px;
+    fill: none; /* SVG de share usa stroke, não fill */
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+/* --- 20. CHAT FLUTUANTE (IPÊ ASSISTANT) --- */
+#chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#chat-btn {
+    background-color: #003366; /* Azul Oficial */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+#chat-btn:hover {
+    transform: scale(1.05);
+    background-color: #002244;
+}
+
+#chat-window {
+    display: none; /* Começa oculto */
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    flex-direction: column;
+    overflow: hidden;
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    border: 1px solid #e0e0e0;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+    background: #003366;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.chat-close {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0 5px;
+}
+
+#chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f4f6f9;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.msg {
+    padding: 12px 16px;
+    border-radius: 12px;
+    max-width: 85%;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+.msg-user {
+    background: #003366;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.msg-ai {
+    background: white;
+    color: #333;
+    align-self: flex-start;
+    border: 1px solid #e0e0e0;
+    border-bottom-left-radius: 2px;
+}
+
+.chat-input-area {
+    padding: 12px;
+    border-top: 1px solid #eee;
+    display: flex;
+    background: white;
+    align-items: center;
+}
+
+#chat-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 24px;
+    outline: none;
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+#chat-input:focus {
+    border-color: #003366;
+}
+
+#chat-send {
+    background: none;
+    border: none;
+    color: #003366;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+#chat-send:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Responsivo para celular */
+@media (max-width: 480px) {
+    #chat-window {
+        width: 90vw;
+        height: 70vh;
+        right: 0;
+        bottom: 70px;
+    }
+}
+
+/* --- 21. NOVO: BALÃO DE CHAMADA (CTA) --- */
+.chat-cta {
+    position: absolute;
+    bottom: 80px; /* Fica acima do botão */
+    right: 0;
+    background-color: white;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 12px; /* Borda arredondada estilosa */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    font-size: 14px;
+    color: #003366;
+    width: 220px;
+    display: none; /* Começa escondido */
+    z-index: 9998;
+    animation: flutuar 3s infinite ease-in-out;
+    border: 1px solid #e0e6ed;
+    cursor: pointer;
+}
+
+/* Triângulo (setinha) do balão */
+.chat-cta::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    right: 20px;
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+}
+
+/* Botãozinho de fechar o balão */
+.cta-close {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 10px;
+}
+
+.cta-close:hover {
+    color: red;
+}
+
+/* Animação suave para chamar atenção */
+@keyframes flutuar {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+/* --- ADIÇÕES PARA A SEÇÃO NOSSA MISSÃO --- */
+
+/* Layout em duas colunas */
+.mission-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 50px;
+    align-items: center;
+    text-align: left;
+}
+
+/* Destaques das Instituições */
+.highlight-ufla {
+    color: var(--primary-blue);
+    font-weight: 700;
+    border-bottom: 2px solid var(--bright-cyan);
+}
+
+.highlight-ipetech {
+    color: var(--primary-blue);
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(0, 194, 203, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.highlight-ipetech:hover {
+    background: var(--bright-cyan);
+    color: white;
+}
+
+/* Caixa de Impacto e Correção do Negrito */
+.mission-vision-box {
+    background: #f8fbfe;
+    padding: 25px;
+    border-left: 5px solid var(--primary-blue);
+    border-radius: 0 15px 15px 0;
+    margin-top: 30px;
+}
+
+/* Forçar Negrito */
+.mission-container strong, 
+.mission-container b {
+    font-weight: 850 !important;
+    color: var(--primary-blue);
+}
+
+.impact-text {
+    background: linear-gradient(120deg, rgba(0, 194, 203, 0.2) 0%, rgba(0, 194, 203, 0.2) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 35%;
+    background-position: 0 85%;
+}
+
+/* Visual do Ícone (Blob Animado) */
+.visual-wrapper {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: blobMorph 8s infinite alternate ease-in-out;
+}
+
+.mission-icon-main {
+    font-size: 110px;
+    color: var(--primary-blue);
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+}
+
+@keyframes blobMorph {
+    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    100% { border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%; }
+}
+
+/* Responsividade para o novo layout */
+@media (max-width: 992px) {
+    .mission-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .mission-visual {
+        order: -1;
+        margin-bottom: 40px;
+    }
+}
+
+/* ============================================================
+   ADIÇÕES: MISSÃO PREMIUM, CONTATO MODERNO E FIX DE CAMADAS
+   ============================================================ */
+
+/* 1. Layout da Missão (Duas Colunas + Visual Dinâmico) */
+.mission-container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 50px;
+    align-items: center;
+    text-align: left;
+}
+
+.highlight-ufla {
+    color: var(--primary-blue);
+    font-weight: 700;
+    border-bottom: 2px solid var(--bright-cyan);
+}
+
+.highlight-ipetech {
+    color: var(--primary-blue);
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(0, 194, 203, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+.highlight-ipetech:hover { background: var(--bright-cyan); color: white; }
+
+.mission-vision-box {
+    background: #f8fbfe;
+    padding: 25px;
+    border-left: 5px solid var(--primary-blue);
+    border-radius: 0 15px 15px 0;
+    margin-top: 30px;
+}
+
+/* Forçar Negrito Real (Resolução do problema de visibilidade) */
+.mission-container strong, 
+.mission-container b {
+    font-weight: 850 !important;
+    color: var(--primary-blue);
+}
+
+.impact-text {
+    background: linear-gradient(120deg, rgba(0, 194, 203, 0.25) 0%, rgba(0, 194, 203, 0.25) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 35%;
+    background-position: 0 85%;
+}
+
+.visual-wrapper {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: blobMorph 8s infinite alternate ease-in-out;
+}
+
+.mission-icon-main {
+    font-size: 110px;
+    color: var(--primary-blue);
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+}
+
+@keyframes blobMorph {
+    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    100% { border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%; }
+}
+
+/* 2. Layout de Contato Moderno (Informação + Formulário) */
 .contact-wrapper {
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
@@ -277,154 +1026,24 @@ section { padding: 40px 20px; max-width: 1000px; margin: auto; }
     border-radius: 12px; font-size: 1.2rem;
 }
 .contact-item span { display: block; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: #888; }
-.contact-item p { font-weight: 600; color: var(--primary-blue); margin: 0; font-size: 1.1rem; }
+.contact-item p { font-weight: 600; color: var(--primary-blue); margin: 0; }
 
 .modern-form { background: #f8fbfe; padding: 40px; border-radius: 20px; }
 .form-group { margin-bottom: 20px; }
 .form-group label { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 10px; }
 
-form input:not([type="checkbox"]), form textarea {
-    width: 100%; padding: 18px; margin-bottom: 25px; background: #ffffff;
-    border: 2px solid #e2e8f0; color: var(--text-dark); border-radius: 10px; font-size: 1rem; transition: 0.3s;
-}
-form input:focus, form textarea:focus { outline: none; border-color: var(--bright-cyan); box-shadow: 0 0 0 4px rgba(0, 194, 203, 0.1); }
-form label:not(.consent-label) { color: var(--primary-blue); font-weight: 700; display: block; margin-bottom: 8px; }
+/* 3. Fix de Camadas (Z-Index Máximo) */
+[vw] { z-index: 2147483647 !important; } /* VLibras no topo */
+#chat-widget { z-index: 2147483646 !important; } /* IA logo abaixo */
 
-#status-message { display: none; margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; }
-.success { background-color: #d4edda; color: #155724; } .error { background-color: #f8d7da; color: #721c24; }
-
-/* Consentimento */
-.consent-wrapper { margin: 20px 0; display: flex; align-items: flex-start; gap: 12px; text-align: left; }
-.consent-checkbox { width: 18px; height: 18px; cursor: pointer; margin-top: 3px; }
-.consent-label { font-size: 0.85rem; color: #444; line-height: 1.4; cursor: pointer; }
-
-/* --- 9. FOOTER --- */
-footer {
-    text-align: center; padding: 40px 20px; background: var(--primary-blue);
-    color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-top: 0; width: 100%;
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-.footer-highlight { color: var(--bright-cyan); font-weight: 700; text-decoration: none; transition: 0.3s; }
-.footer-highlight:hover { color: #ffffff; text-decoration: underline; }
-
-/* --- 10. ESTATÍSTICAS E COMO FUNCIONA --- */
-.stats-bar {
-    background: linear-gradient(to bottom, var(--primary-blue), #002244);
-    padding: 80px 20px; color: white; text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 51, 102, 0.3); position: relative; z-index: 10; overflow: hidden;
-}
-.stats-grid { display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap; max-width: 1100px; margin: 0 auto; gap: 50px; }
-.stat-item { text-align: center; flex: 1; min-width: 220px; animation: fadeInUp 1s ease-out; animation-fill-mode: both; }
-.stat-item h2 { font-size: 3rem; margin: 0; color: white; font-weight: 800; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-.stat-item p { color: var(--bright-cyan); font-size: 0.95rem; font-weight: 700; margin-top: 12px; text-transform: uppercase; letter-spacing: 1.5px; }
-
-/* Seção Como Funciona */
-#como-funciona { 
-    background-color: #f8fbfe; 
-    padding: 60px 20px;
-    margin-top: 80px; 
-}
-.section-intro { text-align: center; max-width: 800px; margin: 0 auto 60px auto; }
-.steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto; }
-.step-card {
-    background: white; padding: 50px 30px; border-radius: 20px;
-    border: 1px solid #dae3f0; text-align: center; transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03); position: relative; overflow: hidden;
-}
-.step-card:hover { transform: translateY(-10px); border-color: var(--bright-cyan); }
-.step-number { font-size: 4rem; font-weight: 900; color: rgba(0, 194, 203, 0.15); line-height: 1; margin-bottom: 10px; display: block; }
-.step-title { font-size: 1.6rem; color: var(--primary-blue); font-weight: 800; margin-bottom: 20px; }
-
-/* --- 11. MENU MOBILE --- */
-.hamburger-btn { display: none; background: none; border: none; cursor: pointer; }
-.side-menu { 
-    position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; 
-    background: var(--primary-blue); box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-    z-index: 2000; transition: right 0.4s ease; display: flex; flex-direction: column;
-}
-.side-menu.active { right: 0; }
-
-/* --- 12. MEDIA QUERIES (MOBILE) --- */
-@media (max-width: 900px) { .steps-grid { grid-template-columns: 1fr; } }
-@media (max-width: 768px) {
-    .contact-wrapper { grid-template-columns: 1fr; text-align: center; }
-    .contact-item { justify-content: center; }
-    .hero h2 { font-size: 2.2rem; } .hero p { font-size: 1.1rem; }
-}
-
-/* --- 13. ORGANIZAÇÃO DE CARDS E SUBAREA --- */
-.card-content-area { flex-grow: 1; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
-.area-main { font-size: 0.95rem; color: var(--primary-blue); line-height: 1.4; font-weight: 600; }
-.subarea-box {
-    font-size: 0.8rem; color: #555; background: #f8f9fa; padding: 10px 12px;
-    border-radius: 6px; border-left: 3px solid var(--bright-cyan);
-    max-height: 85px; overflow-y: auto;
-}
-
-/* --- 14. MODAL DE ESCOLHA --- */
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 51, 102, 0.85); backdrop-filter: blur(5px);
-    z-index: 9999; display: none; align-items: center; justify-content: center;
-}
-.modal-overlay.active { display: flex; opacity: 1; }
-
-/* --- 15. SELOS DE CAMPUS --- */
-.campus-badge {
-    display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem;
-    font-weight: 700; padding: 6px 14px; border-radius: 50px;
-}
-
-/* --- 16. BOTÃO DE COMPARTILHAMENTO --- */
-.btn-share-card {
-    background: #f0f2f5; border: 1px solid #dae3f0; color: #5A6A85; 
-    cursor: pointer; width: 32px; height: 32px; border-radius: 50%;
-}
-
-/* --- 17. CHAT FLUTUANTE (IPÊ ASSISTANT) & Z-INDEX FIX --- */
-[vw] { z-index: 2147483647 !important; } /* VLibras no Topo */
-#chat-widget { z-index: 2147483646 !important; position: fixed; bottom: 20px; right: 20px; }
-
-#chat-btn { background-color: #003366; color: white; border-radius: 50%; width: 60px; height: 60px; cursor: pointer; }
-
-/* --- 18. NOVO: NOSSA MISSÃO (NOVO LAYOUT) --- */
-.mission-container {
-    display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; text-align: left;
-}
-
-.highlight-ufla { color: var(--primary-blue); font-weight: 700; border-bottom: 2px solid var(--bright-cyan); }
-.highlight-ipetech { 
-    color: var(--primary-blue); font-weight: 700; text-decoration: none; 
-    background: rgba(0, 194, 203, 0.1); padding: 2px 6px; border-radius: 4px; transition: 0.3s;
-}
-
-.mission-vision-box { background: #f8fbfe; padding: 25px; border-left: 5px solid var(--primary-blue); border-radius: 0 15px 15px 0; margin-top: 30px; }
-
-/* Forçar Negrito */
-.mission-container strong, .mission-container b { font-weight: 850 !important; color: var(--primary-blue); }
-.impact-text { background: linear-gradient(120deg, rgba(0, 194, 203, 0.2) 0%, rgba(0, 194, 203, 0.2) 100%); background-repeat: no-repeat; background-size: 100% 35%; background-position: 0 85%; }
-
-.visual-wrapper {
-    width: 280px; height: 280px; margin: 0 auto;
-    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    display: flex; justify-content: center; align-items: center;
-    animation: blobMorph 8s infinite alternate ease-in-out;
-}
-.mission-icon-main { font-size: 110px; color: var(--primary-blue); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); }
-
-@keyframes blobMorph {
-    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
-    100% { border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%; }
-}
-
-@keyframes flutuar { 0% { transform: translateY(0); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0); } }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Responsividade adicional Missão */
+/* 4. Ajustes de Responsividade para as novas seções */
 @media (max-width: 992px) {
-    .mission-container { grid-template-columns: 1fr; text-align: center; }
+    .mission-container, .contact-wrapper {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 40px 20px !important;
+    }
     .mission-visual { order: -1; margin-bottom: 40px; }
+    .contact-item { justify-content: center; }
+    .mission-vision-box { border-left: none; border-top: 5px solid var(--primary-blue); border-radius: 0 0 15px 15px; }
 }
-
-/* --- FIM DO ARQUIVO --- */
