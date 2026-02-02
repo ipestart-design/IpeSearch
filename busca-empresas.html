@@ -96,50 +96,7 @@
 
     <script src="header.js"></script>
     <script src="footer.js"></script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const chatHTML = `
-        <style>
-            #chat-widget { position: fixed !important; bottom: 30px !important; right: 30px !important; z-index: 2147483647 !important; display: flex !important; flex-direction: column !important; align-items: flex-end !important; }
-            .btn-ia-flutuante { width: 70px !important; height: 70px !important; border-radius: 50% !important; background: linear-gradient(135deg, #003366, #00c2cb) !important; color: white !important; border: 2px solid white !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important; font-size: 28px !important; }
-            #chat-window { position: fixed; bottom: 110px; right: 30px; width: 350px; height: 480px; background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 2147483647; font-family: sans-serif; }
-        </style>
-        <div id="chat-widget">
-            <div class="chat-cta" onclick="toggleChat()" style="background:white; padding:10px 20px; border-radius:50px; margin-bottom:15px; cursor:pointer; box-shadow:0 4px-15px rgba(0,0,0,0.1); font-size:13px; border:1px solid #eee; color:#003366;">👋 Dúvidas? <strong>Fale com a IA!</strong></div>
-            <button class="btn-ia-flutuante" onclick="toggleChat()"><i class="fas fa-robot"></i></button>
-        </div>
-        <div id="chat-window">
-            <div style="background:#003366; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center;"><span style="font-weight:bold;">🤖 Ipê Assistant</span><button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer; font-size:20px;">&times;</button></div>
-            <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f9f9f9; display:flex; flex-direction:column; gap:10px; font-size:14px;"></div>
-            <div style="padding:15px; border-top:1px solid #eee; display:flex; gap:10px;">
-                <input type="text" id="chat-input" placeholder="Digite sua dúvida..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:20px; outline:none;">
-                <button onclick="sendChatMessage()" style="background:#00c2cb; color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer;">➤</button>
-            </div>
-        </div>`;
-        document.body.insertAdjacentHTML('beforeend', chatHTML);
-
-        window.toggleChat = () => {
-            const win = document.getElementById('chat-window');
-            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
-        };
-
-        window.sendChatMessage = async () => {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text) return;
-            const msgDiv = document.getElementById('chat-messages');
-            msgDiv.innerHTML += `<div style="align-self:flex-end; background:#00c2cb; color:white; padding:10px; border-radius:10px; max-width:80%;">${text}</div>`;
-            input.value = '';
-            try {
-                const response = await fetch('/.netlify/functions/chat', { method: 'POST', body: JSON.stringify({ message: text }) });
-                const data = await response.json();
-                msgDiv.innerHTML += `<div style="align-self:flex-start; background:white; color:#333; padding:10px; border-radius:10px; border:1px solid #eee; max-width:80%;">${data.reply}</div>`;
-                msgDiv.scrollTop = msgDiv.scrollHeight;
-            } catch (e) { msgDiv.innerHTML += `<div style="color:red; font-size:12px;">Erro de conexão.</div>`; }
-        };
-    });
-    </script>
+    <script src="chat.js"></script>
 
     <script>
         const getFakeLogo = (text) => `https://placehold.co/80x80/003366/FFFFFF/png?text=${text.substring(0,2).toUpperCase()}`;
@@ -216,6 +173,18 @@
             document.getElementById('profile-view').classList.add('hidden');
             document.getElementById('search-view').classList.remove('hidden');
         }
+
+        // Lógica do botão Limpar
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        searchInput.addEventListener('input', () => {
+            clearBtn.classList.toggle('hidden', !searchInput.value);
+        });
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.classList.add('hidden');
+            filtrarResultados('');
+        });
     </script>
 </body>
 </html>
