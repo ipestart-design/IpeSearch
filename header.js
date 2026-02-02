@@ -1,113 +1,122 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Adicionando a fonte Montserrat para um visual mais moderno e limpo
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+
     const headerStyle = `
     <style>
         #main-header {
             background-color: #ffffff;
-            height: 90px;
+            height: 100px; /* Aumentado para acomodar fontes maiores */
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Garante logo na ponta esquerda e menu na direita */
+            justify-content: space-between;
             padding: 0 5%;
             position: fixed;
             top: 0; left: 0; width: 100%;
             z-index: 2000;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif; /* Nova Fonte */
         }
 
-        #main-header.scrolled { height: 70px; }
+        #main-header.scrolled { height: 80px; }
 
-        /* Ajuste da Logo - Forçando visibilidade total */
-        .logo-link { 
-            display: flex !important; 
-            align-items: center; 
-            min-width: 150px; /* Impede que a logo suma em telas grandes */
-            opacity: 1 !important; 
-            visibility: visible !important;
-        }
-        
-        .logo-img { 
-            height: 60px; 
-            width: auto; 
-            transition: 0.3s; 
-        }
-        
-        #main-header.scrolled .logo-img { height: 45px; }
+        .logo-link { display: flex !important; align-items: center; flex-shrink: 0; }
+        .logo-img { height: 70px; width: auto; transition: 0.3s; }
+        #main-header.scrolled .logo-img { height: 55px; }
 
-        /* Menu Desktop */
-        .nav-links { 
-            display: flex; 
-            gap: 25px; 
-            list-style: none; 
-            align-items: center; 
-            margin: 0; 
-        }
+        .nav-container { display: flex; align-items: center; margin-left: auto; }
 
+        /* Links Principais Aumentados */
+        .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; margin: 0; padding: 0; }
         .nav-links li a {
             color: #003366; 
             text-decoration: none; 
-            font-weight: 700;
-            font-size: 0.85rem; 
+            font-weight: 600;
+            font-size: 1rem; /* Aumentado */
             text-transform: uppercase; 
-            transition: 0.3s;
+            white-space: nowrap;
+            transition: 0.2s;
         }
         .nav-links li a:hover { color: #00c2cb; }
 
-        /* Botão Pesquisar Premium */
+        /* --- CORREÇÃO DEFINITIVA DO PESQUISAR --- */
+        .nav-dropdown { position: relative; display: inline-block; }
+
         .btn-pesquisa-header {
             background: #00c2cb; 
             color: white !important; 
-            padding: 10px 22px; 
+            padding: 12px 25px; 
             border-radius: 50px; 
             display: flex; 
             align-items: center; 
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(0, 194, 203, 0.2);
+            gap: 10px;
+            cursor: pointer;
+            font-size: 1rem; /* Aumentado */
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-pesquisa-header:hover { background: #00a9b0; transform: translateY(-2px); }
+
+        .dropdown-menu {
+            display: none; 
+            position: absolute; 
+            top: calc(100% + 10px); /* Garante que apareça abaixo do botão */
+            right: 0; 
+            background: white; 
+            min-width: 220px; 
+            box-shadow: 0 10px 30px rgba(0,51,102,0.15);
+            border-radius: 15px; 
+            padding: 10px 0; 
+            list-style: none;
+            border: 1px solid #f0f0f0;
+            z-index: 2100;
         }
 
-        /* Menu Mobile - Botão Hambúrguer */
+        .dropdown-menu li { width: 100%; border: none !important; }
+        .dropdown-menu li a {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #003366 !important;
+            text-transform: none !important;
+            font-size: 0.95rem !important;
+            font-weight: 600 !important;
+        }
+        .dropdown-menu li a:hover { background: #f8fbfe; color: #00c2cb !important; }
+        
+        /* Mostrar dropdown ao passar o mouse */
+        .nav-dropdown:hover .dropdown-menu { display: block; }
+
         .mobile-menu-btn {
             display: none; 
-            font-size: 1.8rem; 
+            font-size: 2rem; 
             color: #003366; 
             cursor: pointer; 
-            background: none; 
-            border: none;
-            padding: 5px;
-            line-height: 1;
+            background: none; border: none;
+            margin-left: 20px;
         }
 
-        /* --- RESPONSIVIDADE --- */
-        @media (max-width: 1024px) {
+        /* --- MOBILE --- */
+        @media (max-width: 1150px) {
+            .mobile-menu-btn { display: block; }
             .nav-links {
-                position: fixed; 
-                top: 0; 
-                right: -100%; 
-                width: 280px; 
-                height: 100vh; 
-                background: white; 
-                flex-direction: column; 
-                padding: 100px 30px; 
-                box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-                gap: 25px; 
-                align-items: flex-start;
+                position: fixed; top: 0; right: -100%; width: 300px; height: 100vh; 
+                background: white; flex-direction: column; padding: 100px 30px; 
+                box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s ease; 
+                gap: 25px; align-items: flex-start;
             }
-
             .nav-links.active { right: 0; }
-            .mobile-menu-btn { display: block; } /* Aparece apenas no mobile */
-            
-            .nav-links li { width: 100%; }
-            .nav-links li a { font-size: 1.1rem; display: block; width: 100%; }
-            
-            /* Dropdown adaptado para mobile */
-            .nav-dropdown .dropdown-menu { 
-                position: static; 
-                display: block; 
-                background: #f8f9fa; 
-                box-shadow: none;
-                margin-top: 10px;
-                padding-left: 15px;
+            .nav-dropdown { width: 100%; }
+            .dropdown-menu { 
+                position: static; display: block; box-shadow: none; border: none; 
+                padding-left: 20px; background: #f9f9f9; margin-top: 10px;
             }
         }
     </style>
@@ -120,25 +129,27 @@ document.addEventListener('DOMContentLoaded', function() {
             <img src="logo.png" alt="IPÊ CONECT" class="logo-img">
         </a>
         
-        <nav>
+        <div class="nav-container">
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Início</a></li>
                 <li><a href="cadastro.html">Quero Participar</a></li>
                 <li><a href="mentores.html">Mentores</a></li>
                 <li><a href="desafios.html">Desafios</a></li>
                 <li class="nav-dropdown">
-                    <a href="#" class="btn-pesquisa-header">Pesquisar <i class="fas fa-chevron-down"></i></a>
+                    <div class="btn-pesquisa-header">
+                        <i class="fas fa-search"></i> Pesquisar <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                    </div>
                     <ul class="dropdown-menu">
-                        <li><a href="busca.html">Pesquisadores</a></li>
-                        <li><a href="busca-empresas.html">Empresas</a></li>
+                        <li><a href="busca.html"><i class="fas fa-user-graduate"></i> Pesquisadores</a></li>
+                        <li><a href="busca-empresas.html"><i class="fas fa-building"></i> Empresas</a></li>
                     </ul>
                 </li>
             </ul>
-        </nav>
 
-        <button class="mobile-menu-btn" id="mobileBtn">
-            <i class="fas fa-bars"></i>
-        </button>
+            <button class="mobile-menu-btn" id="mobileBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </header>
     `;
 
@@ -150,21 +161,11 @@ document.addEventListener('DOMContentLoaded', function() {
     mobileBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         navLinks.classList.toggle('active');
-        const icon = mobileBtn.querySelector('i');
-        icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-times');
+        mobileBtn.querySelector('i').classList.toggle('fa-bars');
+        mobileBtn.querySelector('i').classList.toggle('fa-times');
     });
 
-    // Fecha o menu ao clicar em qualquer lugar fora dele
-    document.addEventListener('click', (e) => {
-        if (!navLinks.contains(e.target) && !mobileBtn.contains(e.target)) {
-            navLinks.classList.remove('active');
-            mobileBtn.querySelector('i').classList.add('fa-bars');
-            mobileBtn.querySelector('i').classList.remove('fa-times');
-        }
-    });
-
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', () => {
         const header = document.getElementById('main-header');
         if (window.scrollY > 50) header.classList.add('scrolled');
         else header.classList.remove('scrolled');
