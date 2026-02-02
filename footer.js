@@ -69,9 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .signature-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             background: rgba(255, 255, 255, 0.05);
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: 0.3s ease;
@@ -80,13 +80,20 @@ document.addEventListener('DOMContentLoaded', function() {
         .signature-container:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--bright-cyan);
+            transform: translateY(-2px);
+        }
+
+        .signature-details {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
         }
 
         .signature-text {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.5);
         }
 
         .signature-name {
@@ -197,9 +204,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <p style="opacity: 0.7; font-size: 0.9rem;">&copy; 2026 IPÊ CONECT. Todos os direitos reservados.</p>
             
             <div class="signature-container">
-                <span class="signature-text">Desenvolvido por</span>
-                <span class="signature-name">GABRIEL FONSECA</span>
-                <i class="fas fa-code" style="color: var(--bright-cyan); font-size: 0.8rem; margin-left: 5px;"></i>
+                <i class="fas fa-code" style="color: var(--bright-cyan); font-size: 1.2rem;"></i>
+                <div class="signature-details">
+                    <span class="signature-text">Desenvolvido por</span>
+                    <span class="signature-name">GABRIEL FONSECA • BOLSISTA IPÊTECH</span>
+                </div>
             </div>
         </div>
 
