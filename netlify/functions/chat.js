@@ -1,146 +1,204 @@
-// --- CONFIGURAÇÃO ---
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbnwsZ8uZG9R0ienKTzjHlIAu4OIZcf0yIIi4wZSVVLlJrKKpAB0189mgr-oEoCYkp0I-Y18a6zDoV/pub?output=csv";
+// ===== CHAT FLUTUANTE IPÊ ASSISTANT - INTEGRADO COM NETLIFY =====
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // HTML do Chat Widget
+    const chatHTML = `
+        <div id="chat-widget">
+            <!-- Balão de Chamada (CTA) -->
+            <div class="chat-cta" id="chatCta">
+                <span class="cta-close" id="ctaClose">&times;</span>
+                👋 Olá! Precisa de ajuda? Fale comigo!
+            </div>
 
-// Cache Global
-let cacheDados = null;
-let ultimaAtualizacao = 0;
+            <!-- Botão Principal -->
+            <button id="chat-btn" aria-label="Abrir chat">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </button>
 
-// --- FUNÇÃO 1: LER DADOS ---
-async function carregarDadosPlanilha() {
-    const agora = Date.now();
-    if (cacheDados && (agora - ultimaAtualizacao < 3600000)) return cacheDados;
+            <!-- Janela do Chat -->
+            <div id="chat-window">
+                <div class="chat-header">
+                    <span>🤖 Ipê Assistant</span>
+                    <button class="chat-close" id="chat-close">&times;</button>
+                </div>
+                
+                <div id="chat-messages">
+                    <div class="msg msg-ai">
+                        Olá! Sou o Ipê Assistant 🌳<br>
+                        Como posso ajudar você hoje?
+                    </div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <input 
+                        type="text" 
+                        id="chat-input" 
+                        placeholder="Digite sua mensagem..."
+                        autocomplete="off"
+                    />
+                    <button id="chat-send" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
 
-    try {
-        const response = await fetch(SHEET_URL);
-        if (!response.ok) return "Erro ao baixar dados.";
-        
-        const textoCSV = await response.text();
-        const linhas = textoCSV.split('\n');
-        if (linhas.length < 2) return "Base vazia.";
+    // Inserir o chat no body
+    document.body.insertAdjacentHTML('beforeend', chatHTML);
 
-        const cabecalho = linhas[0].toLowerCase().split(',').map(c => c.replace(/"/g, '').trim());
-        const idxNome = cabecalho.findIndex(c => c.includes("nome"));
-        const idxDepto = cabecalho.findIndex(c => c.includes("departamento") || c.includes("unidade"));
-        const idxEmail = cabecalho.findIndex(c => c.includes("e-mail"));
-        const idxArea = cabecalho.findIndex(c => c.includes("área") || c.includes("atuação"));
+    // Elementos
+    const chatBtn = document.getElementById('chat-btn');
+    const chatWindow = document.getElementById('chat-window');
+    const chatClose = document.getElementById('chat-close');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatCta = document.getElementById('chatCta');
+    const ctaClose = document.getElementById('ctaClose');
 
-        if (idxNome === -1) return "Erro base.";
+    let chatOpen = false;
+    let aguardandoResposta = false;
 
-        const lista = [];
-        for (let i = 1; i < linhas.length; i++) {
-            const colunas = linhas[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || linhas[i].split(',');
-            if (!colunas || colunas.length <= idxNome) continue;
+    // ===== MOSTRAR BALÃO CTA APÓS 5 SEGUNDOS =====
+    setTimeout(() => {
+        if (!chatOpen && localStorage.getItem('ctaClosed') !== 'true') {
+            chatCta.style.display = 'block';
+        }
+    }, 5000);
 
-            const limpar = (t) => t ? t.replace(/^"|"$/g, '').trim() : "";
-            const nome = limpar(colunas[idxNome]);
-            if (!nome) continue;
+    // Fechar o balão CTA
+    ctaClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        chatCta.style.display = 'none';
+        localStorage.setItem('ctaClosed', 'true');
+    });
 
-            const depto = idxDepto > -1 ? limpar(colunas[idxDepto]) : "UFLA";
-            const email = idxEmail > -1 ? limpar(colunas[idxEmail]) : "Não informado";
+    // Clicar no balão abre o chat
+    chatCta.addEventListener('click', () => {
+        openChat();
+        chatCta.style.display = 'none';
+    });
+
+    // ===== ABRIR/FECHAR CHAT =====
+    function openChat() {
+        chatWindow.style.display = 'flex';
+        chatBtn.style.display = 'none';
+        chatCta.style.display = 'none';
+        chatOpen = true;
+        chatInput.focus();
+    }
+
+    function closeChat() {
+        chatWindow.style.display = 'none';
+        chatBtn.style.display = 'flex';
+        chatOpen = false;
+    }
+
+    chatBtn.addEventListener('click', openChat);
+    chatClose.addEventListener('click', closeChat);
+
+    // ===== HABILITAR/DESABILITAR BOTÃO ENVIAR =====
+    chatInput.addEventListener('input', () => {
+        if (aguardandoResposta) return;
+        chatSend.disabled = chatInput.value.trim() === '';
+    });
+
+    // ===== ENVIAR MENSAGEM =====
+    async function sendMessage() {
+        const text = chatInput.value.trim();
+        if (!text || aguardandoResposta) return;
+
+        // Adicionar mensagem do usuário
+        addMessage(text, 'user');
+        chatInput.value = '';
+        chatSend.disabled = true;
+        aguardandoResposta = true;
+
+        // Mostrar "digitando..."
+        const typingDiv = addMessage('Digitando...', 'ai', true);
+
+        try {
+            // **CHAMADA PARA SUA FUNÇÃO NETLIFY**
+            const response = await fetch('/.netlify/functions/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text })
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro na requisição');
+            }
+
+            const data = await response.json();
             
-            let expertise = [];
-            if (idxArea > -1) expertise.push(limpar(colunas[idxArea]));
+            // Remover "digitando..."
+            if (typingDiv && typingDiv.parentNode) {
+                typingDiv.remove();
+            }
 
-            lista.push(`ESPECIALISTA: ${nome} | DEPTO: ${depto} | CONTATO: ${email} | EXPERTISE: ${expertise.join(', ')}`);
+            // Adicionar resposta da IA (com suporte a HTML)
+            addMessage(data.reply || 'Desculpe, não consegui processar sua mensagem.', 'ai');
+
+        } catch (error) {
+            console.error('Erro ao enviar mensagem:', error);
+            
+            // Remover "digitando..."
+            if (typingDiv && typingDiv.parentNode) {
+                typingDiv.remove();
+            }
+
+            addMessage('⚠️ Desculpe, ocorreu um erro. Tente novamente.', 'ai');
+        } finally {
+            aguardandoResposta = false;
+            chatSend.disabled = chatInput.value.trim() === '';
+        }
+    }
+
+    // Enviar ao clicar no botão
+    chatSend.addEventListener('click', sendMessage);
+
+    // Enviar ao pressionar Enter
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !aguardandoResposta) {
+            sendMessage();
+        }
+    });
+
+    // ===== ADICIONAR MENSAGEM =====
+    function addMessage(text, sender, isTyping = false) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `msg msg-${sender}`;
+        
+        // Se for mensagem da IA, permitir HTML (negrito, quebra de linha)
+        if (sender === 'ai' && !isTyping) {
+            msgDiv.innerHTML = text;
+        } else {
+            msgDiv.textContent = text;
         }
         
-        const resultado = lista.join('\n');
-        cacheDados = resultado;
-        ultimaAtualizacao = agora;
-        return resultado;
-
-    } catch (e) {
-        return "Erro técnico.";
-    }
-}
-
-// --- FUNÇÃO 2: O CÉREBRO ---
-exports.handler = async function(event, context) {
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS'
-    };
-
-    if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
-
-    try {
-        const API_KEY = process.env.GEMINI_API_KEY; 
-        if (!API_KEY) return { statusCode: 200, headers, body: JSON.stringify({ reply: "⚠️ Erro: Chave API ausente." }) };
-
-        const body = JSON.parse(event.body || '{}');
-        const dadosUFLA = await carregarDadosPlanilha();
-
-        // 🔥 PROMPT CORRIGIDO PARA NÃO REPETIR E NÃO CORTAR 🔥
-        const promptSistema = `
-          Você é o 'Ipê Assistant', IA de Inovação da UFLA.
-          
-          BASE DE CONHECIMENTO:
-          ---
-          ${dadosUFLA.substring(0, 30000)}
-          ---
-          
-          PERGUNTA DO USUÁRIO: "${body.message}"
-          
-          REGRAS ESTRITAS DE RESPOSTA:
-          
-          1. **QUANDO SE APRESENTAR:** - APENAS se o usuário disser "Oi", "Olá", "Tudo bem" ou nada mais.
-             - Texto padrão: "Olá! Sou o Ipê Assistant. Conecto você a pesquisadores, empresas e mentores da UFLA. Como posso ajudar?"
-          
-          2. **QUANDO NÃO SE APRESENTAR (IMPORTANTE):**
-             - Se o usuário fez uma pergunta específica (ex: "Como faço café?", "Quem pesquisa solos?"), **NÃO** comece com "Olá, sou o Ipê...".
-             - Vá **DIRETO** para a resposta da pergunta.
-          
-          3. **LIGAÇÃO COM A UFLA (Steering):**
-             - Responda a dúvida do usuário de forma útil.
-             - IMEDIATAMENTE após responder, conecte com a UFLA: "Aliás, para aprofundar nisso, recomendo..."
-          
-          4. **EVITAR CORTES (Resumo Inteligente):**
-             - Ao sugerir pesquisadores, cite **NO MÁXIMO 2 NOMES** mais relevantes para não estourar o limite de texto.
-             - Se houver muitos, diga: "E outros especialistas do departamento."
-          
-          5. **FORMATAÇÃO:**
-             - Use <b>Nome do Professor</b>.
-             - Use <br> para pular linhas.
-        `;
-
-        const configGeracao = {
-            temperature: 0.6, // Diminuí um pouco para ela ser mais focada e menos "tagarela"
-            maxOutputTokens: 2048, // AUMENTEI O DOBRO para evitar cortar frases
-        };
-
-        const urlGoogle = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
-        
-        const respostaGoogle = await fetch(urlGoogle, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: promptSistema }] }],
-                generationConfig: configGeracao
-            })
-        });
-
-        if (!respostaGoogle.ok) throw new Error("Google API Error");
-
-        const jsonGoogle = await respostaGoogle.json();
-        
-        if (!jsonGoogle.candidates || !jsonGoogle.candidates[0].content) {
-             throw new Error("Sem resposta da IA");
+        if (isTyping) {
+            msgDiv.style.fontStyle = 'italic';
+            msgDiv.style.opacity = '0.7';
         }
-
-        const textoResposta = jsonGoogle.candidates[0].content.parts[0].text;
-
-        return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify({ reply: textoResposta })
-        };
-
-    } catch (error) {
-        return {
-            statusCode: 200, 
-            headers,
-            body: JSON.stringify({ reply: `Desculpe, tive uma falha de conexão. Pode repetir?` })
-        };
+        
+        chatMessages.appendChild(msgDiv);
+        
+        // Scroll automático
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        return msgDiv;
     }
-};
+
+    // ===== PREVENIR MÚLTIPLOS CLIQUES =====
+    chatSend.addEventListener('click', (e) => {
+        if (aguardandoResposta) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }, true);
+});
