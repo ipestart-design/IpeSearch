@@ -43,9 +43,7 @@
                 </div>
                 
                 <div class="info-disclaimer">
-                    <div class="disclaimer-icon">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
+                    <div class="disclaimer-icon"><i class="fas fa-info-circle"></i></div>
                     <div class="disclaimer-content">
                         <p>Dados extraídos de fontes públicas oficiais. Divergências refletem a base original do Lattes no momento da coleta.</p>
                     </div>
@@ -54,7 +52,7 @@
         </section>
 
         <div id="counter" style="text-align: center; color: #5A6A85; font-weight: 500; margin-top: 30px;"></div>
-        <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando dados...</div>
+        <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando pesquisadores...</div>
 
         <div class="results-container" id="resultsContainer"></div>
     </div>
@@ -70,40 +68,22 @@
         <div class="profile-card">
             <div class="profile-header">
                 <h1 id="prof-nome">Nome do Professor</h1>
-                <div id="prof-campus-badge-modal" style="margin-top: 10px;"></div>
                 <span class="dept-badge" id="prof-dept">Departamento</span>
             </div>
 
             <div class="profile-body">
                 <div style="background: #eef4ff; border-left: 4px solid #003366; padding: 15px 20px; margin-bottom: 25px; border-radius: 6px; font-size: 0.85rem; color: #334e68;">
-                    <strong>🛡️ Uso Ético:</strong> As informações abaixo são de caráter público e destinam-se a parcerias de inovação e pesquisa.
+                    <strong>🛡️ Uso Ético:</strong> As informações abaixo são de caráter público e destinam-se a parcerias de inovação, pesquisa e extensão.
                 </div>
 
                 <div class="info-grid">
-                    <div class="info-item">
-                        <label>E-mail Institucional</label>
-                        <p><a href="#" id="prof-email"></a></p>
-                    </div>
-                    <div class="info-item">
-                        <label>Telefone / Ramal</label>
-                        <p id="prof-tel"></p>
-                    </div>
-                    <div class="info-item">
-                        <label>Área de Atuação</label>
-                        <p id="prof-area"></p>
-                    </div>
-                    <div class="info-item">
-                        <label>Especialidades</label>
-                        <p id="prof-subarea"></p>
-                    </div>
+                    <div class="info-item"><strong>E-mail Institucional</strong><p><a href="#" id="prof-email"></a></p></div>
+                    <div class="info-item"><strong>Área de Atuação</strong><p id="prof-area"></p></div>
                 </div>
 
-                <h2 class="section-title">Biografia</h2>
+                <h2 class="section-title">Biografia / Apresentação</h2>
                 <div class="text-content" id="prof-apresentacao"></div>
-
-                <h2 class="section-title">Projetos de Pesquisa</h2>
-                <div class="text-content" id="prof-projetos"></div>
-
+                
                 <div class="last-update" id="prof-update"></div>
             </div>
         </div>
@@ -111,6 +91,52 @@
 
     <script src="header.js"></script>
     <script src="footer.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatHTML = `
+        <style>
+            #chat-widget { position: fixed !important; bottom: 30px !important; right: 30px !important; z-index: 2147483647 !important; display: flex !important; flex-direction: column !important; align-items: flex-end !important; }
+            .btn-ia-flutuante { width: 70px !important; height: 70px !important; border-radius: 50% !important; background: linear-gradient(135deg, #003366, #00c2cb) !important; color: white !important; border: 2px solid white !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important; font-size: 28px !important; transition: transform 0.3s ease !important; }
+            .btn-ia-flutuante:hover { transform: scale(1.1) !important; }
+            #chat-window { position: fixed; bottom: 110px; right: 30px; width: 350px; height: 480px; background: white; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 2147483647; font-family: sans-serif; }
+        </style>
+        <div id="chat-widget">
+            <div id="chat-cta" onclick="toggleChat()" style="background:white; padding:10px 20px; border-radius:50px; margin-bottom:15px; cursor:pointer; box-shadow:0 4px-15px rgba(0,0,0,0.1); font-size:13px; border:1px solid #eee; color:#003366;">👋 Dúvidas? <strong>Fale com a IA!</strong></div>
+            <button class="btn-ia-flutuante" onclick="toggleChat()"><i class="fas fa-robot"></i></button>
+        </div>
+        <div id="chat-window">
+            <div style="background:#003366; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center;"><span style="font-weight:bold;">🤖 Ipê Assistant</span><button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer; font-size:20px;">&times;</button></div>
+            <div id="chat-messages" style="flex:1; padding:15px; overflow-y:auto; background:#f9f9f9; display:flex; flex-direction:column; gap:10px; font-size:14px;"></div>
+            <div style="padding:15px; border-top:1px solid #eee; display:flex; gap:10px;">
+                <input type="text" id="chat-input" placeholder="Digite sua dúvida..." style="flex:1; padding:10px; border:1px solid #ddd; border-radius:20px; outline:none;">
+                <button onclick="sendChatMessage()" style="background:#00c2cb; color:white; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer;">➤</button>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', chatHTML);
+
+        window.toggleChat = () => {
+            const win = document.getElementById('chat-window');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+            if(document.getElementById('chat-cta')) document.getElementById('chat-cta').style.display = 'none';
+        };
+
+        window.sendChatMessage = async () => {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            const msgDiv = document.getElementById('chat-messages');
+            msgDiv.innerHTML += `<div style="align-self:flex-end; background:#00c2cb; color:white; padding:10px; border-radius:10px; max-width:80%;">${text}</div>`;
+            input.value = '';
+            try {
+                const response = await fetch('/.netlify/functions/chat', { method: 'POST', body: JSON.stringify({ message: text }) });
+                const data = await response.json();
+                msgDiv.innerHTML += `<div style="align-self:flex-start; background:white; color:#333; padding:10px; border-radius:10px; border:1px solid #eee; max-width:80%;">${data.reply}</div>`;
+                msgDiv.scrollTop = msgDiv.scrollHeight;
+            } catch (e) { msgDiv.innerHTML += `<div style="color:red; font-size:12px;">Erro de conexão.</div>`; }
+        };
+    });
+    </script>
 
     <script>
         const SHEET_ID = atob("MXo1bVNkeUxuSkc3elpjNnk0RTZhYXJQUXROMmsyckRLTFFEUzM4d2Rfc0E=");
@@ -121,7 +147,6 @@
             return texto ? texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() : "";
         }
 
-        // Carregamento Inicial
         window.onload = async function() {
             const loading = document.getElementById('loading');
             loading.style.display = 'block';
@@ -169,10 +194,10 @@
         function abrirPerfil(d) {
             document.getElementById('prof-nome').innerText = d.Nome;
             document.getElementById('prof-dept').innerText = d.Departamento;
-            document.getElementById('prof-email').innerText = d.Email;
-            document.getElementById('prof-email').href = `mailto:${d.Email}`;
-            document.getElementById('prof-area').innerText = d.Area;
-            document.getElementById('prof-apresentacao').innerText = d.Apresentacao;
+            document.getElementById('prof-email').innerText = d.Email || 'Não informado';
+            document.getElementById('prof-email').href = d.Email ? `mailto:${d.Email}` : '#';
+            document.getElementById('prof-area').innerText = d.Area || 'Não informada';
+            document.getElementById('prof-apresentacao').innerText = d.Apresentacao || 'Sem biografia disponível.';
             document.getElementById('search-view').classList.add('hidden');
             document.getElementById('profile-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -188,11 +213,27 @@
             return lines.map(line => {
                 const cols = line.split(',');
                 return {
-                    Nome: cols[1], Departamento: cols[2], Email: cols[3],
-                    Area: cols[5], Apresentacao: cols[9]
+                    Nome: cols[1]?.trim(), 
+                    Departamento: cols[2]?.trim(), 
+                    Email: cols[3]?.trim(),
+                    Area: cols[5]?.trim(), 
+                    Apresentacao: cols[9]?.trim()
                 };
             }).filter(p => p.Nome);
         }
+
+        // Lógica do botão Limpar
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        searchInput.addEventListener('input', () => {
+            clearBtn.classList.toggle('hidden', !searchInput.value);
+            filtrarResultados(searchInput.value);
+        });
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.classList.add('hidden');
+            filtrarResultados('');
+        });
     </script>
 </body>
 </html>
