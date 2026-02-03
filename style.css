@@ -359,11 +359,11 @@ footer {
     header, header.scrolled { padding: 0 20px; height: 70px; flex-direction: row !important; justify-content: space-between; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
     .header-spacer { height: 70px; }
     .logo-img { max-height: 40px; } 
-    .hero { min-height: auto; padding: 90px 20px 50px 20px !important; } 
-    .hero-content { margin-top: 0 !important; padding: 0 20px; }
+    .hero { min-height: auto; padding-bottom: 50px; } 
+    .hero-content { margin-top: 40px; padding: 0 20px; }
     .hero h2 { font-size: 2.2rem; } .hero p { font-size: 1.1rem; }
-    .search-section { padding: 60px 20px 40px 20px !important; min-height: auto; } 
-    .search-content-wrapper { margin-top: 20px !important; }
+    .search-section { padding: 40px 20px; min-height: auto; } 
+    .search-content-wrapper { margin-top: 40px; }
     .search-title { font-size: 1.8rem; }
     .results-container, .info-grid { grid-template-columns: 1fr; }
     .profile-header { padding: 30px 20px; } .profile-header h1 { font-size: 1.6rem; } .profile-body { padding: 30px 20px; }
