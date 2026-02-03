@@ -172,8 +172,9 @@
                 </div>
             </div>
 
-            <form id="contactForm" action="https://formsubmit.co/ipestart@ufla.br" method="POST" class="modern-form">
+            <form id="contactForm" class="modern-form">
                 <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="Novo Contato via Site IPÊ CONECT">
                 
                 <div class="form-group">
                     <label><i class="fas fa-user"></i> Nome Completo</label>
@@ -201,6 +202,10 @@
                     <span>Enviar Mensagem</span>
                     <i class="fas fa-paper-plane"></i>
                 </button>
+
+                <div id="formSuccess" style="display:none; margin-top: 15px; text-align: center; color: #00c2cb; font-weight: 600;">
+                    <i class="fas fa-check-circle"></i> Mensagem enviada com sucesso!
+                </div>
             </form>
         </div>
     </section>
@@ -211,7 +216,54 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Lógica dos Contadores
+        // --- LÓGICA DO FORMULÁRIO (AJAX) ---
+        const contactForm = document.getElementById('contactForm');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const formSuccess = document.getElementById('formSuccess');
+        const originalBtnContent = btnSubmit.innerHTML;
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede o redirecionamento padrão
+
+            // Estado de carregamento
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = 'Enviando... <i class="fas fa-spinner fa-spin"></i>';
+
+            // Coleta os dados
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData.entries());
+
+            // Envia via Fetch API para o FormSubmit AJAX endpoint
+            fetch("https://formsubmit.co/ajax/ipestart@ufla.br", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Sucesso
+                formSuccess.style.display = 'block';
+                contactForm.reset(); // Limpa o formulário
+                
+                // Restaura o botão após 3 segundos e esconde a mensagem
+                setTimeout(() => {
+                    formSuccess.style.display = 'none';
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = originalBtnContent;
+                }, 5000);
+            })
+            .catch(error => {
+                // Erro
+                alert('Ocorreu um erro ao enviar. Por favor, tente novamente.');
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalBtnContent;
+            });
+        });
+
+        // --- LÓGICA DOS CONTADORES (MANTIDA) ---
         const counters = document.querySelectorAll('.counter');
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
@@ -229,7 +281,7 @@
         const stats = document.querySelector('.stats-bar');
         if(stats) observer.observe(stats);
 
-        // Rolagem Suave
+        // --- ROLAGEM SUAVE (MANTIDA) ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
