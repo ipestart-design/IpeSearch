@@ -489,4 +489,4 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
         return typingDiv;
     }
-}); Como posso ajudar?
+});
