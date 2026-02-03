@@ -1,7 +1,8 @@
 {
-  "name": "ipe-search-backend",
+  "name": "ipe-conect",
   "version": "1.0.0",
+  "description": "IPÊ CONECT - Plataforma de Inovação UFLA",
   "dependencies": {
-    "@google/generative-ai": "^0.1.3"
+    "node-fetch": "^2.6.7"
   }
 }
