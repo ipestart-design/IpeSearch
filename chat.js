@@ -1,21 +1,18 @@
 // ===== CHAT FLUTUANTE IPÊ ASSISTANT - COMPLETO =====
-// Recursos: Memória de sessão + Reconhecimento de voz + Integração Netlify + Supabase
+// Recursos: Memória de sessão + Reconhecimento de voz + Integração Netlify + Supabase Unificado
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // ===== CONFIGURAÇÃO SUPABASE COM PROTEÇÃO DE INSTÂNCIA =====
+    // ===== CONFIGURAÇÃO SUPABASE UNIFICADA =====
     const SUPABASE_URL = 'https://zfcoyirqxythradtiatn.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY295aXJxeHl0aHJhZHRpYXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMDU1OTMsImV4cCI6MjA4NTY4MTU5M30.akTDpUp4Sg25-1x77-xXLQ758MKHrAJ328LalYOq94U'; 
-    
-    let _supabase = null;
-    if (window.supabase) {
-        // Usa a instância existente ou cria uma nova salvando globalmente no navegador
-        if (!window.supabaseClientInstance) {
-            window.supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        }
-        _supabase = window.supabaseClientInstance;
+
+    // Esta lógica garante que apenas UM cliente GoTrue seja criado no navegador
+    if (window.supabase && !window.supabaseClientInstance) {
+        window.supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     }
-    
+    const _supabase = window.supabaseClientInstance;
+
     // ===== HTML DO WIDGET =====
     const chatHTML = `
         <style>
@@ -28,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 flex-direction: column !important;
                 align-items: flex-end !important;
             }
-
             .chat-cta {
                 background: white;
                 padding: 12px 20px;
@@ -43,12 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 animation: flutuar 3s infinite ease-in-out;
                 font-family: 'Segoe UI', sans-serif;
             }
-
             @keyframes flutuar {
                 0%, 100% { transform: translateY(0); }
                 50% { transform: translateY(-5px); }
             }
-
             .btn-ia-flutuante {
                 width: 70px !important;
                 height: 70px !important;
@@ -64,11 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 font-size: 28px !important;
                 transition: transform 0.3s ease !important;
             }
-
-            .btn-ia-flutuante:hover {
-                transform: scale(1.1) !important;
-            }
-
+            .btn-ia-flutuante:hover { transform: scale(1.1) !important; }
             #chat-window {
                 position: fixed;
                 bottom: 110px;
@@ -84,7 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 z-index: 2147483646;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
-
             .chat-header {
                 background: #003366;
                 color: white;
@@ -95,203 +84,56 @@ document.addEventListener('DOMContentLoaded', function() {
                 font-weight: 700;
                 font-size: 1rem;
             }
-
             .chat-close {
-                background: none;
-                border: none;
-                color: white;
-                cursor: pointer;
-                font-size: 24px;
-                line-height: 1;
-                padding: 0;
+                background: none; border: none; color: white;
+                cursor: pointer; font-size: 24px; line-height: 1; padding: 0;
                 transition: transform 0.2s;
             }
-
-            .chat-close:hover {
-                transform: rotate(90deg);
-            }
-
+            .chat-close:hover { transform: rotate(90deg); }
             #chat-messages {
-                flex: 1;
-                padding: 15px;
-                overflow-y: auto;
-                background: #f4f6f9;
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-                font-size: 14px;
+                flex: 1; padding: 15px; overflow-y: auto; background: #f4f6f9;
+                display: flex; flex-direction: column; gap: 12px; font-size: 14px;
             }
-
-            .msg {
-                padding: 12px 15px;
-                border-radius: 12px;
-                max-width: 85%;
-                line-height: 1.5;
-                word-wrap: break-word;
-            }
-
-            .msg-user {
-                align-self: flex-end;
-                background: #00c2cb;
-                color: white;
-                border-bottom-right-radius: 4px;
-            }
-
-            .msg-ai {
-                align-self: flex-start;
-                background: white;
-                color: #333;
-                border: 1px solid #e0e6ed;
-                border-bottom-left-radius: 4px;
-            }
-
-            .msg-ai strong, .msg-ai b {
-                color: #003366;
-                font-weight: 700;
-            }
-
-            .typing-indicator {
-                align-self: flex-start;
-                background: white;
-                border: 1px solid #e0e6ed;
-                padding: 12px 15px;
-                border-radius: 12px;
-                font-style: italic;
-                opacity: 0.7;
-                animation: pulse 1.5s infinite;
-            }
-
-            @keyframes pulse {
-                0%, 100% { opacity: 0.7; }
-                50% { opacity: 1; }
-            }
-
-            .chat-input-area {
-                padding: 15px;
-                border-top: 1px solid #e0e6ed;
-                display: flex;
-                gap: 10px;
-                background: white;
-                align-items: center;
-            }
-
-            #chat-input {
-                flex: 1;
-                padding: 12px 15px;
-                border: 1px solid #ddd;
-                border-radius: 24px;
-                outline: none;
-                font-size: 14px;
-                transition: border-color 0.2s;
-                font-family: inherit;
-            }
-
-            #chat-input:focus {
-                border-color: #00c2cb;
-            }
-
-            .chat-btn {
-                background: none;
-                border: none;
-                color: #003366;
-                cursor: pointer;
-                font-size: 20px;
-                padding: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.2s;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-            }
-
-            .chat-btn:hover:not(:disabled) {
-                background: #f0f4f8;
-                transform: scale(1.1);
-            }
-
-            .chat-btn:disabled {
-                opacity: 0.4;
-                cursor: not-allowed;
-            }
-
-            .chat-btn.recording {
-                color: #dc3545;
-                animation: pulse-red 1s infinite;
-            }
-
-            @keyframes pulse-red {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0.6; }
-            }
-
-            #chat-send {
-                background: #00c2cb;
-                color: white;
-            }
-
-            #chat-send:hover:not(:disabled) {
-                background: #00a9b0;
-            }
-
+            .msg { padding: 12px 15px; border-radius: 12px; max-width: 85%; line-height: 1.5; word-wrap: break-word; }
+            .msg-user { align-self: flex-end; background: #00c2cb; color: white; border-bottom-right-radius: 4px; }
+            .msg-ai { align-self: flex-start; background: white; color: #333; border: 1px solid #e0e6ed; border-bottom-left-radius: 4px; }
+            .msg-ai strong, .msg-ai b { color: #003366; font-weight: 700; }
+            .typing-indicator { align-self: flex-start; background: white; border: 1px solid #e0e6ed; padding: 12px 15px; border-radius: 12px; font-style: italic; opacity: 0.7; animation: pulse 1.5s infinite; }
+            @keyframes pulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+            .chat-input-area { padding: 15px; border-top: 1px solid #e0e6ed; display: flex; gap: 10px; background: white; align-items: center; }
+            #chat-input { flex: 1; padding: 12px 15px; border: 1px solid #ddd; border-radius: 24px; outline: none; font-size: 14px; transition: border-color 0.2s; font-family: inherit; }
+            #chat-input:focus { border-color: #00c2cb; }
+            .chat-btn { background: none; border: none; color: #003366; cursor: pointer; font-size: 20px; padding: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 50%; width: 40px; height: 40px; }
+            .chat-btn:hover:not(:disabled) { background: #f0f4f8; transform: scale(1.1); }
+            .chat-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+            .chat-btn.recording { color: #dc3545; animation: pulse-red 1s infinite; }
+            @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+            #chat-send { background: #00c2cb; color: white; }
+            #chat-send:hover:not(:disabled) { background: #00a9b0; }
             @media (max-width: 480px) {
-                #chat-window {
-                    width: calc(100vw - 20px);
-                    height: calc(100vh - 120px);
-                    right: 10px;
-                    bottom: 90px;
-                }
-                #chat-widget {
-                    right: 15px;
-                    bottom: 15px;
-                }
+                #chat-window { width: calc(100vw - 20px); height: calc(100vh - 120px); right: 10px; bottom: 90px; }
+                #chat-widget { right: 15px; bottom: 15px; }
             }
         </style>
-
         <div id="chat-widget">
-            <div class="chat-cta" id="chatCta">
-                👋 Dúvidas? <strong>Fale com a IA!</strong>
-            </div>
-            
-            <button class="btn-ia-flutuante" id="chatBtn" aria-label="Abrir chat">
-                <i class="fas fa-robot"></i>
-            </button>
+            <div class="chat-cta" id="chatCta"> 👋 Dúvidas? <strong>Fale com a IA!</strong> </div>
+            <button class="btn-ia-flutuante" id="chatBtn" aria-label="Abrir chat"> <i class="fas fa-robot"></i> </button>
         </div>
-
         <div id="chat-window">
-            <div class="chat-header">
-                <span>🤖 Ipê Assistant</span>
-                <button class="chat-close" id="chatClose">&times;</button>
-            </div>
-            
+            <div class="chat-header"> <span>🤖 Ipê Assistant</span> <button class="chat-close" id="chatClose">&times;</button> </div>
             <div id="chat-messages">
-                <div class="msg msg-ai">
-                    Olá! 👋 Sou o <strong>Ipê Assistant</strong>.<br>
-                    Como posso ajudar você hoje?
-                </div>
+                <div class="msg msg-ai"> Olá! 👋 Sou o <strong>Ipê Assistant</strong>.<br> Como posso ajudar você hoje? </div>
             </div>
-            
             <div class="chat-input-area">
-                <button class="chat-btn" id="voiceBtn" title="Gravar áudio">
-                    <i class="fas fa-microphone"></i>
-                </button>
-                <input 
-                    type="text" 
-                    id="chat-input" 
-                    placeholder="Digite ou grave sua mensagem..."
-                    autocomplete="off"
-                />
-                <button class="chat-btn" id="chat-send" disabled title="Enviar">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                <button class="chat-btn" id="voiceBtn" title="Gravar áudio"> <i class="fas fa-microphone"></i> </button>
+                <input type="text" id="chat-input" placeholder="Digite ou grave sua mensagem..." autocomplete="off" />
+                <button class="chat-btn" id="chat-send" disabled title="Enviar"> <i class="fas fa-paper-plane"></i> </button>
             </div>
         </div>
     `;
 
     document.body.insertAdjacentHTML('beforeend', chatHTML);
 
-    const chatWidget = document.getElementById('chat-widget');
     const chatBtn = document.getElementById('chatBtn');
     const chatWindow = document.getElementById('chat-window');
     const chatClose = document.getElementById('chatClose');
@@ -312,18 +154,12 @@ document.addEventListener('DOMContentLoaded', function() {
         recognition = new SpeechRecognition();
         recognition.lang = 'pt-BR';
         recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            chatInput.value = transcript;
+            chatInput.value = event.results[0][0].transcript;
             chatSend.disabled = false;
-            isRecording = false;
-            voiceBtn.classList.remove('recording');
-            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            stopRecording();
         };
-        recognition.onerror = () => {
-            isRecording = false;
-            voiceBtn.classList.remove('recording');
-            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-        };
+        recognition.onerror = () => stopRecording();
+        recognition.onend = () => stopRecording();
     } else {
         voiceBtn.style.display = 'none';
     }
@@ -360,15 +196,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!recognition) return;
         if (isRecording) {
             recognition.stop();
-            isRecording = false;
-            voiceBtn.classList.remove('recording');
-            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
         } else {
             recognition.start();
             isRecording = true;
             voiceBtn.classList.add('recording');
             voiceBtn.innerHTML = '<i class="fas fa-stop"></i>';
         }
+    }
+
+    function stopRecording() {
+        isRecording = false;
+        voiceBtn.classList.remove('recording');
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
     }
 
     async function sendMessage() {
@@ -390,13 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({ message: text, history: historicoConversa })
             });
 
-            if (!response.ok) throw new Error();
             const data = await response.json();
             typingDiv.remove();
-            addMessage(data.reply, 'ai');
+            addMessage(data.reply || 'Desculpe, não consegui processar.', 'ai');
             historicoConversa.push({ role: 'assistant', content: data.reply });
         } catch (error) {
-            typingDiv.remove();
+            if(typingDiv) typingDiv.remove();
             addMessage('⚠️ Erro ao conectar com a IA.', 'ai');
         } finally {
             aguardandoResposta = false;
