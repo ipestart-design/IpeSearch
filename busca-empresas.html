@@ -95,10 +95,15 @@
     <script src="chat.js"></script>
 
     <script>
-        // 1. CONFIGURAÇÃO SUPABASE
+        // 1. CONFIGURAÇÃO SUPABASE UNIFICADA
         const SUPABASE_URL = 'https://zfcoyirqxythradtiatn.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY295aXJxeHl0aHJhZHRpYXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMDU1OTMsImV4cCI6MjA4NTY4MTU5M30.akTDpUp4Sg25-1x77-xXLQ758MKHrAJ328LalYOq94U'; 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Cria a instância apenas se ela ainda não existir globalmente
+        if (!window.supabaseClientInstance) {
+            window.supabaseClientInstance = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+        const _supabase = window.supabaseClientInstance;
 
         let empresasData = [];
 
@@ -110,7 +115,7 @@
             try {
                 loading.style.display = 'block';
                 const { data, error } = await _supabase
-                    .from('Empresas')
+                    .from('Empresas') // Nome da tabela com E maiúsculo conforme seu banco
                     .select('*')
                     .order('nome');
 
@@ -118,8 +123,8 @@
                 empresasData = data;
                 renderizarCards(empresasData);
             } catch (e) {
-                console.error(e);
-                container.innerHTML = "<p style='text-align:center;'>Erro ao carregar dados do banco.</p>";
+                console.error("Erro ao carregar banco:", e);
+                container.innerHTML = "<p style='text-align:center;'>Erro ao conectar com o banco de dados.</p>";
             } finally {
                 loading.style.display = 'none';
             }
