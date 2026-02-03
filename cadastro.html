@@ -14,14 +14,14 @@
     <style>
         /* ===== FULLSCREEN HERO COM DESIGN PREMIUM ===== */
         .cadastro-hero {
-            height: 100vh;
+            height: 100vh; /* Ocupa a tela toda */
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            /* Imagem de fundo em 4K com overlay profundo */
-            background: linear-gradient(135deg, rgba(0, 31, 63, 0.85) 0%, rgba(0, 10, 20, 0.7) 100%), 
+            /* Imagem HD Tecnológica com Overlay Profundo */
+            background: linear-gradient(135deg, rgba(0, 31, 63, 0.9) 0%, rgba(0, 10, 20, 0.7) 100%), 
                         url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
@@ -29,15 +29,15 @@
             overflow: hidden;
         }
 
-        /* Transição de Seção Invisível e Suave */
+        /* Transição Suave (Fade-out) para a próxima seção */
         .cadastro-hero::after {
             content: "";
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 250px;
-            background: linear-gradient(to top, #ffffff 0%, rgba(255,255,255,0.8) 20%, transparent 100%);
+            height: 30vh;
+            background: linear-gradient(to top, #ffffff 0%, transparent 100%);
             z-index: 3;
         }
 
@@ -46,45 +46,53 @@
             text-align: center;
             color: white;
             padding: 0 20px;
-            max-width: 1000px;
+            max-width: 1100px;
         }
 
         .cadastro-hero-content h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem) !important;
+            font-size: clamp(2.5rem, 6vw, 4.5rem) !important;
             font-weight: 900;
             letter-spacing: -2px;
             margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #00c2cb);
+            background: linear-gradient(to right, #ffffff, #00c2cb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
         }
 
-        /* ===== DESIGN DO IPÊ MAJESTOSO (SVG) ===== */
+        .cadastro-hero-content p {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ===== DESIGN DO IPÊ MAJESTOSO (SVG Handcrafted) ===== */
         .ipe-container {
             position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 0 auto 20px;
-            filter: drop-shadow(0 0 30px rgba(0, 194, 203, 0.4));
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 30px;
+            filter: drop-shadow(0 0 40px rgba(0, 194, 203, 0.4));
         }
 
         .trunk-main { fill: url(#trunkGrad); }
-        .leaf { opacity: 0; transform-origin: center; }
+        .leaf { opacity: 0; transform-origin: center; animation: leafBloom 1.2s forwards; }
 
         @keyframes leafBloom {
-            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            0% { transform: scale(0) rotate(-15deg); opacity: 0; }
             100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
         }
 
         .pollen {
-            animation: pollenFloat 4s infinite ease-in-out;
+            animation: pollenFloat 5s infinite ease-in-out;
             fill: #00f2ff;
+            opacity: 0.6;
         }
 
         @keyframes pollenFloat {
-            0%, 100% { transform: translate(0, 0); opacity: 0.3; }
-            50% { transform: translate(10px, -20px); opacity: 0.8; }
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(15px, -25px); }
         }
 
         /* ===== SCROLL REVEAL ENGINE ===== */
@@ -105,46 +113,45 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 30px;
             max-width: 1200px;
-            margin: -50px auto 60px;
+            margin: -80px auto 60px;
             padding: 0 20px;
             position: relative;
             z-index: 10;
         }
 
         .beneficio-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             border-radius: 24px;
-            padding: 50px 30px;
+            padding: 50px 35px;
             text-align: center;
             border: 1px solid rgba(0, 194, 203, 0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
             transition: all 0.4s ease;
         }
 
         .beneficio-card:hover {
             transform: translateY(-15px);
-            box-shadow: 0 30px 60px rgba(0, 194, 203, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 194, 203, 0.15);
             border-color: #00c2cb;
         }
 
         .beneficio-card i {
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: #00c2cb;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .beneficio-card h3 {
             color: #003366;
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             margin-bottom: 15px;
-            text-transform: uppercase;
             font-weight: 800;
+            text-transform: uppercase;
         }
 
         @media (max-width: 850px) {
             .beneficios-grid { grid-template-columns: 1fr; margin-top: 20px; }
-            .cadastro-hero { height: auto; padding: 120px 0; }
+            .cadastro-hero { height: auto; padding: 100px 0; }
         }
     </style>
 </head>
@@ -164,51 +171,52 @@
                             <stop offset="100%" style="stop-color:#008b8b"/>
                         </radialGradient>
                     </defs>
-                    <path class="trunk-main" d="M90,200 L110,200 L105,120 Q100,100 95,120 Z" />
-                    <path d="M102,140 Q130,120 160,110" fill="none" stroke="#3d1f06" stroke-width="4" stroke-linecap="round"/>
-                    <path d="M98,130 Q70,110 40,100" fill="none" stroke="#3d1f06" stroke-width="4" stroke-linecap="round"/>
-                    <circle class="leaf" cx="160" cy="105" r="22" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.5s"/>
-                    <circle class="leaf" cx="40" cy="95" r="20" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.7s"/>
-                    <circle class="leaf" cx="100" cy="60" r="35" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.3s"/>
-                    <circle class="leaf" cx="70" cy="80" r="25" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.6s"/>
-                    <circle class="leaf" cx="130" cy="75" r="28" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.8s"/>
-                    <circle class="pollen" cx="150" cy="50" r="2" />
-                    <circle class="pollen" cx="50" cy="70" r="3" />
+                    <path class="trunk-main" d="M95,200 L105,200 L102,110 Q100,90 98,110 Z" />
+                    <path d="M100,140 Q130,125 155,115" fill="none" stroke="#3d1f06" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M100,130 Q70,115 45,105" fill="none" stroke="#3d1f06" stroke-width="4" stroke-linecap="round"/>
+                    <circle class="leaf" cx="155" cy="110" r="22" fill="url(#leafGrad)" style="animation-delay: 0.4s"/>
+                    <circle class="leaf" cx="45" cy="100" r="20" fill="url(#leafGrad)" style="animation-delay: 0.6s"/>
+                    <circle class="leaf" cx="100" cy="55" r="35" fill="url(#leafGrad)" style="animation-delay: 0.2s"/>
+                    <circle class="leaf" cx="75" cy="75" r="28" fill="url(#leafGrad)" style="animation-delay: 0.5s"/>
+                    <circle class="leaf" cx="125" cy="70" r="30" fill="url(#leafGrad)" style="animation-delay: 0.7s"/>
+                    <circle class="pollen" cx="140" cy="40" r="2" />
+                    <circle class="pollen" cx="60" cy="60" r="3" />
                 </svg>
             </div>
             <h1>Ecossistema de Inovação</h1>
-            <p>Conecte seu propósito à maior rede tecnológica da UFLA</p>
+            <p>Conecte seu conhecimento e experiência à plataforma tecnológica da UFLA</p>
         </div>
     </section>
 
-    <section class="beneficios-section" style="background: white; padding-bottom: 80px;">
+    <section class="beneficios-section" style="background: white; padding-bottom: 100px;">
         <div class="beneficios-grid">
             <div class="beneficio-card reveal">
                 <i class="fas fa-rocket"></i>
-                <h3>Impulsione Ideias</h3>
-                <p>Acesso a mentoria e infraestrutura de ponta.</p>
+                <h3>Impulsione Projetos</h3>
+                <p>Acesso exclusivo a infraestrutura e recursos de mentoria especializada.</p>
             </div>
             <div class="beneficio-card reveal">
                 <i class="fas fa-users"></i>
-                <h3>Networking High-End</h3>
-                <p>Conecte-se com C-levels e pesquisadores seniores.</p>
+                <h3>Rede Estratégica</h3>
+                <p>Conecte-se com as mentes mais brilhantes e empresas líderes do mercado.</p>
             </div>
             <div class="beneficio-card reveal">
                 <i class="fas fa-microchip"></i>
-                <h3>P&D Avançado</h3>
-                <p>Participe de projetos que definem o futuro.</p>
+                <h3>Fronteira Tecnológica</h3>
+                <p>Colabore em pesquisas de P&D que estão moldando o futuro da ciência.</p>
             </div>
             <div class="beneficio-card reveal">
-                <i class="fas fa-globe"></i>
-                <h3>Escalabilidade</h3>
-                <p>Leve seu projeto para o mercado global.</p>
+                <i class="fas fa-chart-line"></i>
+                <h3>Visibilidade</h3>
+                <p>Destaque seu talento para investidores e parceiros globais.</p>
             </div>
         </div>
     </section>
 
-    <section class="cadastro-cards-section reveal" style="padding: 100px 0; background: #fdfdfd;">
+    <section class="cadastro-cards-section reveal" style="padding: 100px 0; background: #f8fafc;">
         <div style="text-align: center; margin-bottom: 60px;">
             <h2 style="color: #003366; font-size: 2.8rem; font-weight: 900;">Escolha seu Perfil</h2>
+            <p style="color: #64748b;">Selecione a categoria para abrir o formulário de inscrição</p>
         </div>
 
         <div class="cadastro-grid">
@@ -220,7 +228,7 @@
                 <div class="card-form-wrapper"><div class="card-form-inner">
                     <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                         <input type="text" name="nome" placeholder="Nome Completo" required>
-                        <input type="email" name="email" placeholder="E-mail UFLA" required>
+                        <input type="email" name="email" placeholder="E-mail Institucional" required>
                         <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
                     </form>
                 </div></div>
@@ -248,7 +256,7 @@
                 <div class="card-form-wrapper"><div class="card-form-inner">
                     <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                         <input type="text" name="nome" placeholder="Nome do Mentor" required>
-                        <input type="text" name="expertise" placeholder="Área de Expertise" required>
+                        <input type="text" name="expertise" placeholder="Área de Especialidade" required>
                         <button type="submit" class="btn-submit-cadastro">Quero Mentorar</button>
                     </form>
                 </div></div>
@@ -261,12 +269,13 @@
     <script src="chat.js"></script>
 
     <script>
+        // Função Scroll Reveal
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
+                if (elementTop < windowHeight - 120) {
                     reveals[i].classList.add("active");
                 }
             }
