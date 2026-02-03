@@ -3,15 +3,19 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // ===== CONFIGURAÇÃO SUPABASE UNIFICADA =====
+    // ===== CONFIGURAÇÃO SUPABASE UNIFICADA (PROTEÇÃO TOTAL) =====
     const SUPABASE_URL = 'https://zfcoyirqxythradtiatn.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY295aXJxeHl0aHJhZHRpYXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMDU1OTMsImV4cCI6MjA4NTY4MTU5M30.akTDpUp4Sg25-1x77-xXLQ758MKHrAJ328LalYOq94U'; 
 
-    // Esta lógica garante que apenas UM cliente GoTrue seja criado no navegador
-    if (window.supabase && !window.supabaseClientInstance) {
-        window.supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    let _supabase = null;
+
+    // Só inicializa se o SDK do Supabase estiver no HTML e se ainda não houver instância
+    if (typeof supabase !== 'undefined') {
+        if (!window.supabaseClientInstance) {
+            window.supabaseClientInstance = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        }
+        _supabase = window.supabaseClientInstance;
     }
-    const _supabase = window.supabaseClientInstance;
 
     // ===== HTML DO WIDGET =====
     const chatHTML = `
@@ -149,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let recognition = null;
     let isRecording = false;
 
+    // Inicializar reconhecimento de voz com segurança
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
