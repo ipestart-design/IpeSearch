@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
@@ -15,112 +12,86 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* ===== HERO SECTION TELA CHEIA COM IMAGEM ===== */
+        /* ===== FULLSCREEN HERO COM DESIGN PREMIUM ===== */
         .cadastro-hero {
-            min-height: 100vh;
+            height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(rgba(0, 20, 40, 0.75), rgba(0, 40, 80, 0.6)), 
-                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80');
+            position: relative;
+            /* Imagem de fundo em 4K com overlay profundo */
+            background: linear-gradient(135deg, rgba(0, 31, 63, 0.85) 0%, rgba(0, 10, 20, 0.7) 100%), 
+                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-            position: relative;
             overflow: hidden;
         }
 
-        /* Máscara de transição suave para a próxima seção */
+        /* Transição de Seção Invisível e Suave */
         .cadastro-hero::after {
             content: "";
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 15vh;
-            background: linear-gradient(to bottom, transparent, #f8fafc);
-            z-index: 1;
+            height: 250px;
+            background: linear-gradient(to top, #ffffff 0%, rgba(255,255,255,0.8) 20%, transparent 100%);
+            z-index: 3;
         }
 
         .cadastro-hero-content {
-            width: 100%;
+            z-index: 5;
             text-align: center;
-            color: #ffffff;
-            padding: 20px;
-            z-index: 2;
+            color: white;
+            padding: 0 20px;
+            max-width: 1000px;
         }
 
         .cadastro-hero-content h1 {
-            font-size: 3.8rem !important;
-            font-weight: 800;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            font-size: clamp(2.5rem, 5vw, 4.5rem) !important;
+            font-weight: 900;
+            letter-spacing: -2px;
             margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #00c2cb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
         }
 
-        .cadastro-hero-content p {
-            font-size: 1.4rem !important;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-            max-width: 800px;
-            margin: 0 auto;
-            opacity: 0.9;
+        /* ===== DESIGN DO IPÊ MAJESTOSO (SVG) ===== */
+        .ipe-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
+            filter: drop-shadow(0 0 30px rgba(0, 194, 203, 0.4));
         }
 
-        /* ===== DESIGN DO IPÊ "RICO" E PROFISSIONAL ===== */
-        .ipe-animation {
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 30px;
-            animation: gentleFloat 6s ease-in-out infinite;
+        .trunk-main { fill: url(#trunkGrad); }
+        .leaf { opacity: 0; transform-origin: center; }
+
+        @keyframes leafBloom {
+            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
         }
 
-        @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+        .pollen {
+            animation: pollenFloat 4s infinite ease-in-out;
+            fill: #00f2ff;
         }
 
-        .foliage {
-            transform-origin: center;
-            transform: scale(0);
-            opacity: 0;
-            filter: drop-shadow(0 4px 12px rgba(0, 194, 203, 0.5));
+        @keyframes pollenFloat {
+            0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+            50% { transform: translate(10px, -20px); opacity: 0.8; }
         }
 
-        .trunk { transform-origin: bottom center; animation: growTrunk 2s ease-out forwards; }
-
-        @keyframes growTrunk { 
-            0% { transform: scaleY(0); opacity: 0; } 
-            100% { transform: scaleY(1); opacity: 1; } 
-        }
-
-        /* Sequência de brotamento das folhas */
-        .foliage-1 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards; }
-        .foliage-2 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards; }
-        .foliage-3 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.9s forwards; }
-        .foliage-4 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.1s forwards; }
-        .foliage-5 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.3s forwards; }
-
-        @keyframes bloom { 
-            0% { transform: scale(0); opacity: 0; } 
-            100% { transform: scale(1); opacity: 0.9; } 
-        }
-
-        .ipe-animation:hover .foliage {
-            animation: sway 3s ease-in-out infinite;
-            filter: brightness(1.2) drop-shadow(0 6px 15px rgba(0, 194, 203, 0.8));
-        }
-
-        @keyframes sway {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(5px); }
-        }
-
-        /* ===== ANIMAÇÃO DE REVELAÇÃO AO ROLAR (SCROLL REVEAL) ===== */
+        /* ===== SCROLL REVEAL ENGINE ===== */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
         .reveal.active {
@@ -128,57 +99,52 @@
             transform: translateY(0);
         }
 
-        /* ===== LAYOUT DOS BENEFÍCIOS ===== */
+        /* ===== BENEFÍCIOS GRID 2X2 ===== */
         .beneficios-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 40px; 
-            max-width: 1100px;
-            margin: 40px auto;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: -50px auto 60px;
             padding: 0 20px;
+            position: relative;
+            z-index: 10;
         }
 
         .beneficio-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 60px 40px !important; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 50px 30px;
             text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid #eef2f6;
+            border: 1px solid rgba(0, 194, 203, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
         }
 
         .beneficio-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 194, 203, 0.15);
+            transform: translateY(-15px);
+            box-shadow: 0 30px 60px rgba(0, 194, 203, 0.2);
             border-color: #00c2cb;
         }
 
-        .beneficio-icon {
-            width: 100px; height: 100px;
-            background: rgba(0, 194, 203, 0.1);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 30px;
+        .beneficio-card i {
+            font-size: 3rem;
+            color: #00c2cb;
+            margin-bottom: 20px;
         }
-
-        .beneficio-icon i { font-size: 3.5rem !important; color: #00c2cb; }
 
         .beneficio-card h3 {
-            font-size: 1.8rem !important; 
             color: #003366;
-            font-weight: 850 !important;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
             text-transform: uppercase;
+            font-weight: 800;
         }
 
-        @media (max-width: 900px) {
-            .beneficios-grid { grid-template-columns: 1fr; }
-            .cadastro-hero-content h1 { font-size: 2.5rem !important; }
+        @media (max-width: 850px) {
+            .beneficios-grid { grid-template-columns: 1fr; margin-top: 20px; }
+            .cadastro-hero { height: auto; padding: 120px 0; }
         }
     </style>
 </head>
@@ -186,125 +152,106 @@
 
     <section class="cadastro-hero">
         <div class="cadastro-hero-content">
-            <div class="ipe-animation">
+            <div class="ipe-container">
                 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="trunkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#4d2608;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#8B4513;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#4d2608;stop-opacity:1" />
+                        <linearGradient id="trunkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#3d1f06"/>
+                            <stop offset="100%" style="stop-color:#704214"/>
                         </linearGradient>
-                        <radialGradient id="foliageGrad">
-                            <stop offset="10%" style="stop-color:#00f2ff;stop-opacity:1" />
-                            <stop offset="90%" style="stop-color:#00c2cb;stop-opacity:1" />
+                        <radialGradient id="leafGrad">
+                            <stop offset="0%" style="stop-color:#00ffff"/>
+                            <stop offset="100%" style="stop-color:#008b8b"/>
                         </radialGradient>
                     </defs>
-
-                    <rect class="trunk" x="92" y="115" width="16" height="85" fill="url(#trunkGrad)" rx="4"/>
-                    
-                    <path d="M100,150 Q80,135 65,120" stroke="#4d2608" stroke-width="5" fill="none" stroke-linecap="round"/>
-                    <path d="M100,140 Q125,125 145,110" stroke="#4d2608" stroke-width="5" fill="none" stroke-linecap="round"/>
-                    <path d="M100,125 Q85,105 75,90" stroke="#4d2608" stroke-width="4" fill="none" stroke-linecap="round"/>
-                    <path d="M100,120 Q120,100 135,85" stroke="#4d2608" stroke-width="4" fill="none" stroke-linecap="round"/>
-
-                    <circle class="foliage foliage-1" cx="65" cy="115" r="24" fill="url(#foliageGrad)"/>
-                    <circle class="foliage foliage-2" cx="145" cy="105" r="26" fill="url(#foliageGrad)"/>
-                    <circle class="foliage foliage-3" cx="80" cy="85" r="22" fill="url(#foliageGrad)"/>
-                    <circle class="foliage foliage-4" cx="130" cy="80" r="24" fill="url(#foliageGrad)"/>
-                    <circle class="foliage foliage-5" cx="102" cy="70" r="30" fill="url(#foliageGrad)"/>
-
-                    <circle class="foliage" cx="160" cy="70" r="3" fill="#fff" opacity="0.6">
-                        <animate attributeName="cy" values="70;55;70" dur="4s" repeatCount="indefinite" />
-                    </circle>
-                    <circle class="foliage" cx="40" cy="100" r="2" fill="#fff" opacity="0.4">
-                        <animate attributeName="cy" values="100;85;100" dur="5s" repeatCount="indefinite" />
-                    </circle>
+                    <path class="trunk-main" d="M90,200 L110,200 L105,120 Q100,100 95,120 Z" />
+                    <path d="M102,140 Q130,120 160,110" fill="none" stroke="#3d1f06" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M98,130 Q70,110 40,100" fill="none" stroke="#3d1f06" stroke-width="4" stroke-linecap="round"/>
+                    <circle class="leaf" cx="160" cy="105" r="22" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.5s"/>
+                    <circle class="leaf" cx="40" cy="95" r="20" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.7s"/>
+                    <circle class="leaf" cx="100" cy="60" r="35" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.3s"/>
+                    <circle class="leaf" cx="70" cy="80" r="25" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.6s"/>
+                    <circle class="leaf" cx="130" cy="75" r="28" fill="url(#leafGrad)" style="animation: leafBloom 1s forwards 0.8s"/>
+                    <circle class="pollen" cx="150" cy="50" r="2" />
+                    <circle class="pollen" cx="50" cy="70" r="3" />
                 </svg>
             </div>
-            <h1>Faça Parte do Ecossistema</h1>
-            <p>Conecte seu conhecimento, projetos e experiência à plataforma de inovação da UFLA</p>
+            <h1>Ecossistema de Inovação</h1>
+            <p>Conecte seu propósito à maior rede tecnológica da UFLA</p>
         </div>
     </section>
 
-    <section class="beneficios-section" style="padding: 100px 0; background: #f8fafc;">
-        <div class="section-title-cadastro reveal" style="text-align: center; margin-bottom: 50px;">
-            <h2 style="color: #003366; font-size: 2.8rem; font-weight: 800;">Por que participar?</h2>
-            <p style="color: #64748b; font-size: 1.2rem;">Benefícios exclusivos para toda a comunidade de inovação</p>
-        </div>
-
+    <section class="beneficios-section" style="background: white; padding-bottom: 80px;">
         <div class="beneficios-grid">
             <div class="beneficio-card reveal">
-                <div class="beneficio-icon"><i class="fas fa-network-wired"></i></div>
-                <h3>Networking Estratégico</h3>
-                <p>Conecte-se com líderes, pesquisadores e empreendedores.</p>
+                <i class="fas fa-rocket"></i>
+                <h3>Impulsione Ideias</h3>
+                <p>Acesso a mentoria e infraestrutura de ponta.</p>
             </div>
             <div class="beneficio-card reveal">
-                <div class="beneficio-icon"><i class="fas fa-lightbulb"></i></div>
-                <h3>Oportunidades de P&D</h3>
-                <p>Acesso direto a projetos de pesquisa e desenvolvimento de ponta.</p>
+                <i class="fas fa-users"></i>
+                <h3>Networking High-End</h3>
+                <p>Conecte-se com C-levels e pesquisadores seniores.</p>
             </div>
             <div class="beneficio-card reveal">
-                <div class="beneficio-icon"><i class="fas fa-handshake"></i></div>
-                <h3>Parcerias Estratégicas</h3>
-                <p>Fomente colaborações entre academia e indústria.</p>
+                <i class="fas fa-microchip"></i>
+                <h3>P&D Avançado</h3>
+                <p>Participe de projetos que definem o futuro.</p>
             </div>
             <div class="beneficio-card reveal">
-                <div class="beneficio-icon"><i class="fas fa-chart-line"></i></div>
-                <h3>Visibilidade</h3>
-                <p>Destaque seu trabalho para empresas e investidores.</p>
+                <i class="fas fa-globe"></i>
+                <h3>Escalabilidade</h3>
+                <p>Leve seu projeto para o mercado global.</p>
             </div>
         </div>
     </section>
 
-    <section class="cadastro-cards-section" style="padding: 100px 0; background: white;">
-        <div class="section-title-cadastro reveal" style="text-align: center; margin-bottom: 60px;">
-            <h2 style="color: #003366; font-size: 2.8rem; font-weight: 800;">Escolha seu perfil</h2>
-            <p style="color: #64748b;">Selecione a categoria para abrir o formulário</p>
+    <section class="cadastro-cards-section reveal" style="padding: 100px 0; background: #fdfdfd;">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <h2 style="color: #003366; font-size: 2.8rem; font-weight: 900;">Escolha seu Perfil</h2>
         </div>
 
         <div class="cadastro-grid">
-            <div class="cadastro-card reveal" id="card-pesquisador">
+            <div class="cadastro-card" id="card-pesquisador">
                 <div class="card-header-cadastro" onclick="toggleCard('pesquisador')">
                     <div class="card-icon-cadastro"><i class="fas fa-user-graduate"></i></div>
                     <h3>Pesquisador <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Docentes e pesquisadores da UFLA</p>
                 </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form id="form-pesquisador" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Pesquisador">
-                            <div class="form-group-cadastro">
-                                <label>Nome Completo *</label>
-                                <input type="text" name="nome" required placeholder="Dr. João Silva">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>E-mail Institucional *</label>
-                                <input type="email" name="email" required placeholder="joao.silva@ufla.br">
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
-                        </form>
-                    </div>
-                </div>
+                <div class="card-form-wrapper"><div class="card-form-inner">
+                    <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                        <input type="text" name="nome" placeholder="Nome Completo" required>
+                        <input type="email" name="email" placeholder="E-mail UFLA" required>
+                        <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
+                    </form>
+                </div></div>
             </div>
 
-            <div class="cadastro-card reveal" id="card-empresa">
+            <div class="cadastro-card" id="card-empresa">
                 <div class="card-header-cadastro" onclick="toggleCard('empresa')">
                     <div class="card-icon-cadastro"><i class="fas fa-building"></i></div>
                     <h3>Empresa <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Startups e corporações</p>
                 </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form id="form-empresa" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Empresa">
-                            <div class="form-group-cadastro">
-                                <label>Razão Social *</label>
-                                <input type="text" name="empresa" required>
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
-                        </form>
-                    </div>
+                <div class="card-form-wrapper"><div class="card-form-inner">
+                    <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                        <input type="text" name="empresa" placeholder="Razão Social" required>
+                        <input type="text" name="cnpj" placeholder="CNPJ" required>
+                        <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
+                    </form>
+                </div></div>
+            </div>
+
+            <div class="cadastro-card" id="card-mentor">
+                <div class="card-header-cadastro" onclick="toggleCard('mentor')">
+                    <div class="card-icon-cadastro"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <h3>Mentor <i class="fas fa-chevron-down toggle-icon"></i></h3>
                 </div>
+                <div class="card-form-wrapper"><div class="card-form-inner">
+                    <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                        <input type="text" name="nome" placeholder="Nome do Mentor" required>
+                        <input type="text" name="expertise" placeholder="Área de Expertise" required>
+                        <button type="submit" class="btn-submit-cadastro">Quero Mentorar</button>
+                    </form>
+                </div></div>
             </div>
         </div>
     </section>
@@ -314,14 +261,12 @@
     <script src="chat.js"></script>
 
     <script>
-        // Função para revelar elementos ao rolar (Scroll Reveal)
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
+                if (elementTop < windowHeight - 100) {
                     reveals[i].classList.add("active");
                 }
             }
@@ -337,9 +282,7 @@
             } else {
                 allCards.forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
-                setTimeout(() => {
-                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 400);
+                setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
             }
         }
     </script>
