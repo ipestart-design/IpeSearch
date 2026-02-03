@@ -110,7 +110,7 @@
             try {
                 loading.style.display = 'block';
                 const { data, error } = await _supabase
-                    .from('empresas')
+                    .from('Empresas')
                     .select('*')
                     .order('nome');
 
