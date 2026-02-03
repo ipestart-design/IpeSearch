@@ -15,13 +15,13 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* ===== HERO SECTION TELA CHEIA COM TRANSIÇÃO SUAVE ===== */
+        /* ===== HERO SECTION TELA CHEIA COM IMAGEM ===== */
         .cadastro-hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(rgba(0, 20, 40, 0.7), rgba(0, 40, 80, 0.5)), 
+            background: linear-gradient(rgba(0, 20, 40, 0.75), rgba(0, 40, 80, 0.6)), 
                         url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
@@ -57,7 +57,6 @@
             font-weight: 800;
             text-shadow: 0 4px 20px rgba(0,0,0,0.6);
             margin-bottom: 20px;
-            animation: fadeInUp 1s ease-out;
         }
 
         .cadastro-hero-content p {
@@ -66,21 +65,14 @@
             max-width: 800px;
             margin: 0 auto;
             opacity: 0.9;
-            animation: fadeInUp 1.2s ease-out;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ===== DESIGN DO IPÊ "RICO" ===== */
+        /* ===== DESIGN DO IPÊ "RICO" E PROFISSIONAL ===== */
         .ipe-animation {
             width: 220px;
             height: 220px;
             margin: 0 auto 30px;
             animation: gentleFloat 6s ease-in-out infinite;
-            z-index: 2;
         }
 
         @keyframes gentleFloat {
@@ -112,6 +104,28 @@
         @keyframes bloom { 
             0% { transform: scale(0); opacity: 0; } 
             100% { transform: scale(1); opacity: 0.9; } 
+        }
+
+        .ipe-animation:hover .foliage {
+            animation: sway 3s ease-in-out infinite;
+            filter: brightness(1.2) drop-shadow(0 6px 15px rgba(0, 194, 203, 0.8));
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        /* ===== ANIMAÇÃO DE REVELAÇÃO AO ROLAR (SCROLL REVEAL) ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* ===== LAYOUT DOS BENEFÍCIOS ===== */
@@ -188,10 +202,10 @@
 
                     <rect class="trunk" x="92" y="115" width="16" height="85" fill="url(#trunkGrad)" rx="4"/>
                     
-                    <path class="branch" d="M100,150 Q80,135 65,120" stroke="#4d2608" stroke-width="5" fill="none" stroke-linecap="round" style="opacity:1"/>
-                    <path class="branch" d="M100,140 Q125,125 145,110" stroke="#4d2608" stroke-width="5" fill="none" stroke-linecap="round" style="opacity:1"/>
-                    <path class="branch" d="M100,125 Q85,105 75,90" stroke="#4d2608" stroke-width="4" fill="none" stroke-linecap="round" style="opacity:1"/>
-                    <path class="branch" d="M100,120 Q120,100 135,85" stroke="#4d2608" stroke-width="4" fill="none" stroke-linecap="round" style="opacity:1"/>
+                    <path d="M100,150 Q80,135 65,120" stroke="#4d2608" stroke-width="5" fill="none" stroke-linecap="round"/>
+                    <path d="M100,140 Q125,125 145,110" stroke="#4d2608" stroke-width="5" fill="none" stroke-linecap="round"/>
+                    <path d="M100,125 Q85,105 75,90" stroke="#4d2608" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path d="M100,120 Q120,100 135,85" stroke="#4d2608" stroke-width="4" fill="none" stroke-linecap="round"/>
 
                     <circle class="foliage foliage-1" cx="65" cy="115" r="24" fill="url(#foliageGrad)"/>
                     <circle class="foliage foliage-2" cx="145" cy="105" r="26" fill="url(#foliageGrad)"/>
@@ -212,51 +226,48 @@
         </div>
     </section>
 
-    <section class="beneficios-section" style="padding: 100px 0; background: #f8fafc; position: relative; z-index: 2;">
-        <div class="section-title-cadastro" style="text-align: center; margin-bottom: 50px;">
+    <section class="beneficios-section" style="padding: 100px 0; background: #f8fafc;">
+        <div class="section-title-cadastro reveal" style="text-align: center; margin-bottom: 50px;">
             <h2 style="color: #003366; font-size: 2.8rem; font-weight: 800;">Por que participar?</h2>
             <p style="color: #64748b; font-size: 1.2rem;">Benefícios exclusivos para toda a comunidade de inovação</p>
         </div>
 
         <div class="beneficios-grid">
-            <div class="beneficio-card">
+            <div class="beneficio-card reveal">
                 <div class="beneficio-icon"><i class="fas fa-network-wired"></i></div>
                 <h3>Networking Estratégico</h3>
-                <p>Conecte-se com líderes, pesquisadores e empreendedores do ecossistema.</p>
+                <p>Conecte-se com líderes, pesquisadores e empreendedores.</p>
             </div>
-
-            <div class="beneficio-card">
+            <div class="beneficio-card reveal">
                 <div class="beneficio-icon"><i class="fas fa-lightbulb"></i></div>
                 <h3>Oportunidades de P&D</h3>
                 <p>Acesso direto a projetos de pesquisa e desenvolvimento de ponta.</p>
             </div>
-
-            <div class="beneficio-card">
+            <div class="beneficio-card reveal">
                 <div class="beneficio-icon"><i class="fas fa-handshake"></i></div>
                 <h3>Parcerias Estratégicas</h3>
-                <p>Fomente colaborações entre academia, indústria e governo.</p>
+                <p>Fomente colaborações entre academia e indústria.</p>
             </div>
-
-            <div class="beneficio-card">
+            <div class="beneficio-card reveal">
                 <div class="beneficio-icon"><i class="fas fa-chart-line"></i></div>
                 <h3>Visibilidade</h3>
-                <p>Destaque seu trabalho para empresas, investidores e parceiros.</p>
+                <p>Destaque seu trabalho para empresas e investidores.</p>
             </div>
         </div>
     </section>
 
     <section class="cadastro-cards-section" style="padding: 100px 0; background: white;">
-        <div class="section-title-cadastro" style="text-align: center; margin-bottom: 60px;">
+        <div class="section-title-cadastro reveal" style="text-align: center; margin-bottom: 60px;">
             <h2 style="color: #003366; font-size: 2.8rem; font-weight: 800;">Escolha seu perfil</h2>
             <p style="color: #64748b;">Selecione a categoria para abrir o formulário</p>
         </div>
 
         <div class="cadastro-grid">
-            <div class="cadastro-card" id="card-pesquisador">
+            <div class="cadastro-card reveal" id="card-pesquisador">
                 <div class="card-header-cadastro" onclick="toggleCard('pesquisador')">
                     <div class="card-icon-cadastro"><i class="fas fa-user-graduate"></i></div>
                     <h3>Pesquisador <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Docentes, pós-docs e pesquisadores da UFLA</p>
+                    <p>Docentes e pesquisadores da UFLA</p>
                 </div>
                 <div class="card-form-wrapper">
                     <div class="card-form-inner">
@@ -270,21 +281,17 @@
                                 <label>E-mail Institucional *</label>
                                 <input type="email" name="email" required placeholder="joao.silva@ufla.br">
                             </div>
-                            <div class="form-group-cadastro">
-                                <label>Departamento *</label>
-                                <input type="text" name="departamento" required placeholder="Ex: DCC, DAE...">
-                            </div>
                             <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
                         </form>
                     </div>
                 </div>
             </div>
 
-            <div class="cadastro-card" id="card-empresa">
+            <div class="cadastro-card reveal" id="card-empresa">
                 <div class="card-header-cadastro" onclick="toggleCard('empresa')">
                     <div class="card-icon-cadastro"><i class="fas fa-building"></i></div>
                     <h3>Empresa <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Startups, PMEs e corporações</p>
+                    <p>Startups e corporações</p>
                 </div>
                 <div class="card-form-wrapper">
                     <div class="card-form-inner">
@@ -293,10 +300,6 @@
                             <div class="form-group-cadastro">
                                 <label>Razão Social *</label>
                                 <input type="text" name="empresa" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>CNPJ *</label>
-                                <input type="text" name="cnpj" required placeholder="00.000.000/0000-00">
                             </div>
                             <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
                         </form>
@@ -311,6 +314,21 @@
     <script src="chat.js"></script>
 
     <script>
+        // Função para revelar elementos ao rolar (Scroll Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.onload = reveal;
+
         function toggleCard(tipo) {
             const card = document.getElementById(`card-${tipo}`);
             const allCards = document.querySelectorAll('.cadastro-card');
@@ -323,18 +341,6 @@
                     card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 400);
             }
-        }
-
-        // Máscara CNPJ
-        const cnpjInput = document.querySelector('input[name="cnpj"]');
-        if (cnpjInput) {
-            cnpjInput.addEventListener('input', e => {
-                let v = e.target.value.replace(/\D/g, '');
-                if (v.length <= 14) {
-                    v = v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
-                }
-                e.target.value = v;
-            });
         }
     </script>
 </body>
