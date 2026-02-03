@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
 
     <title>Pesquisar Empresas - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -27,8 +26,8 @@
                 <h1 class="search-title">Encontre Empresas Parceiras</h1>
                 
                 <div class="search-container-modern">
-                    <input type="text" id="searchInput" placeholder="Busque por nome, setor, produto, serviço ou tecnologia...">
-                    <button id="clearBtn" class="btn-clear-modern hidden" type="button" aria-label="Limpar pesquisa">
+                    <input type="text" id="searchInput" placeholder="Busque por nome, setor ou tecnologia...">
+                    <button id="clearBtn" class="btn-clear-modern hidden" type="button">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -36,23 +35,25 @@
                 <div class="quick-tags-container">
                     <button class="tag-btn" onclick="filtrarTag('Agrotech')">Agrotech</button>
                     <button class="tag-btn" onclick="filtrarTag('Biotecnologia')">Biotecnologia</button>
-                    <button class="tag-btn" onclick="filtrarTag('TI & Software')">TI & Software</button>
+                    <button class="tag-btn" onclick="filtrarTag('Software')">Software</button>
                     <button class="tag-btn" onclick="filtrarTag('Engenharia')">Engenharia</button>
-                    <button class="tag-btn" onclick="filtrarTag('Alimentos')">Alimentos</button>
-                    <button class="tag-btn" onclick="filtrarTag('Sustentabilidade')">Sustentabilidade</button>
+                    <button class="tag-btn" onclick="filtrarTag('ESG')">ESG</button>
+                    <button class="tag-btn" onclick="filtrarTag('Pecuária')">Pecuária</button>
                 </div>
                 
                 <div class="info-disclaimer">
                     <div class="disclaimer-icon"><i class="fas fa-info-circle"></i></div>
                     <div class="disclaimer-content">
-                        <p>As empresas listadas integram o <strong>ecossistema de inovação da UFLA/IpêTech</strong>.</p>
+                        <p>Empresas do <strong>ecossistema de inovação UFLA/IpêTech</strong>.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <div id="counter" style="text-align: center; color: #5A6A85; font-weight: 500; margin-top: 30px;"></div>
-        <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando dados...</div>
+        <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">
+            <i class="fas fa-spinner fa-spin"></i> Carregando ecossistema...
+        </div>
         <div class="results-container" id="resultsContainer"></div>
     </div>
 
@@ -66,7 +67,7 @@
 
         <div class="profile-card">
             <div class="profile-header">
-                <img id="empresa-logo-modal" src="" alt="Logo">
+                <img id="empresa-logo-modal" src="" alt="Logo" style="object-fit: contain; background: white; padding: 5px;">
                 <div>
                     <h1 id="empresa-nome">Nome da Empresa</h1>
                     <span class="dept-badge" id="empresa-setor">Setor</span>
@@ -74,22 +75,17 @@
             </div>
 
             <div class="profile-body">
-                <div style="background: #eef4ff; border-left: 4px solid #003366; padding: 15px 20px; margin-bottom: 25px; border-radius: 6px; font-size: 0.85rem; color: #334e68;">
-                    <strong>🤝 Conexão Corporativa:</strong> Utilize os contatos abaixo para propostas de negócios, parcerias tecnológicas ou P&D conjunto.
-                </div>
-
                 <div class="info-grid">
-                    <div class="info-item"><strong>E-mail</strong><p><a href="#" id="empresa-email"></a></p></div>
-                    <div class="info-item"><strong>WhatsApp</strong><p id="empresa-tel"></p></div>
-                    <div class="info-item"><strong>Site</strong><p><a href="#" target="_blank" id="empresa-site"></a></p></div>
-                    <div class="info-item"><strong>Especialidade</strong><p id="empresa-especialidade"></p></div>
+                    <div class="info-item"><strong>Setor</strong><p id="modal-setor-info"></p></div>
+                    <div class="info-item"><strong>Especialidades</strong><p id="empresa-especialidade"></p></div>
                 </div>
 
                 <h2 class="section-title">Sobre a Empresa</h2>
-                <div class="text-content" id="empresa-sobre"></div>
-                <h2 class="section-title">Inovações</h2>
-                <div class="text-content" id="empresa-produtos"></div>
-                <div class="last-update" id="empresa-local"></div>
+                <div class="text-content" id="empresa-sobre" style="white-space: pre-wrap;"></div>
+                
+                <div class="last-update" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <i class="fas fa-map-marker-alt"></i> Localização: IpêTech - Lavras/MG
+                </div>
             </div>
         </div>
     </div>
@@ -99,71 +95,96 @@
     <script src="chat.js"></script>
 
     <script>
-        const getFakeLogo = (text) => `https://placehold.co/80x80/003366/FFFFFF/png?text=${text.substring(0,2).toUpperCase()}`;
-        const empresasFicticias = [
-            { id: 1, nome: "AgroTech Solutions", setor: "Agrotech", especialidade: "Agricultura de Precisão", email: "contato@agrotech.fake", telefone: "(35) 3829-0001", site: "https://agrotech.fake", sobre: "Soluções IoT e IA para otimizar produção.", produtos: "Sensores IoT; Drones.", local: "Lavras, MG", logo: getFakeLogo("AgroTech") },
-            { id: 2, nome: "BioSyntesis Lab", setor: "Biotecnologia", especialidade: "Bioinsumos", email: "lab@biosyntesis.fake", telefone: "(35) 3829-0002", site: "https://biosyntesis.fake", sobre: "Bioinsumos agrícolas e microrganismos.", produtos: "Biofungicidas; Inoculantes.", local: "Parque UFLA", logo: getFakeLogo("BioSyn") },
-            { id: 3, nome: "CodeMaster Softwares", setor: "TI & Software", especialidade: "Web/App", email: "comercial@codemaster.fake", telefone: "(35) 99999-0003", site: "https://codemaster.fake", sobre: "Software sob demanda e Apps.", produtos: "Apps iOS/Android; ERP.", local: "Lavras, MG", logo: getFakeLogo("CodeMaster") },
-            { id: 4, nome: "EcoEngenharia", setor: "Engenharia", especialidade: "Gestão de Resíduos", email: "contato@ecoeng.fake", telefone: "(35) 3821-0004", site: "https://ecoeng.fake", sobre: "Engenharia ambiental e sustentabilidade.", produtos: "PGRS; Auditoria.", local: "Lavras, MG", logo: getFakeLogo("EcoEng") },
-            { id: 5, nome: "NutriFoods", setor: "Alimentos", especialidade: "Tecnologia de Alimentos", email: "inovacao@nutrifoods.fake", telefone: "(35) 3829-0005", site: "https://nutrifoods.fake", sobre: "Alimentos funcionais e plant-based.", produtos: "Hambúrguer de lentilha; Snacks.", local: "Incubadora UFLA", logo: getFakeLogo("NutriFoods") },
-            { id: 6, nome: "EduTec", setor: "Educação", especialidade: "E-learning", email: "suporte@edutec.fake", telefone: "(35) 3822-0006", site: "https://edutec.fake", sobre: "Plataformas de ensino e gamificação.", produtos: "LMS; Jogos sérios.", local: "Lavras, MG", logo: getFakeLogo("EduTec") },
-            { id: 7, nome: "GeoAnalytics", setor: "Agrotech", especialidade: "Geoprocessamento", email: "geo@analytics.fake", telefone: "(35) 98888-0007", site: "https://geoanalytics.fake", sobre: "Análise de dados espaciais.", produtos: "Mapeamento solo; CAR.", local: "Parque UFLA", logo: getFakeLogo("GeoAnalytics") },
-            { id: 8, nome: "VetPharma", setor: "Saúde", especialidade: "Saúde Animal", email: "pd@vetpharma.fake", telefone: "(35) 3829-0008", site: "https://vetpharma.fake", sobre: "Medicamentos veterinários.", produtos: "Suplementos; Fármacos.", local: "Lavras, MG", logo: getFakeLogo("VetPharma") },
-            { id: 9, nome: "TechData", setor: "TI & Software", especialidade: "Big Data", email: "dados@techdata.fake", telefone: "(35) 3821-0009", site: "https://techdata.fake", sobre: "Ciência de dados e insights.", produtos: "BI; Modelos preditivos.", local: "Lavras, MG", logo: getFakeLogo("TechData") },
-            { id: 10, nome: "CaféTech", setor: "Engenharia", especialidade: "Maquinário", email: "vendas@cafetech.fake", telefone: "(35) 3829-0010", site: "https://cafetech.fake", sobre: "Máquinas para colheita de café.", produtos: "Derriçadeiras; Sopradores.", local: "Lavras, MG", logo: getFakeLogo("CafeTech") },
-            { id: 11, nome: "Sustenta", setor: "Sustentabilidade", especialidade: "ESG", email: "esg@sustenta.fake", telefone: "(35) 99123-4567", site: "https://sustenta.fake", sobre: "Práticas ESG e carbono.", produtos: "Relatórios; Inventário GEE.", local: "Coworking UFLA", logo: getFakeLogo("Sustenta") },
-            { id: 12, nome: "MinasBiotec", setor: "Biotecnologia", especialidade: "Genética", email: "contato@minasbiotec.fake", telefone: "(35) 3822-9988", site: "https://minasbiotec.fake", sobre: "Melhoramento genético vegetal.", produtos: "Clonagem; Mudas.", local: "Parque UFLA", logo: getFakeLogo("MinasBiotec") }
-        ];
+        // 1. CONFIGURAÇÃO SUPABASE
+        const SUPABASE_URL = 'https://zfcoyirqxythradtiatn.supabase.co';
+        const SUPABASE_KEY = 'SUA_ANON_KEY_AQUI'; // <--- COLE SUA ANON KEY AQUI
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        window.onload = function() { renderizarCards(empresasFicticias); };
+        let empresasData = [];
 
-        function filtrarTag(tag) {
-            document.getElementById('searchInput').value = tag;
-            filtrarResultados(tag);
+        // 2. BUSCAR DADOS
+        async function buscarEmpresas() {
+            const loading = document.getElementById('loading');
+            const container = document.getElementById('resultsContainer');
+            
+            try {
+                loading.style.display = 'block';
+                const { data, error } = await _supabase
+                    .from('empresas')
+                    .select('*')
+                    .order('nome');
+
+                if (error) throw error;
+                empresasData = data;
+                renderizarCards(empresasData);
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = "<p style='text-align:center;'>Erro ao conectar com o banco de dados.</p>";
+            } finally {
+                loading.style.display = 'none';
+            }
         }
 
-        function filtrarResultados(termo) {
-            const t = termo.toLowerCase().trim();
-            const filtrados = empresasFicticias.filter(emp => `${emp.nome} ${emp.setor} ${emp.especialidade}`.toLowerCase().includes(t));
-            renderizarCards(filtrados);
-        }
-
+        // 3. RENDERIZAR
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
             container.innerHTML = '';
-            document.getElementById('counter').innerText = lista.length ? `${lista.length} empresas encontradas` : '';
+            document.getElementById('counter').innerText = `${lista.length} empresas encontradas`;
+
             lista.forEach(emp => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => abrirPerfil(emp);
+                
+                // Trata as tags para exibição
+                const tagsExibicao = emp.tags ? emp.tags.slice(0, 3).join(', ') : 'Inovação';
+
                 card.innerHTML = `
                     <div class="empresa-card-header">
-                        <img src="${emp.logo}" alt="Logo" class="empresa-logo">
+                        <img src="${emp.logo_url}" alt="Logo" class="empresa-logo" onerror="this.src='https://placehold.co/80?text=Logo'">
                         <div class="empresa-info">
                             <h3>${emp.nome}</h3>
                             <div class="empresa-setor">${emp.setor}</div>
                         </div>
                     </div>
-                    <div class="card-content-area"><strong>Especialidade:</strong> ${emp.especialidade}</div>
-                    <div class="card-footer"><span>${emp.local}</span><div class="card-hint">Ver perfil →</div></div>
+                    <div class="card-content-area">
+                        <strong>Destaque:</strong> ${tagsExibicao}
+                    </div>
+                    <div class="card-footer">
+                        <span>IpêTech UFLA</span>
+                        <div class="card-hint">Ver perfil →</div>
+                    </div>
                 `;
                 container.appendChild(card);
             });
         }
 
+        // 4. FILTROS
+        function filtrarResultados() {
+            const termo = document.getElementById('searchInput').value.toLowerCase();
+            const filtrados = empresasData.filter(emp => 
+                emp.nome.toLowerCase().includes(termo) || 
+                emp.setor.toLowerCase().includes(termo) ||
+                (emp.tags && emp.tags.some(t => t.toLowerCase().includes(termo)))
+            );
+            renderizarCards(filtrados);
+        }
+
+        function filtrarTag(tag) {
+            document.getElementById('searchInput').value = tag;
+            document.getElementById('clearBtn').classList.remove('hidden');
+            filtrarResultados();
+        }
+
+        // 5. MODAL / PERFIL
         function abrirPerfil(dados) {
-            document.getElementById('empresa-logo-modal').src = dados.logo;
+            document.getElementById('empresa-logo-modal').src = dados.logo_url;
             document.getElementById('empresa-nome').innerText = dados.nome;
             document.getElementById('empresa-setor').innerText = dados.setor;
-            document.getElementById('empresa-email').innerText = dados.email;
-            document.getElementById('empresa-email').href = `mailto:${dados.email}`;
-            document.getElementById('empresa-tel').innerText = dados.telefone;
-            document.getElementById('empresa-site').innerText = dados.site.replace('https://', '');
-            document.getElementById('empresa-site').href = dados.site;
-            document.getElementById('empresa-especialidade').innerText = dados.especialidade;
-            document.getElementById('empresa-sobre').innerText = dados.sobre;
-            document.getElementById('empresa-produtos').innerText = dados.produtos;
-            document.getElementById('empresa-local').innerText = `Localização: ${dados.local}`;
+            document.getElementById('modal-setor-info').innerText = dados.setor;
+            document.getElementById('empresa-especialidade').innerText = dados.tags ? dados.tags.join(' • ') : 'N/A';
+            document.getElementById('empresa-sobre').innerText = dados.descricao;
+            
             document.getElementById('search-view').classList.add('hidden');
             document.getElementById('profile-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -174,17 +195,19 @@
             document.getElementById('search-view').classList.remove('hidden');
         }
 
-        // Lógica do botão Limpar
-        const searchInput = document.getElementById('searchInput');
-        const clearBtn = document.getElementById('clearBtn');
-        searchInput.addEventListener('input', () => {
-            clearBtn.classList.toggle('hidden', !searchInput.value);
+        // 6. EVENTOS
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            document.getElementById('clearBtn').classList.toggle('hidden', !e.target.value);
+            filtrarResultados();
         });
-        clearBtn.addEventListener('click', () => {
-            searchInput.value = '';
-            clearBtn.classList.add('hidden');
-            filtrarResultados('');
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearBtn').classList.add('hidden');
+            renderizarCards(empresasData);
         });
+
+        window.onload = buscarEmpresas;
     </script>
 </body>
 </html>
