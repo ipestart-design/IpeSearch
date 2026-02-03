@@ -3,15 +3,15 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // ===== CONFIGURAÇÃO SUPABASE =====
-    // Substitua 'SUA_ANON_KEY_AQUI' pela chave encontrada em Settings > API do seu Supabase
-    const SUPABASE_URL = 'https://zfcoyirqxythradtiatn.supabase.co';
-    const SUPABASE_KEY = 'SUA_ANON_KEY_AQUI'; 
-    
-    let _supabase = null;
-    if (window.supabase) {
-        _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    }
+    // ===== CONFIGURAÇÃO SUPABASE =====
+    // Substitua 'SUA_ANON_KEY_AQUI' pela chave encontrada em Settings > API do seu Supabase
+    const SUPABASE_URL = 'https://zfcoyirqxythradtiatn.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY295aXJxeHl0aHJhZHRpYXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMDU1OTMsImV4cCI6MjA4NTY4MTU5M30.akTDpUp4Sg25-1x77-xXLQ758MKHrAJ328LalYOq94U'; 
+    
+    let _supabase = null;
+    if (window.supabase) {
+        _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
     
     // ===== HTML DO WIDGET =====
     const chatHTML = `
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 width: 70px !important;
                 height: 70px !important;
                 border-radius: 50% !important;
-                background: linear-gradient(135deg, #003366, #00c2cb) !important;
+               background: linear-gradient(135deg, #003366, #00c2cb) !important;
                 color: white !important;
                 border: 3px solid white !important;
                 cursor: pointer !important;
@@ -192,15 +192,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 border: none;
       0         color: #003366;
       0         cursor: pointer;
-     0         font-size: 20px;
+     0         font-size: 20px;
       0         padding: 8px;
       0         display: flex;
       0         align-items: center;
       0         justify-content: center;
       0         transition: all 0.2s;
-     0         border-radius: 50%;
+     0         border-radius: 50%;
       0         width: 40px;
-     0         height: 40px;
+     0         height: 40px;
             }
 
             .chat-btn:hover:not(:disabled) {
@@ -220,12 +220,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             @keyframes pulse-red {
       0         0%, 100% { opacity: 1; }
-               50% { opacity: 0.6; }
+               50% { opacity: 0.6; }
             }
 
             #chat-send {
       0         background: #00c2cb;
-               color: white;
+               color: white;
             }
 
             #chat-send:hover:not(:disabled) {
