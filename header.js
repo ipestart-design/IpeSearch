@@ -164,13 +164,20 @@ document.addEventListener('DOMContentLoaded', function() {
         @media (max-width: 1200px) {
             #main-header { 
                 height: 70px; 
-                padding: 0 20px; 
+                padding: 0 20px;
+                background-color: #ffffff !important;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
             }
             
             #main-header.scrolled { height: 70px; }
             
             .logo-img { 
                 height: 45px !important; 
+            }
+            
+            /* Garantir que o conteúdo não fique sob o header */
+            body {
+                padding-top: 0 !important;
             }
             
             .mobile-menu-btn { 
