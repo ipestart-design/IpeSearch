@@ -13,6 +13,44 @@
 
     <title>Quero Participar - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Ajuste específico para o layout 2x2 dos benefícios */
+        .beneficios-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Força 2 colunas */
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .beneficio-card {
+            padding: 40px !important; /* Deixa o card maior */
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .beneficio-icon i {
+            font-size: 3rem !important; /* Ícone maior */
+            margin-bottom: 20px;
+        }
+
+        .beneficio-card h3 {
+            font-size: 1.5rem !important;
+            margin-bottom: 15px;
+        }
+
+        /* No mobile, volta para 1 coluna para não quebrar */
+        @media (max-width: 768px) {
+            .beneficios-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -21,18 +59,15 @@
             <div class="ipe-animation">
                 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
                     <rect class="trunk" x="95" y="120" width="10" height="80" fill="#8B4513" rx="2"/>
-                    
                     <line class="branch branch-1" x1="100" y1="140" x2="70" y2="120" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
                     <line class="branch branch-2" x1="100" y1="130" x2="130" y2="110" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
                     <line class="branch branch-3" x1="100" y1="120" x2="80" y2="95" stroke="#8B4513" stroke-width="2.5" stroke-linecap="round"/>
                     <line class="branch branch-4" x1="100" y1="120" x2="120" y2="90" stroke="#8B4513" stroke-width="2.5" stroke-linecap="round"/>
-                    
                     <circle class="foliage foliage-1" cx="70" cy="115" r="18" fill="#00c2cb" opacity="0.8"/>
                     <circle class="foliage foliage-2" cx="130" cy="105" r="20" fill="#00c2cb" opacity="0.8"/>
                     <circle class="foliage foliage-3" cx="80" cy="90" r="16" fill="#00c2cb" opacity="0.85"/>
                     <circle class="foliage foliage-4" cx="120" cy="85" r="18" fill="#00c2cb" opacity="0.85"/>
                     <circle class="foliage foliage-5" cx="100" cy="80" r="22" fill="#00c2cb" opacity="0.9"/>
-                    
                     <circle class="flower flower-1" cx="65" cy="110" r="3" fill="#FFD700"/>
                     <circle class="flower flower-2" cx="75" cy="118" r="2.5" fill="#FFD700"/>
                     <circle class="flower flower-3" cx="125" cy="100" r="3" fill="#FFD700"/>
@@ -43,7 +78,6 @@
                     <circle class="flower flower-8" cx="118" cy="82" r="3" fill="#FFD700"/>
                 </svg>
             </div>
-            
             <h1>Faça Parte do Ecossistema</h1>
             <p>Conecte seu conhecimento, projetos e experiência à plataforma de inovação da UFLA</p>
         </div>
@@ -155,8 +189,6 @@
                             <button type="submit" class="btn-submit-cadastro">
                                 <i class="fas fa-paper-plane"></i> Enviar Cadastro
                             </button>
-
-                            <div class="status-message" id="status-pesquisador"></div>
                         </form>
                     </div>
                 </div>
@@ -225,11 +257,6 @@
                                 <textarea name="descricao" rows="4" required placeholder="Descreva os principais produtos, serviços ou tecnologias que sua empresa desenvolve..."></textarea>
                             </div>
 
-                            <div class="form-group-cadastro">
-                                <label>Interesse em Parcerias</label>
-                                <textarea name="interesse" rows="3" placeholder="Ex: P&D conjunto, transferência de tecnologia, acesso a laboratórios, captação de recursos..."></textarea>
-                            </div>
-
                             <div class="consent-wrapper-cadastro">
                                 <input type="checkbox" id="consent-emp" required>
                                 <label for="consent-emp">
@@ -240,8 +267,6 @@
                             <button type="submit" class="btn-submit-cadastro">
                                 <i class="fas fa-paper-plane"></i> Enviar Cadastro
                             </button>
-
-                            <div class="status-message" id="status-empresa"></div>
                         </form>
                     </div>
                 </div>
@@ -281,28 +306,7 @@
 
                             <div class="form-group-cadastro">
                                 <label>Área de Expertise *</label>
-                                <input type="text" name="expertise" required placeholder="Ex: Gestão de Startups, Marketing Digital, Captação de Recursos...">
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Experiência Profissional *</label>
-                                <textarea name="experiencia" rows="4" required placeholder="Descreva brevemente sua trajetória profissional e principais conquistas..."></textarea>
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>LinkedIn</label>
-                                <input type="url" name="linkedin" placeholder="https://linkedin.com/in/seuperfil">
-                                <small>Opcional, mas recomendado</small>
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Disponibilidade para Mentorias</label>
-                                <select name="disponibilidade">
-                                    <option value="1-2h/semana">1-2 horas por semana</option>
-                                    <option value="3-5h/semana">3-5 horas por semana</option>
-                                    <option value="Flexível">Flexível</option>
-                                    <option value="Esporádica">Esporádica (sob demanda)</option>
-                                </select>
+                                <input type="text" name="expertise" required placeholder="Expertise...">
                             </div>
 
                             <div class="consent-wrapper-cadastro">
@@ -315,8 +319,6 @@
                             <button type="submit" class="btn-submit-cadastro">
                                 <i class="fas fa-paper-plane"></i> Enviar Cadastro
                             </button>
-
-                            <div class="status-message" id="status-mentor"></div>
                         </form>
                     </div>
                 </div>
@@ -329,61 +331,31 @@
     <script src="chat.js"></script>
 
     <script>
-        // Toggle de Cards
         function toggleCard(tipo) {
             const card = document.getElementById(`card-${tipo}`);
             const allCards = document.querySelectorAll('.cadastro-card');
-            
             if (card.classList.contains('active')) {
                 card.classList.remove('active');
             } else {
                 allCards.forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
-                
                 setTimeout(() => {
                     card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
             }
         }
 
-        // Validação e feedback
-        const forms = ['pesquisador', 'empresa', 'mentor'];
-        forms.forEach(tipo => {
-            const form = document.getElementById(`form-${tipo}`);
-            form.addEventListener('submit', function(e) {
-                const btn = form.querySelector('.btn-submit-cadastro');
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-            });
-        });
-
-        // Máscara para CNPJ
+        // Máscaras e feedbacks simplificados
         const cnpjInput = document.querySelector('input[name="cnpj"]');
         if (cnpjInput) {
-            cnpjInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length <= 14) {
-                    value = value.replace(/^(\d{2})(\d)/, '$1.$2');
-                    value = value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-                    value = value.replace(/\.(\d{3})(\d)/, '.$1/$2');
-                    value = value.replace(/(\d{4})(\d)/, '$1-$2');
+            cnpjInput.addEventListener('input', e => {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length <= 14) {
+                    v = v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
                 }
-                e.target.value = value;
+                e.target.value = v;
             });
         }
-
-        // Máscara para Telefone
-        const telInputs = document.querySelectorAll('input[type="tel"]');
-        telInputs.forEach(input => {
-            input.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length <= 11) {
-                    value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-                    value = value.replace(/(\d{5})(\d)/, '$1-$2');
-                }
-                e.target.value = value;
-            });
-        });
     </script>
 </body>
 </html>
