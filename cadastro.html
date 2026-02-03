@@ -15,39 +15,75 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* Ajuste específico para o layout 2x2 dos benefícios */
+        /* AJUSTE PREMIUM PARA LAYOUT 2x2 DOS BENEFÍCIOS */
         .beneficios-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Força 2 colunas */
-            gap: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 40px; 
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
         .beneficio-card {
-            padding: 40px !important; /* Deixa o card maior */
-            min-height: 250px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 60px 40px !important; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f6;
+        }
+
+        .beneficio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 194, 203, 0.15);
+            border-color: #00c2cb;
+        }
+
+        .beneficio-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(0, 194, 203, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
         }
 
         .beneficio-icon i {
-            font-size: 3rem !important; /* Ícone maior */
-            margin-bottom: 20px;
+            font-size: 3.5rem !important; 
+            color: #00c2cb;
         }
 
         .beneficio-card h3 {
-            font-size: 1.5rem !important;
-            margin-bottom: 15px;
+            font-size: 1.8rem !important; 
+            color: #003366;
+            font-weight: 850 !important;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
         }
 
-        /* No mobile, volta para 1 coluna para não quebrar */
-        @media (max-width: 768px) {
+        .beneficio-card p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            line-height: 1.6;
+            max-width: 320px;
+        }
+
+        @media (max-width: 900px) {
             .beneficios-grid {
                 grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .beneficio-card {
+                padding: 40px 20px !important;
             }
         }
     </style>
@@ -68,14 +104,6 @@
                     <circle class="foliage foliage-3" cx="80" cy="90" r="16" fill="#00c2cb" opacity="0.85"/>
                     <circle class="foliage foliage-4" cx="120" cy="85" r="18" fill="#00c2cb" opacity="0.85"/>
                     <circle class="foliage foliage-5" cx="100" cy="80" r="22" fill="#00c2cb" opacity="0.9"/>
-                    <circle class="flower flower-1" cx="65" cy="110" r="3" fill="#FFD700"/>
-                    <circle class="flower flower-2" cx="75" cy="118" r="2.5" fill="#FFD700"/>
-                    <circle class="flower flower-3" cx="125" cy="100" r="3" fill="#FFD700"/>
-                    <circle class="flower flower-4" cx="135" cy="108" r="2.5" fill="#FFD700"/>
-                    <circle class="flower flower-5" cx="95" cy="75" r="3" fill="#FFD700"/>
-                    <circle class="flower flower-6" cx="105" cy="78" r="2.5" fill="#FFD700"/>
-                    <circle class="flower flower-7" cx="82" cy="85" r="2.5" fill="#FFD700"/>
-                    <circle class="flower flower-8" cx="118" cy="82" r="3" fill="#FFD700"/>
                 </svg>
             </div>
             <h1>Faça Parte do Ecossistema</h1>
@@ -95,7 +123,7 @@
                     <i class="fas fa-network-wired"></i>
                 </div>
                 <h3>Networking Estratégico</h3>
-                <p>Conecte-se com líderes, pesquisadores e empreendedores do ecossistema de inovação.</p>
+                <p>Conecte-se com líderes, pesquisadores e empreendedores do ecossistema.</p>
             </div>
 
             <div class="beneficio-card">
@@ -119,7 +147,7 @@
                     <i class="fas fa-chart-line"></i>
                 </div>
                 <h3>Visibilidade</h3>
-                <p>Destaque seu trabalho para empresas, investidores e parceiros estratégicos.</p>
+                <p>Destaque seu trabalho para empresas, investidores e parceiros.</p>
             </div>
         </div>
     </section>
@@ -139,56 +167,23 @@
                     <h3>Pesquisador <i class="fas fa-chevron-down toggle-icon"></i></h3>
                     <p>Docentes, pós-docs e pesquisadores da UFLA</p>
                 </div>
-
                 <div class="card-form-wrapper">
                     <div class="card-form-inner">
                         <form id="form-pesquisador" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="_subject" value="Novo Cadastro: Pesquisador">
-                            <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_template" value="box">
                             <input type="hidden" name="tipo" value="Pesquisador">
-
                             <div class="form-group-cadastro">
                                 <label>Nome Completo *</label>
                                 <input type="text" name="nome" required placeholder="Dr. João Silva">
                             </div>
-
                             <div class="form-group-cadastro">
                                 <label>E-mail Institucional *</label>
                                 <input type="email" name="email" required placeholder="joao.silva@ufla.br">
                             </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Departamento / Instituto *</label>
-                                <input type="text" name="departamento" required placeholder="Ex: DCC, DAE, DCS...">
-                            </div>
-
                             <div class="form-group-cadastro">
                                 <label>Área de Pesquisa Principal *</label>
-                                <input type="text" name="area" required placeholder="Ex: Inteligência Artificial, Solos, Biotecnologia...">
+                                <input type="text" name="area" required placeholder="Ex: IA, Biotecnologia...">
                             </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Link do Currículo Lattes</label>
-                                <input type="url" name="lattes" placeholder="http://lattes.cnpq.br/...">
-                                <small>Opcional, mas recomendado para maior visibilidade</small>
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Breve Descrição da Linha de Pesquisa</label>
-                                <textarea name="descricao" rows="4" placeholder="Descreva suas principais linhas de pesquisa e interesses..."></textarea>
-                            </div>
-
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-pesq" required>
-                                <label for="consent-pesq">
-                                    Autorizo o IPÊ CONECT a divulgar meu perfil profissional na plataforma e concordo com o tratamento dos dados conforme a <strong>LGPD</strong>.
-                                </label>
-                            </div>
-
-                            <button type="submit" class="btn-submit-cadastro">
-                                <i class="fas fa-paper-plane"></i> Enviar Cadastro
-                            </button>
+                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
                         </form>
                     </div>
                 </div>
@@ -202,71 +197,19 @@
                     <h3>Empresa <i class="fas fa-chevron-down toggle-icon"></i></h3>
                     <p>Startups, PMEs e corporações inovadoras</p>
                 </div>
-
                 <div class="card-form-wrapper">
                     <div class="card-form-inner">
                         <form id="form-empresa" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="_subject" value="Novo Cadastro: Empresa">
-                            <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_template" value="box">
                             <input type="hidden" name="tipo" value="Empresa">
-
                             <div class="form-group-cadastro">
                                 <label>Nome da Empresa *</label>
-                                <input type="text" name="empresa" required placeholder="Razão Social ou Nome Fantasia">
+                                <input type="text" name="empresa" required placeholder="Razão Social">
                             </div>
-
                             <div class="form-group-cadastro">
                                 <label>CNPJ *</label>
                                 <input type="text" name="cnpj" required placeholder="00.000.000/0000-00">
                             </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Setor de Atuação *</label>
-                                <select name="setor" required>
-                                    <option value="">Selecione...</option>
-                                    <option value="Agrotech">Agrotech</option>
-                                    <option value="Biotecnologia">Biotecnologia</option>
-                                    <option value="TI & Software">TI & Software</option>
-                                    <option value="Engenharia">Engenharia</option>
-                                    <option value="Alimentos">Alimentos</option>
-                                    <option value="Saúde">Saúde</option>
-                                    <option value="Educação">Educação</option>
-                                    <option value="Sustentabilidade">Sustentabilidade</option>
-                                    <option value="Outro">Outro</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>E-mail Corporativo *</label>
-                                <input type="email" name="email" required placeholder="contato@empresa.com.br">
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Telefone / WhatsApp *</label>
-                                <input type="tel" name="telefone" required placeholder="(35) 99999-9999">
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Site da Empresa</label>
-                                <input type="url" name="site" placeholder="https://www.empresa.com.br">
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Descrição das Atividades / Produtos *</label>
-                                <textarea name="descricao" rows="4" required placeholder="Descreva os principais produtos, serviços ou tecnologias que sua empresa desenvolve..."></textarea>
-                            </div>
-
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-emp" required>
-                                <label for="consent-emp">
-                                    Autorizo a divulgação do perfil corporativo na plataforma IPÊ CONECT e concordo com a <strong>LGPD</strong>.
-                                </label>
-                            </div>
-
-                            <button type="submit" class="btn-submit-cadastro">
-                                <i class="fas fa-paper-plane"></i> Enviar Cadastro
-                            </button>
+                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
                         </form>
                     </div>
                 </div>
@@ -278,47 +221,17 @@
                         <i class="fas fa-user-tie"></i>
                     </div>
                     <h3>Mentor <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Profissionais experientes em inovação e negócios</p>
+                    <p>Profissionais experientes</p>
                 </div>
-
                 <div class="card-form-wrapper">
                     <div class="card-form-inner">
                         <form id="form-mentor" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="_subject" value="Novo Cadastro: Mentor">
-                            <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_template" value="box">
                             <input type="hidden" name="tipo" value="Mentor">
-
                             <div class="form-group-cadastro">
                                 <label>Nome Completo *</label>
-                                <input type="text" name="nome" required placeholder="Seu nome completo">
+                                <input type="text" name="nome" required placeholder="Seu nome">
                             </div>
-
-                            <div class="form-group-cadastro">
-                                <label>E-mail *</label>
-                                <input type="email" name="email" required placeholder="seu@email.com">
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Telefone / WhatsApp *</label>
-                                <input type="tel" name="telefone" required placeholder="(35) 99999-9999">
-                            </div>
-
-                            <div class="form-group-cadastro">
-                                <label>Área de Expertise *</label>
-                                <input type="text" name="expertise" required placeholder="Expertise...">
-                            </div>
-
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-mentor" required>
-                                <label for="consent-mentor">
-                                    Autorizo a divulgação do meu perfil profissional no IPÊ CONECT e concordo com a <strong>LGPD</strong>.
-                                </label>
-                            </div>
-
-                            <button type="submit" class="btn-submit-cadastro">
-                                <i class="fas fa-paper-plane"></i> Enviar Cadastro
-                            </button>
+                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
                         </form>
                     </div>
                 </div>
@@ -345,7 +258,6 @@
             }
         }
 
-        // Máscaras e feedbacks simplificados
         const cnpjInput = document.querySelector('input[name="cnpj"]');
         if (cnpjInput) {
             cnpjInput.addEventListener('input', e => {
