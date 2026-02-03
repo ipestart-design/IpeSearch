@@ -15,111 +15,106 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* ===== ANIMAÇÃO IPÊ CRESCENDO DO ZERO ===== */
+        /* ===== HERO SECTION TELA CHEIA COM TRANSIÇÃO SUAVE ===== */
+        .cadastro-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0, 20, 40, 0.7), rgba(0, 40, 80, 0.5)), 
+                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Máscara de transição suave para a próxima seção */
+        .cadastro-hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15vh;
+            background: linear-gradient(to bottom, transparent, #f8fafc);
+            z-index: 1;
+        }
+
+        .cadastro-hero-content {
+            width: 100%;
+            text-align: center;
+            color: #ffffff;
+            padding: 20px;
+            z-index: 2;
+        }
+
+        .cadastro-hero-content h1 {
+            font-size: 3.8rem !important;
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .cadastro-hero-content p {
+            font-size: 1.4rem !important;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== DESIGN DO IPÊ "RICO" ===== */
         .ipe-animation {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 40px;
-            animation: gentleFloat 6s ease-in-out 5s infinite;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 30px;
+            animation: gentleFloat 6s ease-in-out infinite;
+            z-index: 2;
         }
 
         @keyframes gentleFloat {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-15px); }
         }
 
-        .ipe-animation svg {
-            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.3));
-        }
-
-        /* FASE 1: Tronco cresce do chão (0-2s) */
-        .trunk {
-            transform-origin: bottom center;
-            animation: growTrunkFromZero 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            transform: scaleY(0);
-            opacity: 0;
-        }
-
-        @keyframes growTrunkFromZero {
-            0% {
-                transform: scaleY(0);
-                opacity: 0;
-            }
-            30% {
-                opacity: 1;
-            }
-            100% {
-                transform: scaleY(1);
-                opacity: 1;
-            }
-        }
-
-        /* FASE 2: Galhos brotam (2-3.5s) */
-        .branch {
-            stroke-dasharray: 100;
-            stroke-dashoffset: 100;
-            opacity: 0;
-        }
-
-        .branch-1 { animation: growBranch 0.8s ease-out 2s forwards; }
-        .branch-2 { animation: growBranch 0.8s ease-out 2.2s forwards; }
-        .branch-3 { animation: growBranch 0.8s ease-out 2.4s forwards; }
-        .branch-4 { animation: growBranch 0.8s ease-out 2.6s forwards; }
-
-        @keyframes growBranch {
-            0% {
-                stroke-dashoffset: 100;
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                stroke-dashoffset: 0;
-                opacity: 1;
-            }
-        }
-
-        /* FASE 3: Folhagem brota e se expande (3-4.5s) */
         .foliage {
             transform-origin: center;
             transform: scale(0);
             opacity: 0;
+            filter: drop-shadow(0 4px 12px rgba(0, 194, 203, 0.5));
         }
 
-        .foliage-1 { animation: bloomFoliage 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 3s forwards; }
-        .foliage-2 { animation: bloomFoliage 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 3.2s forwards; }
-        .foliage-3 { animation: bloomFoliage 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 3.4s forwards; }
-        .foliage-4 { animation: bloomFoliage 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 3.6s forwards; }
-        .foliage-5 { animation: bloomFoliage 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 3.8s forwards; }
+        .trunk { transform-origin: bottom center; animation: growTrunk 2s ease-out forwards; }
 
-        @keyframes bloomFoliage {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            60% {
-                transform: scale(1.2);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0.85;
-            }
+        @keyframes growTrunk { 
+            0% { transform: scaleY(0); opacity: 0; } 
+            100% { transform: scaleY(1); opacity: 1; } 
         }
 
-        /* Hover: árvore balança */
-        .ipe-animation:hover .foliage {
-            animation: swayTree 2s ease-in-out infinite !important;
+        /* Sequência de brotamento das folhas */
+        .foliage-1 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.5s forwards; }
+        .foliage-2 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.7s forwards; }
+        .foliage-3 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 1.9s forwards; }
+        .foliage-4 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.1s forwards; }
+        .foliage-5 { animation: bloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 2.3s forwards; }
+
+        @keyframes bloom { 
+            0% { transform: scale(0); opacity: 0; } 
+            100% { transform: scale(1); opacity: 0.9; } 
         }
 
-        @keyframes swayTree {
-            0%, 100% { transform: scale(1) translateX(0); }
-            25% { transform: scale(1) translateX(-3px); }
-            75% { transform: scale(1) translateX(3px); }
-        }
-
-        /* AJUSTE PREMIUM PARA LAYOUT 2x2 DOS BENEFÍCIOS */
+        /* ===== LAYOUT DOS BENEFÍCIOS ===== */
         .beneficios-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr); 
@@ -150,20 +145,14 @@
         }
 
         .beneficio-icon {
-            width: 100px;
-            height: 100px;
+            width: 100px; height: 100px;
             background: rgba(0, 194, 203, 0.1);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             margin-bottom: 30px;
         }
 
-        .beneficio-icon i {
-            font-size: 3.5rem !important; 
-            color: #00c2cb;
-        }
+        .beneficio-icon i { font-size: 3.5rem !important; color: #00c2cb; }
 
         .beneficio-card h3 {
             font-size: 1.8rem !important; 
@@ -171,24 +160,11 @@
             font-weight: 850 !important;
             margin-bottom: 20px;
             text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-
-        .beneficio-card p {
-            font-size: 1.1rem;
-            color: #4a5568;
-            line-height: 1.6;
-            max-width: 320px;
         }
 
         @media (max-width: 900px) {
-            .beneficios-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-            .beneficio-card {
-                padding: 40px 20px !important;
-            }
+            .beneficios-grid { grid-template-columns: 1fr; }
+            .cadastro-hero-content h1 { font-size: 2.5rem !important; }
         }
     </style>
 </head>
@@ -198,16 +174,37 @@
         <div class="cadastro-hero-content">
             <div class="ipe-animation">
                 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <rect class="trunk" x="95" y="120" width="10" height="80" fill="#8B4513" rx="2"/>
-                    <line class="branch branch-1" x1="100" y1="140" x2="70" y2="120" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
-                    <line class="branch branch-2" x1="100" y1="130" x2="130" y2="110" stroke="#8B4513" stroke-width="3" stroke-linecap="round"/>
-                    <line class="branch branch-3" x1="100" y1="120" x2="80" y2="95" stroke="#8B4513" stroke-width="2.5" stroke-linecap="round"/>
-                    <line class="branch branch-4" x1="100" y1="120" x2="120" y2="90" stroke="#8B4513" stroke-width="2.5" stroke-linecap="round"/>
-                    <circle class="foliage foliage-1" cx="70" cy="115" r="18" fill="#00c2cb" opacity="0.8"/>
-                    <circle class="foliage foliage-2" cx="130" cy="105" r="20" fill="#00c2cb" opacity="0.8"/>
-                    <circle class="foliage foliage-3" cx="80" cy="90" r="16" fill="#00c2cb" opacity="0.85"/>
-                    <circle class="foliage foliage-4" cx="120" cy="85" r="18" fill="#00c2cb" opacity="0.85"/>
-                    <circle class="foliage foliage-5" cx="100" cy="80" r="22" fill="#00c2cb" opacity="0.9"/>
+                    <defs>
+                        <linearGradient id="trunkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#4d2608;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#8B4513;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#4d2608;stop-opacity:1" />
+                        </linearGradient>
+                        <radialGradient id="foliageGrad">
+                            <stop offset="10%" style="stop-color:#00f2ff;stop-opacity:1" />
+                            <stop offset="90%" style="stop-color:#00c2cb;stop-opacity:1" />
+                        </radialGradient>
+                    </defs>
+
+                    <rect class="trunk" x="92" y="115" width="16" height="85" fill="url(#trunkGrad)" rx="4"/>
+                    
+                    <path class="branch" d="M100,150 Q80,135 65,120" stroke="#4d2608" stroke-width="5" fill="none" stroke-linecap="round" style="opacity:1"/>
+                    <path class="branch" d="M100,140 Q125,125 145,110" stroke="#4d2608" stroke-width="5" fill="none" stroke-linecap="round" style="opacity:1"/>
+                    <path class="branch" d="M100,125 Q85,105 75,90" stroke="#4d2608" stroke-width="4" fill="none" stroke-linecap="round" style="opacity:1"/>
+                    <path class="branch" d="M100,120 Q120,100 135,85" stroke="#4d2608" stroke-width="4" fill="none" stroke-linecap="round" style="opacity:1"/>
+
+                    <circle class="foliage foliage-1" cx="65" cy="115" r="24" fill="url(#foliageGrad)"/>
+                    <circle class="foliage foliage-2" cx="145" cy="105" r="26" fill="url(#foliageGrad)"/>
+                    <circle class="foliage foliage-3" cx="80" cy="85" r="22" fill="url(#foliageGrad)"/>
+                    <circle class="foliage foliage-4" cx="130" cy="80" r="24" fill="url(#foliageGrad)"/>
+                    <circle class="foliage foliage-5" cx="102" cy="70" r="30" fill="url(#foliageGrad)"/>
+
+                    <circle class="foliage" cx="160" cy="70" r="3" fill="#fff" opacity="0.6">
+                        <animate attributeName="cy" values="70;55;70" dur="4s" repeatCount="indefinite" />
+                    </circle>
+                    <circle class="foliage" cx="40" cy="100" r="2" fill="#fff" opacity="0.4">
+                        <animate attributeName="cy" values="100;85;100" dur="5s" repeatCount="indefinite" />
+                    </circle>
                 </svg>
             </div>
             <h1>Faça Parte do Ecossistema</h1>
@@ -215,51 +212,43 @@
         </div>
     </section>
 
-    <section class="beneficios-section">
-        <div class="section-title-cadastro">
-            <h2>Por que participar?</h2>
-            <p>Benefícios exclusivos para toda a comunidade de inovação</p>
+    <section class="beneficios-section" style="padding: 100px 0; background: #f8fafc; position: relative; z-index: 2;">
+        <div class="section-title-cadastro" style="text-align: center; margin-bottom: 50px;">
+            <h2 style="color: #003366; font-size: 2.8rem; font-weight: 800;">Por que participar?</h2>
+            <p style="color: #64748b; font-size: 1.2rem;">Benefícios exclusivos para toda a comunidade de inovação</p>
         </div>
 
         <div class="beneficios-grid">
             <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-network-wired"></i>
-                </div>
+                <div class="beneficio-icon"><i class="fas fa-network-wired"></i></div>
                 <h3>Networking Estratégico</h3>
                 <p>Conecte-se com líderes, pesquisadores e empreendedores do ecossistema.</p>
             </div>
 
             <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
+                <div class="beneficio-icon"><i class="fas fa-lightbulb"></i></div>
                 <h3>Oportunidades de P&D</h3>
                 <p>Acesso direto a projetos de pesquisa e desenvolvimento de ponta.</p>
             </div>
 
             <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-handshake"></i>
-                </div>
+                <div class="beneficio-icon"><i class="fas fa-handshake"></i></div>
                 <h3>Parcerias Estratégicas</h3>
                 <p>Fomente colaborações entre academia, indústria e governo.</p>
             </div>
 
             <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
+                <div class="beneficio-icon"><i class="fas fa-chart-line"></i></div>
                 <h3>Visibilidade</h3>
                 <p>Destaque seu trabalho para empresas, investidores e parceiros.</p>
             </div>
         </div>
     </section>
 
-    <section class="cadastro-cards-section">
-        <div class="section-title-cadastro">
-            <h2>Escolha seu perfil</h2>
-            <p>Selecione a categoria que melhor te representa e preencha o cadastro</p>
+    <section class="cadastro-cards-section" style="padding: 100px 0; background: white;">
+        <div class="section-title-cadastro" style="text-align: center; margin-bottom: 60px;">
+            <h2 style="color: #003366; font-size: 2.8rem; font-weight: 800;">Escolha seu perfil</h2>
+            <p style="color: #64748b;">Selecione a categoria para abrir o formulário</p>
         </div>
 
         <div class="cadastro-grid">
@@ -282,24 +271,8 @@
                                 <input type="email" name="email" required placeholder="joao.silva@ufla.br">
                             </div>
                             <div class="form-group-cadastro">
-                                <label>Departamento / Instituto *</label>
+                                <label>Departamento *</label>
                                 <input type="text" name="departamento" required placeholder="Ex: DCC, DAE...">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Área de Pesquisa Principal *</label>
-                                <input type="text" name="area" required placeholder="Ex: IA, Biotecnologia...">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Link do Currículo Lattes</label>
-                                <input type="url" name="lattes" placeholder="http://lattes.cnpq.br/...">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Breve Descrição da Linha de Pesquisa</label>
-                                <textarea name="descricao" rows="4" placeholder="Descreva seus interesses..."></textarea>
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-pesq" required>
-                                <label for="consent-pesq">Autorizo a divulgação e concordo com a LGPD.</label>
                             </div>
                             <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
                         </form>
@@ -311,81 +284,19 @@
                 <div class="card-header-cadastro" onclick="toggleCard('empresa')">
                     <div class="card-icon-cadastro"><i class="fas fa-building"></i></div>
                     <h3>Empresa <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Startups, PMEs e corporações inovadoras</p>
+                    <p>Startups, PMEs e corporações</p>
                 </div>
                 <div class="card-form-wrapper">
                     <div class="card-form-inner">
                         <form id="form-empresa" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                             <input type="hidden" name="tipo" value="Empresa">
                             <div class="form-group-cadastro">
-                                <label>Nome da Empresa *</label>
-                                <input type="text" name="empresa" required placeholder="Razão Social">
+                                <label>Razão Social *</label>
+                                <input type="text" name="empresa" required>
                             </div>
                             <div class="form-group-cadastro">
                                 <label>CNPJ *</label>
                                 <input type="text" name="cnpj" required placeholder="00.000.000/0000-00">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Setor de Atuação *</label>
-                                <select name="setor" required>
-                                    <option value="">Selecione...</option>
-                                    <option value="Agrotech">Agrotech</option>
-                                    <option value="Biotecnologia">Biotecnologia</option>
-                                    <option value="TI & Software">TI & Software</option>
-                                    <option value="Outro">Outro</option>
-                                </select>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>E-mail Corporativo *</label>
-                                <input type="email" name="email" required placeholder="contato@empresa.com.br">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Site da Empresa</label>
-                                <input type="url" name="site" placeholder="https://...">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Descrição das Atividades *</label>
-                                <textarea name="descricao" rows="4" required></textarea>
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-emp" required>
-                                <label for="consent-emp">Autorizo a divulgação e concordo com a LGPD.</label>
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cadastro-card" id="card-mentor">
-                <div class="card-header-cadastro" onclick="toggleCard('mentor')">
-                    <div class="card-icon-cadastro"><i class="fas fa-user-tie"></i></div>
-                    <h3>Mentor <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Profissionais experientes</p>
-                </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form id="form-mentor" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Mentor">
-                            <div class="form-group-cadastro">
-                                <label>Nome Completo *</label>
-                                <input type="text" name="nome" required placeholder="Seu nome">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>E-mail *</label>
-                                <input type="email" name="email" required placeholder="seu@email.com">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Área de Expertise *</label>
-                                <input type="text" name="expertise" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>LinkedIn</label>
-                                <input type="url" name="linkedin" placeholder="https://linkedin.com/in/...">
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-mentor" required>
-                                <label for="consent-mentor">Autorizo a divulgação e concordo com a LGPD.</label>
                             </div>
                             <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
                         </form>
@@ -410,9 +321,10 @@
                 card.classList.add('active');
                 setTimeout(() => {
                     card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
+                }, 400);
             }
         }
+
         // Máscara CNPJ
         const cnpjInput = document.querySelector('input[name="cnpj"]');
         if (cnpjInput) {
