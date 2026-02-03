@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -98,7 +97,7 @@
     <script>
         // 1. CONFIGURAÇÃO SUPABASE
         const SUPABASE_URL = 'https://zfcoyirqxythradtiatn.supabase.co';
-        const SUPABASE_KEY = 'SUA_ANON_KEY_AQUI'; // <--- COLE SUA ANON KEY AQUI
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpmY295aXJxeHl0aHJhZHRpYXRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMDU1OTMsImV4cCI6MjA4NTY4MTU5M30.akTDpUp4Sg25-1x77-xXLQ758MKHrAJ328LalYOq94U'; 
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let empresasData = [];
@@ -120,7 +119,7 @@
                 renderizarCards(empresasData);
             } catch (e) {
                 console.error(e);
-                container.innerHTML = "<p style='text-align:center;'>Erro ao conectar com o banco de dados.</p>";
+                container.innerHTML = "<p style='text-align:center;'>Erro ao carregar dados do banco.</p>";
             } finally {
                 loading.style.display = 'none';
             }
@@ -137,7 +136,6 @@
                 card.className = 'card';
                 card.onclick = () => abrirPerfil(emp);
                 
-                // Trata as tags para exibição
                 const tagsExibicao = emp.tags ? emp.tags.slice(0, 3).join(', ') : 'Inovação';
 
                 card.innerHTML = `
@@ -149,7 +147,7 @@
                         </div>
                     </div>
                     <div class="card-content-area">
-                        <strong>Destaque:</strong> ${tagsExibicao}
+                        <strong>Especialidade:</strong> ${tagsExibicao}
                     </div>
                     <div class="card-footer">
                         <span>IpêTech UFLA</span>
@@ -162,7 +160,7 @@
 
         // 4. FILTROS
         function filtrarResultados() {
-            const termo = document.getElementById('searchInput').value.toLowerCase();
+            const termo = document.getElementById('searchInput').value.toLowerCase().trim();
             const filtrados = empresasData.filter(emp => 
                 emp.nome.toLowerCase().includes(termo) || 
                 emp.setor.toLowerCase().includes(termo) ||
