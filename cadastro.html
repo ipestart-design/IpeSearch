@@ -34,6 +34,8 @@
             background: #003366;
             margin: 0;
             padding: 0;
+            margin-top: -100px; /* Compensa altura do header */
+            padding-top: 100px;
         }
 
         /* Imagem de fundo com opacidade */
@@ -92,9 +94,11 @@
             text-transform: uppercase;
             letter-spacing: -2px;
             text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            background: linear-gradient(135deg, #ffffff 0%, #d0f8ff 100%);
+            /* Gradiente igual ao da home */
+            background: linear-gradient(135deg, #002244, #00c2cb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .cadastro-hero-content p {
