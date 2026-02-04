@@ -19,22 +19,22 @@
             background-size: 20px 20px;
             margin: 0;
             overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* --- HERO SECTION TELA CHEIA (100vh) --- */
+        /* --- HERO SECTION (GRADIENTE) --- */
         .mentores-hero {
-            height: 100vh;
+            min-height: 60vh; 
             width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(135deg, rgba(0, 51, 102, 0.95), rgba(0, 26, 51, 0.9)), 
-                        url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&q=80') center/cover fixed;
+            background: radial-gradient(circle at top, #004080, #003366, #001a33);
             color: white;
             position: relative;
-            padding: 0 20px;
+            padding: 100px 20px 80px;
         }
 
         .mentores-hero h1 {
@@ -43,44 +43,26 @@
             text-transform: uppercase;
             letter-spacing: -2px;
             margin-bottom: 20px;
-            /* Efeito Dourado/Tech no Texto */
-            background: linear-gradient(to right, #ffffff, #00c2cb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            color: #ffffff;
+            text-shadow: 0 4px 15px rgba(0, 194, 203, 0.4);
         }
 
         .mentores-hero p {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             max-width: 800px;
             opacity: 0.9;
             line-height: 1.6;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+            color: #e0f7fa;
         }
 
-        /* Indicador de Scroll */
-        .scroll-down {
-            position: absolute;
-            bottom: 30px;
-            animation: bounce 2s infinite;
-            cursor: pointer;
-            color: #00c2cb;
-            font-size: 2.5rem;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-15px); }
-            60% { transform: translateY(-7px); }
-        }
-
-        /* --- FILTROS DE BUSCA --- */
+        /* --- FILTROS --- */
         .filters-section {
-            padding: 40px 0;
-            background: transparent;
-            margin-top: -80px; /* Sobrepor levemente se quiser, ou ajustar */
+            padding: 0 20px;
+            margin-top: -40px;
             position: relative;
             z-index: 10;
+            margin-bottom: 60px;
         }
 
         .filters-container {
@@ -91,15 +73,15 @@
         }
 
         .filter-btn {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid #ddd;
-            padding: 12px 30px;
+            background: #ffffff;
+            border: 1px solid #e1e4e8;
+            padding: 14px 35px;
             border-radius: 50px;
             font-weight: 700;
             color: #003366;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -110,17 +92,17 @@
             background: #00c2cb;
             color: white;
             border-color: #00c2cb;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 194, 203, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 194, 203, 0.3);
         }
 
-        /* --- GRID DE CARDS ESTILO FIFA --- */
+        /* --- GRID DE CARDS --- */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Um pouco mais largo */
             gap: 50px;
             max-width: 1200px;
-            margin: 60px auto 100px;
+            margin: 0 auto 100px;
             padding: 0 20px;
         }
 
@@ -128,7 +110,7 @@
         .fut-card {
             position: relative;
             width: 100%;
-            max-width: 320px;
+            max-width: 340px; /* Card levemente maior */
             margin: 0 auto;
             background: #fff;
             border-radius: 20px;
@@ -137,17 +119,19 @@
             overflow: hidden;
             border: 1px solid rgba(0,0,0,0.05);
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
 
         .fut-card:hover {
-            transform: translateY(-15px) scale(1.03);
+            transform: translateY(-15px) scale(1.02);
             box-shadow: 0 25px 50px rgba(0, 194, 203, 0.25);
             z-index: 2;
         }
 
         /* Topo do Card */
         .card-top {
-            height: 150px;
+            height: 140px;
             background: linear-gradient(135deg, #003366, #001a33);
             position: relative;
             display: flex;
@@ -162,8 +146,7 @@
         /* Badge XP */
         .card-rating {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 15px; left: 15px;
             color: rgba(255,255,255,0.95);
             text-align: center;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -174,24 +157,18 @@
         /* Icone Categoria */
         .card-club {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 40px;
-            height: 40px;
+            top: 15px; right: 15px;
+            width: 40px; height: 40px;
             background: rgba(255,255,255,0.9);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            color: #003366;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; color: #003366;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         /* Foto */
         .card-image {
-            width: 130px;
-            height: 130px;
+            width: 130px; height: 130px;
             border-radius: 50%;
             border: 5px solid #fff;
             background-color: #f0f0f0;
@@ -203,52 +180,67 @@
 
         /* Corpo */
         .card-body {
-            padding: 60px 20px 25px;
+            padding: 55px 20px 25px;
             text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        .mentor-name {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #003366;
-            margin-bottom: 5px;
-            text-transform: uppercase;
+        .mentor-name { font-size: 1.5rem; font-weight: 800; color: #003366; margin-bottom: 5px; text-transform: uppercase; }
+        .mentor-role { font-size: 0.95rem; color: #00c2cb; font-weight: 700; margin-bottom: 10px; display: block; }
+        
+        /* NOVA BIO */
+        .mentor-bio {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            font-style: italic;
         }
 
-        .mentor-role {
-            font-size: 0.95rem;
-            color: #555;
-            font-weight: 600;
-            margin-bottom: 25px;
-            display: block;
-        }
-
-        /* Stats */
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: 10px;
+            margin-bottom: 15px;
             padding-top: 15px;
             border-top: 1px solid #eee;
         }
 
         .stat-item {
-            display: flex;
-            justify-content: space-between;
+            display: flex; justify-content: space-between;
             padding: 6px 12px;
             background: #f8fafc;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             border: 1px solid #eee;
         }
-
         .stat-value { font-weight: 900; color: #003366; }
-        .stat-name { font-weight: 700; color: #888; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+        .stat-name { font-weight: 700; color: #888; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; }
+
+        /* TAGS DE EXPERTISE */
+        .expertise-section {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .expertise-title { font-size: 0.75rem; text-transform: uppercase; color: #999; margin-bottom: 8px; font-weight: 700; letter-spacing: 1px; }
+        .tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+        .tag {
+            background: #eef2f6;
+            color: #003366;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
 
         /* Botão Ponte */
         .btn-connect {
             width: 100%;
+            margin-top: auto; /* Empurra pro final */
             padding: 14px;
             background: linear-gradient(135deg, #003366 0%, #002244 100%);
             color: white;
@@ -258,76 +250,24 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
             font-size: 0.9rem;
-            letter-spacing: 0.5px;
         }
-
         .btn-connect:hover {
             background: linear-gradient(135deg, #00c2cb 0%, #009aa3 100%);
             box-shadow: 0 5px 20px rgba(0, 194, 203, 0.4);
             transform: translateY(-2px);
         }
 
-        /* --- MODAL DE PONTE --- */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            text-align: center;
-            animation: slideUp 0.4s ease;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .modal-content h2 { color: #003366; margin-bottom: 10px; }
-        .modal-content p { color: #666; margin-bottom: 25px; font-size: 0.95rem; line-height: 1.5; }
-        
+        /* --- MODAL --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; position: relative; text-align: center; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .form-group { text-align: left; margin-bottom: 15px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #444; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
-        
-        .btn-submit-modal {
-            width: 100%;
-            padding: 15px;
-            background: #00c2cb;
-            color: #003366;
-            font-weight: 800;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            text-transform: uppercase;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px; right: 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-        }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+        .btn-submit-modal { width: 100%; padding: 15px; background: #00c2cb; color: #003366; font-weight: 800; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #999; }
 
     </style>
 </head>
@@ -338,10 +278,6 @@
     <section class="mentores-hero">
         <h1>Mentores de Elite</h1>
         <p>Escale seu negócio conectando-se com os melhores profissionais do mercado. Nossa equipe fará a ponte para você.</p>
-        
-        <div class="scroll-down" onclick="document.querySelector('.filters-section').scrollIntoView({behavior: 'smooth'})">
-            <i class="fas fa-chevron-down"></i>
-        </div>
     </section>
 
     <div class="filters-section">
@@ -368,12 +304,24 @@
             <div class="card-body">
                 <div class="mentor-name">Carlos Tech</div>
                 <span class="mentor-role">CTO & Arquiteto de Software</span>
+                <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS. Especialista em escala.</p>
+                
                 <div class="stats-grid">
                     <div class="stat-item"><span class="stat-value">98</span> <span class="stat-name">COD</span></div>
                     <div class="stat-item"><span class="stat-value">94</span> <span class="stat-name">ARC</span></div>
                     <div class="stat-item"><span class="stat-value">90</span> <span class="stat-name">INO</span></div>
                     <div class="stat-item"><span class="stat-value">88</span> <span class="stat-name">LID</span></div>
                 </div>
+
+                <div class="expertise-section">
+                    <div class="expertise-title">Especialidades</div>
+                    <div class="tags-container">
+                        <span class="tag">Cloud Architecture</span>
+                        <span class="tag">DevOps</span>
+                        <span class="tag">Team Building</span>
+                    </div>
+                </div>
+
                 <button class="btn-connect" onclick="openModal('Carlos Tech')">
                     Solicitar Mentoria <i class="fas fa-arrow-right"></i>
                 </button>
@@ -392,12 +340,24 @@
             <div class="card-body">
                 <div class="mentor-name">Ana Silva</div>
                 <span class="mentor-role">Investidora Anjo & CEO</span>
+                <p class="mentor-bio">Conselheira em 5 grandes empresas. Já conduziu 3 processos de M&A (venda de empresa).</p>
+
                 <div class="stats-grid">
                     <div class="stat-item"><span class="stat-value">99</span> <span class="stat-name">EST</span></div>
                     <div class="stat-item"><span class="stat-value">95</span> <span class="stat-name">FIN</span></div>
                     <div class="stat-item"><span class="stat-value">92</span> <span class="stat-name">NET</span></div>
                     <div class="stat-item"><span class="stat-value">85</span> <span class="stat-name">VEN</span></div>
                 </div>
+
+                <div class="expertise-section">
+                    <div class="expertise-title">Especialidades</div>
+                    <div class="tags-container">
+                        <span class="tag">Valuation</span>
+                        <span class="tag">Pitch Deck</span>
+                        <span class="tag">Fundraising</span>
+                    </div>
+                </div>
+
                 <button class="btn-connect" onclick="openModal('Ana Silva')">
                     Solicitar Mentoria <i class="fas fa-arrow-right"></i>
                 </button>
@@ -416,12 +376,24 @@
             <div class="card-body">
                 <div class="mentor-name">Roberto Campo</div>
                 <span class="mentor-role">Eng. Agrônomo & Inovação</span>
+                <p class="mentor-bio">Pioneiro em agricultura de precisão. Consultor para grandes exportadoras de café.</p>
+
                 <div class="stats-grid">
                     <div class="stat-item"><span class="stat-value">96</span> <span class="stat-name">AGR</span></div>
                     <div class="stat-item"><span class="stat-value">91</span> <span class="stat-name">SUS</span></div>
                     <div class="stat-item"><span class="stat-value">88</span> <span class="stat-name">TEC</span></div>
                     <div class="stat-item"><span class="stat-value">89</span> <span class="stat-name">PRO</span></div>
                 </div>
+
+                <div class="expertise-section">
+                    <div class="expertise-title">Especialidades</div>
+                    <div class="tags-container">
+                        <span class="tag">Agrotech</span>
+                        <span class="tag">Sustentabilidade</span>
+                        <span class="tag">Exportação</span>
+                    </div>
+                </div>
+
                 <button class="btn-connect" onclick="openModal('Roberto Campo')">
                     Solicitar Mentoria <i class="fas fa-arrow-right"></i>
                 </button>
@@ -436,8 +408,8 @@
             <div style="font-size: 3rem; color: #00c2cb; margin-bottom: 10px;">
                 <i class="fas fa-handshake"></i>
             </div>
-            <h2>Solicitar Conexão</h2>
-            <p>Você está solicitando uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>. Nossa equipe analisará a sinergia e entrará em contato.</p>
+            <h2 style="color:#003366;">Solicitar Conexão</h2>
+            <p>Você está solicitando uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>. Nossa equipe analisará a sinergia.</p>
             
             <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Solicitação de Mentoria">
@@ -451,7 +423,7 @@
                 </div>
                 <div class="form-group">
                     <label>Breve motivo do contato</label>
-                    <textarea name="motivo" rows="3" required placeholder="Tenho uma startup de agrotech e gostaria de validar meu modelo..."></textarea>
+                    <textarea name="motivo" rows="3" required placeholder="Tenho uma startup e gostaria de validar meu modelo..."></textarea>
                 </div>
                 <button type="submit" class="btn-submit-modal">Enviar Solicitação</button>
             </form>
@@ -462,7 +434,6 @@
     <script src="chat.js"></script>
 
     <script>
-        // FILTROS
         function filterMentors(category) {
             const cards = document.querySelectorAll('.fut-card');
             const buttons = document.querySelectorAll('.filter-btn');
@@ -476,7 +447,7 @@
                 card.style.transform = 'translateY(20px)';
 
                 if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'block';
+                    card.style.display = 'flex'; /* Flex para manter layout interno */
                     setTimeout(() => {
                         card.style.opacity = '1';
                         card.style.transform = 'translateY(0)';
@@ -485,7 +456,6 @@
             });
         }
 
-        // MODAL
         const modal = document.getElementById('contactModal');
         const mentorNameSpan = document.getElementById('mentorTargetName');
         const hiddenSubject = document.getElementById('hiddenSubject');
@@ -500,7 +470,6 @@
             modal.style.display = 'none';
         }
 
-        // Fechar ao clicar fora
         window.onclick = function(event) {
             if (event.target == modal) {
                 closeModal();
