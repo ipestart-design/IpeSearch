@@ -22,23 +22,29 @@
             margin: 0 !important;
             padding: 0 !important;
             width: 100% !important;
-            height: 100% !important;
+            min-height: 100vh !important;
             overflow-x: hidden !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         /* =========================================
-           HERO SECTION (IMAGEM + OPACIDADE BRANCA)
+           HERO SECTION (CORRIGIDO)
            ========================================= */
         .cadastro-hero {
             position: relative;
             width: 100%;
-            height: 100vh; /* Ocupa exatamente a altura da tela */
+            height: 100vh; /* Força altura total da tela */
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Imagem de Fundo Tecnológica */
-            background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80') center/cover no-repeat fixed;
+            
+            /* IMAGEM DE FUNDO FIXADA */
+            background-image: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            
             margin: 0;
             padding: 0;
         }
@@ -50,7 +56,7 @@
             left: 0; 
             width: 100%; 
             height: 100%;
-            background: rgba(255, 255, 255, 0.85); /* 85% Branco - Ajuste aqui se quiser mais/menos transparente */
+            background-color: rgba(255, 255, 255, 0.40); 
             z-index: 1;
         }
 
@@ -64,12 +70,12 @@
         }
 
         .cadastro-hero h1 {
-            font-size: clamp(3rem, 5vw, 5rem); /* Responsivo */
+            font-size: clamp(3rem, 5vw, 5rem);
             font-weight: 900;
             margin-bottom: 20px;
             text-transform: uppercase;
             line-height: 1.1;
-            /* Texto com Gradiente Escuro para contraste */
+            /* Texto com Gradiente Escuro */
             background: linear-gradient(135deg, #002244 0%, #00509e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -78,7 +84,7 @@
 
         .cadastro-hero p {
             font-size: 1.5rem;
-            color: #4a5568; /* Cinza escuro para leitura fácil */
+            color: #4a5568;
             font-weight: 500;
             max-width: 800px;
             margin: 0 auto;
@@ -93,7 +99,7 @@
             z-index: 10;
             animation: bounce 2s infinite;
             cursor: pointer;
-            color: #00c2cb; /* CIANO VIBRANTE */
+            color: #00c2cb !important; /* CIANO FORÇADO */
             font-size: 3rem;
         }
 
@@ -152,7 +158,7 @@
         /* COR DOS ÍCONES CORRIGIDA PARA CIANO */
         .beneficio-icon {
             font-size: 3.5rem;
-            color: #00c2cb !important; /* Forçando a cor clara */
+            color: #00c2cb !important; /* CORRIGIDO: Forçando Ciano */
             margin-bottom: 25px;
             display: inline-block;
         }
@@ -202,7 +208,7 @@
         /* ÍCONES DOS PERFIS (CORRIGIDO PARA CIANO) */
         .card-icon-cadastro { 
             font-size: 3rem; 
-            color: #00c2cb !important; /* Cor vibrante */
+            color: #00c2cb !important; /* CORRIGIDO: Forçando Ciano */
             margin-bottom: 15px; 
             transition: color 0.3s;
         }
@@ -218,7 +224,7 @@
             background: linear-gradient(135deg, #00c2cb, #009aa3);
         }
 
-        /* Quando ativo, o ícone fica branco para contraste com o fundo ciano */
+        /* Ícones Brancos apenas quando o card está ativo (fundo ciano) */
         .cadastro-card.active .card-icon-cadastro { color: white !important; }
         .cadastro-card.active h3 { color: white !important; }
         .cadastro-card.active p { color: rgba(255,255,255,0.9) !important; }
