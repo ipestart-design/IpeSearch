@@ -21,17 +21,18 @@
             padding: 0 !important;
             width: 100%;
             overflow-x: hidden;
-            font-family: 'Inter', sans-serif; /* Fonte mais moderna */
+            font-family: 'Inter', sans-serif;
             background-color: #f4f7fa;
             color: #1e293b;
         }
 
-        /* --- HERO SECTION: IMPONENTE E LIMPA --- */
+        /* --- HERO SECTION: CORREÇÃO DO HEADER --- */
         .hero-section {
             width: 100%;
-            /* Altura ajustada para não ficar exagerada, mas respeitar o header */
-            padding: 160px 20px 100px; 
-            background: #0f172a; /* Azul quase preto (Slate 900) */
+            /* AUMENTADO PARA 200px PARA FUGIR DO HEADER */
+            padding: 200px 20px 100px; 
+            
+            background: #0f172a; /* Azul Escuro Premium */
             background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
             text-align: center;
             position: relative;
@@ -45,22 +46,24 @@
             margin: 0 0 20px 0;
             letter-spacing: -1px;
             line-height: 1.1;
+            position: relative;
+            z-index: 1; /* Garante que fique acima de elementos de fundo */
         }
 
         .hero-title span {
-            color: #00c2cb; /* Destaque Ciano */
+            color: #00c2cb;
         }
 
         .hero-subtitle {
             font-size: 1.2rem;
-            color: #94a3b8; /* Cinza azulado */
+            color: #94a3b8;
             max-width: 700px;
             margin: 0 auto 40px;
             line-height: 1.6;
             font-weight: 400;
         }
 
-        /* --- FILTROS MODERNOS --- */
+        /* --- FILTROS --- */
         .filters-wrapper {
             display: flex;
             justify-content: center;
@@ -126,7 +129,7 @@
             border-color: #00c2cb;
         }
 
-        /* Cabeçalho do Card (Foto + Nome) */
+        /* Cabeçalho do Card */
         .card-header {
             padding: 30px;
             display: flex;
@@ -158,7 +161,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Corpo do Card (Bio + Stats) */
+        /* Corpo do Card */
         .card-body {
             padding: 25px 30px;
             flex-grow: 1;
@@ -173,7 +176,7 @@
             margin-bottom: 25px;
         }
 
-        /* Tags de Expertise */
+        /* Tags */
         .tags-list {
             display: flex;
             flex-wrap: wrap;
@@ -190,7 +193,7 @@
             font-weight: 600;
         }
 
-        /* Footer do Card (Botão) */
+        /* Footer do Card */
         .card-footer {
             padding: 20px 30px;
             background: #f8fafc;
@@ -219,7 +222,7 @@
             color: #0f172a;
         }
 
-        /* Badge de XP Flutuante */
+        /* Badge XP */
         .xp-badge {
             position: absolute;
             top: 20px;
@@ -233,7 +236,7 @@
             border: 1px solid #d1fae5;
         }
 
-        /* --- MODAL (Clean) --- */
+        /* --- MODAL --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
         .modal-box { background: white; padding: 40px; border-radius: 16px; max-width: 480px; width: 90%; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: fadeUp 0.3s ease; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
