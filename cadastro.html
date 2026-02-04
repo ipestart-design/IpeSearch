@@ -13,12 +13,25 @@
 
     <title>Quero Participar - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* RESET TOTAL PARA HERO OCUPAR TELA TODA */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            overflow-x: hidden !important;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Hero Section -->
+    <!-- Hero Section - TELA INTEIRA -->
     <section class="cadastro-hero" style="
         min-height: 100vh;
+        width: 100vw;
+        margin: 0;
+        padding: 140px 20px 80px 20px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -27,7 +40,6 @@
                     url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80') center/cover;
         color: white;
         text-align: center;
-        padding: 140px 20px 80px 20px;
     ">
         <div class="cadastro-hero-content" style="max-width: 900px; animation: fadeIn 1s;">
             <h1 style="
