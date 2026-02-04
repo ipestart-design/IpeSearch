@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
+
+    <title>Mentores - IPÊ CONECT</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        body {
+            background-color: #f0f2f5;
+            background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .mentores-hero {
+            text-align: center;
+            padding: 120px 20px 60px;
+            background: linear-gradient(135deg, #003366 0%, #001a33 100%);
+            color: white;
+            margin-bottom: 40px;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .mentores-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #00c2cb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- FILTROS DE BUSCA --- */
+        .filters-container {
+            max-width: 1200px;
+            margin: -80px auto 50px;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ddd;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            color: #003366;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #00c2cb;
+            color: white;
+            border-color: #00c2cb;
+            transform: translateY(-3px);
+        }
+
+        /* --- GRID DE CARDS ESTILO FIFA --- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        /* O CARD DE JOGADOR */
+        .fut-card {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 20px; /* Borda arredondada moderna */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+
+        .fut-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(0, 194, 203, 0.3);
+            z-index: 2;
+        }
+
+        /* Topo do Card (Fundo Colorido) */
+        .card-top {
+            height: 140px;
+            background: linear-gradient(135deg, #003366, #001a33);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        /* Variação de Cores por Nível (Classes auxiliares) */
+        .card-top.gold { background: linear-gradient(135deg, #FFD700, #DAA520); } /* Mentor Gold */
+        .card-top.tech { background: linear-gradient(135deg, #00c2cb, #005f6b); } /* Mentor Tech */
+        .card-top.agro { background: linear-gradient(135deg, #4CAF50, #2E7D32); } /* Mentor Agro */
+
+        /* Badge de "Overall" (Anos de XP) */
+        .card-rating {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+        }
+        .rating-num { font-size: 2rem; font-weight: 900; line-height: 1; display: block; }
+        .rating-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Logo da Empresa/Instituição */
+        .card-club {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #003366;
+        }
+
+        /* Foto do Mentor */
+        .card-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            background-color: #f0f0f0;
+            object-fit: cover;
+            transform: translateY(40px); /* Faz a foto "sair" do header */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        /* Corpo do Card */
+        .card-body {
+            padding: 50px 20px 20px; /* Padding top compensa a foto */
+            text-align: center;
+        }
+
+        .mentor-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #003366;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .mentor-role {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Grid de Atributos (Stats) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .stat-value { font-weight: 800; color: #00c2cb; }
+        .stat-name { font-weight: 600; color: #555; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+
+        /* Botão de Ação */
+        .btn-connect {
+            width: 100%;
+            padding: 12px;
+            background: #003366;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-connect:hover {
+            background: #00c2cb;
+            box-shadow: 0 5px 15px rgba(0, 194, 203, 0.4);
+        }
+
+        /* Efeito de Brilho (Shine) ao passar o mouse */
+        .fut-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+        .fut-card:hover::after { left: 150%; transition: 0.7s ease-in-out; }
+
+    </style>
+</head>
+<body>
+
+    <script src="header.js"></script>
+
+    <section class="mentores-hero">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h1>Mentores de Elite</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">Escale seu negócio com a tática dos melhores profissionais do mercado.</p>
+        </div>
+    </section>
+
+    <div class="filters-container">
+        <button class="filter-btn active" onclick="filterMentors('all')">Todos</button>
+        <button class="filter-btn" onclick="filterMentors('tech')"><i class="fas fa-microchip"></i> Tecnologia</button>
+        <button class="filter-btn" onclick="filterMentors('biz')"><i class="fas fa-chart-line"></i> Negócios</button>
+        <button class="filter-btn" onclick="filterMentors('agro')"><i class="fas fa-tractor"></i> Agro</button>
+        <button class="filter-btn" onclick="filterMentors('mkt')"><i class="fas fa-bullhorn"></i> Marketing</button>
+    </div>
+
+    <div class="cards-grid" id="mentoresGrid">
+
+        <div class="fut-card" data-category="tech">
+            <div class="card-top tech">
+                <div class="card-rating">
+                    <span class="rating-num">15</span>
+                    <span class="rating-label">ANOS XP</span>
+                </div>
+                <div class="card-club"><i class="fab fa-google"></i></div>
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Mentor" class="card-image">
+            </div>
+            <div class="card-body">
+                <div class="mentor-name">Carlos Tech</div>
+                <span class="mentor-role">CTO & Arquiteto de Software</span>
+                
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="stat-value">98</span> <span class="stat-name">COD</span></div>
+                    <div class="stat-item"><span class="stat-value">94</span> <span class="stat-name">ARC</span></div>
+                    <div class="stat-item"><span class="stat-value">90</span> <span class="stat-name">INO</span></div>
+                    <div class="stat-item"><span class="stat-value">88</span> <span class="stat-name">LID</span></div>
+                </div>
+
+                <button class="btn-connect" onclick="window.location.href='https://wa.me/553599999999'">
+                    Convocar <i class="fas fa-comments"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="fut-card" data-category="biz">
+            <div class="card-top gold">
+                <div class="card-rating">
+                    <span class="rating-num">22</span>
+                    <span class="rating-label">ANOS XP</span>
+                </div>
+                <div class="card-club"><i class="fas fa-briefcase"></i></div>
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Mentor" class="card-image">
+            </div>
+            <div class="card-body">
+                <div class="mentor-name">Ana Silva</div>
+                <span class="mentor-role">Investidora Anjo & CEO</span>
+                
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="stat-value">99</span> <span class="stat-name">EST</span></div>
+                    <div class="stat-item"><span class="stat-value">95</span> <span class="stat-name">FIN</span></div>
+                    <div class="stat-item"><span class="stat-value">92</span> <span class="stat-name">NET</span></div>
+                    <div class="stat-item"><span class="stat-value">85</span> <span class="stat-name">VEN</span></div>
+                </div>
+
+                <button class="btn-connect" onclick="window.location.href='https://wa.me/553599999999'">
+                    Convocar <i class="fas fa-comments"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="fut-card" data-category="agro">
+            <div class="card-top agro">
+                <div class="card-rating">
+                    <span class="rating-num">12</span>
+                    <span class="rating-label">ANOS XP</span>
+                </div>
+                <div class="card-club"><i class="fas fa-leaf"></i></div>
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Mentor" class="card-image">
+            </div>
+            <div class="card-body">
+                <div class="mentor-name">Roberto Campo</div>
+                <span class="mentor-role">Eng. Agrônomo & Inovação</span>
+                
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="stat-value">96</span> <span class="stat-name">AGR</span></div>
+                    <div class="stat-item"><span class="stat-value">91</span> <span class="stat-name">SUS</span></div>
+                    <div class="stat-item"><span class="stat-value">88</span> <span class="stat-name">TEC</span></div>
+                    <div class="stat-item"><span class="stat-value">89</span> <span class="stat-name">PRO</span></div>
+                </div>
+
+                <button class="btn-connect" onclick="window.location.href='https://wa.me/553599999999'">
+                    Convocar <i class="fas fa-comments"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="fut-card" data-category="mkt">
+            <div class="card-top tech">
+                <div class="card-rating">
+                    <span class="rating-num">08</span>
+                    <span class="rating-label">ANOS XP</span>
+                </div>
+                <div class="card-club"><i class="fas fa-bullseye"></i></div>
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Mentor" class="card-image">
+            </div>
+            <div class="card-body">
+                <div class="mentor-name">Julia Brand</div>
+                <span class="mentor-role">Head de Growth & Marketing</span>
+                
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="stat-value">97</span> <span class="stat-name">GRW</span></div>
+                    <div class="stat-item"><span class="stat-value">93</span> <span class="stat-name">MKT</span></div>
+                    <div class="stat-item"><span class="stat-value">90</span> <span class="stat-name">RED</span></div>
+                    <div class="stat-item"><span class="stat-value">85</span> <span class="stat-name">SEO</span></div>
+                </div>
+
+                <button class="btn-connect" onclick="window.location.href='https://wa.me/553599999999'">
+                    Convocar <i class="fas fa-comments"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="footer.js"></script>
+    <script src="chat.js"></script>
+
+    <script>
+        // Sistema de Filtragem
+        function filterMentors(category) {
+            const cards = document.querySelectorAll('.fut-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Atualiza botões
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Filtra cards com animação
+            cards.forEach(card => {
+                card.style.display = 'none'; // Esconde todos primeiro
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block'; // Mostra o bloco
+                    // Pequeno delay para permitir a transição CSS
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
