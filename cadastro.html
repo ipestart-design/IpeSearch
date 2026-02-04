@@ -33,7 +33,7 @@
             justify-content: center;
             position: relative;
             /* Gradiente Branco com transparência sobre a imagem */
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.75)), 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.8)), 
                         url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80') center/cover;
             background-attachment: fixed;
             text-align: center;
@@ -55,24 +55,24 @@
             text-transform: uppercase;
             letter-spacing: -2px;
             line-height: 1.1;
-            /* Gradiente no Texto (Azul Profundo para Ciano) */
+            /* Gradiente no Texto */
             background: linear-gradient(135deg, #002244 0%, #00c2cb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* Subtítulo Escuro para leitura no fundo branco */
+        /* Subtítulo Escuro */
         .cadastro-hero p {
             font-size: 1.6rem;
-            color: #2d3748; /* Cinza escuro */
+            color: #4a5568; 
             line-height: 1.6;
             font-weight: 500;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        /* Indicador de Rolagem Escuro */
+        /* Indicador de Rolagem (AGORA CLARO/CIANO) */
         .scroll-indicator {
             position: absolute;
             bottom: 40px;
@@ -80,9 +80,14 @@
             transform: translateX(-50%);
             cursor: pointer;
             animation: bounce 2s infinite;
-            color: #003366;
-            opacity: 0.8;
+            color: #00c2cb; /* Mudado de Azul Escuro para Ciano */
+            font-size: 2.5rem;
             z-index: 10;
+            transition: color 0.3s;
+        }
+        
+        .scroll-indicator:hover {
+            color: #009aa3;
         }
 
         /* Animações */
@@ -137,10 +142,14 @@
             border-color: #00c2cb;
         }
 
+        /* ÍCONES DOS BENEFÍCIOS (GRADIENTE CIANO) */
         .beneficio-icon {
-            font-size: 3rem;
-            color: #00c2cb;
+            font-size: 3.5rem;
             margin-bottom: 20px;
+            background: linear-gradient(135deg, #00c2cb, #2bd9e2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
         }
 
         .beneficio-card h3 {
@@ -180,6 +189,16 @@
             border-bottom: 1px solid #eee;
         }
 
+        /* ÍCONES DO CARD DE CADASTRO (CIANO BRILHANTE) */
+        .card-icon-cadastro { 
+            font-size: 3rem; 
+            margin-bottom: 15px; 
+            transition: color 0.3s;
+            /* Aplicando a cor direta vibrante */
+            color: #00c2cb; 
+        }
+
+        /* Hover Card */
         .cadastro-card.active {
             box-shadow: 0 20px 40px rgba(0, 194, 203, 0.15);
             transform: scale(1.02);
@@ -187,14 +206,13 @@
         }
 
         .cadastro-card.active .card-header-cadastro {
-            background: linear-gradient(135deg, #003366, #00509e);
+            background: linear-gradient(135deg, #00c2cb, #009aa3); /* Ciano no fundo ativo */
             color: white;
         }
 
         .cadastro-card.active .card-icon-cadastro { color: white; }
         .cadastro-card.active .toggle-icon { transform: rotate(180deg); color: white; }
 
-        .card-icon-cadastro { font-size: 2.5rem; color: #00c2cb; margin-bottom: 15px; transition: color 0.3s; }
         .toggle-icon { float: right; transition: transform 0.3s; color: #ccc; }
 
         .card-form-wrapper {
@@ -251,7 +269,7 @@
         </div>
 
         <div class="scroll-indicator" onclick="document.querySelector('.beneficios-section').scrollIntoView({behavior: 'smooth'})">
-            <i class="fas fa-chevron-down" style="font-size: 2.5rem;"></i>
+            <i class="fas fa-chevron-down"></i>
         </div>
     </section>
 
