@@ -12,230 +12,255 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- RESET ESTRUTURAL OBRIGATÓRIO --- */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            overflow-x: hidden; /* Evita rolagem lateral */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        body {
             background-color: #f8fafc;
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* --- HERO SECTION CORRIGIDA (PONTA A PONTA) --- */
+        /* --- HERO SECTION (VISUAL TECH LIMPO) --- */
         .mentores-hero {
             position: relative;
-            width: 100%; /* Garante largura total */
-            min-height: 500px; /* Altura fixa para dar presença */
+            width: 100%;
+            padding: 140px 20px 100px; /* Espaço interno equilibrado */
+            
+            /* Fundo Azul Profundo e Elegante */
+            background-color: #0f172a; 
+            
+            /* Textura de Grid Suave (Tech Vibe) */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             text-align: center;
             
-            /* GRADIENTE MAIS SUAVE E PROFISSIONAL */
-            background: linear-gradient(180deg, #003366 0%, #001a33 100%);
-            
-            color: white;
-            padding-top: 80px; /* Espaço para o menu não ficar em cima */
-            
-            /* Curva suave na parte inferior para quebrar o "quadrado" */
-            border-bottom-left-radius: 50% 40px;
-            border-bottom-right-radius: 50% 40px;
-            
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 60px; /* Espaço para empurrar o conteúdo de baixo */
+            /* Borda de luz neon na parte inferior */
+            border-bottom: 1px solid rgba(0, 194, 203, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
-        /* Elemento decorativo sutil (Dots) */
-        .mentores-hero::before {
+        /* Efeito de brilho central */
+        .mentores-hero::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0.5;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%; height: 60%;
+            background: radial-gradient(circle, rgba(0, 194, 203, 0.15) 0%, transparent 70%);
             pointer-events: none;
-        }
-
-        .hero-content-wrapper {
-            max-width: 900px;
-            padding: 0 20px;
-            z-index: 2;
-            margin-bottom: 40px; /* Sobe o texto um pouco */
         }
 
         .mentores-hero h1 {
             font-size: 3.5rem;
-            font-weight: 900;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: -1px;
-            margin-bottom: 15px;
+            margin: 0 0 15px 0;
             color: #ffffff;
+            z-index: 2;
         }
 
         .mentores-hero p {
             font-size: 1.2rem;
-            opacity: 0.9;
+            max-width: 700px;
+            color: #94a3b8; /* Cinza azulado claro */
             line-height: 1.6;
-            color: #e0f7fa;
+            margin: 0;
+            z-index: 2;
             font-weight: 400;
         }
 
-        /* --- FILTROS (FLUTUANDO ENTRE O AZUL E O BRANCO) --- */
+        /* --- FILTROS (ALINHADOS NA BORDA) --- */
         .filters-section {
+            margin-top: -30px; /* Sobe para ficar na divisória */
+            padding-bottom: 60px;
             position: relative;
-            margin-top: -90px; /* Puxa para cima para sobrepor o azul */
             z-index: 10;
-            padding: 0 20px;
-            margin-bottom: 60px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         .filters-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
             background: #ffffff;
-            border: 1px solid #e1e4e8;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-weight: 700;
-            color: #003366;
+            border: 1px solid #e2e8f0;
+            padding: 12px 24px;
+            border-radius: 8px; /* Borda levemente arredondada (mais sério) */
+            font-weight: 600;
+            color: #475569;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08); /* Sombra para destacar do fundo */
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 0.95rem;
         }
 
-        .filter-btn:hover, .filter-btn.active {
-            background: #00c2cb;
-            color: white;
-            border-color: #00c2cb;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 194, 203, 0.25);
+        .filter-btn:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            color: #003366;
+            border-color: #cbd5e1;
         }
+
+        .filter-btn.active {
+            background: #00c2cb;
+            color: #0f172a;
+            border-color: #00c2cb;
+            box-shadow: 0 10px 15px -3px rgba(0, 194, 203, 0.4);
+        }
+
+        .filter-btn i { font-size: 1rem; }
 
         /* --- GRID DE CARDS --- */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 40px;
             max-width: 1200px;
             margin: 0 auto 100px;
             padding: 0 20px;
         }
 
-        /* CARD DESIGN */
+        /* CARD DESIGN (MAIS LIMPO) */
         .fut-card {
             background: #fff;
             border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: all 0.4s ease;
-            border: 1px solid #f0f0f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #f1f5f9;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             cursor: pointer;
+            position: relative;
         }
 
         .fut-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 51, 102, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             border-color: #00c2cb;
         }
 
         /* Topo do Card */
         .card-top {
-            height: 120px;
-            background: linear-gradient(135deg, #003366, #001a33);
+            height: 100px; /* Mais baixo para focar no conteúdo */
+            background: #0f172a;
             position: relative;
             display: flex;
             justify-content: center;
         }
-        .card-top.tech { background: linear-gradient(135deg, #005f6b, #00c2cb); }
-        .card-top.gold { background: linear-gradient(135deg, #b8860b, #ffd700); }
-        .card-top.agro { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
+        
+        /* Cores sutis para o topo */
+        .card-top.tech { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 3px solid #00c2cb; }
+        .card-top.gold { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 3px solid #fbbf24; }
+        .card-top.agro { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 3px solid #22c55e; }
 
-        /* Badge XP */
+        /* Badge XP (Minimalista) */
         .card-rating {
             position: absolute; top: 15px; left: 15px;
             color: white; text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+            backdrop-filter: blur(4px);
         }
-        .rating-num { font-size: 1.8rem; font-weight: 800; line-height: 1; }
-        .rating-label { font-size: 0.6rem; text-transform: uppercase; opacity: 0.9; }
-
-        /* Ícone Categoria */
-        .card-club {
-            position: absolute; top: 15px; right: 15px;
-            color: white; font-size: 1.5rem; opacity: 0.8;
-        }
+        .rating-num { font-size: 1.1rem; font-weight: 800; }
+        .rating-label { font-size: 0.6rem; text-transform: uppercase; opacity: 0.8; margin-left: 2px; }
 
         /* Foto */
         .card-image {
-            width: 120px; height: 120px;
+            width: 100px; height: 100px;
             border-radius: 50%;
             border: 4px solid #fff;
             background: #eee;
             object-fit: cover;
             position: absolute;
-            bottom: -60px; /* Metade da foto para fora */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            bottom: -50px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         /* Corpo */
         .card-body {
-            padding: 70px 25px 30px; /* Padding top alto para compensar a foto */
+            padding: 60px 24px 24px;
             text-align: center;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
-        .mentor-name { font-size: 1.4rem; font-weight: 800; color: #003366; margin-bottom: 5px; }
-        .mentor-role { font-size: 0.9rem; color: #00c2cb; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .mentor-name { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+        .mentor-role { font-size: 0.875rem; color: #00c2cb; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        .mentor-bio { font-size: 0.9rem; color: #666; line-height: 1.5; margin-bottom: 20px; font-style: italic; min-height: 40px; }
-
-        /* Stats */
-        .stats-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-            padding-top: 15px; border-top: 1px solid #f0f0f0; margin-bottom: 20px;
+        .mentor-bio { 
+            font-size: 0.9rem; 
+            color: #64748b; 
+            line-height: 1.5; 
+            margin-bottom: 20px; 
+            min-height: 42px; /* Altura fixa para alinhar cards */
         }
-        .stat-item { display: flex; justify-content: space-between; font-size: 0.8rem; color: #555; }
-        .stat-value { font-weight: 800; color: #003366; }
+
+        /* Stats Grid (Estilo Tabela Clean) */
+        .stats-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .stat-item { display: flex; justify-content: space-between; align-items: center; }
+        .stat-name { font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
+        .stat-value { font-size: 0.9rem; font-weight: 700; color: #334155; }
 
         /* Tags */
-        .tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 20px; }
-        .tag { background: #f0f4f8; color: #555; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+        .tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 20px; }
+        .tag { 
+            background: #ffffff; 
+            border: 1px solid #e2e8f0;
+            color: #64748b; 
+            padding: 4px 10px; 
+            border-radius: 20px; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+        }
 
         .btn-connect {
             width: 100%; margin-top: auto; padding: 12px;
-            background: #003366; color: white; border: none; border-radius: 8px;
-            font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s;
-            font-size: 0.9rem;
+            background: #0f172a; color: white; border: none; border-radius: 8px;
+            font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.2s;
+            font-size: 0.875rem; letter-spacing: 0.5px;
         }
-        .btn-connect:hover { background: #00c2cb; }
+        .btn-connect:hover { background: #00c2cb; color: #0f172a; }
 
         /* --- MODAL --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; position: relative; text-align: center; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .form-group { text-align: left; margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #444; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
-        .btn-submit-modal { width: 100%; padding: 15px; background: #00c2cb; color: #003366; font-weight: 800; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #999; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-content { background: white; padding: 40px; border-radius: 16px; max-width: 480px; width: 90%; position: relative; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: zoomIn 0.3s ease; }
+        @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .form-group { text-align: left; margin-bottom: 16px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: #334155; font-size: 0.9rem; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 1rem; transition: border-color 0.2s; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #00c2cb; ring: 2px solid rgba(0, 194, 203, 0.2); }
+        .btn-submit-modal { width: 100%; padding: 14px; background: #00c2cb; color: #0f172a; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        .btn-submit-modal:hover { background: #2dd4bf; }
+        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #94a3b8; transition: color 0.2s; }
+        .close-modal:hover { color: #334155; }
 
         @media (max-width: 768px) {
             .mentores-hero h1 { font-size: 2.5rem; }
-            .filter-btn { padding: 10px 20px; font-size: 0.85rem; }
+            .mentores-hero { padding: 120px 20px 80px; } /* Ajuste mobile */
         }
     </style>
 </head>
@@ -244,10 +269,8 @@
     <script src="header.js"></script>
 
     <section class="mentores-hero">
-        <div class="hero-content-wrapper">
-            <h1>Mentores de Elite</h1>
-            <p>Escale seu negócio conectando-se com os melhores profissionais do mercado. Nossa equipe fará a ponte estratégica para você.</p>
-        </div>
+        <h1>Mentores de Elite</h1>
+        <p>Conecte-se com os melhores profissionais do mercado. Nossa equipe fará a ponte estratégica para escalar o seu negócio.</p>
     </section>
 
     <div class="filters-section">
@@ -265,23 +288,22 @@
         <div class="fut-card" data-category="tech">
             <div class="card-top tech">
                 <div class="card-rating">
-                    <span class="rating-num">15</span><span class="rating-label">Anos</span>
+                    <span class="rating-num">15y</span> <span class="rating-label">XP</span>
                 </div>
-                <div class="card-club"><i class="fas fa-laptop-code"></i></div>
                 <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Mentor" class="card-image">
             </div>
             <div class="card-body">
                 <div class="mentor-name">Carlos Tech</div>
                 <span class="mentor-role">CTO & Arquiteto</span>
-                <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS.</p>
+                <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS de sucesso.</p>
                 
                 <div class="tags-container">
                     <span class="tag">Cloud</span><span class="tag">DevOps</span><span class="tag">Scale</span>
                 </div>
 
                 <div class="stats-grid">
-                    <div class="stat-item"><span>Código</span><span class="stat-value">98</span></div>
-                    <div class="stat-item"><span>Gestão</span><span class="stat-value">90</span></div>
+                    <div class="stat-item"><span class="stat-name">Código</span><span class="stat-value">98</span></div>
+                    <div class="stat-item"><span class="stat-name">Liderança</span><span class="stat-value">90</span></div>
                 </div>
 
                 <button class="btn-connect" onclick="openModal('Carlos Tech')">Solicitar Mentoria</button>
@@ -291,23 +313,22 @@
         <div class="fut-card" data-category="biz">
             <div class="card-top gold">
                 <div class="card-rating">
-                    <span class="rating-num">22</span><span class="rating-label">Anos</span>
+                    <span class="rating-num">22y</span> <span class="rating-label">XP</span>
                 </div>
-                <div class="card-club"><i class="fas fa-briefcase"></i></div>
                 <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Mentor" class="card-image">
             </div>
             <div class="card-body">
                 <div class="mentor-name">Ana Silva</div>
                 <span class="mentor-role">Investidora Anjo</span>
-                <p class="mentor-bio">Conselheira em 5 grandes empresas. Expert em M&A.</p>
+                <p class="mentor-bio">Conselheira em 5 grandes empresas. Especialista em fusões e aquisições.</p>
 
                 <div class="tags-container">
                     <span class="tag">Valuation</span><span class="tag">Pitch</span><span class="tag">M&A</span>
                 </div>
 
                 <div class="stats-grid">
-                    <div class="stat-item"><span>Estratégia</span><span class="stat-value">99</span></div>
-                    <div class="stat-item"><span>Finanças</span><span class="stat-value">95</span></div>
+                    <div class="stat-item"><span class="stat-name">Estratégia</span><span class="stat-value">99</span></div>
+                    <div class="stat-item"><span class="stat-name">Finanças</span><span class="stat-value">95</span></div>
                 </div>
 
                 <button class="btn-connect" onclick="openModal('Ana Silva')">Solicitar Mentoria</button>
@@ -317,23 +338,22 @@
         <div class="fut-card" data-category="agro">
             <div class="card-top agro">
                 <div class="card-rating">
-                    <span class="rating-num">12</span><span class="rating-label">Anos</span>
+                    <span class="rating-num">12y</span> <span class="rating-label">XP</span>
                 </div>
-                <div class="card-club"><i class="fas fa-leaf"></i></div>
                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Mentor" class="card-image">
             </div>
             <div class="card-body">
                 <div class="mentor-name">Roberto Campo</div>
                 <span class="mentor-role">Eng. Agrônomo</span>
-                <p class="mentor-bio">Pioneiro em agricultura de precisão e exportação.</p>
+                <p class="mentor-bio">Pioneiro em agricultura de precisão e consultor de exportação.</p>
 
                 <div class="tags-container">
                     <span class="tag">Agrotech</span><span class="tag">Café</span><span class="tag">IoT</span>
                 </div>
 
                 <div class="stats-grid">
-                    <div class="stat-item"><span>Campo</span><span class="stat-value">96</span></div>
-                    <div class="stat-item"><span>Inovação</span><span class="stat-value">91</span></div>
+                    <div class="stat-item"><span class="stat-name">Campo</span><span class="stat-value">96</span></div>
+                    <div class="stat-item"><span class="stat-name">Inovação</span><span class="stat-value">91</span></div>
                 </div>
 
                 <button class="btn-connect" onclick="openModal('Roberto Campo')">Solicitar Mentoria</button>
@@ -348,8 +368,8 @@
             <div style="font-size: 3rem; color: #00c2cb; margin-bottom: 10px;">
                 <i class="fas fa-handshake"></i>
             </div>
-            <h2 style="color:#003366;">Solicitar Conexão</h2>
-            <p>Você está solicitando uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>. Nossa equipe analisará a sinergia.</p>
+            <h2 style="color:#0f172a;">Solicitar Conexão</h2>
+            <p>Você está solicitando uma ponte com <strong id="mentorTargetName" style="color:#00c2cb;"></strong>.</p>
             
             <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Solicitação de Mentoria">
@@ -363,7 +383,7 @@
                 </div>
                 <div class="form-group">
                     <label>Breve motivo do contato</label>
-                    <textarea name="motivo" rows="3" required placeholder="Tenho uma startup e gostaria de validar meu modelo..."></textarea>
+                    <textarea name="motivo" rows="3" required placeholder="Gostaria de validar meu modelo de negócio..."></textarea>
                 </div>
                 <button type="submit" class="btn-submit-modal">Enviar Solicitação</button>
             </form>
