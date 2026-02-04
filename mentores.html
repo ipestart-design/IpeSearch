@@ -6,234 +6,252 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
 
     <title>Mentores - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- RESET OBRIGATÓRIO PARA TELA CHEIA --- */
+        /* --- RESET & BASE --- */
+        * { box-sizing: border-box; }
+        
         html, body {
             margin: 0 !important;
             padding: 0 !important;
-            width: 100% !important;
-            min-height: 100vh !important;
-            overflow-x: hidden !important; /* Impede rolagem lateral indesejada */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8fafc;
-        }
-
-        /* --- HERO SECTION CORRIGIDA --- */
-        .mentores-hero {
-            position: relative;
-            width: 100%; /* Largura total */
-            min-height: 80vh; /* Altura considerável (80% da tela) */
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* Centraliza verticalmente */
-            align-items: center;     /* Centraliza horizontalmente */
-            text-align: center;
-            
-            /* O GRADIENTE AZUL (SÓLIDO DE PONTA A PONTA) */
-            background: linear-gradient(135deg, #002244 0%, #003366 50%, #001a33 100%);
-            
-            /* ESPAÇAMENTO PARA O HEADER NÃO TAMPAR O TÍTULO */
-            padding-top: 150px; 
-            padding-bottom: 80px;
-            padding-left: 20px;
-            padding-right: 20px;
-            
-            box-sizing: border-box; /* Garante que o padding não estoure a largura */
-            color: white;
-        }
-
-        /* Textura sutil de fundo (opcional, para dar profundidade) */
-        .mentores-hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            pointer-events: none;
-        }
-
-        .mentores-hero h1 {
-            font-size: 4rem; /* Tamanho grande e impactante */
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            margin-bottom: 20px;
-            color: #ffffff;
-            z-index: 2;
-        }
-
-        .mentores-hero p {
-            font-size: 1.4rem;
-            color: #e0f7fa;
-            font-weight: 400;
-            line-height: 1.6;
-            max-width: 900px;
-            margin: 0 auto;
-            z-index: 2;
-        }
-
-        /* --- FILTROS (LOGO ABAIXO DO TEXTO) --- */
-        .filters-section {
-            margin-top: 40px;
-            z-index: 10;
             width: 100%;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif; /* Fonte mais moderna */
+            background-color: #f4f7fa;
+            color: #1e293b;
         }
 
-        .filters-container {
+        /* --- HERO SECTION: IMPONENTE E LIMPA --- */
+        .hero-section {
+            width: 100%;
+            /* Altura ajustada para não ficar exagerada, mas respeitar o header */
+            padding: 160px 20px 100px; 
+            background: #0f172a; /* Azul quase preto (Slate 900) */
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            margin: 0 0 20px 0;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .hero-title span {
+            color: #00c2cb; /* Destaque Ciano */
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8; /* Cinza azulado */
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* --- FILTROS MODERNOS --- */
+        .filters-wrapper {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            background: rgba(255, 255, 255, 0.1); /* Translúcido sobre o azul */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 700;
-            color: #fff;
+            background: transparent;
+            border: 1px solid #334155;
+            color: #cbd5e1;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1rem;
+            gap: 8px;
         }
 
-        .filter-btn:hover, .filter-btn.active {
-            background: #00c2cb;
-            color: #002244;
+        .filter-btn:hover {
             border-color: #00c2cb;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 194, 203, 0.3);
+            color: white;
+            background: rgba(0, 194, 203, 0.1);
+        }
+
+        .filter-btn.active {
+            background: #00c2cb;
+            border-color: #00c2cb;
+            color: #0f172a;
         }
 
         /* --- GRID DE CARDS --- */
+        .content-container {
+            max-width: 1200px;
+            margin: 60px auto 100px;
+            padding: 0 20px;
+        }
+
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 40px;
-            max-width: 1200px;
-            margin: -60px auto 100px; /* Sobe um pouco para sobrepor o final do azul */
-            padding: 0 20px;
-            position: relative;
-            z-index: 20;
         }
 
-        /* CARD DESIGN */
-        .fut-card {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(0,0,0,0.05);
+        /* --- CARD DESIGN PRO --- */
+        .mentor-card {
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
             display: flex;
             flex-direction: column;
-            cursor: pointer;
-            position: relative;
         }
 
-        .fut-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 51, 102, 0.2);
+        .mentor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
             border-color: #00c2cb;
         }
 
-        /* Topo do Card */
-        .card-top {
-            height: 140px;
-            background: linear-gradient(135deg, #003366, #001a33);
-            position: relative;
+        /* Cabeçalho do Card (Foto + Nome) */
+        .card-header {
+            padding: 30px;
             display: flex;
-            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 1px solid #f1f5f9;
         }
-        
-        .card-top.tech { background: linear-gradient(135deg, #005f6b, #00c2cb); }
-        .card-top.gold { background: linear-gradient(135deg, #b8860b, #ffd700); }
-        .card-top.agro { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
 
-        .card-rating {
-            position: absolute; top: 15px; left: 15px;
-            color: white; text-align: center;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        .rating-num { font-size: 2rem; font-weight: 800; line-height: 1; }
-        .rating-label { font-size: 0.7rem; text-transform: uppercase; }
-
-        .card-club {
-            position: absolute; top: 15px; right: 15px;
-            width: 40px; height: 40px;
-            background: rgba(255,255,255,0.9);
+        .mentor-avatar {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; color: #003366;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .card-image {
-            width: 130px; height: 130px;
-            border-radius: 50%;
-            border: 5px solid #fff;
-            background: #eee;
             object-fit: cover;
-            position: absolute;
-            bottom: -65px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border: 2px solid #f1f5f9;
         }
 
+        .mentor-info h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            color: #0f172a;
+        }
+
+        .mentor-role {
+            font-size: 0.9rem;
+            color: #00c2cb;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Corpo do Card (Bio + Stats) */
         .card-body {
-            padding: 75px 25px 30px;
-            text-align: center;
+            padding: 25px 30px;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
         }
 
-        .mentor-name { font-size: 1.5rem; font-weight: 800; color: #003366; margin-bottom: 5px; text-transform: uppercase; }
-        .mentor-role { font-size: 0.95rem; color: #00c2cb; font-weight: 700; margin-bottom: 10px; }
-        .mentor-bio { font-size: 0.9rem; color: #666; line-height: 1.5; margin-bottom: 20px; font-style: italic; min-height: 40px; }
-
-        /* Tags de Especialidade */
-        .tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 20px; }
-        .tag { background: #f0f4f8; color: #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; border: 1px solid #e2e8f0; }
-
-        /* Stats */
-        .stats-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-            padding-top: 15px; border-top: 1px solid #f0f0f0; margin-bottom: 20px;
+        .mentor-bio {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 25px;
         }
-        .stat-item { display: flex; justify-content: space-between; font-size: 0.85rem; color: #555; }
-        .stat-value { font-weight: 900; color: #003366; }
 
-        .btn-connect {
-            width: 100%; margin-top: auto; padding: 14px;
-            background: #003366; color: white; border: none; border-radius: 10px;
-            font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+        /* Tags de Expertise */
+        .tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 25px;
         }
-        .btn-connect:hover { background: #00c2cb; box-shadow: 0 5px 20px rgba(0, 194, 203, 0.4); }
 
-        /* --- MODAL --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; position: relative; text-align: center; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .form-group { text-align: left; margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #444; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
-        .btn-submit-modal { width: 100%; padding: 15px; background: #00c2cb; color: #003366; font-weight: 800; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #999; }
+        .tag {
+            font-size: 0.75rem;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* Footer do Card (Botão) */
+        .card-footer {
+            padding: 20px 30px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn-request {
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-request:hover {
+            background: #00c2cb;
+            color: #0f172a;
+        }
+
+        /* Badge de XP Flutuante */
+        .xp-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ecfdf5;
+            color: #059669;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #d1fae5;
+        }
+
+        /* --- MODAL (Clean) --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-box { background: white; padding: 40px; border-radius: 16px; max-width: 480px; width: 90%; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: fadeUp 0.3s ease; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .modal-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
+        .modal-desc { color: #64748b; margin-bottom: 25px; line-height: 1.5; }
+        
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 6px; }
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Inter', sans-serif; }
+        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: #00c2cb; box-shadow: 0 0 0 3px rgba(0, 194, 203, 0.1); }
+        
+        .btn-modal-submit { width: 100%; padding: 14px; background: #00c2cb; color: #0f172a; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; }
+        .btn-close { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #94a3b8; background: none; border: none; }
 
         @media (max-width: 768px) {
-            .mentores-hero h1 { font-size: 2.8rem; }
-            .mentores-hero { padding-top: 120px; min-height: auto; padding-bottom: 60px; }
-            .cards-grid { margin-top: -30px; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-section { padding-top: 140px; }
         }
     </style>
 </head>
@@ -241,127 +259,139 @@
 
     <script src="header.js"></script>
 
-    <section class="mentores-hero">
-        <h1>Mentores de Elite</h1>
-        <p>Escale seu negócio conectando-se com os melhores profissionais do mercado. Nossa equipe fará a ponte estratégica para você.</p>
+    <header class="hero-section">
+        <h1 class="hero-title">Mentores de <span>Elite</span></h1>
+        <p class="hero-subtitle">Conecte-se com executivos, fundadores e especialistas que já trilharam o caminho que você quer percorrer.</p>
         
-        <div class="filters-section">
-            <div class="filters-container">
-                <button class="filter-btn active" onclick="filterMentors('all')">Todos</button>
-                <button class="filter-btn" onclick="filterMentors('tech')"><i class="fas fa-microchip"></i> Tecnologia</button>
-                <button class="filter-btn" onclick="filterMentors('biz')"><i class="fas fa-chart-line"></i> Negócios</button>
-                <button class="filter-btn" onclick="filterMentors('agro')"><i class="fas fa-tractor"></i> Agro</button>
-                <button class="filter-btn" onclick="filterMentors('mkt')"><i class="fas fa-bullhorn"></i> Marketing</button>
-            </div>
+        <div class="filters-wrapper">
+            <button class="filter-btn active" onclick="filterMentors('all')">Todos</button>
+            <button class="filter-btn" onclick="filterMentors('tech')"><i class="fas fa-code"></i> Tecnologia</button>
+            <button class="filter-btn" onclick="filterMentors('biz')"><i class="fas fa-chart-pie"></i> Negócios</button>
+            <button class="filter-btn" onclick="filterMentors('agro')"><i class="fas fa-leaf"></i> Agro</button>
+            <button class="filter-btn" onclick="filterMentors('mkt')"><i class="fas fa-bullhorn"></i> Marketing</button>
         </div>
-    </section>
+    </header>
 
-    <div class="cards-grid" id="mentoresGrid">
+    <div class="content-container">
+        <div class="cards-grid" id="mentoresGrid">
 
-        <div class="fut-card" data-category="tech">
-            <div class="card-top tech">
-                <div class="card-rating">
-                    <span class="rating-num">15</span><span class="rating-label">Anos</span>
+            <div class="mentor-card" data-category="tech">
+                <div class="xp-badge">15 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Carlos" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Carlos Tech</h3>
+                        <span class="mentor-role">CTO & Arquiteto</span>
+                    </div>
                 </div>
-                <div class="card-club"><i class="fas fa-laptop-code"></i></div>
-                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Mentor" class="card-image">
+                <div class="card-body">
+                    <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS. Especialista em escalar times de engenharia.</p>
+                    <div class="tags-list">
+                        <span class="tag">Cloud Computing</span>
+                        <span class="tag">DevOps</span>
+                        <span class="tag">System Design</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Carlos Tech')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="mentor-name">Carlos Tech</div>
-                <span class="mentor-role">CTO & Arquiteto</span>
-                <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS. Especialista em escala.</p>
-                
-                <div class="tags-container">
-                    <span class="tag">Cloud</span><span class="tag">DevOps</span><span class="tag">Scale</span>
-                </div>
 
-                <div class="stats-grid">
-                    <div class="stat-item"><span>Código</span><span class="stat-value">98</span></div>
-                    <div class="stat-item"><span>Gestão</span><span class="stat-value">90</span></div>
+            <div class="mentor-card" data-category="biz">
+                <div class="xp-badge">22 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Ana" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Ana Silva</h3>
+                        <span class="mentor-role">Investidora Anjo</span>
+                    </div>
                 </div>
-
-                <button class="btn-connect" onclick="openModal('Carlos Tech')">Solicitar Mentoria</button>
+                <div class="card-body">
+                    <p class="mentor-bio">Conselheira em 5 grandes empresas. Já conduziu processos de fusão e aquisição (M&A) complexos.</p>
+                    <div class="tags-list">
+                        <span class="tag">Valuation</span>
+                        <span class="tag">Pitch Deck</span>
+                        <span class="tag">Fundraising</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Ana Silva')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
             </div>
+
+            <div class="mentor-card" data-category="agro">
+                <div class="xp-badge">12 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Roberto" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Roberto Campo</h3>
+                        <span class="mentor-role">Eng. Agrônomo</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="mentor-bio">Pioneiro em agricultura de precisão. Consultor estratégico para grandes exportadoras de café.</p>
+                    <div class="tags-list">
+                        <span class="tag">Agrotech</span>
+                        <span class="tag">Sustentabilidade</span>
+                        <span class="tag">IoT</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Roberto Campo')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="mentor-card" data-category="mkt">
+                <div class="xp-badge">8 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Julia" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Julia Brand</h3>
+                        <span class="mentor-role">Head de Growth</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="mentor-bio">Especialista em tráfego pago e estratégias de crescimento acelerado para B2B.</p>
+                    <div class="tags-list">
+                        <span class="tag">Growth Hacking</span>
+                        <span class="tag">Branding</span>
+                        <span class="tag">Data Analytics</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Julia Brand')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
         </div>
-
-        <div class="fut-card" data-category="biz">
-            <div class="card-top gold">
-                <div class="card-rating">
-                    <span class="rating-num">22</span><span class="rating-label">Anos</span>
-                </div>
-                <div class="card-club"><i class="fas fa-briefcase"></i></div>
-                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Mentor" class="card-image">
-            </div>
-            <div class="card-body">
-                <div class="mentor-name">Ana Silva</div>
-                <span class="mentor-role">Investidora Anjo</span>
-                <p class="mentor-bio">Conselheira em 5 grandes empresas. Já conduziu 3 processos de M&A.</p>
-
-                <div class="tags-container">
-                    <span class="tag">Valuation</span><span class="tag">Pitch</span><span class="tag">M&A</span>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-item"><span>Estratégia</span><span class="stat-value">99</span></div>
-                    <div class="stat-item"><span>Finanças</span><span class="stat-value">95</span></div>
-                </div>
-
-                <button class="btn-connect" onclick="openModal('Ana Silva')">Solicitar Mentoria</button>
-            </div>
-        </div>
-
-        <div class="fut-card" data-category="agro">
-            <div class="card-top agro">
-                <div class="card-rating">
-                    <span class="rating-num">12</span><span class="rating-label">Anos</span>
-                </div>
-                <div class="card-club"><i class="fas fa-leaf"></i></div>
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Mentor" class="card-image">
-            </div>
-            <div class="card-body">
-                <div class="mentor-name">Roberto Campo</div>
-                <span class="mentor-role">Eng. Agrônomo</span>
-                <p class="mentor-bio">Pioneiro em agricultura de precisão. Consultor para grandes exportadoras.</p>
-
-                <div class="tags-container">
-                    <span class="tag">Agrotech</span><span class="tag">Café</span><span class="tag">IoT</span>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-item"><span>Campo</span><span class="stat-value">96</span></div>
-                    <div class="stat-item"><span>Inovação</span><span class="stat-value">91</span></div>
-                </div>
-
-                <button class="btn-connect" onclick="openModal('Roberto Campo')">Solicitar Mentoria</button>
-            </div>
-        </div>
-
     </div>
 
     <div class="modal-overlay" id="contactModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div style="font-size: 3rem; color: #00c2cb; margin-bottom: 10px;">
-                <i class="fas fa-handshake"></i>
+        <div class="modal-box">
+            <button class="btn-close" onclick="closeModal()">&times;</button>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <i class="fas fa-handshake" style="font-size: 3rem; color: #00c2cb;"></i>
             </div>
-            <h2 style="color:#003366;">Solicitar Conexão</h2>
-            <p>Você está solicitando uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>.</p>
+            <h2 class="modal-title" style="text-align: center;">Solicitar Conexão</h2>
+            <p class="modal-desc" style="text-align: center;">Preencha seus dados para solicitar uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>.</p>
             
             <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Solicitação de Mentoria">
-                <div class="form-group">
+                
+                <div class="input-group">
                     <label>Seu Nome</label>
-                    <input type="text" name="nome" required placeholder="João da Silva">
+                    <input type="text" name="nome" required placeholder="Ex: Maria Souza">
                 </div>
-                <div class="form-group">
-                    <label>Seu E-mail</label>
-                    <input type="email" name="email" required placeholder="seu@email.com">
+                <div class="input-group">
+                    <label>Seu E-mail Corporativo</label>
+                    <input type="email" name="email" required placeholder="voce@empresa.com">
                 </div>
-                <div class="form-group">
-                    <label>Breve motivo do contato</label>
-                    <textarea name="motivo" rows="3" required placeholder="Gostaria de validar meu modelo de negócio..."></textarea>
+                <div class="input-group">
+                    <label>Objetivo da Mentoria</label>
+                    <textarea name="motivo" rows="3" required placeholder="Descreva brevemente seu desafio atual..."></textarea>
                 </div>
-                <button type="submit" class="btn-submit-modal">Enviar Solicitação</button>
+                
+                <button type="submit" class="btn-modal-submit">Enviar Solicitação</button>
             </form>
         </div>
     </div>
@@ -370,28 +400,25 @@
     <script src="chat.js"></script>
 
     <script>
+        // Lógica de Filtros
         function filterMentors(category) {
-            const cards = document.querySelectorAll('.fut-card');
+            const cards = document.querySelectorAll('.mentor-card');
             const buttons = document.querySelectorAll('.filter-btn');
 
             buttons.forEach(btn => btn.classList.remove('active'));
             event.currentTarget.classList.add('active');
 
             cards.forEach(card => {
-                card.style.display = 'none';
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-
                 if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'flex';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 50);
+                    setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
+                } else {
+                    card.style.display = 'none';
                 }
             });
         }
 
+        // Lógica do Modal
         const modal = document.getElementById('contactModal');
         const mentorNameSpan = document.getElementById('mentorTargetName');
         const hiddenSubject = document.getElementById('hiddenSubject');
