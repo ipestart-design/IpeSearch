@@ -22,102 +22,138 @@
             width: 100%;
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
-            background-color: #f4f7fa;
+            
+            /* FUNDO NECESSÁRIO PARA O EFEITO GLASS FUNCIONAR */
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 194, 203, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(15, 23, 42, 0.1) 0px, transparent 50%);
+            min-height: 100vh;
             color: #1e293b;
         }
 
-        /* --- HERO SECTION: CORREÇÃO DO HEADER --- */
+        /* --- HERO SECTION GLASSMORPHISM --- */
         .hero-section {
-            width: 100%;
-            /* AUMENTADO PARA 200px PARA FUGIR DO HEADER */
-            padding: 200px 20px 100px; 
+            width: 95%; /* Um pouco menor que a tela para parecer um painel flutuante */
+            max-width: 1400px;
+            margin: 120px auto 40px; /* Margem superior para fugir do Header */
+            padding: 60px 50px;
             
-            background: #0f172a; /* Azul Escuro Premium */
-            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
-            text-align: center;
-            position: relative;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: white;
-            margin: 0 0 20px 0;
-            letter-spacing: -1px;
-            line-height: 1.1;
-            position: relative;
-            z-index: 1; /* Garante que fique acima de elementos de fundo */
-        }
-
-        .hero-title span {
-            color: #00c2cb;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: #94a3b8;
-            max-width: 700px;
-            margin: 0 auto 40px;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        /* --- FILTROS --- */
-        .filters-wrapper {
+            /* EFEITO GLASS (VIDRO ESCURO) */
+            background: rgba(15, 23, 42, 0.85); /* Azul escuro com transparência */
+            backdrop-filter: blur(16px);       /* O desfoque mágico */
+            -webkit-backdrop-filter: blur(16px);
+            
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda fina de vidro */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); /* Sombra profunda */
+            
+            /* Layout Horizontal (Flexbox) */
             display: flex;
-            justify-content: center;
-            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
             flex-wrap: wrap;
         }
 
+        /* Lado Esquerdo: Título */
+        .hero-left {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .hero-title span {
+            color: #00c2cb; /* Ciano Neon */
+            display: block;
+        }
+
+        /* Lado Direito: Texto + Filtros */
+        .hero-right {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: #cbd5e1; /* Cinza claro */
+            line-height: 1.6;
+            margin: 0;
+            font-weight: 400;
+            border-left: 4px solid #00c2cb;
+            padding-left: 20px;
+        }
+
+        /* --- FILTROS (GRID STYLE) --- */
+        .filters-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
         .filter-btn {
-            background: transparent;
-            border: 1px solid #334155;
-            color: #cbd5e1;
-            padding: 10px 24px;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 12px 15px;
+            border-radius: 12px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            backdrop-filter: blur(4px);
         }
 
         .filter-btn:hover {
+            background: rgba(0, 194, 203, 0.2);
             border-color: #00c2cb;
-            color: white;
-            background: rgba(0, 194, 203, 0.1);
+            transform: translateY(-2px);
         }
 
         .filter-btn.active {
             background: #00c2cb;
-            border-color: #00c2cb;
             color: #0f172a;
+            border-color: #00c2cb;
+            box-shadow: 0 0 15px rgba(0, 194, 203, 0.4);
         }
 
         /* --- GRID DE CARDS --- */
         .content-container {
-            max-width: 1200px;
-            margin: 60px auto 100px;
-            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto 100px;
+            padding: 0 40px;
         }
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
         }
 
-        /* --- CARD DESIGN PRO --- */
+        /* --- CARD DESIGN --- */
         .mentor-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
-            border: 1px solid #e2e8f0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -125,136 +161,58 @@
 
         .mentor-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 40px -5px rgba(0, 194, 203, 0.15);
             border-color: #00c2cb;
         }
 
-        /* Cabeçalho do Card */
         .card-header {
-            padding: 30px;
+            padding: 25px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             border-bottom: 1px solid #f1f5f9;
+            background: linear-gradient(to right, #ffffff, #f8fafc);
         }
 
         .mentor-avatar {
-            width: 80px;
-            height: 80px;
+            width: 70px; height: 70px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #f1f5f9;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .mentor-info h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin: 0 0 5px 0;
-            color: #0f172a;
-        }
+        .mentor-info h3 { font-size: 1.2rem; font-weight: 800; margin: 0; color: #0f172a; }
+        .mentor-role { font-size: 0.85rem; color: #00c2cb; font-weight: 700; text-transform: uppercase; }
 
-        .mentor-role {
-            font-size: 0.9rem;
-            color: #00c2cb;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .mentor-bio { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
 
-        /* Corpo do Card */
-        .card-body {
-            padding: 25px 30px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
+        .tags-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: auto; }
+        .tag { font-size: 0.75rem; background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 50px; font-weight: 600; }
 
-        .mentor-bio {
-            font-size: 0.95rem;
-            color: #64748b;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
+        .card-footer { padding: 20px 25px; background: #fff; border-top: 1px solid #f1f5f9; }
+        .btn-request { width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-request:hover { background: #00c2cb; color: #0f172a; }
 
-        /* Tags */
-        .tags-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 25px;
-        }
-
-        .tag {
-            font-size: 0.75rem;
-            background: #f1f5f9;
-            color: #475569;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        /* Footer do Card */
-        .card-footer {
-            padding: 20px 30px;
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .btn-request {
-            width: 100%;
-            padding: 12px;
-            background: #0f172a;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-request:hover {
-            background: #00c2cb;
-            color: #0f172a;
-        }
-
-        /* Badge XP */
-        .xp-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #ecfdf5;
-            color: #059669;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border: 1px solid #d1fae5;
-        }
+        .xp-badge { position: absolute; top: 15px; right: 15px; background: #ecfdf5; color: #059669; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; border: 1px solid #d1fae5; }
 
         /* --- MODAL --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-        .modal-box { background: white; padding: 40px; border-radius: 16px; max-width: 480px; width: 90%; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: fadeUp 0.3s ease; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
+        .modal-box { background: white; padding: 40px; border-radius: 24px; max-width: 480px; width: 90%; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: fadeUp 0.3s ease; }
+        @keyframes fadeUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
-        .modal-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; }
-        .modal-desc { color: #64748b; margin-bottom: 25px; line-height: 1.5; }
-        
+        .modal-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; text-align: center; }
         .input-group { margin-bottom: 15px; text-align: left; }
         .input-group label { display: block; font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 6px; }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Inter', sans-serif; }
-        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: #00c2cb; box-shadow: 0 0 0 3px rgba(0, 194, 203, 0.1); }
-        
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; }
         .btn-modal-submit { width: 100%; padding: 14px; background: #00c2cb; color: #0f172a; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; }
         .btn-close { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #94a3b8; background: none; border: none; }
 
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .hero-section { padding-top: 140px; }
+        @media (max-width: 900px) {
+            .hero-section { flex-direction: column; text-align: center; gap: 30px; margin-top: 100px; }
+            .hero-subtitle { border-left: none; padding-left: 0; }
+            .content-container { padding: 0 20px; }
         }
     </style>
 </head>
@@ -262,18 +220,23 @@
 
     <script src="header.js"></script>
 
-    <header class="hero-section">
-        <h1 class="hero-title">Mentores de <span>Elite</span></h1>
-        <p class="hero-subtitle">Conecte-se com executivos, fundadores e especialistas que já trilharam o caminho que você quer percorrer.</p>
-        
-        <div class="filters-wrapper">
-            <button class="filter-btn active" onclick="filterMentors('all')">Todos</button>
-            <button class="filter-btn" onclick="filterMentors('tech')"><i class="fas fa-code"></i> Tecnologia</button>
-            <button class="filter-btn" onclick="filterMentors('biz')"><i class="fas fa-chart-pie"></i> Negócios</button>
-            <button class="filter-btn" onclick="filterMentors('agro')"><i class="fas fa-leaf"></i> Agro</button>
-            <button class="filter-btn" onclick="filterMentors('mkt')"><i class="fas fa-bullhorn"></i> Marketing</button>
+    <div class="hero-section">
+        <div class="hero-left">
+            <h1 class="hero-title">Mentores<br><span>de Elite</span></h1>
         </div>
-    </header>
+
+        <div class="hero-right">
+            <p class="hero-subtitle">Conecte-se com executivos, fundadores e especialistas que já trilharam o caminho que você quer percorrer. Nossa equipe fará a ponte estratégica para você.</p>
+            
+            <div class="filters-wrapper">
+                <button class="filter-btn active" onclick="filterMentors('all')">Todos</button>
+                <button class="filter-btn" onclick="filterMentors('tech')"><i class="fas fa-code"></i> Tecnologia</button>
+                <button class="filter-btn" onclick="filterMentors('biz')"><i class="fas fa-chart-pie"></i> Negócios</button>
+                <button class="filter-btn" onclick="filterMentors('agro')"><i class="fas fa-leaf"></i> Agro</button>
+                <button class="filter-btn" onclick="filterMentors('mkt')"><i class="fas fa-bullhorn"></i> Marketing</button>
+            </div>
+        </div>
+    </div>
 
     <div class="content-container">
         <div class="cards-grid" id="mentoresGrid">
@@ -375,12 +338,11 @@
             <div style="text-align: center; margin-bottom: 20px;">
                 <i class="fas fa-handshake" style="font-size: 3rem; color: #00c2cb;"></i>
             </div>
-            <h2 class="modal-title" style="text-align: center;">Solicitar Conexão</h2>
-            <p class="modal-desc" style="text-align: center;">Preencha seus dados para solicitar uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>.</p>
+            <h2 class="modal-title">Solicitar Conexão</h2>
+            <p style="text-align:center; color:#64748b; margin-bottom:20px;">Preencha seus dados para solicitar uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>.</p>
             
             <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Solicitação de Mentoria">
-                
                 <div class="input-group">
                     <label>Seu Nome</label>
                     <input type="text" name="nome" required placeholder="Ex: Maria Souza">
@@ -393,7 +355,6 @@
                     <label>Objetivo da Mentoria</label>
                     <textarea name="motivo" rows="3" required placeholder="Descreva brevemente seu desafio atual..."></textarea>
                 </div>
-                
                 <button type="submit" class="btn-modal-submit">Enviar Solicitação</button>
             </form>
         </div>
@@ -403,7 +364,6 @@
     <script src="chat.js"></script>
 
     <script>
-        // Lógica de Filtros
         function filterMentors(category) {
             const cards = document.querySelectorAll('.mentor-card');
             const buttons = document.querySelectorAll('.filter-btn');
@@ -421,7 +381,6 @@
             });
         }
 
-        // Lógica do Modal
         const modal = document.getElementById('contactModal');
         const mentorNameSpan = document.getElementById('mentorTargetName');
         const hiddenSubject = document.getElementById('hiddenSubject');
