@@ -31,6 +31,18 @@ document.addEventListener('DOMContentLoaded', function() {
             text-align: left;
         }
 
+        /* --- EFEITO DE HOVER NA LOGO (ATUALIZADO) --- */
+        .footer-brand a { 
+            text-decoration: none; 
+            display: inline-block; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito elástico suave */
+        }
+        
+        .footer-brand a:hover { 
+            transform: scale(1.1); /* Aumenta 10% */
+            filter: drop-shadow(0 0 15px rgba(0, 194, 203, 0.6)); /* Brilho Ciano */
+        }
+
         .footer-brand img { height: 70px; margin-bottom: 20px; filter: brightness(0) invert(1); }
         .footer-brand p { font-size: 0.9rem; opacity: 0.7; line-height: 1.6; max-width: 300px; }
 
@@ -152,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
             border-radius: 50px; 
             font-weight: 800; 
             cursor: pointer; 
-            text-transform: uppercase;
+            text-transform: uppercase; 
             transition: 0.3s;
         }
         .btn-close-lgpd:hover { transform: scale(1.05); background: #ffffff; }
@@ -175,7 +187,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <footer id="main-footer">
         <div class="footer-container">
             <div class="footer-brand">
-                <img src="logo-ufla-branca.png" alt="UFLA">
+                <a href="https://ufla.br" target="_blank" title="Ir para o site oficial da UFLA">
+                    <img src="logo-ufla-branca.png" alt="UFLA">
+                </a>
                 <p>O Ipê Conect é o ecossistema digital que une a excelência acadêmica da UFLA às demandas reais do mercado tecnológico.</p>
             </div>
 
@@ -269,13 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleBtn = document.getElementById('btn-toggle-lgpd');
     const acceptBtn = document.getElementById('btn-accept-lgpd');
 
-    toggleBtn.onclick = (e) => {
-        e.preventDefault();
-        card.style.display = 'block';
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    };
+    if(toggleBtn && card) {
+        toggleBtn.onclick = (e) => {
+            e.preventDefault();
+            card.style.display = 'block';
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        };
 
-    acceptBtn.onclick = () => {
-        card.style.display = 'none';
-    };
+        acceptBtn.onclick = () => {
+            card.style.display = 'none';
+        };
+    }
 });
