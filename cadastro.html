@@ -15,15 +15,25 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
+        /* Reset para hero fullscreen */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
         /* ===== HERO FULLSCREEN COM IMAGEM DE FUNDO ===== */
         .cadastro-hero {
             min-height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #001a33 0%, #003366 50%, #00566b 100%);
+            background: #003366;
+            margin: 0;
+            padding: 0;
         }
 
         /* Imagem de fundo com opacidade */
@@ -41,7 +51,7 @@
             z-index: 1;
         }
 
-        /* Overlay escuro adicional */
+        /* Overlay BRANCO */
         .cadastro-hero::after {
             content: '';
             position: absolute;
@@ -49,7 +59,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0, 26, 51, 0.7) 0%, rgba(0, 51, 102, 0.6) 50%, rgba(0, 86, 107, 0.5) 100%);
+            background: rgba(255, 255, 255, 0.15);
             z-index: 2;
         }
 
