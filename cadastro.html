@@ -25,15 +25,13 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* CORREÇÃO DO HEADER: 
-           Aumentei o padding-top para 160px para o título não ficar escondido 
-        */
+        /* Padding ajustado para o Header Fixo não tampar o título */
         .beneficios-section {
-            padding-top: 160px; /* Espaço para o Header Fixo */
+            padding-top: 160px;
             padding-bottom: 60px;
             padding-left: 20px;
             padding-right: 20px;
-            background: #f8fafc; /* Fundo levemente cinza para destacar os cards brancos */
+            background: #f8fafc;
         }
 
         .section-title-cadastro {
@@ -111,7 +109,7 @@
         /* Seção de Cadastro */
         .cadastro-cards-section {
             padding: 60px 20px 100px;
-            background: #fff; /* Fundo branco para diferenciar */
+            background: #fff;
         }
 
         .cadastro-grid {
@@ -140,14 +138,23 @@
             transition: background 0.3s;
         }
 
-        /* Ícone e texto mudam de cor ao ativar */
+        /* --- CORREÇÃO DO ÍCONE --- */
         .card-icon-cadastro {
+            /* Estilo "Bolinha" normal */
+            width: 80px; 
+            height: 80px;
+            background: rgba(0, 194, 203, 0.1); /* Fundo clarinho */
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            margin: 0 auto 15px;
             font-size: 2.5rem;
-            color: #00c2cb;
-            margin-bottom: 15px;
-            transition: color 0.3s;
+            color: #00c2cb; /* Ícone Ciano */
+            transition: all 0.3s;
         }
 
+        /* Card Ativo (Aberto) */
         .cadastro-card.active {
             box-shadow: 0 20px 50px rgba(0, 194, 203, 0.15);
             border-color: #00c2cb;
@@ -160,7 +167,14 @@
             border-bottom: 1px solid rgba(255,255,255,0.2);
         }
 
-        .cadastro-card.active .card-icon-cadastro,
+        /* QUANDO ATIVO: Bolinha Branca + Ícone Ciano */
+        .cadastro-card.active .card-icon-cadastro {
+            background: white !important; 
+            color: #00c2cb !important; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Textos brancos no card ativo */
         .cadastro-card.active h3,
         .cadastro-card.active p,
         .cadastro-card.active .toggle-icon {
@@ -214,7 +228,7 @@
 
         @media (max-width: 900px) {
             .beneficios-grid { grid-template-columns: 1fr; }
-            .beneficios-section { padding-top: 140px; } /* Ajuste mobile */
+            .beneficios-section { padding-top: 140px; }
         }
     </style>
 </head>
@@ -409,7 +423,7 @@
             const card = document.getElementById(`card-${tipo}`);
             const allCards = document.querySelectorAll('.cadastro-card');
             
-            // Fecha os outros cards ao abrir um novo (opcional, mas bom pra UX)
+            // Fecha os outros cards (opcional)
             if (!card.classList.contains('active')) {
                 allCards.forEach(c => c.classList.remove('active'));
             }
