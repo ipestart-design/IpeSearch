@@ -13,238 +13,48 @@
 
     <title>Quero Participar - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* Reset para hero fullscreen REAL */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            overflow-x: hidden;
-        }
-
-        /* ===== HERO FULLSCREEN 100% DA TELA ===== */
-        .cadastro-hero {
-            height: 100vh;
-            width: 100vw;
-            position: fixed;
-            top: 0;
-            left: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: #003366;
-        }
-
-        /* Imagem de fundo com opacidade */
-        .cadastro-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.4;
-            z-index: 1;
-        }
-
-        /* Overlay BRANCO */
-        .cadastro-hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.15);
-            z-index: 2;
-        }
-
-        .cadastro-hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            color: white;
-            max-width: 900px;
-            padding: 40px 20px;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .cadastro-hero-content h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            margin-bottom: 30px;
-            line-height: 1.1;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            /* Gradiente CORRETO da home: azul escuro → ciano */
-            background: linear-gradient(135deg, #002244, #00c2cb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .cadastro-hero-content p {
-            font-size: 1.5rem;
-            opacity: 0.95;
-            font-weight: 500;
-            line-height: 1.6;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Scroll indicator */
-        .scroll-down {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            cursor: pointer;
-            animation: bounce 2s infinite;
-        }
-
-        .scroll-down i {
-            font-size: 2.5rem;
-            color: white;
-            opacity: 0.8;
-            transition: all 0.3s ease;
-        }
-
-        .scroll-down:hover i {
-            opacity: 1;
-            transform: translateY(5px);
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-15px); }
-            60% { transform: translateX(-50%) translateY(-8px); }
-        }
-
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .cadastro-hero-content h1 {
-                font-size: 3rem;
-            }
-
-            .cadastro-hero-content p {
-                font-size: 1.2rem;
-            }
-        }
-
-        /* AJUSTE PREMIUM PARA LAYOUT 2x2 DOS BENEFÍCIOS */
-        .beneficios-section {
-            position: relative;
-            margin-top: 100vh; /* Compensa o hero fixo */
-            background: white;
-            z-index: 100;
-        }
-
-        .beneficios-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 40px; 
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .beneficio-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 60px 40px !important; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border: 1px solid #eef2f6;
-        }
-
-        .beneficio-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 194, 203, 0.15);
-            border-color: #00c2cb;
-        }
-
-        .beneficio-icon {
-            width: 100px;
-            height: 100px;
-            background: rgba(0, 194, 203, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .beneficio-icon i {
-            font-size: 3.5rem !important; 
-            color: #00c2cb;
-        }
-
-        .beneficio-card h3 {
-            font-size: 1.8rem !important; 
-            color: #003366;
-            font-weight: 850 !important;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-        }
-
-        .beneficio-card p {
-            font-size: 1.1rem;
-            color: #4a5568;
-            line-height: 1.6;
-            max-width: 320px;
-        }
-
-        @media (max-width: 900px) {
-            .beneficios-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-            .beneficio-card {
-                padding: 40px 20px !important;
-            }
-        }
-    </style>
 </head>
 <body>
 
-    <section class="cadastro-hero">
-        <div class="cadastro-hero-content">
-            <h1>Faça Parte do Ecossistema</h1>
-            <p>Conecte seu conhecimento, projetos e experiência à plataforma de inovação da UFLA</p>
+    <!-- Hero Section -->
+    <section class="cadastro-hero" style="
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: linear-gradient(135deg, rgba(0, 34, 68, 0.85), rgba(0, 51, 102, 0.85)), 
+                    url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1920&q=80') center/cover;
+        color: white;
+        text-align: center;
+        padding: 140px 20px 80px 20px;
+    ">
+        <div class="cadastro-hero-content" style="max-width: 900px; animation: fadeIn 1s;">
+            <h1 style="
+                font-size: 5rem;
+                font-weight: 900;
+                margin-bottom: 30px;
+                line-height: 1.1;
+                text-transform: uppercase;
+                letter-spacing: -2px;
+                background: linear-gradient(135deg, #002244, #00c2cb);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            ">Faça Parte do Ecossistema</h1>
+            <p style="font-size: 1.5rem; opacity: 0.95; line-height: 1.6;">
+                Conecte seu conhecimento, projetos e experiência à plataforma de inovação da UFLA
+            </p>
         </div>
 
-        <!-- Indicador de scroll -->
-        <div class="scroll-down" onclick="document.querySelector('.beneficios-section').scrollIntoView({behavior: 'smooth'})">
-            <i class="fas fa-chevron-down"></i>
+        <!-- Scroll indicator -->
+        <div onclick="document.querySelector('.beneficios-section').scrollIntoView({behavior: 'smooth'})" 
+             style="position: absolute; bottom: 40px; cursor: pointer; animation: bounce 2s infinite;">
+            <i class="fas fa-chevron-down" style="font-size: 2.5rem; color: white; opacity: 0.8;"></i>
         </div>
     </section>
 
+    <!-- Benefícios -->
     <section class="beneficios-section">
         <div class="section-title-cadastro">
             <h2>Por que participar?</h2>
@@ -286,6 +96,7 @@
         </div>
     </section>
 
+    <!-- Cards de Cadastro -->
     <section class="cadastro-cards-section">
         <div class="section-title-cadastro">
             <h2>Escolha seu perfil</h2>
@@ -293,6 +104,7 @@
         </div>
 
         <div class="cadastro-grid">
+            <!-- CARD PESQUISADOR -->
             <div class="cadastro-card" id="card-pesquisador">
                 <div class="card-header-cadastro" onclick="toggleCard('pesquisador')">
                     <div class="card-icon-cadastro"><i class="fas fa-user-graduate"></i></div>
@@ -337,6 +149,7 @@
                 </div>
             </div>
 
+            <!-- CARD EMPRESA -->
             <div class="cadastro-card" id="card-empresa">
                 <div class="card-header-cadastro" onclick="toggleCard('empresa')">
                     <div class="card-icon-cadastro"><i class="fas fa-building"></i></div>
@@ -387,6 +200,7 @@
                 </div>
             </div>
 
+            <!-- CARD MENTOR -->
             <div class="cadastro-card" id="card-mentor">
                 <div class="card-header-cadastro" onclick="toggleCard('mentor')">
                     <div class="card-icon-cadastro"><i class="fas fa-user-tie"></i></div>
@@ -429,6 +243,81 @@
     <script src="footer.js"></script>
     <script src="chat.js"></script>
 
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-8px); }
+        }
+
+        /* Grid 2x2 Benefícios */
+        .beneficios-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .beneficio-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f6;
+        }
+
+        .beneficio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 194, 203, 0.15);
+            border-color: #00c2cb;
+        }
+
+        .beneficio-icon {
+            width: 100px;
+            height: 100px;
+            background: rgba(0, 194, 203, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+        }
+
+        .beneficio-icon i {
+            font-size: 3.5rem;
+            color: #00c2cb;
+        }
+
+        .beneficio-card h3 {
+            font-size: 1.8rem;
+            color: #003366;
+            font-weight: 850;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .beneficio-card p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .beneficios-grid { grid-template-columns: 1fr; }
+            .beneficio-card { padding: 40px 20px; }
+            .cadastro-hero h1 { font-size: 3rem !important; }
+        }
+    </style>
+
     <script>
         function toggleCard(tipo) {
             const card = document.getElementById(`card-${tipo}`);
@@ -438,18 +327,18 @@
             } else {
                 allCards.forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
-                setTimeout(() => {
-                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
+                setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
             }
         }
+
         // Máscara CNPJ
-        const cnpjInput = document.querySelector('input[name="cnpj"]');
-        if (cnpjInput) {
-            cnpjInput.addEventListener('input', e => {
+        const cnpj = document.querySelector('input[name="cnpj"]');
+        if (cnpj) {
+            cnpj.addEventListener('input', e => {
                 let v = e.target.value.replace(/\D/g, '');
                 if (v.length <= 14) {
-                    v = v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
+                    v = v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+                         .replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
                 }
                 e.target.value = v;
             });
