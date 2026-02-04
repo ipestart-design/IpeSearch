@@ -12,136 +12,147 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- CONFIGURAÇÕES GERAIS --- */
-        body {
-            background-color: #f8fafc;
-            margin: 0;
-            overflow-x: hidden;
+        /* --- RESET ABSOLUTO PARA TELA CHEIA --- */
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            overflow-x: hidden !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
         }
 
-        /* --- HERO SECTION (VISUAL TECH LIMPO) --- */
+        /* --- HERO SECTION TELA CHEIA (100vh) --- */
         .mentores-hero {
             position: relative;
-            width: 100%;
-            padding: 140px 20px 100px; /* Espaço interno equilibrado */
-            
-            /* Fundo Azul Profundo e Elegante */
-            background-color: #0f172a; 
-            
-            /* Textura de Grid Suave (Tech Vibe) */
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            
+            width: 100vw; /* Garante largura da viewport */
+            height: 100vh; /* Garante altura total da tela */
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
             text-align: center;
+            padding: 0 20px;
             
-            /* Borda de luz neon na parte inferior */
-            border-bottom: 1px solid rgba(0, 194, 203, 0.3);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            /* O GRADIENTE BONITO DE VOLTA (Azul Profundo -> Roxo Sutil) */
+            background: linear-gradient(135deg, #002244 0%, #003366 50%, #001a33 100%);
+            
+            color: white;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
         }
 
-        /* Efeito de brilho central */
-        .mentores-hero::after {
+        /* Textura sutil para não ficar "chapado" demais */
+        .mentores-hero::before {
             content: '';
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%; height: 60%;
-            background: radial-gradient(circle, rgba(0, 194, 203, 0.15) 0%, transparent 70%);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
             pointer-events: none;
         }
 
-        .mentores-hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            margin: 0 0 15px 0;
-            color: #ffffff;
+        .hero-content {
             z-index: 2;
+            max-width: 900px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .mentores-hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            /* Leve brilho no texto */
+            text-shadow: 0 0 20px rgba(0, 194, 203, 0.3);
         }
 
         .mentores-hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            color: #94a3b8; /* Cinza azulado claro */
-            line-height: 1.6;
-            margin: 0;
-            z-index: 2;
+            font-size: 1.5rem;
+            color: #e0f7fa;
             font-weight: 400;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* --- FILTROS (ALINHADOS NA BORDA) --- */
+        /* Seta para indicar que tem mais conteúdo */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            font-size: 2rem;
+            color: #00c2cb;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- FILTROS (DENTRO DA TELA BRANCA, LOGO ABAIXO) --- */
         .filters-section {
-            margin-top: -30px; /* Sobe para ficar na divisória */
-            padding-bottom: 60px;
+            padding: 60px 20px 40px;
+            background: #f8fafc;
             position: relative;
             z-index: 10;
-            padding-left: 20px;
-            padding-right: 20px;
         }
 
         .filters-container {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            background: #ffffff;
+            background: #fff;
             border: 1px solid #e2e8f0;
-            padding: 12px 24px;
-            border-radius: 8px; /* Borda levemente arredondada (mais sério) */
-            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
             color: #475569;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
+            gap: 10px;
+            font-size: 1rem;
         }
 
-        .filter-btn:hover {
-            background: #f8fafc;
-            transform: translateY(-2px);
-            color: #003366;
-            border-color: #cbd5e1;
-        }
-
-        .filter-btn.active {
+        .filter-btn:hover, .filter-btn.active {
             background: #00c2cb;
-            color: #0f172a;
+            color: #002244;
             border-color: #00c2cb;
-            box-shadow: 0 10px 15px -3px rgba(0, 194, 203, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 194, 203, 0.2);
         }
-
-        .filter-btn i { font-size: 1rem; }
 
         /* --- GRID DE CARDS --- */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 40px;
             max-width: 1200px;
             margin: 0 auto 100px;
             padding: 0 20px;
         }
 
-        /* CARD DESIGN (MAIS LIMPO) */
+        /* CARD DESIGN */
         .fut-card {
             background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #f1f5f9;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #f0f0f0;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -150,117 +161,85 @@
         }
 
         .fut-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 51, 102, 0.15);
             border-color: #00c2cb;
         }
 
-        /* Topo do Card */
         .card-top {
-            height: 100px; /* Mais baixo para focar no conteúdo */
-            background: #0f172a;
+            height: 130px;
+            background: linear-gradient(135deg, #003366, #001a33);
             position: relative;
             display: flex;
             justify-content: center;
         }
         
-        /* Cores sutis para o topo */
-        .card-top.tech { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 3px solid #00c2cb; }
-        .card-top.gold { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 3px solid #fbbf24; }
-        .card-top.agro { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-bottom: 3px solid #22c55e; }
+        .card-top.tech { background: linear-gradient(135deg, #005f6b, #00c2cb); }
+        .card-top.gold { background: linear-gradient(135deg, #b8860b, #ffd700); }
+        .card-top.agro { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
 
-        /* Badge XP (Minimalista) */
         .card-rating {
             position: absolute; top: 15px; left: 15px;
             color: white; text-align: center;
-            background: rgba(255,255,255,0.1);
-            padding: 4px 8px;
-            border-radius: 6px;
-            backdrop-filter: blur(4px);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        .rating-num { font-size: 1.1rem; font-weight: 800; }
-        .rating-label { font-size: 0.6rem; text-transform: uppercase; opacity: 0.8; margin-left: 2px; }
+        .rating-num { font-size: 2rem; font-weight: 800; line-height: 1; }
+        .rating-label { font-size: 0.7rem; text-transform: uppercase; }
 
-        /* Foto */
         .card-image {
-            width: 100px; height: 100px;
+            width: 120px; height: 120px;
             border-radius: 50%;
-            border: 4px solid #fff;
+            border: 5px solid #fff;
             background: #eee;
             object-fit: cover;
             position: absolute;
-            bottom: -50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            bottom: -60px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        /* Corpo */
         .card-body {
-            padding: 60px 24px 24px;
+            padding: 70px 25px 30px;
             text-align: center;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
-        .mentor-name { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
-        .mentor-role { font-size: 0.875rem; color: #00c2cb; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        .mentor-bio { 
-            font-size: 0.9rem; 
-            color: #64748b; 
-            line-height: 1.5; 
-            margin-bottom: 20px; 
-            min-height: 42px; /* Altura fixa para alinhar cards */
-        }
+        .mentor-name { font-size: 1.4rem; font-weight: 800; color: #003366; margin-bottom: 5px; }
+        .mentor-role { font-size: 0.9rem; color: #00c2cb; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; }
+        .mentor-bio { font-size: 0.9rem; color: #666; line-height: 1.5; margin-bottom: 20px; font-style: italic; min-height: 40px; }
 
-        /* Stats Grid (Estilo Tabela Clean) */
+        /* Stats */
         .stats-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            padding-top: 15px; border-top: 1px solid #f0f0f0; margin-bottom: 20px;
         }
-        .stat-item { display: flex; justify-content: space-between; align-items: center; }
-        .stat-name { font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
-        .stat-value { font-size: 0.9rem; font-weight: 700; color: #334155; }
+        .stat-item { display: flex; justify-content: space-between; font-size: 0.85rem; color: #555; }
+        .stat-value { font-weight: 800; color: #003366; }
 
         /* Tags */
         .tags-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 20px; }
-        .tag { 
-            background: #ffffff; 
-            border: 1px solid #e2e8f0;
-            color: #64748b; 
-            padding: 4px 10px; 
-            border-radius: 20px; 
-            font-size: 0.75rem; 
-            font-weight: 600; 
-        }
+        .tag { background: #f0f4f8; color: #555; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
 
         .btn-connect {
-            width: 100%; margin-top: auto; padding: 12px;
-            background: #0f172a; color: white; border: none; border-radius: 8px;
-            font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.2s;
-            font-size: 0.875rem; letter-spacing: 0.5px;
+            width: 100%; margin-top: auto; padding: 14px;
+            background: #003366; color: white; border: none; border-radius: 10px;
+            font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s;
         }
-        .btn-connect:hover { background: #00c2cb; color: #0f172a; }
+        .btn-connect:hover { background: #00c2cb; box-shadow: 0 5px 15px rgba(0, 194, 203, 0.4); }
 
         /* --- MODAL --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-        .modal-content { background: white; padding: 40px; border-radius: 16px; max-width: 480px; width: 90%; position: relative; text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: zoomIn 0.3s ease; }
-        @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .form-group { text-align: left; margin-bottom: 16px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: #334155; font-size: 0.9rem; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 1rem; transition: border-color 0.2s; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #00c2cb; ring: 2px solid rgba(0, 194, 203, 0.2); }
-        .btn-submit-modal { width: 100%; padding: 14px; background: #00c2cb; color: #0f172a; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        .btn-submit-modal:hover { background: #2dd4bf; }
-        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #94a3b8; transition: color 0.2s; }
-        .close-modal:hover { color: #334155; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; position: relative; text-align: center; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #444; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+        .btn-submit-modal { width: 100%; padding: 15px; background: #00c2cb; color: #003366; font-weight: 800; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #999; }
 
         @media (max-width: 768px) {
-            .mentores-hero h1 { font-size: 2.5rem; }
-            .mentores-hero { padding: 120px 20px 80px; } /* Ajuste mobile */
+            .mentores-hero h1 { font-size: 2.8rem; }
         }
     </style>
 </head>
@@ -269,8 +248,14 @@
     <script src="header.js"></script>
 
     <section class="mentores-hero">
-        <h1>Mentores de Elite</h1>
-        <p>Conecte-se com os melhores profissionais do mercado. Nossa equipe fará a ponte estratégica para escalar o seu negócio.</p>
+        <div class="hero-content">
+            <h1>Mentores de Elite</h1>
+            <p>Escale seu negócio conectando-se com os melhores profissionais do mercado. Nossa equipe fará a ponte para você.</p>
+        </div>
+        
+        <div class="scroll-indicator" onclick="document.querySelector('.filters-section').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-chevron-down"></i>
+        </div>
     </section>
 
     <div class="filters-section">
@@ -288,24 +273,21 @@
         <div class="fut-card" data-category="tech">
             <div class="card-top tech">
                 <div class="card-rating">
-                    <span class="rating-num">15y</span> <span class="rating-label">XP</span>
+                    <span class="rating-num">15</span><span class="rating-label">Anos</span>
                 </div>
                 <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Mentor" class="card-image">
             </div>
             <div class="card-body">
                 <div class="mentor-name">Carlos Tech</div>
                 <span class="mentor-role">CTO & Arquiteto</span>
-                <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS de sucesso.</p>
-                
+                <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS.</p>
                 <div class="tags-container">
                     <span class="tag">Cloud</span><span class="tag">DevOps</span><span class="tag">Scale</span>
                 </div>
-
                 <div class="stats-grid">
-                    <div class="stat-item"><span class="stat-name">Código</span><span class="stat-value">98</span></div>
-                    <div class="stat-item"><span class="stat-name">Liderança</span><span class="stat-value">90</span></div>
+                    <div class="stat-item"><span>Código</span><span class="stat-value">98</span></div>
+                    <div class="stat-item"><span>Gestão</span><span class="stat-value">90</span></div>
                 </div>
-
                 <button class="btn-connect" onclick="openModal('Carlos Tech')">Solicitar Mentoria</button>
             </div>
         </div>
@@ -313,24 +295,21 @@
         <div class="fut-card" data-category="biz">
             <div class="card-top gold">
                 <div class="card-rating">
-                    <span class="rating-num">22y</span> <span class="rating-label">XP</span>
+                    <span class="rating-num">22</span><span class="rating-label">Anos</span>
                 </div>
                 <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Mentor" class="card-image">
             </div>
             <div class="card-body">
                 <div class="mentor-name">Ana Silva</div>
                 <span class="mentor-role">Investidora Anjo</span>
-                <p class="mentor-bio">Conselheira em 5 grandes empresas. Especialista em fusões e aquisições.</p>
-
+                <p class="mentor-bio">Conselheira em 5 grandes empresas. Expert em M&A.</p>
                 <div class="tags-container">
                     <span class="tag">Valuation</span><span class="tag">Pitch</span><span class="tag">M&A</span>
                 </div>
-
                 <div class="stats-grid">
-                    <div class="stat-item"><span class="stat-name">Estratégia</span><span class="stat-value">99</span></div>
-                    <div class="stat-item"><span class="stat-name">Finanças</span><span class="stat-value">95</span></div>
+                    <div class="stat-item"><span>Estratégia</span><span class="stat-value">99</span></div>
+                    <div class="stat-item"><span>Finanças</span><span class="stat-value">95</span></div>
                 </div>
-
                 <button class="btn-connect" onclick="openModal('Ana Silva')">Solicitar Mentoria</button>
             </div>
         </div>
@@ -338,24 +317,21 @@
         <div class="fut-card" data-category="agro">
             <div class="card-top agro">
                 <div class="card-rating">
-                    <span class="rating-num">12y</span> <span class="rating-label">XP</span>
+                    <span class="rating-num">12</span><span class="rating-label">Anos</span>
                 </div>
                 <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Mentor" class="card-image">
             </div>
             <div class="card-body">
                 <div class="mentor-name">Roberto Campo</div>
                 <span class="mentor-role">Eng. Agrônomo</span>
-                <p class="mentor-bio">Pioneiro em agricultura de precisão e consultor de exportação.</p>
-
+                <p class="mentor-bio">Pioneiro em agricultura de precisão e exportação.</p>
                 <div class="tags-container">
                     <span class="tag">Agrotech</span><span class="tag">Café</span><span class="tag">IoT</span>
                 </div>
-
                 <div class="stats-grid">
-                    <div class="stat-item"><span class="stat-name">Campo</span><span class="stat-value">96</span></div>
-                    <div class="stat-item"><span class="stat-name">Inovação</span><span class="stat-value">91</span></div>
+                    <div class="stat-item"><span>Campo</span><span class="stat-value">96</span></div>
+                    <div class="stat-item"><span>Inovação</span><span class="stat-value">91</span></div>
                 </div>
-
                 <button class="btn-connect" onclick="openModal('Roberto Campo')">Solicitar Mentoria</button>
             </div>
         </div>
@@ -368,9 +344,8 @@
             <div style="font-size: 3rem; color: #00c2cb; margin-bottom: 10px;">
                 <i class="fas fa-handshake"></i>
             </div>
-            <h2 style="color:#0f172a;">Solicitar Conexão</h2>
-            <p>Você está solicitando uma ponte com <strong id="mentorTargetName" style="color:#00c2cb;"></strong>.</p>
-            
+            <h2 style="color:#003366;">Solicitar Conexão</h2>
+            <p>Você está solicitando uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>.</p>
             <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
                 <input type="hidden" name="_subject" id="hiddenSubject" value="Solicitação de Mentoria">
                 <div class="form-group">
@@ -383,7 +358,7 @@
                 </div>
                 <div class="form-group">
                     <label>Breve motivo do contato</label>
-                    <textarea name="motivo" rows="3" required placeholder="Gostaria de validar meu modelo de negócio..."></textarea>
+                    <textarea name="motivo" rows="3" required placeholder="Gostaria de validar meu modelo..."></textarea>
                 </div>
                 <button type="submit" class="btn-submit-modal">Enviar Solicitação</button>
             </form>
@@ -397,15 +372,12 @@
         function filterMentors(category) {
             const cards = document.querySelectorAll('.fut-card');
             const buttons = document.querySelectorAll('.filter-btn');
-
             buttons.forEach(btn => btn.classList.remove('active'));
             event.currentTarget.classList.add('active');
-
             cards.forEach(card => {
                 card.style.display = 'none';
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
-
                 if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'flex';
                     setTimeout(() => {
