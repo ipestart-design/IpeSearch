@@ -25,7 +25,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Padding ajustado para o Header Fixo não tampar o título */
+        /* Padding ajustado para o Header Fixo */
         .beneficios-section {
             padding-top: 160px;
             padding-bottom: 60px;
@@ -37,6 +37,7 @@
         .section-title-cadastro {
             text-align: center;
             margin-bottom: 50px;
+            padding: 0 10px; /* Margem de segurança lateral */
         }
         
         .section-title-cadastro h2 {
@@ -44,6 +45,7 @@
             color: #003366;
             font-weight: 800;
             margin-bottom: 10px;
+            line-height: 1.2;
         }
 
         .section-title-cadastro p {
@@ -114,7 +116,8 @@
 
         .cadastro-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            /* Grid inteligente: adapta o número de colunas, mas não deixa ficar menor que 280px */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
@@ -138,28 +141,32 @@
             transition: background 0.3s;
         }
 
-        /* --- CORREÇÃO DO ÍCONE --- */
         .card-icon-cadastro {
-            /* Estilo "Bolinha" normal */
             width: 80px; 
             height: 80px;
-            background: rgba(0, 194, 203, 0.1); /* Fundo clarinho */
+            background: rgba(0, 194, 203, 0.1);
             border-radius: 50%;
             display: flex; 
             align-items: center; 
             justify-content: center;
             margin: 0 auto 15px;
             font-size: 2.5rem;
-            color: #00c2cb; /* Ícone Ciano */
+            color: #00c2cb;
             transition: all 0.3s;
         }
 
-        /* Card Ativo (Aberto) */
+        /* Estados Ativos */
         .cadastro-card.active {
             box-shadow: 0 20px 50px rgba(0, 194, 203, 0.15);
             border-color: #00c2cb;
             transform: scale(1.02);
             background: white;
+            z-index: 10; /* Garante que fique sobreposto se necessário */
+        }
+
+        /* Em mobile, removemos o scale para evitar overflow horizontal */
+        @media (max-width: 768px) {
+            .cadastro-card.active { transform: scale(1); }
         }
 
         .cadastro-card.active .card-header-cadastro {
@@ -167,33 +174,30 @@
             border-bottom: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* QUANDO ATIVO: Bolinha Branca + Ícone Ciano */
         .cadastro-card.active .card-icon-cadastro {
             background: white !important; 
             color: #00c2cb !important; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        /* Textos brancos no card ativo */
         .cadastro-card.active h3,
         .cadastro-card.active p,
         .cadastro-card.active .toggle-icon {
             color: white !important;
         }
 
-        .cadastro-card h3 { color: #003366; margin-bottom: 5px; }
+        .cadastro-card h3 { color: #003366; margin-bottom: 5px; font-size: 1.3rem; }
         .cadastro-card p { color: #64748b; margin: 0; font-size: 0.9rem; }
         .toggle-icon { float: right; color: #cbd5e1; transition: transform 0.3s; }
         .cadastro-card.active .toggle-icon { transform: rotate(180deg); }
 
-        /* Formulário Animado */
         .card-form-wrapper {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
             background: white;
         }
-        .cadastro-card.active .card-form-wrapper { max-height: 1200px; }
+        .cadastro-card.active .card-form-wrapper { max-height: 1500px; /* Aumentado para garantir em mobile */ }
 
         .card-form-inner { padding: 30px; }
 
@@ -206,6 +210,7 @@
             border-radius: 8px;
             font-size: 1rem;
             background: #f8fafc;
+            box-sizing: border-box; /* Garante que padding não aumente a largura */
         }
         .form-group-cadastro input:focus { border-color: #00c2cb; outline: none; background: white; }
 
@@ -226,9 +231,28 @@
 
         .consent-wrapper-cadastro { display: flex; align-items: start; gap: 10px; margin-bottom: 20px; font-size: 0.85rem; color: #64748b; }
 
+        /* =========================================
+           MEDIA QUERIES (RESPONSIVIDADE)
+           ========================================= */
         @media (max-width: 900px) {
-            .beneficios-grid { grid-template-columns: 1fr; }
-            .beneficios-section { padding-top: 140px; }
+            .beneficios-section { padding-top: 130px; }
+            .beneficios-grid { grid-template-columns: 1fr; gap: 20px; } /* 1 coluna no tablet/mobile */
+            .section-title-cadastro h2 { font-size: 2rem; }
+        }
+
+        @media (max-width: 600px) {
+            /* Ajustes finos para celulares */
+            .beneficio-card { padding: 30px 20px; }
+            .beneficio-icon { width: 70px; height: 70px; }
+            .beneficio-icon i { font-size: 2.2rem; }
+            
+            .card-form-inner { padding: 20px; }
+            .card-header-cadastro { padding: 20px; }
+            
+            .section-title-cadastro h2 { font-size: 1.8rem; }
+            .section-title-cadastro p { font-size: 1rem; }
+            
+            .cadastro-cards-section { padding: 40px 15px 80px; }
         }
     </style>
 </head>
