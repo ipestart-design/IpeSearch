@@ -23,12 +23,11 @@
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
             
-            /* FUNDO DINÂMICO FIXO (Necessário para o efeito de vidro) */
+            /* FUNDO NECESSÁRIO PARA O EFEITO GLASS FUNCIONAR */
             background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
             background-image: 
                 radial-gradient(at 0% 0%, rgba(0, 194, 203, 0.15) 0px, transparent 50%),
                 radial-gradient(at 100% 0%, rgba(15, 23, 42, 0.1) 0px, transparent 50%);
-            background-attachment: fixed; /* Fundo não rola com a página */
             min-height: 100vh;
             color: #1e293b;
         }
@@ -37,35 +36,31 @@
         .hero-section {
             width: 95%; 
             max-width: 1400px;
-            /* Margem superior ajustada para o Header não tampar */
-            margin: 140px auto 50px; 
+            margin: 120px auto 40px; 
             padding: 60px 50px;
             
-            /* O VERDADEIRO EFEITO GLASS */
-            background: rgba(15, 23, 42, 0.90); /* Azul escuro com leve transparência */
-            backdrop-filter: blur(20px);         /* Desfoque do fundo */
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             
             border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             
-            /* Layout Flexbox */
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 60px;
-            flex-wrap: wrap; /* Quebra linha no mobile */
+            flex-wrap: wrap;
         }
 
-        /* Lado Esquerdo: Título */
         .hero-left {
             flex: 1;
             min-width: 300px;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4rem); /* Texto responsivo */
+            font-size: 4rem;
             font-weight: 900;
             color: white;
             line-height: 1;
@@ -75,11 +70,10 @@
         }
 
         .hero-title span {
-            color: #00c2cb; /* Destaque Ciano */
+            color: #00c2cb;
             display: block;
         }
 
-        /* Lado Direito: Texto + Filtros */
         .hero-right {
             flex: 1.5;
             min-width: 300px;
@@ -98,25 +92,27 @@
             padding-left: 20px;
         }
 
-        /* --- FILTROS (GRID STYLE) --- */
+        /* --- FILTROS --- */
         .filters-wrapper {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            /* Grid ajustado para caber mais botões na mesma linha se necessário */
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             gap: 12px;
         }
 
         .filter-btn {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
-            padding: 10px 20px;
-            border-radius: 50px;
+            padding: 12px 15px;
+            border-radius: 12px;
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             backdrop-filter: blur(4px);
         }
@@ -131,20 +127,22 @@
             background: #00c2cb;
             color: #0f172a;
             border-color: #00c2cb;
-            box-shadow: 0 0 20px rgba(0, 194, 203, 0.4);
+            box-shadow: 0 0 15px rgba(0, 194, 203, 0.4);
         }
 
-        /* --- GRID DE CARDS --- */
+        /* --- GRID DE CARDS (ALTERADO PARA CABER MAIS) --- */
         .content-container {
-            max-width: 1400px;
+            max-width: 1400px; /* Largura total generosa */
             margin: 0 auto 100px;
-            padding: 0 40px;
+            padding: 0 30px; /* Margem lateral reduzida para caber mais */
         }
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
+            /* AQUI ESTÁ A MUDANÇA: minmax reduzido para 250px */
+            /* Isso permite 5 cards em telas de 1400px */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px; /* Gap levemente reduzido */
         }
 
         /* --- CARD DESIGN --- */
@@ -167,36 +165,36 @@
         }
 
         .card-header {
-            padding: 25px;
+            padding: 20px; /* Padding reduzido para caber no card menor */
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             border-bottom: 1px solid #f1f5f9;
             background: linear-gradient(to right, #ffffff, #f8fafc);
         }
 
         .mentor-avatar {
-            width: 70px; height: 70px;
+            width: 60px; height: 60px; /* Foto levemente menor */
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .mentor-info h3 { font-size: 1.2rem; font-weight: 800; margin: 0; color: #0f172a; }
-        .mentor-role { font-size: 0.85rem; color: #00c2cb; font-weight: 700; text-transform: uppercase; }
+        .mentor-info h3 { font-size: 1.1rem; font-weight: 800; margin: 0; color: #0f172a; }
+        .mentor-role { font-size: 0.8rem; color: #00c2cb; font-weight: 700; text-transform: uppercase; }
 
-        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-        .mentor-bio { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
+        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .mentor-bio { font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 20px; }
 
-        .tags-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: auto; }
-        .tag { font-size: 0.75rem; background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 50px; font-weight: 600; }
+        .tags-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: auto; }
+        .tag { font-size: 0.7rem; background: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 50px; font-weight: 600; }
 
-        .card-footer { padding: 20px 25px; background: #fff; border-top: 1px solid #f1f5f9; }
-        .btn-request { width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .card-footer { padding: 15px 20px; background: #fff; border-top: 1px solid #f1f5f9; }
+        .btn-request { width: 100%; padding: 10px; background: #0f172a; color: white; border: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-request:hover { background: #00c2cb; color: #0f172a; }
 
-        .xp-badge { position: absolute; top: 15px; right: 15px; background: #ecfdf5; color: #059669; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; border: 1px solid #d1fae5; }
+        .xp-badge { position: absolute; top: 15px; right: 15px; background: #ecfdf5; color: #059669; padding: 3px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; border: 1px solid #d1fae5; }
 
         /* --- MODAL --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
@@ -315,11 +313,31 @@
                 <div class="card-body">
                     <p class="mentor-bio">Especialista em tráfego pago e estratégias de crescimento acelerado para B2B.</p>
                     <div class="tags-list">
-                        <span class="tag">Growth</span><span class="tag">Branding</span><span class="tag">Data Analytics</span>
+                        <span class="tag">Growth</span><span class="tag">Branding</span><span class="tag">Analytics</span>
                     </div>
                 </div>
                 <div class="card-footer">
                     <button class="btn-request" onclick="openModal('Julia Brand')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="mentor-card" data-category="tech">
+                <div class="xp-badge">10 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80" alt="Fernanda" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Fernanda UX</h3>
+                        <span class="mentor-role">Product Designer</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="mentor-bio">Líder de Design na Fintech X. Focada em experiência do usuário e conversão.</p>
+                    <div class="tags-list">
+                        <span class="tag">UX/UI</span><span class="tag">Figma</span><span class="tag">User Research</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Fernanda UX')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
                 </div>
             </div>
 
