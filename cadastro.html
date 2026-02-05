@@ -15,428 +15,377 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* Ajustes gerais */
+        /* --- RESET & GERAL --- */
+        * { box-sizing: border-box; }
+        
         html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            overflow-x: hidden;
+            margin: 0; padding: 0; width: 100%; overflow-x: hidden;
             background-color: #f8fafc;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Padding ajustado para o Header Fixo */
-        .beneficios-section {
-            padding-top: 160px;
-            padding-bottom: 60px;
-            padding-left: 20px;
-            padding-right: 20px;
-            background: #f8fafc;
-        }
-
-        .section-title-cadastro {
-            text-align: center;
-            margin-bottom: 50px;
-            padding: 0 10px; /* Margem de segurança lateral */
-        }
-        
-        .section-title-cadastro h2 {
-            font-size: 2.5rem;
-            color: #003366;
-            font-weight: 800;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-
-        .section-title-cadastro p {
-            color: #64748b;
-            font-size: 1.1rem;
-        }
-
-        /* Grid 2x2 Benefícios */
-        .beneficios-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .beneficio-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 50px 40px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            border: 1px solid #e2e8f0;
-        }
-
-        .beneficio-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 194, 203, 0.1);
-            border-color: #00c2cb;
-        }
-
-        .beneficio-icon {
-            width: 90px;
-            height: 90px;
-            background: rgba(0, 194, 203, 0.1);
-            border-radius: 50%;
+        /* --- LAYOUT PRINCIPAL (SPLIT SCREEN) --- */
+        .main-wrapper {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-        }
-
-        .beneficio-icon i {
-            font-size: 3rem;
-            color: #00c2cb;
-        }
-
-        .beneficio-card h3 {
-            font-size: 1.5rem;
-            color: #003366;
-            font-weight: 700;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-
-        .beneficio-card p {
-            font-size: 1rem;
-            color: #64748b;
-            line-height: 1.6;
-        }
-
-        /* Seção de Cadastro */
-        .cadastro-cards-section {
-            padding: 60px 20px 100px;
-            background: #fff;
-        }
-
-        .cadastro-grid {
-            display: grid;
-            /* Grid inteligente: adapta o número de colunas, mas não deixa ficar menor que 280px */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            flex-wrap: wrap; /* Permite quebrar linha no mobile */
             max-width: 1200px;
             margin: 0 auto;
+            padding: 40px 20px 100px;
+            gap: 40px;
+            align-items: flex-start; /* Alinha ao topo */
+        }
+
+        /* --- COLUNA LATERAL (BENEFÍCIOS) - AGORA PEQUENA --- */
+        .sidebar-beneficios {
+            flex: 1; /* Ocupa 1 parte do espaço */
+            min-width: 280px; /* Largura mínima */
+            max-width: 350px; /* Não deixa ficar gigante */
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f6;
+            position: sticky; /* Fixa ao rolar (Desktop) */
+            top: 100px; 
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem;
+            color: #003366;
+            font-weight: 800;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f4f8;
+        }
+
+        /* Mini Cards de Benefícios (Lista) */
+        .mini-beneficio {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .mini-beneficio:last-child { margin-bottom: 0; }
+
+        .mini-icon {
+            width: 45px; height: 45px;
+            background: rgba(0, 194, 203, 0.1);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            color: #00c2cb;
+            font-size: 1.2rem;
+        }
+
+        .mini-content h4 {
+            margin: 0 0 5px 0;
+            font-size: 1rem;
+            color: #003366;
+            font-weight: 700;
+        }
+        .mini-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        /* --- COLUNA PRINCIPAL (CARDS DE CADASTRO) --- */
+        .content-cadastro {
+            flex: 2; /* Ocupa 2 partes do espaço (mais largo) */
+            min-width: 300px;
+            width: 100%;
+        }
+
+        .section-header { margin-bottom: 30px; }
+        .section-header h2 { font-size: 2rem; color: #003366; font-weight: 800; margin-bottom: 10px; }
+        .section-header p { color: #64748b; }
+
+        /* GRID RESPONSIVO DOS CARDS */
+        .cadastro-grid {
+            display: flex;
+            flex-direction: column; /* Um embaixo do outro é melhor para formulários */
+            gap: 25px;
         }
 
         .cadastro-card {
-            background: #f8fafc;
+            background: white;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
         }
 
+        /* Header do Card */
         .card-header-cadastro {
-            padding: 30px;
-            text-align: center;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             cursor: pointer;
-            background: #f8fafc;
-            border-bottom: 1px solid transparent;
+            background: white;
             transition: background 0.3s;
         }
 
-        .card-icon-cadastro {
-            width: 80px; 
-            height: 80px;
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        
+        .card-icon-small {
+            width: 50px; height: 50px;
             background: rgba(0, 194, 203, 0.1);
             border-radius: 50%;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 2.5rem;
-            color: #00c2cb;
+            display: flex; align-items: center; justify-content: center;
+            color: #00c2cb; font-size: 1.2rem;
             transition: all 0.3s;
         }
 
-        /* Estados Ativos */
+        .card-title-group h3 { margin: 0; font-size: 1.1rem; color: #003366; font-weight: 700; }
+        .card-title-group p { margin: 2px 0 0 0; font-size: 0.85rem; color: #64748b; }
+
+        .toggle-icon { color: #cbd5e1; transition: transform 0.3s; }
+
+        /* CARD ATIVO */
         .cadastro-card.active {
-            box-shadow: 0 20px 50px rgba(0, 194, 203, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 194, 203, 0.15);
             border-color: #00c2cb;
-            transform: scale(1.02);
-            background: white;
-            z-index: 10; /* Garante que fique sobreposto se necessário */
+            transform: scale(1.01); /* Scale suave */
         }
-
-        /* Em mobile, removemos o scale para evitar overflow horizontal */
-        @media (max-width: 768px) {
-            .cadastro-card.active { transform: scale(1); }
-        }
-
-        .cadastro-card.active .card-header-cadastro {
-            background: linear-gradient(135deg, #00c2cb, #009aa3);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .cadastro-card.active .card-icon-cadastro {
-            background: white !important; 
-            color: #00c2cb !important; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .cadastro-card.active h3,
-        .cadastro-card.active p,
-        .cadastro-card.active .toggle-icon {
-            color: white !important;
-        }
-
-        .cadastro-card h3 { color: #003366; margin-bottom: 5px; font-size: 1.3rem; }
-        .cadastro-card p { color: #64748b; margin: 0; font-size: 0.9rem; }
-        .toggle-icon { float: right; color: #cbd5e1; transition: transform 0.3s; }
+        .cadastro-card.active .card-header-cadastro { background: linear-gradient(135deg, #00c2cb, #009aa3); }
+        .cadastro-card.active .card-icon-small { background: white; color: #00c2cb; }
+        .cadastro-card.active h3, .cadastro-card.active p, .cadastro-card.active .toggle-icon { color: white !important; }
         .cadastro-card.active .toggle-icon { transform: rotate(180deg); }
 
+        /* FORMULÁRIO */
         .card-form-wrapper {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-            background: white;
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fff;
         }
-        .cadastro-card.active .card-form-wrapper { max-height: 1500px; /* Aumentado para garantir em mobile */ }
+        .cadastro-card.active .card-form-wrapper { max-height: 1500px; } /* Altura segura */
 
         .card-form-inner { padding: 30px; }
 
         .form-group-cadastro { margin-bottom: 20px; }
         .form-group-cadastro label { display: block; font-weight: 600; color: #475569; margin-bottom: 8px; font-size: 0.9rem; }
         .form-group-cadastro input, .form-group-cadastro select, .form-group-cadastro textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: #f8fafc;
-            box-sizing: border-box; /* Garante que padding não aumente a largura */
+            width: 100%; padding: 12px;
+            border: 1px solid #cbd5e1; border-radius: 8px;
+            font-size: 1rem; background: #f8fafc;
         }
-        .form-group-cadastro input:focus { border-color: #00c2cb; outline: none; background: white; }
+        .form-group-cadastro input:focus { border-color: #00c2cb; outline: none; background: white; box-shadow: 0 0 0 3px rgba(0, 194, 203, 0.1); }
 
         .btn-submit-cadastro {
-            width: 100%;
-            padding: 14px;
-            background: #00c2cb;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-transform: uppercase;
+            width: 100%; padding: 14px;
+            background: #00c2cb; color: white; border: none; border-radius: 8px;
+            font-size: 1rem; font-weight: 700; cursor: pointer; text-transform: uppercase;
+            transition: 0.3s;
         }
-        .btn-submit-cadastro:hover { background: #008c94; }
-
+        .btn-submit-cadastro:hover { background: #008c94; transform: translateY(-2px); }
         .consent-wrapper-cadastro { display: flex; align-items: start; gap: 10px; margin-bottom: 20px; font-size: 0.85rem; color: #64748b; }
 
+        /* HERO AJUSTADO */
+        .cadastro-hero {
+            padding-top: 140px; padding-bottom: 60px;
+            background: linear-gradient(135deg, #002244, #003366);
+            color: white; text-align: center;
+        }
+        .cadastro-hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 15px; }
+
         /* =========================================
-           MEDIA QUERIES (RESPONSIVIDADE)
+           RESPONSIVIDADE (MOBILE)
            ========================================= */
         @media (max-width: 900px) {
-            .beneficios-section { padding-top: 130px; }
-            .beneficios-grid { grid-template-columns: 1fr; gap: 20px; } /* 1 coluna no tablet/mobile */
-            .section-title-cadastro h2 { font-size: 2rem; }
-        }
+            .main-wrapper { 
+                flex-direction: column; /* Empilha tudo verticalmente */
+                padding: 20px;
+            }
+            
+            /* Sidebar vira um bloco no topo ou embaixo */
+            .sidebar-beneficios {
+                width: 100%;
+                max-width: 100%;
+                position: relative; /* Remove o sticky no mobile */
+                top: 0;
+                margin-bottom: 20px;
+                order: 2; /* Joga benefícios para baixo dos formulários (opcional) */
+            }
+            
+            .content-cadastro {
+                width: 100%;
+                order: 1;
+            }
 
-        @media (max-width: 600px) {
-            /* Ajustes finos para celulares */
-            .beneficio-card { padding: 30px 20px; }
-            .beneficio-icon { width: 70px; height: 70px; }
-            .beneficio-icon i { font-size: 2.2rem; }
-            
-            .card-form-inner { padding: 20px; }
-            .card-header-cadastro { padding: 20px; }
-            
-            .section-title-cadastro h2 { font-size: 1.8rem; }
-            .section-title-cadastro p { font-size: 1rem; }
-            
-            .cadastro-cards-section { padding: 40px 15px 80px; }
+            .section-header h2 { font-size: 1.8rem; }
+            .cadastro-card.active { transform: scale(1); } /* Remove zoom no mobile */
         }
     </style>
 </head>
 <body>
 
-    <section class="beneficios-section">
-        <div class="section-title-cadastro">
-            <h2>POR QUE PARTICIPAR?</h2>
-            <p>Benefícios exclusivos para toda a comunidade de inovação</p>
-        </div>
-
-        <div class="beneficios-grid">
-            <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-network-wired"></i>
-                </div>
-                <h3>Networking Estratégico</h3>
-                <p>Conecte-se com líderes, pesquisadores e empreendedores do ecossistema.</p>
-            </div>
-
-            <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
-                <h3>Oportunidades de P&D</h3>
-                <p>Acesso direto a projetos de pesquisa e desenvolvimento de ponta.</p>
-            </div>
-
-            <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-handshake"></i>
-                </div>
-                <h3>Parcerias Estratégicas</h3>
-                <p>Fomente colaborações entre academia, indústria e governo.</p>
-            </div>
-
-            <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>Visibilidade</h3>
-                <p>Destaque seu trabalho para empresas, investidores e parceiros.</p>
-            </div>
+    <section class="cadastro-hero">
+        <div style="max-width: 800px; margin: 0 auto; padding: 0 20px;">
+            <h1>Faça Parte do Ecossistema</h1>
+            <p>Conecte seu conhecimento e projetos à plataforma de inovação.</p>
         </div>
     </section>
 
-    <section class="cadastro-cards-section">
-        <div class="section-title-cadastro">
-            <h2>Escolha seu perfil</h2>
-            <p>Selecione a categoria que melhor te representa e preencha o cadastro</p>
+    <div class="main-wrapper">
+        
+        <aside class="sidebar-beneficios">
+            <h3 class="sidebar-title">Por que participar?</h3>
+            
+            <div class="mini-beneficio">
+                <div class="mini-icon"><i class="fas fa-network-wired"></i></div>
+                <div class="mini-content">
+                    <h4>Networking</h4>
+                    <p>Conexão direta com líderes e pesquisadores.</p>
+                </div>
+            </div>
+
+            <div class="mini-beneficio">
+                <div class="mini-icon"><i class="fas fa-lightbulb"></i></div>
+                <div class="mini-content">
+                    <h4>Projetos de P&D</h4>
+                    <p>Acesso a projetos de desenvolvimento de ponta.</p>
+                </div>
+            </div>
+
+            <div class="mini-beneficio">
+                <div class="mini-icon"><i class="fas fa-handshake"></i></div>
+                <div class="mini-content">
+                    <h4>Parcerias</h4>
+                    <p>Colaboração entre academia e indústria.</p>
+                </div>
+            </div>
+
+            <div class="mini-beneficio">
+                <div class="mini-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="mini-content">
+                    <h4>Visibilidade</h4>
+                    <p>Destaque para investidores e mercado.</p>
+                </div>
+            </div>
+        </aside>
+
+        <div class="content-cadastro">
+            <div class="section-header">
+                <h2>Escolha seu perfil</h2>
+                <p>Clique na categoria para expandir o formulário.</p>
+            </div>
+
+            <div class="cadastro-grid">
+                
+                <div class="cadastro-card" id="card-pesquisador">
+                    <div class="card-header-cadastro" onclick="toggleCard('pesquisador')">
+                        <div class="header-left">
+                            <div class="card-icon-small"><i class="fas fa-user-graduate"></i></div>
+                            <div class="card-title-group">
+                                <h3>Pesquisador</h3>
+                                <p>Docentes e pesquisadores da UFLA</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="card-form-wrapper">
+                        <div class="card-form-inner">
+                            <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                                <input type="hidden" name="tipo" value="Pesquisador">
+                                <div class="form-group-cadastro">
+                                    <label>Nome Completo</label>
+                                    <input type="text" name="nome" required>
+                                </div>
+                                <div class="form-group-cadastro">
+                                    <label>E-mail Institucional</label>
+                                    <input type="email" name="email" required>
+                                </div>
+                                <div class="form-group-cadastro">
+                                    <label>Departamento</label>
+                                    <input type="text" name="departamento" required>
+                                </div>
+                                <div class="form-group-cadastro">
+                                    <label>Link Lattes</label>
+                                    <input type="url" name="lattes">
+                                </div>
+                                <div class="consent-wrapper-cadastro">
+                                    <input type="checkbox" required> <label>Li e aceito os termos da LGPD.</label>
+                                </div>
+                                <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cadastro-card" id="card-empresa">
+                    <div class="card-header-cadastro" onclick="toggleCard('empresa')">
+                        <div class="header-left">
+                            <div class="card-icon-small"><i class="fas fa-building"></i></div>
+                            <div class="card-title-group">
+                                <h3>Empresa</h3>
+                                <p>Startups e corporações</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="card-form-wrapper">
+                        <div class="card-form-inner">
+                            <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                                <input type="hidden" name="tipo" value="Empresa">
+                                <div class="form-group-cadastro">
+                                    <label>Razão Social</label>
+                                    <input type="text" name="empresa" required>
+                                </div>
+                                <div class="form-group-cadastro">
+                                    <label>CNPJ</label>
+                                    <input type="text" name="cnpj" required>
+                                </div>
+                                <div class="form-group-cadastro">
+                                    <label>E-mail Corporativo</label>
+                                    <input type="email" name="email" required>
+                                </div>
+                                <div class="consent-wrapper-cadastro">
+                                    <input type="checkbox" required> <label>Li e aceito os termos da LGPD.</label>
+                                </div>
+                                <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cadastro-card" id="card-mentor">
+                    <div class="card-header-cadastro" onclick="toggleCard('mentor')">
+                        <div class="header-left">
+                            <div class="card-icon-small"><i class="fas fa-user-tie"></i></div>
+                            <div class="card-title-group">
+                                <h3>Mentor</h3>
+                                <p>Profissionais experientes</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="card-form-wrapper">
+                        <div class="card-form-inner">
+                            <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                                <input type="hidden" name="tipo" value="Mentor">
+                                <div class="form-group-cadastro">
+                                    <label>Nome Completo</label>
+                                    <input type="text" name="nome" required>
+                                </div>
+                                <div class="form-group-cadastro">
+                                    <label>Área de Expertise</label>
+                                    <input type="text" name="expertise" required>
+                                </div>
+                                <div class="consent-wrapper-cadastro">
+                                    <input type="checkbox" required> <label>Li e aceito os termos da LGPD.</label>
+                                </div>
+                                <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-
-        <div class="cadastro-grid">
-            <div class="cadastro-card" id="card-pesquisador">
-                <div class="card-header-cadastro" onclick="toggleCard('pesquisador')">
-                    <div class="card-icon-cadastro"><i class="fas fa-user-graduate"></i></div>
-                    <h3>Pesquisador <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Docentes, pós-docs e pesquisadores da UFLA</p>
-                </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form id="form-pesquisador" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Pesquisador">
-                            <div class="form-group-cadastro">
-                                <label>Nome Completo *</label>
-                                <input type="text" name="nome" required placeholder="Dr. João Silva">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>E-mail Institucional *</label>
-                                <input type="email" name="email" required placeholder="joao.silva@ufla.br">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Departamento / Instituto *</label>
-                                <input type="text" name="departamento" required placeholder="Ex: DCC, DAE...">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Área de Pesquisa Principal *</label>
-                                <input type="text" name="area" required placeholder="Ex: IA, Biotecnologia...">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Link do Currículo Lattes</label>
-                                <input type="url" name="lattes" placeholder="http://lattes.cnpq.br/...">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Breve Descrição da Linha de Pesquisa</label>
-                                <textarea name="descricao" rows="4" placeholder="Descreva seus interesses..."></textarea>
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-pesq" required>
-                                <label for="consent-pesq">Autorizo a divulgação e concordo com a LGPD.</label>
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cadastro-card" id="card-empresa">
-                <div class="card-header-cadastro" onclick="toggleCard('empresa')">
-                    <div class="card-icon-cadastro"><i class="fas fa-building"></i></div>
-                    <h3>Empresa <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Startups, PMEs e corporações inovadoras</p>
-                </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form id="form-empresa" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Empresa">
-                            <div class="form-group-cadastro">
-                                <label>Nome da Empresa *</label>
-                                <input type="text" name="empresa" required placeholder="Razão Social">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>CNPJ *</label>
-                                <input type="text" name="cnpj" required placeholder="00.000.000/0000-00">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Setor de Atuação *</label>
-                                <select name="setor" required>
-                                    <option value="">Selecione...</option>
-                                    <option value="Agrotech">Agrotech</option>
-                                    <option value="Biotecnologia">Biotecnologia</option>
-                                    <option value="TI & Software">TI & Software</option>
-                                    <option value="Outro">Outro</option>
-                                </select>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>E-mail Corporativo *</label>
-                                <input type="email" name="email" required placeholder="contato@empresa.com.br">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Site da Empresa</label>
-                                <input type="url" name="site" placeholder="https://...">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Descrição das Atividades *</label>
-                                <textarea name="descricao" rows="4" required></textarea>
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-emp" required>
-                                <label for="consent-emp">Autorizo a divulgação e concordo com a LGPD.</label>
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cadastro-card" id="card-mentor">
-                <div class="card-header-cadastro" onclick="toggleCard('mentor')">
-                    <div class="card-icon-cadastro"><i class="fas fa-user-tie"></i></div>
-                    <h3>Mentor <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Profissionais experientes</p>
-                </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form id="form-mentor" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Mentor">
-                            <div class="form-group-cadastro">
-                                <label>Nome Completo *</label>
-                                <input type="text" name="nome" required placeholder="Seu nome">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>E-mail *</label>
-                                <input type="email" name="email" required placeholder="seu@email.com">
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Área de Expertise *</label>
-                                <input type="text" name="expertise" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>LinkedIn</label>
-                                <input type="url" name="linkedin" placeholder="https://linkedin.com/in/...">
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" id="consent-mentor" required>
-                                <label for="consent-mentor">Autorizo a divulgação e concordo com a LGPD.</label>
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <script src="header.js"></script>
     <script src="footer.js"></script>
@@ -447,7 +396,6 @@
             const card = document.getElementById(`card-${tipo}`);
             const allCards = document.querySelectorAll('.cadastro-card');
             
-            // Fecha os outros cards (opcional)
             if (!card.classList.contains('active')) {
                 allCards.forEach(c => c.classList.remove('active'));
             }
@@ -457,19 +405,31 @@
             } else {
                 card.classList.add('active');
                 setTimeout(() => {
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Ajuste de scroll suave centralizado
+                    const offset = 100; // Espaço para o header
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = card.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
                 }, 300);
             }
         }
 
         // Máscara CNPJ
-        const cnpj = document.querySelector('input[name="cnpj"]');
-        if (cnpj) {
-            cnpj.addEventListener('input', e => {
+        const cnpjInput = document.querySelector('input[name="cnpj"]');
+        if (cnpjInput) {
+            cnpjInput.addEventListener('input', e => {
                 let v = e.target.value.replace(/\D/g, '');
                 if (v.length <= 14) {
-                    v = v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-                          .replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
+                    v = v.replace(/^(\d{2})(\d)/, '$1.$2')
+                         .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+                         .replace(/\.(\d{3})(\d)/, '.$1/$2')
+                         .replace(/(\d{4})(\d)/, '$1-$2');
                 }
                 e.target.value = v;
             });
