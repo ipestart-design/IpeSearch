@@ -3,402 +3,564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
 
-    <title>Mentores - IPÊ CONECT</title>
+    <title>Quero Participar - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
-
+    
     <style>
-        /* --- RESET & BASE --- */
-        * { box-sizing: border-box; }
-        
+        /* =========================================
+           RESET ESTRUTURAL
+           ========================================= */
         html, body {
             margin: 0 !important;
             padding: 0 !important;
+            width: 100% !important;
+            overflow-x: hidden !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* =========================================
+           HERO SECTION RESPONSIVA
+           ========================================= */
+        .cadastro-hero {
+            position: relative;
             width: 100%;
-            overflow-x: hidden;
-            font-family: 'Inter', sans-serif;
-            
-            /* FUNDO NECESSÁRIO PARA O EFEITO GLASS FUNCIONAR */
-            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(0, 194, 203, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(15, 23, 42, 0.1) 0px, transparent 50%);
-            min-height: 100vh;
-            color: #1e293b;
-        }
-
-        /* --- HERO SECTION GLASSMORPHISM --- */
-        .hero-section {
-            width: 95%; /* Um pouco menor que a tela para parecer um painel flutuante */
-            max-width: 1400px;
-            margin: 120px auto 40px; /* Margem superior para fugir do Header */
-            padding: 60px 50px;
-            
-            /* EFEITO GLASS (VIDRO ESCURO) */
-            background: rgba(15, 23, 42, 0.85); /* Azul escuro com transparência */
-            backdrop-filter: blur(16px);       /* O desfoque mágico */
-            -webkit-backdrop-filter: blur(16px);
-            
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda fina de vidro */
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); /* Sombra profunda */
-            
-            /* Layout Horizontal (Flexbox) */
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 60px;
-            flex-wrap: wrap;
-        }
-
-        /* Lado Esquerdo: Título */
-        .hero-left {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            font-weight: 900;
-            color: white;
-            line-height: 1;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-        }
-
-        .hero-title span {
-            color: #00c2cb; /* Ciano Neon */
-            display: block;
-        }
-
-        /* Lado Direito: Texto + Filtros */
-        .hero-right {
-            flex: 1.5;
-            min-width: 300px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: #cbd5e1; /* Cinza claro */
-            line-height: 1.6;
-            margin: 0;
-            font-weight: 400;
-            border-left: 4px solid #00c2cb;
-            padding-left: 20px;
-        }
-
-        /* --- FILTROS (GRID STYLE) --- */
-        .filters-wrapper {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-        }
-
-        .filter-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 12px 15px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            min-height: 100vh; /* Altura total */
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            backdrop-filter: blur(4px);
+            
+            /* Background Imagem + Gradiente */
+            background: linear-gradient(135deg, rgba(0, 26, 51, 0.9) 0%, rgba(0, 51, 102, 0.8) 100%), 
+                        url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efeito Parallax (pode desligar no mobile) */
+            
+            color: white;
+            text-align: center;
+            padding: 120px 20px 80px; /* Espaço extra no topo p/ Header */
+            box-sizing: border-box;
         }
 
-        .filter-btn:hover {
-            background: rgba(0, 194, 203, 0.2);
-            border-color: #00c2cb;
-            transform: translateY(-2px);
+        .cadastro-hero-content {
+            max-width: 900px;
+            animation: fadeIn 1s ease-out;
+            z-index: 2;
         }
 
-        .filter-btn.active {
-            background: #00c2cb;
-            color: #0f172a;
-            border-color: #00c2cb;
-            box-shadow: 0 0 15px rgba(0, 194, 203, 0.4);
+        .cadastro-hero h1 {
+            /* Tamanho dinâmico: min 2.5rem, ideal 5vw, max 5rem */
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            
+            /* Gradiente no Texto */
+            background: linear-gradient(135deg, #ffffff, #00c2cb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        /* --- GRID DE CARDS --- */
-        .content-container {
-            max-width: 1400px;
-            margin: 0 auto 100px;
-            padding: 0 40px;
+        .cadastro-hero p {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .cards-grid {
+        /* Seta de Scroll */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .scroll-indicator i {
+            font-size: 2.5rem;
+            color: #00c2cb;
+            opacity: 0.8;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -15px); }
+            60% { transform: translate(-50%, -7px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =========================================
+           BENEFÍCIOS (GRID RESPONSIVO)
+           ========================================= */
+        .beneficios-section {
+            padding: 80px 20px;
+            background: #fff;
+        }
+
+        .section-title-cadastro {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 0 10px;
+        }
+        
+        .section-title-cadastro h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            color: #003366;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .section-title-cadastro p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .beneficios-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
+            /* Mobile: 1 coluna | Desktop: 2 colunas */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
-        /* --- CARD DESIGN --- */
-        .mentor-card {
-            background: white;
+        .beneficio-card {
+            background: #fff;
             border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f6;
         }
 
-        .mentor-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px -5px rgba(0, 194, 203, 0.15);
+        .beneficio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 194, 203, 0.15);
             border-color: #00c2cb;
         }
 
-        .card-header {
-            padding: 25px;
+        .beneficio-icon {
+            width: 90px;
+            height: 90px;
+            background: rgba(0, 194, 203, 0.1);
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
+        .beneficio-icon i {
+            font-size: 3rem;
+            color: #00c2cb;
+        }
+
+        .beneficio-card h3 {
+            font-size: 1.4rem;
+            color: #003366;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .beneficio-card p {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* =========================================
+           CADASTRO (CARDS RESPONSIVOS)
+           ========================================= */
+        .cadastro-cards-section {
+            padding: 60px 20px 100px;
+            background: #f8fafc;
+        }
+
+        .cadastro-grid {
+            display: grid;
+            /* Grid inteligente: adapta mas nunca fica menor que 280px */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cadastro-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .card-header-cadastro {
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: white;
             border-bottom: 1px solid #f1f5f9;
-            background: linear-gradient(to right, #ffffff, #f8fafc);
+            transition: background 0.3s;
         }
 
-        .mentor-avatar {
-            width: 70px; height: 70px;
+        .card-icon-cadastro {
+            width: 80px; height: 80px;
+            background: rgba(0, 194, 203, 0.1);
             border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2.5rem;
+            color: #00c2cb;
+            transition: all 0.3s;
         }
 
-        .mentor-info h3 { font-size: 1.2rem; font-weight: 800; margin: 0; color: #0f172a; }
-        .mentor-role { font-size: 0.85rem; color: #00c2cb; font-weight: 700; text-transform: uppercase; }
+        /* Estado Ativo */
+        .cadastro-card.active {
+            box-shadow: 0 20px 50px rgba(0, 194, 203, 0.15);
+            border-color: #00c2cb;
+            transform: scale(1.02);
+            z-index: 10;
+        }
 
-        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-        .mentor-bio { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
+        /* Ajuste do scale no mobile para não cortar a tela */
+        @media (max-width: 768px) {
+            .cadastro-card.active { transform: scale(1); }
+        }
 
-        .tags-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: auto; }
-        .tag { font-size: 0.75rem; background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 50px; font-weight: 600; }
+        .cadastro-card.active .card-header-cadastro {
+            background: linear-gradient(135deg, #00c2cb, #009aa3);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
 
-        .card-footer { padding: 20px 25px; background: #fff; border-top: 1px solid #f1f5f9; }
-        .btn-request { width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-request:hover { background: #00c2cb; color: #0f172a; }
+        .cadastro-card.active .card-icon-cadastro {
+            background: white !important;
+            color: #00c2cb !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
 
-        .xp-badge { position: absolute; top: 15px; right: 15px; background: #ecfdf5; color: #059669; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; border: 1px solid #d1fae5; }
+        .cadastro-card.active h3, 
+        .cadastro-card.active p, 
+        .cadastro-card.active .toggle-icon {
+            color: white !important;
+        }
 
-        /* --- MODAL --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
-        .modal-box { background: white; padding: 40px; border-radius: 24px; max-width: 480px; width: 90%; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: fadeUp 0.3s ease; }
-        @keyframes fadeUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .cadastro-card h3 { color: #003366; margin-bottom: 5px; font-size: 1.3rem; }
+        .cadastro-card p { color: #64748b; margin: 0; font-size: 0.95rem; }
         
-        .modal-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; text-align: center; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 6px; }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; }
-        .btn-modal-submit { width: 100%; padding: 14px; background: #00c2cb; color: #0f172a; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; }
-        .btn-close { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #94a3b8; background: none; border: none; }
+        .toggle-icon { float: right; color: #cbd5e1; transition: transform 0.3s; }
+        .cadastro-card.active .toggle-icon { transform: rotate(180deg); }
 
-        @media (max-width: 900px) {
-            .hero-section { flex-direction: column; text-align: center; gap: 30px; margin-top: 100px; }
-            .hero-subtitle { border-left: none; padding-left: 0; }
-            .content-container { padding: 0 20px; }
+        /* Formulário */
+        .card-form-wrapper {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            background: white;
+        }
+        .cadastro-card.active .card-form-wrapper { max-height: 1500px; }
+
+        .card-form-inner { padding: 30px; }
+
+        .form-group-cadastro { margin-bottom: 20px; }
+        .form-group-cadastro label { display: block; font-weight: 600; color: #475569; margin-bottom: 8px; font-size: 0.9rem; }
+        
+        .form-group-cadastro input, 
+        .form-group-cadastro select, 
+        .form-group-cadastro textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #f8fafc;
+            box-sizing: border-box; /* Garante que padding não estoure a largura */
+        }
+        
+        .form-group-cadastro input:focus { 
+            border-color: #00c2cb; 
+            outline: none; 
+            background: white; 
+            box-shadow: 0 0 0 3px rgba(0, 194, 203, 0.1);
+        }
+
+        .btn-submit-cadastro {
+            width: 100%;
+            padding: 16px;
+            background: #00c2cb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-submit-cadastro:hover { background: #008c94; }
+
+        .consent-wrapper-cadastro { display: flex; align-items: start; gap: 10px; margin-bottom: 25px; font-size: 0.85rem; color: #64748b; }
+
+        /* =========================================
+           AJUSTES FINAIS MOBILE
+           ========================================= */
+        @media (max-width: 600px) {
+            .cadastro-hero { background-attachment: scroll; } /* Melhor performance no mobile */
+            .beneficios-grid { grid-template-columns: 1fr; }
+            .card-form-inner { padding: 20px; }
+            .card-header-cadastro { padding: 25px 15px; }
         }
     </style>
 </head>
 <body>
 
+    <section class="cadastro-hero">
+        <div class="cadastro-hero-content">
+            <h1>Faça Parte do Ecossistema</h1>
+            <p>Conecte seu conhecimento, projetos e experiência à plataforma de inovação da UFLA</p>
+        </div>
+
+        <div class="scroll-indicator" onclick="document.querySelector('.beneficios-section').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <section class="beneficios-section">
+        <div class="section-title-cadastro">
+            <h2>Por que participar?</h2>
+            <p>Benefícios exclusivos para toda a comunidade de inovação</p>
+        </div>
+
+        <div class="beneficios-grid">
+            <div class="beneficio-card">
+                <div class="beneficio-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3>Networking Estratégico</h3>
+                <p>Conecte-se com líderes, pesquisadores e empreendedores do ecossistema.</p>
+            </div>
+
+            <div class="beneficio-card">
+                <div class="beneficio-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>Oportunidades de P&D</h3>
+                <p>Acesso direto a projetos de pesquisa e desenvolvimento de ponta.</p>
+            </div>
+
+            <div class="beneficio-card">
+                <div class="beneficio-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>Parcerias Estratégicas</h3>
+                <p>Fomente colaborações entre academia, indústria e governo.</p>
+            </div>
+
+            <div class="beneficio-card">
+                <div class="beneficio-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Visibilidade</h3>
+                <p>Destaque seu trabalho para empresas, investidores e parceiros.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cadastro-cards-section">
+        <div class="section-title-cadastro">
+            <h2>Escolha seu perfil</h2>
+            <p>Selecione a categoria que melhor te representa e preencha o cadastro</p>
+        </div>
+
+        <div class="cadastro-grid">
+            <div class="cadastro-card" id="card-pesquisador">
+                <div class="card-header-cadastro" onclick="toggleCard('pesquisador')">
+                    <div class="card-icon-cadastro"><i class="fas fa-user-graduate"></i></div>
+                    <h3>Pesquisador <i class="fas fa-chevron-down toggle-icon"></i></h3>
+                    <p>Docentes, pós-docs e pesquisadores da UFLA</p>
+                </div>
+                <div class="card-form-wrapper">
+                    <div class="card-form-inner">
+                        <form id="form-pesquisador" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                            <input type="hidden" name="tipo" value="Pesquisador">
+                            <div class="form-group-cadastro">
+                                <label>Nome Completo *</label>
+                                <input type="text" name="nome" required placeholder="Dr. João Silva">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>E-mail Institucional *</label>
+                                <input type="email" name="email" required placeholder="joao.silva@ufla.br">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>Departamento / Instituto *</label>
+                                <input type="text" name="departamento" required placeholder="Ex: DCC, DAE...">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>Área de Pesquisa Principal *</label>
+                                <input type="text" name="area" required placeholder="Ex: IA, Biotecnologia...">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>Link do Currículo Lattes</label>
+                                <input type="url" name="lattes" placeholder="http://lattes.cnpq.br/...">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>Breve Descrição da Linha de Pesquisa</label>
+                                <textarea name="descricao" rows="4" placeholder="Descreva seus interesses..."></textarea>
+                            </div>
+                            <div class="consent-wrapper-cadastro">
+                                <input type="checkbox" id="consent-pesq" required>
+                                <label for="consent-pesq">Autorizo a divulgação e concordo com a LGPD.</label>
+                            </div>
+                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cadastro-card" id="card-empresa">
+                <div class="card-header-cadastro" onclick="toggleCard('empresa')">
+                    <div class="card-icon-cadastro"><i class="fas fa-building"></i></div>
+                    <h3>Empresa <i class="fas fa-chevron-down toggle-icon"></i></h3>
+                    <p>Startups, PMEs e corporações inovadoras</p>
+                </div>
+                <div class="card-form-wrapper">
+                    <div class="card-form-inner">
+                        <form id="form-empresa" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                            <input type="hidden" name="tipo" value="Empresa">
+                            <div class="form-group-cadastro">
+                                <label>Nome da Empresa *</label>
+                                <input type="text" name="empresa" required placeholder="Razão Social">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>CNPJ *</label>
+                                <input type="text" name="cnpj" required placeholder="00.000.000/0000-00">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>Setor de Atuação *</label>
+                                <select name="setor" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="Agrotech">Agrotech</option>
+                                    <option value="Biotecnologia">Biotecnologia</option>
+                                    <option value="TI & Software">TI & Software</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>E-mail Corporativo *</label>
+                                <input type="email" name="email" required placeholder="contato@empresa.com.br">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>Site da Empresa</label>
+                                <input type="url" name="site" placeholder="https://...">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>Descrição das Atividades *</label>
+                                <textarea name="descricao" rows="4" required></textarea>
+                            </div>
+                            <div class="consent-wrapper-cadastro">
+                                <input type="checkbox" id="consent-emp" required>
+                                <label for="consent-emp">Autorizo a divulgação e concordo com a LGPD.</label>
+                            </div>
+                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cadastro-card" id="card-mentor">
+                <div class="card-header-cadastro" onclick="toggleCard('mentor')">
+                    <div class="card-icon-cadastro"><i class="fas fa-user-tie"></i></div>
+                    <h3>Mentor <i class="fas fa-chevron-down toggle-icon"></i></h3>
+                    <p>Profissionais experientes</p>
+                </div>
+                <div class="card-form-wrapper">
+                    <div class="card-form-inner">
+                        <form id="form-mentor" action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                            <input type="hidden" name="tipo" value="Mentor">
+                            <div class="form-group-cadastro">
+                                <label>Nome Completo *</label>
+                                <input type="text" name="nome" required placeholder="Seu nome">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>E-mail *</label>
+                                <input type="email" name="email" required placeholder="seu@email.com">
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>Área de Expertise *</label>
+                                <input type="text" name="expertise" required>
+                            </div>
+                            <div class="form-group-cadastro">
+                                <label>LinkedIn</label>
+                                <input type="url" name="linkedin" placeholder="https://linkedin.com/in/...">
+                            </div>
+                            <div class="consent-wrapper-cadastro">
+                                <input type="checkbox" id="consent-mentor" required>
+                                <label for="consent-mentor">Autorizo a divulgação e concordo com a LGPD.</label>
+                            </div>
+                            <button type="submit" class="btn-submit-cadastro">Enviar Cadastro</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <script src="header.js"></script>
-
-    <div class="hero-section">
-        <div class="hero-left">
-            <h1 class="hero-title">Mentores<br><span>de Elite</span></h1>
-        </div>
-
-        <div class="hero-right">
-            <p class="hero-subtitle">Conecte-se com executivos, fundadores e especialistas que já trilharam o caminho que você quer percorrer. Nossa equipe fará a ponte estratégica para você.</p>
-            
-            <div class="filters-wrapper">
-                <button class="filter-btn active" onclick="filterMentors('all')">Todos</button>
-                <button class="filter-btn" onclick="filterMentors('tech')"><i class="fas fa-code"></i> Tecnologia</button>
-                <button class="filter-btn" onclick="filterMentors('biz')"><i class="fas fa-chart-pie"></i> Negócios</button>
-                <button class="filter-btn" onclick="filterMentors('agro')"><i class="fas fa-leaf"></i> Agro</button>
-                <button class="filter-btn" onclick="filterMentors('mkt')"><i class="fas fa-bullhorn"></i> Marketing</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="content-container">
-        <div class="cards-grid" id="mentoresGrid">
-
-            <div class="mentor-card" data-category="tech">
-                <div class="xp-badge">15 anos XP</div>
-                <div class="card-header">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Carlos" class="mentor-avatar">
-                    <div class="mentor-info">
-                        <h3>Carlos Tech</h3>
-                        <span class="mentor-role">CTO & Arquiteto</span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS. Especialista em escalar times de engenharia.</p>
-                    <div class="tags-list">
-                        <span class="tag">Cloud Computing</span>
-                        <span class="tag">DevOps</span>
-                        <span class="tag">System Design</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-request" onclick="openModal('Carlos Tech')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-            <div class="mentor-card" data-category="biz">
-                <div class="xp-badge">22 anos XP</div>
-                <div class="card-header">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Ana" class="mentor-avatar">
-                    <div class="mentor-info">
-                        <h3>Ana Silva</h3>
-                        <span class="mentor-role">Investidora Anjo</span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p class="mentor-bio">Conselheira em 5 grandes empresas. Já conduziu processos de fusão e aquisição (M&A) complexos.</p>
-                    <div class="tags-list">
-                        <span class="tag">Valuation</span>
-                        <span class="tag">Pitch Deck</span>
-                        <span class="tag">Fundraising</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-request" onclick="openModal('Ana Silva')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-            <div class="mentor-card" data-category="agro">
-                <div class="xp-badge">12 anos XP</div>
-                <div class="card-header">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Roberto" class="mentor-avatar">
-                    <div class="mentor-info">
-                        <h3>Roberto Campo</h3>
-                        <span class="mentor-role">Eng. Agrônomo</span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p class="mentor-bio">Pioneiro em agricultura de precisão. Consultor estratégico para grandes exportadoras de café.</p>
-                    <div class="tags-list">
-                        <span class="tag">Agrotech</span>
-                        <span class="tag">Sustentabilidade</span>
-                        <span class="tag">IoT</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-request" onclick="openModal('Roberto Campo')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-            <div class="mentor-card" data-category="mkt">
-                <div class="xp-badge">8 anos XP</div>
-                <div class="card-header">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Julia" class="mentor-avatar">
-                    <div class="mentor-info">
-                        <h3>Julia Brand</h3>
-                        <span class="mentor-role">Head de Growth</span>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p class="mentor-bio">Especialista em tráfego pago e estratégias de crescimento acelerado para B2B.</p>
-                    <div class="tags-list">
-                        <span class="tag">Growth Hacking</span>
-                        <span class="tag">Branding</span>
-                        <span class="tag">Data Analytics</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-request" onclick="openModal('Julia Brand')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="contactModal">
-        <div class="modal-box">
-            <button class="btn-close" onclick="closeModal()">&times;</button>
-            <div style="text-align: center; margin-bottom: 20px;">
-                <i class="fas fa-handshake" style="font-size: 3rem; color: #00c2cb;"></i>
-            </div>
-            <h2 class="modal-title">Solicitar Conexão</h2>
-            <p style="text-align:center; color:#64748b; margin-bottom:20px;">Preencha seus dados para solicitar uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>.</p>
-            
-            <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                <input type="hidden" name="_subject" id="hiddenSubject" value="Solicitação de Mentoria">
-                <div class="input-group">
-                    <label>Seu Nome</label>
-                    <input type="text" name="nome" required placeholder="Ex: Maria Souza">
-                </div>
-                <div class="input-group">
-                    <label>Seu E-mail Corporativo</label>
-                    <input type="email" name="email" required placeholder="voce@empresa.com">
-                </div>
-                <div class="input-group">
-                    <label>Objetivo da Mentoria</label>
-                    <textarea name="motivo" rows="3" required placeholder="Descreva brevemente seu desafio atual..."></textarea>
-                </div>
-                <button type="submit" class="btn-modal-submit">Enviar Solicitação</button>
-            </form>
-        </div>
-    </div>
-
     <script src="footer.js"></script>
     <script src="chat.js"></script>
 
     <script>
-        function filterMentors(category) {
-            const cards = document.querySelectorAll('.mentor-card');
-            const buttons = document.querySelectorAll('.filter-btn');
-
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'flex';
-                    setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        const modal = document.getElementById('contactModal');
-        const mentorNameSpan = document.getElementById('mentorTargetName');
-        const hiddenSubject = document.getElementById('hiddenSubject');
-
-        function openModal(mentorName) {
-            mentorNameSpan.textContent = mentorName;
-            hiddenSubject.value = `Solicitação de Mentoria: ${mentorName}`;
-            modal.style.display = 'flex';
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
+        function toggleCard(tipo) {
+            const card = document.getElementById(`card-${tipo}`);
+            const allCards = document.querySelectorAll('.cadastro-card');
+            
+            if (!card.classList.contains('active')) {
+                allCards.forEach(c => c.classList.remove('active'));
             }
+
+            if (card.classList.contains('active')) {
+                card.classList.remove('active');
+            } else {
+                card.classList.add('active');
+                setTimeout(() => {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
+        }
+
+        // Máscara CNPJ
+        const cnpjInput = document.querySelector('input[name="cnpj"]');
+        if (cnpjInput) {
+            cnpjInput.addEventListener('input', e => {
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length <= 14) {
+                    v = v.replace(/^(\d{2})(\d)/, '$1.$2')
+                         .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+                         .replace(/\.(\d{3})(\d)/, '.$1/$2')
+                         .replace(/(\d{4})(\d)/, '$1-$2');
+                }
+                e.target.value = v;
+            });
         }
     </script>
 </body>
