@@ -3,512 +3,396 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
 
-    <title>Quero Participar - IPÊ CONECT</title>
+    <title>Mentores - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        /* =========================================
-           RESET E BASE
-           ========================================= */
-        * {
-            box-sizing: border-box; /* Essencial para responsividade */
-        }
 
+    <style>
+        /* --- RESET & BASE --- */
+        * { box-sizing: border-box; }
+        
         html, body {
-            margin: 0;
-            padding: 0;
+            margin: 0 !important;
+            padding: 0 !important;
             width: 100%;
             overflow-x: hidden;
-            background-color: #f8fafc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
+            
+            /* FUNDO DINÂMICO FIXO (Necessário para o efeito de vidro) */
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 194, 203, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(15, 23, 42, 0.1) 0px, transparent 50%);
+            background-attachment: fixed; /* Fundo não rola com a página */
+            min-height: 100vh;
             color: #1e293b;
         }
 
-        /* =========================================
-           BENEFÍCIOS (SECTION)
-           ========================================= */
-        .beneficios-section {
-            /* Padding superior alto para compensar Header Fixo */
-            padding: 140px 20px 60px;
-            background: #f8fafc;
+        /* --- HERO SECTION GLASSMORPHISM --- */
+        .hero-section {
+            width: 95%; 
+            max-width: 1400px;
+            /* Margem superior ajustada para o Header não tampar */
+            margin: 140px auto 50px; 
+            padding: 60px 50px;
+            
+            /* O VERDADEIRO EFEITO GLASS */
+            background: rgba(15, 23, 42, 0.90); /* Azul escuro com leve transparência */
+            backdrop-filter: blur(20px);         /* Desfoque do fundo */
+            -webkit-backdrop-filter: blur(20px);
+            
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borda sutil */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            
+            /* Layout Flexbox */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            flex-wrap: wrap; /* Quebra linha no mobile */
         }
 
-        .section-title-cadastro {
-            text-align: center;
-            margin-bottom: 50px;
-            padding: 0 15px;
-        }
-        
-        .section-title-cadastro h2 {
-            /* Fonte fluida: Mínimo 1.8rem, Ideal 4vw, Máximo 2.5rem */
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            color: #003366;
-            font-weight: 800;
-            margin-bottom: 15px;
-            line-height: 1.2;
+        /* Lado Esquerdo: Título */
+        .hero-left {
+            flex: 1;
+            min-width: 300px;
         }
 
-        .section-title-cadastro p {
-            color: #64748b;
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            max-width: 600px;
-            margin: 0 auto;
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem); /* Texto responsivo */
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
         }
 
-        /* Grid Responsivo Inteligente */
-        .beneficios-grid {
-            display: grid;
-            /* Cria colunas automaticamente com largura mínima de 280px */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1100px;
-            margin: 0 auto;
+        .hero-title span {
+            color: #00c2cb; /* Destaque Ciano */
+            display: block;
         }
 
-        .beneficio-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            border: 1px solid #e2e8f0;
+        /* Lado Direito: Texto + Filtros */
+        .hero-right {
+            flex: 1.5;
+            min-width: 300px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 30px;
         }
 
-        .beneficio-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 194, 203, 0.1);
-            border-color: #00c2cb;
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin: 0;
+            font-weight: 400;
+            border-left: 4px solid #00c2cb;
+            padding-left: 20px;
         }
 
-        .beneficio-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(0, 194, 203, 0.1);
-            border-radius: 50%;
+        /* --- FILTROS (GRID STYLE) --- */
+        .filters-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+            gap: 8px;
+            backdrop-filter: blur(4px);
         }
 
-        .beneficio-icon i {
-            font-size: 2.5rem;
-            color: #00c2cb;
-        }
-
-        .beneficio-card h3 {
-            font-size: 1.3rem;
-            color: #003366;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .beneficio-card p {
-            font-size: 0.95rem;
-            color: #64748b;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        /* =========================================
-           CADASTRO (SECTION)
-           ========================================= */
-        .cadastro-cards-section {
-            padding: 60px 20px 100px;
-            background: #fff;
-        }
-
-        .cadastro-grid {
-            display: grid;
-            /* Grid flexível: adapta para 1, 2 ou 3 colunas conforme a tela */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .cadastro-card {
-            background: #f8fafc;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-        }
-
-        /* Cabeçalho do Card */
-        .card-header-cadastro {
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            background: #f8fafc;
-            border-bottom: 1px solid transparent;
-            transition: background 0.3s;
-        }
-
-        .card-icon-cadastro {
-            width: 70px; 
-            height: 70px;
-            background: rgba(0, 194, 203, 0.1);
-            border-radius: 50%;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 2rem;
-            color: #00c2cb;
-            transition: all 0.3s;
-        }
-
-        .cadastro-card h3 { 
-            color: #003366; 
-            margin-bottom: 5px; 
-            font-size: 1.25rem; 
-        }
-        
-        .cadastro-card p { 
-            color: #64748b; 
-            margin: 0; 
-            font-size: 0.9rem; 
-        }
-
-        /* --- ESTADOS ATIVOS (OPEN) --- */
-        .cadastro-card.active {
-            box-shadow: 0 20px 50px rgba(0, 194, 203, 0.15);
+        .filter-btn:hover {
+            background: rgba(0, 194, 203, 0.2);
             border-color: #00c2cb;
-            transform: scale(1.02); /* Zoom suave no Desktop */
-            background: white;
-            z-index: 10;
+            transform: translateY(-2px);
         }
 
-        .cadastro-card.active .card-header-cadastro {
-            background: linear-gradient(135deg, #00c2cb, #009aa3);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .cadastro-card.active .card-icon-cadastro {
-            background: white !important; 
-            color: #00c2cb !important; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .cadastro-card.active h3,
-        .cadastro-card.active p,
-        .cadastro-card.active .toggle-icon {
-            color: white !important;
-        }
-
-        .toggle-icon { float: right; color: #cbd5e1; transition: transform 0.3s; }
-        .cadastro-card.active .toggle-icon { transform: rotate(180deg); }
-
-        /* Formulário Animado */
-        .card-form-wrapper {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            background: white;
-        }
-        .cadastro-card.active .card-form-wrapper { 
-            max-height: 2000px; /* Altura segura p/ mobile */ 
-        }
-
-        .card-form-inner { padding: 30px; }
-
-        /* Inputs */
-        .form-group-cadastro { margin-bottom: 20px; }
-        .form-group-cadastro label { 
-            display: block; 
-            font-weight: 600; 
-            color: #475569; 
-            margin-bottom: 8px; 
-            font-size: 0.9rem; 
-        }
-        .form-group-cadastro input, 
-        .form-group-cadastro select, 
-        .form-group-cadastro textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: #f8fafc;
-            color: #333;
-            transition: border 0.2s;
-        }
-        .form-group-cadastro input:focus,
-        .form-group-cadastro select:focus,
-        .form-group-cadastro textarea:focus { 
-            border-color: #00c2cb; 
-            outline: none; 
-            background: white; 
-            box-shadow: 0 0 0 3px rgba(0, 194, 203, 0.1);
-        }
-
-        .btn-submit-cadastro {
-            width: 100%;
-            padding: 15px;
+        .filter-btn.active {
             background: #00c2cb;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #0f172a;
+            border-color: #00c2cb;
+            box-shadow: 0 0 20px rgba(0, 194, 203, 0.4);
         }
-        .btn-submit-cadastro:hover { background: #008c94; }
 
-        .consent-wrapper-cadastro { 
-            display: flex; 
-            align-items: flex-start; 
-            gap: 10px; 
-            margin-bottom: 20px; 
-            font-size: 0.85rem; 
-            color: #64748b; 
-            line-height: 1.4;
+        /* --- GRID DE CARDS --- */
+        .content-container {
+            max-width: 1400px;
+            margin: 0 auto 100px;
+            padding: 0 40px;
         }
-        .consent-wrapper-cadastro input { margin-top: 3px; }
 
-        /* =========================================
-           MEDIA QUERIES (A Mágica da Responsividade)
-           ========================================= */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- CARD DESIGN --- */
+        .mentor-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mentor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -5px rgba(0, 194, 203, 0.15);
+            border-color: #00c2cb;
+        }
+
+        .card-header {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #f1f5f9;
+            background: linear-gradient(to right, #ffffff, #f8fafc);
+        }
+
+        .mentor-avatar {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .mentor-info h3 { font-size: 1.2rem; font-weight: 800; margin: 0; color: #0f172a; }
+        .mentor-role { font-size: 0.85rem; color: #00c2cb; font-weight: 700; text-transform: uppercase; }
+
+        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .mentor-bio { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 20px; }
+
+        .tags-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: auto; }
+        .tag { font-size: 0.75rem; background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 50px; font-weight: 600; }
+
+        .card-footer { padding: 20px 25px; background: #fff; border-top: 1px solid #f1f5f9; }
+        .btn-request { width: 100%; padding: 12px; background: #0f172a; color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-request:hover { background: #00c2cb; color: #0f172a; }
+
+        .xp-badge { position: absolute; top: 15px; right: 15px; background: #ecfdf5; color: #059669; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; border: 1px solid #d1fae5; }
+
+        /* --- MODAL --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
+        .modal-box { background: white; padding: 40px; border-radius: 24px; max-width: 480px; width: 90%; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: fadeUp 0.3s ease; }
+        @keyframes fadeUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
-        /* Tablets e Notebooks Pequenos (max 1024px) */
-        @media (max-width: 1024px) {
-            .beneficios-grid { gap: 20px; }
-            .cadastro-grid { gap: 20px; }
-        }
+        .modal-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; text-align: center; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 6px; }
+        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; }
+        .btn-modal-submit { width: 100%; padding: 14px; background: #00c2cb; color: #0f172a; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; }
+        .btn-close { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #94a3b8; background: none; border: none; }
 
-        /* Tablets e Celulares Grandes (max 768px) */
-        @media (max-width: 768px) {
-            .beneficios-section { padding-top: 130px; } /* Ajuste Header */
-            
-            /* Remove o efeito de escala no mobile para evitar scroll lateral */
-            .cadastro-card.active { transform: scale(1); }
-            
-            /* Reduz padding dos formulários */
-            .card-form-inner { padding: 25px 20px; }
-        }
-
-        /* Celulares Pequenos (max 480px) */
-        @media (max-width: 480px) {
-            .section-title-cadastro h2 { font-size: 1.8rem; }
-            
-            /* Um card por linha */
-            .beneficios-grid, .cadastro-grid { 
-                grid-template-columns: 1fr; 
-            }
-            
-            .beneficio-card { padding: 30px 20px; }
-            .card-header-cadastro { padding: 20px; }
-            
-            /* Ajuste icone e texto para telas estreitas */
-            .card-icon-cadastro { width: 60px; height: 60px; font-size: 1.8rem; }
-            .cadastro-card h3 { font-size: 1.1rem; }
+        @media (max-width: 900px) {
+            .hero-section { flex-direction: column; text-align: center; gap: 30px; margin-top: 120px; padding: 40px 25px; }
+            .hero-subtitle { border-left: none; padding-left: 0; margin-bottom: 20px; }
+            .filters-wrapper { justify-content: center; }
+            .content-container { padding: 0 20px; }
         }
     </style>
 </head>
 <body>
 
-    <section class="beneficios-section">
-        <div class="section-title-cadastro">
-            <h2>POR QUE PARTICIPAR?</h2>
-            <p>Benefícios exclusivos para toda a comunidade de inovação</p>
-        </div>
-
-        <div class="beneficios-grid">
-            <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-network-wired"></i>
-                </div>
-                <h3>Networking</h3>
-                <p>Conecte-se com líderes, pesquisadores e empreendedores.</p>
-            </div>
-
-            <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
-                <h3>Projetos de P&D</h3>
-                <p>Acesso direto a projetos de pesquisa de ponta.</p>
-            </div>
-
-            <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-handshake"></i>
-                </div>
-                <h3>Parcerias</h3>
-                <p>Fomente colaborações entre academia e indústria.</p>
-            </div>
-
-            <div class="beneficio-card">
-                <div class="beneficio-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3>Visibilidade</h3>
-                <p>Destaque seu trabalho para o mercado.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="cadastro-cards-section">
-        <div class="section-title-cadastro">
-            <h2>Escolha seu perfil</h2>
-            <p>Selecione a categoria para abrir o formulário</p>
-        </div>
-
-        <div class="cadastro-grid">
-            <div class="cadastro-card" id="card-pesquisador">
-                <div class="card-header-cadastro" onclick="toggleCard('pesquisador')">
-                    <div class="card-icon-cadastro"><i class="fas fa-user-graduate"></i></div>
-                    <h3>Pesquisador <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Docentes e pesquisadores</p>
-                </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Pesquisador">
-                            <div class="form-group-cadastro">
-                                <label>Nome Completo</label>
-                                <input type="text" name="nome" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>E-mail Institucional</label>
-                                <input type="email" name="email" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Departamento</label>
-                                <input type="text" name="departamento" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Link Lattes</label>
-                                <input type="url" name="lattes">
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" required> <label>Li e concordo com os termos.</label>
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cadastro-card" id="card-empresa">
-                <div class="card-header-cadastro" onclick="toggleCard('empresa')">
-                    <div class="card-icon-cadastro"><i class="fas fa-building"></i></div>
-                    <h3>Empresa <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Startups e corporações</p>
-                </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Empresa">
-                            <div class="form-group-cadastro">
-                                <label>Razão Social</label>
-                                <input type="text" name="empresa" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>CNPJ</label>
-                                <input type="text" name="cnpj" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>E-mail Corporativo</label>
-                                <input type="email" name="email" required>
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" required> <label>Li e concordo com os termos.</label>
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cadastro-card" id="card-mentor">
-                <div class="card-header-cadastro" onclick="toggleCard('mentor')">
-                    <div class="card-icon-cadastro"><i class="fas fa-user-tie"></i></div>
-                    <h3>Mentor <i class="fas fa-chevron-down toggle-icon"></i></h3>
-                    <p>Profissionais experientes</p>
-                </div>
-                <div class="card-form-wrapper">
-                    <div class="card-form-inner">
-                        <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                            <input type="hidden" name="tipo" value="Mentor">
-                            <div class="form-group-cadastro">
-                                <label>Nome Completo</label>
-                                <input type="text" name="nome" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>Expertise</label>
-                                <input type="text" name="expertise" required>
-                            </div>
-                            <div class="form-group-cadastro">
-                                <label>LinkedIn</label>
-                                <input type="url" name="linkedin">
-                            </div>
-                            <div class="consent-wrapper-cadastro">
-                                <input type="checkbox" required> <label>Li e concordo com os termos.</label>
-                            </div>
-                            <button type="submit" class="btn-submit-cadastro">Cadastrar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <script src="header.js"></script>
+
+    <div class="hero-section">
+        <div class="hero-left">
+            <h1 class="hero-title">Mentores<br><span>de Elite</span></h1>
+        </div>
+
+        <div class="hero-right">
+            <p class="hero-subtitle">Conecte-se com executivos, fundadores e especialistas que já trilharam o caminho que você quer percorrer. Nossa equipe fará a ponte estratégica para você.</p>
+            
+            <div class="filters-wrapper">
+                <button class="filter-btn active" onclick="filterMentors('all')">Todos</button>
+                <button class="filter-btn" onclick="filterMentors('tech')"><i class="fas fa-code"></i> Tecnologia</button>
+                <button class="filter-btn" onclick="filterMentors('biz')"><i class="fas fa-chart-pie"></i> Negócios</button>
+                <button class="filter-btn" onclick="filterMentors('agro')"><i class="fas fa-leaf"></i> Agro</button>
+                <button class="filter-btn" onclick="filterMentors('mkt')"><i class="fas fa-bullhorn"></i> Marketing</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <div class="cards-grid" id="mentoresGrid">
+
+            <div class="mentor-card" data-category="tech">
+                <div class="xp-badge">15 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Carlos" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Carlos Tech</h3>
+                        <span class="mentor-role">CTO & Arquiteto</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="mentor-bio">Ex-Líder técnico no Google e fundador de 2 startups SaaS. Especialista em escalar times.</p>
+                    <div class="tags-list">
+                        <span class="tag">Cloud</span><span class="tag">DevOps</span><span class="tag">System Design</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Carlos Tech')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="mentor-card" data-category="biz">
+                <div class="xp-badge">22 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Ana" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Ana Silva</h3>
+                        <span class="mentor-role">Investidora Anjo</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="mentor-bio">Conselheira em 5 grandes empresas. Já conduziu processos de fusão e aquisição (M&A).</p>
+                    <div class="tags-list">
+                        <span class="tag">Valuation</span><span class="tag">Pitch Deck</span><span class="tag">Fundraising</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Ana Silva')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="mentor-card" data-category="agro">
+                <div class="xp-badge">12 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Roberto" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Roberto Campo</h3>
+                        <span class="mentor-role">Eng. Agrônomo</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="mentor-bio">Pioneiro em agricultura de precisão. Consultor estratégico para exportação de café.</p>
+                    <div class="tags-list">
+                        <span class="tag">Agrotech</span><span class="tag">Sustentabilidade</span><span class="tag">IoT</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Roberto Campo')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <div class="mentor-card" data-category="mkt">
+                <div class="xp-badge">8 anos XP</div>
+                <div class="card-header">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Julia" class="mentor-avatar">
+                    <div class="mentor-info">
+                        <h3>Julia Brand</h3>
+                        <span class="mentor-role">Head de Growth</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="mentor-bio">Especialista em tráfego pago e estratégias de crescimento acelerado para B2B.</p>
+                    <div class="tags-list">
+                        <span class="tag">Growth</span><span class="tag">Branding</span><span class="tag">Data Analytics</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn-request" onclick="openModal('Julia Brand')">Solicitar Mentoria <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box">
+            <button class="btn-close" onclick="closeModal()">&times;</button>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <i class="fas fa-handshake" style="font-size: 3rem; color: #00c2cb;"></i>
+            </div>
+            <h2 class="modal-title">Solicitar Conexão</h2>
+            <p style="text-align:center; color:#64748b; margin-bottom:20px;">Preencha seus dados para solicitar uma ponte com <strong id="mentorTargetName" style="color:#003366;"></strong>.</p>
+            
+            <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
+                <input type="hidden" name="_subject" id="hiddenSubject" value="Solicitação de Mentoria">
+                <div class="input-group">
+                    <label>Seu Nome</label>
+                    <input type="text" name="nome" required placeholder="Ex: Maria Souza">
+                </div>
+                <div class="input-group">
+                    <label>Seu E-mail Corporativo</label>
+                    <input type="email" name="email" required placeholder="voce@empresa.com">
+                </div>
+                <div class="input-group">
+                    <label>Objetivo da Mentoria</label>
+                    <textarea name="motivo" rows="3" required placeholder="Descreva brevemente seu desafio atual..."></textarea>
+                </div>
+                <button type="submit" class="btn-modal-submit">Enviar Solicitação</button>
+            </form>
+        </div>
+    </div>
+
     <script src="footer.js"></script>
     <script src="chat.js"></script>
 
     <script>
-        function toggleCard(tipo) {
-            const card = document.getElementById(`card-${tipo}`);
-            const allCards = document.querySelectorAll('.cadastro-card');
-            
-            if (!card.classList.contains('active')) {
-                allCards.forEach(c => c.classList.remove('active'));
-            }
+        function filterMentors(category) {
+            const cards = document.querySelectorAll('.mentor-card');
+            const buttons = document.querySelectorAll('.filter-btn');
 
-            if (card.classList.contains('active')) {
-                card.classList.remove('active');
-            } else {
-                card.classList.add('active');
-                setTimeout(() => {
-                    // Scroll suave para centralizar o card aberto
-                    const yOffset = -120; // Compensação para o Header
-                    const y = card.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                    window.scrollTo({top: y, behavior: 'smooth'});
-                }, 300);
-            }
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                    setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
-        // Máscara CNPJ
-        const cnpj = document.querySelector('input[name="cnpj"]');
-        if (cnpj) {
-            cnpj.addEventListener('input', e => {
-                let v = e.target.value.replace(/\D/g, '');
-                if (v.length <= 14) {
-                    v = v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-                          .replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
-                }
-                e.target.value = v;
-            });
+        const modal = document.getElementById('contactModal');
+        const mentorNameSpan = document.getElementById('mentorTargetName');
+        const hiddenSubject = document.getElementById('hiddenSubject');
+
+        function openModal(mentorName) {
+            mentorNameSpan.textContent = mentorName;
+            hiddenSubject.value = `Solicitação de Mentoria: ${mentorName}`;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
         }
     </script>
 </body>
