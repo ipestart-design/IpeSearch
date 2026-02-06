@@ -21,6 +21,8 @@
             background-color: #f8fafc; /* Fundo Claro */
             color: #1e293b; /* Texto Escuro */
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         /* --- CONTAINER PRINCIPAL (CORREÇÃO DE ESPAÇAMENTO) --- */
@@ -31,6 +33,7 @@
             min-height: 100vh;
             /* Padding aumentado para o Header não tampar */
             padding: 180px 20px 60px; 
+            flex: 1; /* Garante que o footer fique embaixo */
         }
 
         .split-layout {
@@ -249,6 +252,7 @@
     </div>
 
     <script src="footer.js"></script>
+
     <script>
         // ==========================================================
         // DADOS PARA A IA CONSULTAR (SIMULAÇÃO)
