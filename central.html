@@ -12,34 +12,34 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- RESET BÁSICO (APENAS O NECESSÁRIO) --- */
+        /* --- ESTILOS GERAIS --- */
         * { box-sizing: border-box; }
         
-        body {
-            margin: 0; 
-            padding: 0; 
+        html, body {
+            margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
             color: #1e293b;
-            /* REMOVIDO display:flex daqui para não quebrar o Header/Footer */
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- WRAPPER PARA CENTRALIZAR APENAS O CONTEÚDO --- */
-        .page-wrapper {
-            width: 100%;
-            min-height: 100vh;
+        /* --- CONTAINER PRINCIPAL --- */
+        .main-container {
             display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center; /* Centraliza verticalmente */
+            flex: 1; 
             
-            /* PADDING OBRIGATÓRIO PARA O HEADER NÃO TAMPAR */
-            padding-top: 120px; 
+            /* PADDING PARA O HEADER NÃO TAMPAR */
+            padding-top: 140px; 
             padding-bottom: 60px;
             padding-left: 20px;
             padding-right: 20px;
         }
 
-        /* --- CARTÃO FLUTUANTE (DESIGN DO CHAT) --- */
+        /* CARTÃO DIVIDIDO */
         .split-layout {
             display: flex;
             width: 100%;
@@ -66,13 +66,24 @@
             border-right: 1px solid #e2e8f0;
         }
 
-        .info-side h1 { font-size: 3rem; font-weight: 900; color: #0f172a; line-height: 1.1; margin-bottom: 20px; }
+        .info-side h1 { 
+            font-size: 3rem; font-weight: 900; color: #0f172a; 
+            line-height: 1.1; margin-bottom: 20px; 
+        }
         .info-side h1 span { color: #00c2cb; }
-        .info-side p { font-size: 1.1rem; color: #64748b; line-height: 1.6; margin-bottom: 40px; }
+        
+        .info-side p { 
+            font-size: 1.1rem; color: #64748b; line-height: 1.6; margin-bottom: 40px; 
+        }
         
         .steps { display: flex; flex-direction: column; gap: 25px; }
         .step { display: flex; align-items: center; gap: 15px; }
-        .step-icon { width: 40px; height: 40px; background: #e0f2fe; color: #0284c7; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; }
+        
+        .step-icon { 
+            width: 40px; height: 40px; background: #e0f2fe; color: #0284c7; 
+            border-radius: 10px; display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; font-size: 1rem;
+        }
         .step-text { font-size: 1rem; color: #334155; font-weight: 600; }
 
         /* LADO DIREITO (CHAT) */
@@ -84,31 +95,66 @@
             display: flex; flex-direction: column; position: relative;
         }
 
-        .chat-header { padding: 15px 25px; background: #f0f2f5; border-bottom: 1px solid #d1d7db; display: flex; align-items: center; gap: 15px; height: 70px; }
-        .ai-avatar { width: 45px; height: 45px; background: #00c2cb; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        /* Header do Chat Interno */
+        .chat-header {
+            padding: 15px 25px; background: #f0f2f5; border-bottom: 1px solid #d1d7db;
+            display: flex; align-items: center; gap: 15px; height: 70px;
+        }
+        .ai-avatar {
+            width: 45px; height: 45px; background: #00c2cb; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
         .ai-info h3 { margin: 0; font-size: 1rem; color: #111b21; }
         .ai-info span { font-size: 0.8rem; color: #667781; }
 
-        .chat-messages { flex: 1; padding: 20px 40px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        
-        .message { max-width: 80%; padding: 10px 15px; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; position: relative; animation: fadeIn 0.3s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        /* Mensagens */
+        .chat-messages {
+            flex: 1; padding: 20px 40px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+
+        .message {
+            max-width: 80%; padding: 10px 15px; border-radius: 8px;
+            font-size: 0.95rem; line-height: 1.5; position: relative;
+            animation: fadeIn 0.3s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
         .message.bot { background: white; color: #111b21; align-self: flex-start; border-top-left-radius: 0; }
         .message.user { background: #d9fdd3; color: #111b21; align-self: flex-end; border-top-right-radius: 0; }
 
-        .chat-solution-card { background: white; border: 1px solid #00c2cb; padding: 15px; border-radius: 8px; margin-top: 5px; }
-        .chat-actions { display: flex; gap: 10px; margin-top: 10px; }
+        /* Card de Sugestão */
+        .chat-solution-card {
+            background: white; border: 1px solid #00c2cb; padding: 15px; border-radius: 8px; margin-top: 5px;
+        }
+        .chat-solution-card h4 { margin: 0 0 5px 0; color: #003366; font-size: 1rem; }
+        .chat-solution-card p { margin: 0 0 10px 0; font-size: 0.9rem; color: #555; }
+        
+        .chat-actions { display: flex; gap: 10px; }
         .action-btn { flex: 1; padding: 8px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
         .btn-accept { background: #00a884; color: white; }
         .btn-reject { background: #e9edef; color: #111b21; }
 
-        .chat-input-area { padding: 15px 20px; background: #f0f2f5; border-top: 1px solid #d1d7db; display: flex; gap: 10px; align-items: center; }
-        .chat-input-area input { flex: 1; padding: 12px 15px; border: none; border-radius: 8px; font-size: 1rem; outline: none; background: white; }
-        .chat-input-area button { background: #00a884; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+        /* Input Area */
+        .chat-input-area {
+            padding: 15px 20px; background: #f0f2f5; border-top: 1px solid #d1d7db;
+            display: flex; gap: 10px; align-items: center;
+        }
+        .chat-input-area input {
+            flex: 1; padding: 12px 15px; border: none; border-radius: 8px;
+            font-size: 1rem; outline: none; background: white;
+        }
+        .chat-input-area button {
+            background: #00a884; color: white; border: none; width: 45px; height: 45px;
+            border-radius: 50%; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .chat-input-area button:hover { background: #008f6f; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Mobile */
         @media (max-width: 900px) {
-            .page-wrapper { padding-top: 100px; padding-bottom: 20px; display: block; min-height: auto; }
+            .main-container { padding-top: 100px; padding-bottom: 20px; display: block; min-height: auto; }
             .split-layout { flex-direction: column; height: 700px; border-radius: 15px; }
             .info-side { display: none; }
             .chat-side { height: 100%; }
@@ -119,16 +165,17 @@
 
     <script src="header.js"></script>
 
-    <div class="page-wrapper">
+    <div class="main-container">
         <div class="split-layout">
             
             <div class="info-side">
                 <h1>Qual é o seu <br><span>Desafio?</span></h1>
-                <p>Nossa IA analisa sua dor e busca soluções imediatas no banco de talentos da UFLA.</p>
+                <p>Nossa IA analisa sua dor em busca de conexões. Caso a solução não seja encontrada automaticamente, nosso time assume para resolver.</p>
+                
                 <div class="steps">
                     <div class="step"><div class="step-icon">1</div><div class="step-text">Descreva o problema.</div></div>
-                    <div class="step"><div class="step-icon">2</div><div class="step-text">IA verifica o banco.</div></div>
-                    <div class="step"><div class="step-icon">3</div><div class="step-text">Conexão imediata.</div></div>
+                    <div class="step"><div class="step-icon">2</div><div class="step-text">IA analisa o banco de dados.</div></div>
+                    <div class="step"><div class="step-icon">3</div><div class="step-text">Conexão ou suporte do time.</div></div>
                 </div>
             </div>
 
@@ -138,7 +185,7 @@
                     <div class="ai-info"><h3>IPÊ.IA - Triagem</h3><span>Online agora</span></div>
                 </div>
                 <div class="chat-messages" id="chatBox">
-                    <div class="message bot">Olá! 👋 Sou a IA do Ipê Conect.<br><br><strong>Qual problema sua empresa precisa resolver hoje?</strong></div>
+                    <div class="message bot">Olá! 👋 Sou a IA do Ipê Conect.<br><br>Eu analiso sua demanda. Se não houver uma solução imediata, encaminho para nosso time resolver.<br><br><strong>Qual problema sua empresa precisa resolver hoje?</strong></div>
                 </div>
                 <div class="chat-input-area">
                     <input type="text" id="userInput" placeholder="Digite aqui..." onkeypress="handleEnter(event)">
@@ -152,11 +199,10 @@
     <script src="footer.js"></script>
 
     <script>
-        // Mesma lógica de chat anterior
         const SOLUTIONS_DB = [
-            { keywords: ['praga', 'café', 'drone'], name: 'AgroCorp', desc: 'Monitoramento de pragas com drones.' },
-            { keywords: ['energia', 'solar'], name: 'GreenEnergy', desc: 'Otimização de consumo energético.' },
-            { keywords: ['venda', 'marketing'], name: 'SalesForceX', desc: 'Automação de funil de vendas.' }
+            { keywords: ['praga', 'café', 'lavoura', 'drone'], name: 'AgroCorp', desc: 'Monitoramento de pragas com drones.' },
+            { keywords: ['energia', 'custo', 'solar'], name: 'GreenEnergy', desc: 'Otimização de consumo energético.' },
+            { keywords: ['venda', 'marketing', 'lead'], name: 'SalesForceX', desc: 'Automação de funil de vendas.' }
         ];
         let step = 0; let ticketData = { problem: '', name: '', email: '' };
         const chatBox = document.getElementById('chatBox');
@@ -203,10 +249,10 @@
             }
         }
 
-        function startRegistration() { step = 2; appendMessage("Não encontrei match exato. Vamos cadastrar. Qual seu nome?", 'bot'); }
+        function startRegistration() { step = 2; appendMessage("Não encontrei match exato. Vou passar para nosso time resolver. Qual seu nome?", 'bot'); }
         function accept(name) { appendMessage(`Ótimo! Conectando com ${name}...`, 'bot'); }
         function reject() { appendMessageHTML('<div class="message user">Quero cadastrar.</div>', 'html-direct'); startRegistration(); }
-        function finishRegistration() { showTyping(); setTimeout(() => { removeTyping(); appendMessage("✅ Cadastrado! Entraremos em contato.", 'bot'); }, 1000); }
+        function finishRegistration() { showTyping(); setTimeout(() => { removeTyping(); appendMessage("✅ Cadastrado! Nosso time entrará em contato.", 'bot'); }, 1000); }
 
         function appendMessage(text, type) {
             const div = document.createElement('div'); div.className = `message ${type}`; div.innerHTML = text;
