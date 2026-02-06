@@ -9,14 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
 
-    <title>Desafios - IPÊ CONECT</title>
-    
+    <title>Mentores - IPÊ CONECT</title>
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* =========================================
-           1. ESTILOS GERAIS & RESET
-           ========================================= */
+        /* --- ESTILOS GERAIS --- */
         * { box-sizing: border-box; }
         
         html, body {
@@ -25,316 +22,137 @@
             width: 100%;
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
             color: #1e293b;
         }
 
-        /* Fundo Decorativo Fixo */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            background: 
-                radial-gradient(circle at 80% 20%, rgba(0, 194, 203, 0.06), transparent 30%),
-                radial-gradient(circle at 20% 80%, rgba(15, 23, 42, 0.04), transparent 30%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* =========================================
-           2. HERO SECTION (VIDRO / GLASSMORPHISM)
-           ========================================= */
-        .hero-container {
-            width: 100%;
-            padding: 160px 20px 60px; /* Espaço para menu fixo */
-            display: flex;
-            justify-content: center;
-        }
-
-        .hero-glass {
-            width: 100%;
-            max-width: 1280px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 24px;
-            padding: 50px;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
+        /* --- HERO SECTION --- */
+        .hero-section {
+            width: 95%; max-width: 1400px;
+            margin: 140px auto 50px; padding: 60px 50px;
+            background: rgba(15, 23, 42, 0.90);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap;
         }
 
         .hero-text h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            color: #0f172a;
-            margin: 0 0 10px 0;
-            line-height: 1.1;
-            letter-spacing: -1px;
+            font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; color: white;
+            line-height: 1; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: -2px;
         }
-
         .hero-text h1 span { color: #00c2cb; }
+        .hero-text p { color: #cbd5e1; font-size: 1.1rem; max-width: 600px; line-height: 1.6; }
 
-        .hero-text p {
-            font-size: 1.1rem;
-            color: #64748b;
-            max-width: 600px;
-            margin: 0;
-            line-height: 1.6;
+        /* Botão "Encontrar Mentor com IA" */
+        .btn-ai-match {
+            background: #00c2cb; color: #0f172a;
+            padding: 15px 30px; border-radius: 50px;
+            font-weight: 800; font-size: 1rem; text-transform: uppercase;
+            border: none; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 0 20px rgba(0, 194, 203, 0.4);
+            animation: pulse 2s infinite;
+        }
+        .btn-ai-match:hover { transform: scale(1.05); background: white; color: #00c2cb; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 194, 203, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 194, 203, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 194, 203, 0); }
         }
 
-        /* Botão Postar Desafio (Aciona o Chat) */
-        .btn-post-challenge {
-            background: #0f172a;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
-        }
-        .btn-post-challenge:hover { 
-            background: #00c2cb; 
-            color: #0f172a; 
-            transform: translateY(-2px); 
-        }
-
-        /* =========================================
-           3. FILTROS
-           ========================================= */
-        .filters-section {
-            max-width: 1280px;
-            margin: 0 auto 40px;
-            padding: 0 20px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
+        /* --- FILTROS & GRID --- */
+        .filters-section { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
         .filter-btn {
-            background: white;
-            border: 1px solid #e2e8f0;
-            color: #64748b;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex; align-items: center; gap: 8px;
+            background: white; border: 1px solid #e2e8f0; color: #64748b;
+            padding: 10px 20px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active { background: #00c2cb; color: white; border-color: #00c2cb; }
+
+        .cards-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px; max-width: 1400px; margin: 0 auto 100px; padding: 0 40px;
         }
 
-        .filter-btn:hover { border-color: #00c2cb; color: #00c2cb; }
+        .mentor-card {
+            background: white; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: 0.3s;
+            display: flex; flex-direction: column; position: relative;
+        }
+        .mentor-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -5px rgba(0,0,0,0.15); }
+
+        .card-header { padding: 20px; display: flex; gap: 15px; border-bottom: 1px solid #f1f5f9; align-items: center; }
+        .mentor-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+        .mentor-info h3 { margin: 0; font-size: 1.1rem; color: #0f172a; }
+        .mentor-role { font-size: 0.8rem; color: #00c2cb; font-weight: 700; text-transform: uppercase; }
         
-        .filter-btn.active {
-            background: #00c2cb;
-            color: white;
-            border-color: #00c2cb;
-            box-shadow: 0 5px 15px rgba(0, 194, 203, 0.3);
-        }
+        .card-body { padding: 20px; flex: 1; }
+        .mentor-bio { font-size: 0.9rem; color: #64748b; margin-bottom: 15px; }
+        .tags-list { display: flex; gap: 5px; flex-wrap: wrap; }
+        .tag { background: #f1f5f9; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; color: #475569; }
 
-        /* =========================================
-           4. GRID DE DESAFIOS (CARDS)
-           ========================================= */
-        .challenges-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-            max-width: 1280px;
-            margin: 0 auto 100px;
-            padding: 0 20px;
-        }
+        .card-footer { padding: 15px 20px; background: #fff; border-top: 1px solid #f1f5f9; }
+        .btn-request { width: 100%; padding: 10px; background: #0f172a; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-request:hover { background: #00c2cb; color: #0f172a; }
 
-        .challenge-card {
-            background: white;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .challenge-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
-            border-color: #00c2cb;
-        }
-
-        .card-header {
-            padding: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .company-logo {
-            width: 60px; height: 60px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 1px solid #f1f5f9;
-        }
-
-        .status-badge {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
-        }
-        .status-open { background: #ecfdf5; color: #059669; }
-        .status-closed { background: #f1f5f9; color: #64748b; }
-
-        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-
-        .challenge-title { font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0 0 10px 0; line-height: 1.3; }
-        .company-name { font-size: 0.9rem; color: #00c2cb; font-weight: 600; margin-bottom: 15px; display: block; }
-        
-        .challenge-desc {
-            font-size: 0.95rem; color: #64748b; line-height: 1.6; margin-bottom: 25px;
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-        }
-
-        .prize-box {
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid #e2e8f0;
-        }
-        .prize-icon { color: #00c2cb; font-size: 1.5rem; }
-        .prize-info h4 { margin: 0; font-size: 0.8rem; color: #64748b; text-transform: uppercase; }
-        .prize-info span { font-size: 1rem; font-weight: 700; color: #0f172a; }
-
-        .card-footer {
-            padding: 20px 25px;
-            border-top: 1px solid #f1f5f9;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fff;
-        }
-
-        .deadline { font-size: 0.85rem; color: #64748b; font-weight: 500; }
-        .deadline i { margin-right: 5px; }
-
-        .btn-details {
-            background: transparent;
-            color: #0f172a;
-            font-weight: 700;
-            border: 1px solid #e2e8f0;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-details:hover { background: #0f172a; color: white; border-color: #0f172a; }
-
-        /* =========================================
-           5. MODAL DE CADASTRO (Só abre se a IA deixar)
-           ========================================= */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; }
-        .modal-box { background: white; padding: 40px; border-radius: 20px; max-width: 500px; width: 90%; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: fadeUp 0.3s ease; }
-        
-        .modal-header h2 { font-size: 1.5rem; color: #0f172a; margin: 0 0 5px 0; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 6px; }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; width: 100%; font-family: inherit; }
-        .btn-submit { width: 100%; padding: 14px; background: #00c2cb; color: #0f172a; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; }
-        .btn-close { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #94a3b8; background: none; border: none; }
-
-        /* =========================================
-           6. CHATBOT WIDGET (TRIAGEM IA)
-           ========================================= */
-        .floating-chat-btn {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-            background: #00c2cb; color: white; border-radius: 50%; border: none;
-            box-shadow: 0 10px 25px rgba(0, 194, 203, 0.4);
-            font-size: 1.5rem; cursor: pointer; z-index: 9998;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .floating-chat-btn:hover { transform: scale(1.1) rotate(10deg); background: #0f172a; }
-
+        /* --- CHATBOT WIDGET --- */
         .chat-widget {
-            position: fixed; bottom: 100px; right: 30px; width: 350px; height: 500px;
-            background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: fixed; bottom: 30px; right: 30px; width: 380px; height: 600px;
+            background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             z-index: 9999; display: flex; flex-direction: column; overflow: hidden;
-            transform: translateY(20px); opacity: 0; visibility: hidden;
-            transition: all 0.3s ease; border: 1px solid #e2e8f0;
+            transform: translateY(120%); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #e2e8f0; visibility: hidden;
         }
-        .chat-widget.active { transform: translateY(0); opacity: 1; visibility: visible; }
+        .chat-widget.active { transform: translateY(0); visibility: visible; }
 
-        /* Header Chat */
         .chat-header {
-            background: linear-gradient(135deg, #0f172a, #1e293b); padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center; color: white;
+            background: linear-gradient(135deg, #00c2cb, #008b94); padding: 20px;
+            color: white; display: flex; justify-content: space-between; align-items: center;
         }
-        .chat-header-info { display: flex; align-items: center; gap: 12px; }
-        .bot-avatar {
-            width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #00c2cb;
-        }
-        .chat-header h4 { margin: 0; font-size: 1rem; }
-        .chat-header span { font-size: 0.75rem; opacity: 0.7; }
-        .close-chat { background: none; border: none; color: white; cursor: pointer; font-size: 1.2rem; }
-
-        /* Corpo Chat */
         .chat-body {
             flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc;
             display: flex; flex-direction: column; gap: 15px;
         }
         .message {
-            max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 0.9rem;
-            line-height: 1.5; position: relative; animation: slideIn 0.3s ease;
+            max-width: 85%; padding: 12px 16px; border-radius: 12px; font-size: 0.95rem;
+            line-height: 1.5; animation: slideIn 0.3s ease; position: relative;
         }
         .message.bot { background: white; color: #334155; border-bottom-left-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .message.user { background: #00c2cb; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
-
-        /* Footer Chat */
-        .chat-footer {
+        .message.user { background: #0f172a; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        
+        .chat-input-area {
             padding: 15px; background: white; border-top: 1px solid #e2e8f0; display: flex; gap: 10px;
         }
-        .chat-footer input {
-            flex: 1; border: 1px solid #cbd5e1; border-radius: 20px; padding: 10px 15px;
-            outline: none; font-size: 0.9rem;
+        .chat-input-area input {
+            flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 25px; outline: none;
         }
-        .chat-footer input:focus { border-color: #00c2cb; }
-        .chat-footer button {
-            background: #0f172a; color: white; border: none; width: 40px; height: 40px;
-            border-radius: 50%; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center;
+        .chat-input-area button {
+            width: 45px; height: 45px; border-radius: 50%; border: none; background: #00c2cb; color: white; cursor: pointer;
         }
-        .chat-footer button:hover { background: #00c2cb; }
 
-        /* Ações do Chat */
-        .chat-actions { display: flex; gap: 10px; margin-top: 10px; }
-        .action-btn { background: #0f172a; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
-        .action-btn.secondary { background: #cbd5e1; color: #334155; }
+        /* Card de Sugestão dentro do Chat */
+        .chat-suggestion-card {
+            background: #f0fdfe; border: 1px solid #00c2cb; padding: 15px; border-radius: 12px; margin-top: 10px;
+        }
+        .chat-suggestion-card h5 { margin: 0 0 5px 0; color: #003366; font-size: 1rem; }
+        .chat-suggestion-card p { margin: 0 0 10px 0; font-size: 0.85rem; color: #555; }
+        .btn-chat-action {
+            background: #00c2cb; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 600;
+        }
 
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Modal Padrão */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-box { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; animation: slideIn 0.3s; }
+        .close-modal { float: right; cursor: pointer; font-size: 1.5rem; }
 
         @media (max-width: 768px) {
-            .hero-glass { flex-direction: column; text-align: center; padding: 40px 25px; }
-            .hero-text p { margin: 0 auto; }
-            .cards-grid { grid-template-columns: 1fr; }
-            .chat-widget { width: 90%; right: 5%; bottom: 80px; height: 450px; }
+            .hero-section { flex-direction: column; text-align: center; }
+            .chat-widget { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; }
         }
     </style>
 </head>
@@ -342,214 +160,121 @@
 
     <script src="header.js"></script>
 
-    <div class="hero-container">
-        <div class="hero-glass">
-            <div class="hero-text">
-                <h1>Desafios de<br><span>Inovação Aberta</span></h1>
-                <p>Empresas reais buscam soluções inovadoras. A IA tria seu projeto e conecta você diretamente se for a solução certa.</p>
-            </div>
-            
-            <div>
-                <button class="btn-post-challenge" onclick="toggleChat()">
-                    <i class="fas fa-plus-circle"></i> Postar um Desafio
-                </button>
-            </div>
+    <div class="hero-section">
+        <div class="hero-text">
+            <h1>Mentores<br><span>de Elite</span></h1>
+            <p>Não sabe quem procurar? Nossa Inteligência Artificial analisa o seu momento atual e sugere a conexão perfeita.</p>
+        </div>
+        <div>
+            <button class="btn-ai-match" onclick="startAIChat()">
+                <i class="fas fa-robot"></i> Encontrar Mentor Ideal
+            </button>
         </div>
     </div>
 
     <div class="filters-section">
-        <button class="filter-btn active" onclick="filterChallenges('all')">Todos</button>
-        <button class="filter-btn" onclick="filterChallenges('agro')"><i class="fas fa-leaf"></i> Agro</button>
-        <button class="filter-btn" onclick="filterChallenges('tech')"><i class="fas fa-microchip"></i> Tech</button>
-        <button class="filter-btn" onclick="filterChallenges('ind')"><i class="fas fa-industry"></i> Indústria</button>
-        <button class="filter-btn" onclick="filterChallenges('sust')"><i class="fas fa-recycle"></i> Sustentabilidade</button>
+        <button class="filter-btn active" onclick="filterMentors('all')">Todos</button>
+        <button class="filter-btn" onclick="filterMentors('tech')">Tecnologia</button>
+        <button class="filter-btn" onclick="filterMentors('biz')">Negócios</button>
+        <button class="filter-btn" onclick="filterMentors('mkt')">Marketing</button>
     </div>
 
-    <div class="cards-grid" id="challengesGrid">
-
-        <div class="challenge-card" data-category="agro">
+    <div class="cards-grid" id="mentoresGrid">
+        <div class="mentor-card" data-category="tech">
             <div class="card-header">
-                <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=100&q=80" class="company-logo" alt="AgroCorp">
-                <span class="status-badge status-open">Aberto</span>
-            </div>
-            <div class="card-body">
-                <h3 class="challenge-title">Monitoramento de Pragas com IA</h3>
-                <span class="company-name">AgroCorp Ltda.</span>
-                <p class="challenge-desc">Buscamos soluções de visão computacional para identificar pragas em plantações de café em tempo real via drones.</p>
-                <div class="prize-box">
-                    <i class="fas fa-trophy prize-icon"></i>
-                    <div class="prize-info">
-                        <h4>Financiamento</h4>
-                        <span>R$ 50.000,00</span>
-                    </div>
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Carlos" class="mentor-avatar">
+                <div class="mentor-info">
+                    <h3>Carlos Tech</h3>
+                    <span class="mentor-role">CTO & Arquiteto</span>
                 </div>
             </div>
-            <div class="card-footer">
-                <span class="deadline"><i class="far fa-clock"></i> Até 20/Out</span>
-                <button class="btn-details" onclick="openModal('Monitoramento IA')">Ver Detalhes</button>
+            <div class="card-body">
+                <p class="mentor-bio">Especialista em Cloud e liderança técnica.</p>
+                <div class="tags-list"><span class="tag">Tech</span><span class="tag">Escala</span></div>
             </div>
+            <div class="card-footer"><button class="btn-request" onclick="openModal('Carlos Tech')">Conectar</button></div>
         </div>
 
-        <div class="challenge-card" data-category="tech">
+        <div class="mentor-card" data-category="biz">
             <div class="card-header">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&q=80" class="company-logo" alt="FinTechX">
-                <span class="status-badge status-open">Aberto</span>
-            </div>
-            <div class="card-body">
-                <h3 class="challenge-title">Otimização de Logs Bancários</h3>
-                <span class="company-name">FinTech X</span>
-                <p class="challenge-desc">Desafio para criar um algoritmo de compressão e análise de logs para transações de alta frequência.</p>
-                <div class="prize-box">
-                    <i class="fas fa-handshake prize-icon"></i>
-                    <div class="prize-info">
-                        <h4>Benefício</h4>
-                        <span>Contrato de POC</span>
-                    </div>
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Ana" class="mentor-avatar">
+                <div class="mentor-info">
+                    <h3>Ana Silva</h3>
+                    <span class="mentor-role">Investidora Anjo</span>
                 </div>
             </div>
-            <div class="card-footer">
-                <span class="deadline"><i class="far fa-clock"></i> Até 15/Nov</span>
-                <button class="btn-details" onclick="openModal('Logs Bancários')">Ver Detalhes</button>
+            <div class="card-body">
+                <p class="mentor-bio">Focada em valuation, fundraising e M&A.</p>
+                <div class="tags-list"><span class="tag">Investimento</span><span class="tag">Pitch</span></div>
             </div>
+            <div class="card-footer"><button class="btn-request" onclick="openModal('Ana Silva')">Conectar</button></div>
         </div>
 
-        <div class="challenge-card" data-category="sust">
+        <div class="mentor-card" data-category="mkt">
             <div class="card-header">
-                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=100&q=80" class="company-logo" alt="GreenEnergy">
-                <span class="status-badge status-open">Aberto</span>
-            </div>
-            <div class="card-body">
-                <h3 class="challenge-title">Reuso de Água Industrial</h3>
-                <span class="company-name">GreenEnergy S.A.</span>
-                <p class="challenge-desc">Procuramos tecnologias de baixo custo para tratamento e reuso de água em processos de resfriamento.</p>
-                <div class="prize-box">
-                    <i class="fas fa-trophy prize-icon"></i>
-                    <div class="prize-info">
-                        <h4>Premiação</h4>
-                        <span>R$ 30.000,00</span>
-                    </div>
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Julia" class="mentor-avatar">
+                <div class="mentor-info">
+                    <h3>Julia Brand</h3>
+                    <span class="mentor-role">Head de Growth</span>
                 </div>
             </div>
-            <div class="card-footer">
-                <span class="deadline"><i class="far fa-clock"></i> Até 30/Set</span>
-                <button class="btn-details" onclick="openModal('Reuso Água')">Ver Detalhes</button>
+            <div class="card-body">
+                <p class="mentor-bio">Especialista em tráfego pago e vendas B2B.</p>
+                <div class="tags-list"><span class="tag">Growth</span><span class="tag">Vendas</span></div>
             </div>
+            <div class="card-footer"><button class="btn-request" onclick="openModal('Julia Brand')">Conectar</button></div>
         </div>
-
     </div>
 
     <div class="chat-widget" id="chatWidget">
         <div class="chat-header">
-            <div class="chat-header-info">
-                <div class="bot-avatar"><i class="fas fa-robot"></i></div>
-                <div>
-                    <h4>IPÊ.IA</h4>
-                    <span>Triagem Inteligente</span>
-                </div>
+            <div>
+                <h4 style="margin:0;">IPÊ.IA 🤖</h4>
+                <small>Consultor de Matchmaking</small>
             </div>
-            <button class="close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+            <button class="close-chat" onclick="toggleChat()" style="background:none;border:none;color:white;cursor:pointer;"><i class="fas fa-times"></i></button>
         </div>
-        
         <div class="chat-body" id="chatBody">
-            <div class="message bot">
-                Olá! Sou a IA do Ipê Conect. Antes de acionar nossa equipe, me conte: <strong>qual é o desafio que sua empresa está enfrentando?</strong>
             </div>
-        </div>
-
-        <div class="chat-footer">
-            <input type="text" id="chatInput" placeholder="Ex: Preciso de IA para café..." onkeypress="handleEnter(event)">
-            <button onclick="processUserMessage()"><i class="fas fa-paper-plane"></i></button>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Digite sua resposta..." onkeypress="handleEnter(event)">
+            <button onclick="processInput()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <button class="floating-chat-btn" onclick="toggleChat()">
-        <i class="fas fa-comment-dots"></i>
-    </button>
-
-    <div class="modal-overlay" id="contactModal">
+    <div class="modal-overlay" id="successModal">
         <div class="modal-box">
-            <button class="btn-close" onclick="closeModal()">&times;</button>
-            <div style="text-align:center; margin-bottom:20px;">
-                <i class="fas fa-rocket" style="font-size: 3rem; color: #00c2cb;"></i>
-            </div>
-            <div class="modal-header" style="text-align: center;">
-                <h2>Aplicar para o Desafio</h2>
-                <p>Você está se inscrevendo para: <strong id="challengeTargetName" style="color:#0f172a;"></strong></p>
-            </div>
-            
-            <form action="https://formsubmit.co/ipestart@ufla.br" method="POST">
-                <input type="hidden" name="_subject" id="hiddenSubject" value="Aplicação para Desafio">
-                <div class="input-group">
-                    <label>Nome do Líder / Startup</label>
-                    <input type="text" name="nome" required>
-                </div>
-                <div class="input-group">
-                    <label>E-mail de Contato</label>
-                    <input type="email" name="email" required>
-                </div>
-                <div class="input-group">
-                    <label>Resumo da Solução Proposta</label>
-                    <textarea name="solucao" rows="3" required placeholder="Descreva brevemente como você resolve este problema..."></textarea>
-                </div>
-                <button type="submit" class="btn-submit">Enviar Proposta</button>
-            </form>
+            <span class="close-modal" onclick="document.getElementById('successModal').style.display='none'">&times;</span>
+            <i class="fas fa-check-circle" style="font-size: 3rem; color: #00c2cb; margin-bottom: 15px;"></i>
+            <h3>Solicitação Enviada!</h3>
+            <p>O mentor <strong id="modalMentorName"></strong> recebeu seu contato. Em breve você receberá um retorno.</p>
         </div>
     </div>
 
+    <script src="header.js"></script>
     <script src="footer.js"></script>
     <script src="chat.js"></script>
 
     <script>
-        // --- FILTROS DOS CARDS ---
-        function filterChallenges(category) {
-            const cards = document.querySelectorAll('.challenge-card');
-            const buttons = document.querySelectorAll('.filter-btn');
+        // --- ESTADO DO CHAT ---
+        let chatState = 0; // 0: Nome, 1: Cargo, 2: Dor/Desafio
+        let userData = { nome: '', cargo: '', dor: '' };
 
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'flex';
-                    setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50);
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        // --- LÓGICA DO MODAL ---
-        const modal = document.getElementById('contactModal');
-        const challengeNameSpan = document.getElementById('challengeTargetName');
-        const hiddenSubject = document.getElementById('hiddenSubject');
-
-        function openModal(challengeName) {
-            challengeNameSpan.textContent = challengeName;
-            hiddenSubject.value = `Aplicação: ${challengeName}`;
-            modal.style.display = 'flex';
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-
-        // --- LÓGICA DO CHATBOT (IA DE TRIAGEM) ---
-        function toggleChat() {
+        function startAIChat() {
             const chat = document.getElementById('chatWidget');
-            chat.classList.toggle('active');
-            if (chat.classList.contains('active')) {
-                document.getElementById('chatInput').focus();
+            chat.classList.add('active');
+            
+            // Reinicia conversa se estiver vazia
+            const body = document.getElementById('chatBody');
+            if (body.innerHTML.trim() === '') {
+                addMessage("Olá! Sou a IA do Ipê. Vou te ajudar a achar o mentor perfeito. Primeiro, <strong>qual é o seu nome?</strong>", 'bot');
+                chatState = 0;
             }
+            document.getElementById('chatInput').focus();
         }
 
-        function handleEnter(e) {
-            if (e.key === 'Enter') processUserMessage();
+        function toggleChat() {
+            document.getElementById('chatWidget').classList.toggle('active');
         }
 
         function addMessage(text, sender) {
@@ -561,7 +286,11 @@
             body.scrollTop = body.scrollHeight;
         }
 
-        function processUserMessage() {
+        function handleEnter(e) {
+            if (e.key === 'Enter') processInput();
+        }
+
+        function processInput() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text) return;
@@ -569,66 +298,94 @@
             addMessage(text, 'user');
             input.value = '';
 
-            // Simula loading da IA
-            addMessage('<i class="fas fa-ellipsis-h"></i> Analisando base de soluções...', 'bot temp-loading');
-            
+            // Loading fake
             setTimeout(() => {
-                document.querySelector('.temp-loading').remove();
-                
-                const lowerText = text.toLowerCase();
-                
-                // LÓGICA DE TRIAGEM (SIMULADA)
-                // Se encontrar palavras-chave, oferece solução pronta.
-                if (lowerText.includes('praga') || lowerText.includes('café') || lowerText.includes('drone')) {
-                    responseWithSolution("Identifiquei que temos uma startup cadastrada (AgroCorp) com uma solução de <strong>visão computacional para pragas</strong> pronta. <br><br>Isso resolve seu problema ou você precisa de algo personalizado?");
-                } 
-                else if (lowerText.includes('log') || lowerText.includes('banco') || lowerText.includes('dados')) {
-                    responseWithSolution("Temos um desafio similar sendo finalizado pela FinTechX sobre <strong>análise de logs</strong>. Gostaria de ver os resultados?");
-                }
-                else if (lowerText.includes('agua') || lowerText.includes('reuso')) {
-                    responseWithSolution("A GreenEnergy possui uma patente aberta para <strong>reuso industrial de água</strong>. Isso pode te atender?");
-                }
-                // Se não encontrar, manda para o formulário.
-                else {
-                    redirectToForm("Entendi. É um desafio inédito na nossa base. <br>Para este caso, preciso que você preencha o formulário oficial para nossa equipe técnica analisar.");
-                }
-
-            }, 1500);
+                nextStep(text);
+            }, 800);
         }
 
-        function responseWithSolution(msg) {
-            const buttons = `
-                <div>${msg}</div>
-                <div class="chat-actions">
-                    <button class="action-btn" onclick="closeTicket()">Sim, resolveu!</button>
-                    <button class="action-btn secondary" onclick="forceFormOpen()">Não, postar desafio</button>
+        function nextStep(input) {
+            if (chatState === 0) {
+                userData.nome = input;
+                addMessage(`Prazer, ${userData.nome}! E qual é o seu <strong>cargo ou função</strong> na sua empresa/projeto?`, 'bot');
+                chatState = 1;
+            } 
+            else if (chatState === 1) {
+                userData.cargo = input;
+                addMessage(`Certo. Agora me conte: <strong>qual é a sua maior dor ou desafio atual?</strong> (Ex: Preciso de investimento, Quero vender mais, Tenho problemas técnicos...)`, 'bot');
+                chatState = 2;
+            }
+            else if (chatState === 2) {
+                userData.dor = input;
+                addMessage(`<i class="fas fa-search"></i> Analisando nossa base de mentores para sua dor: <em>"${userData.dor}"</em>...`, 'bot');
+                
+                setTimeout(() => {
+                    checkDatabaseMatch(userData.dor);
+                }, 1500);
+            }
+        }
+
+        // --- A MÁGICA: BUSCA NO "BANCO DE DADOS" ---
+        function checkDatabaseMatch(pain) {
+            const painLower = pain.toLowerCase();
+            
+            // REGRA 1: Match com Investimento/Negócios
+            if (painLower.includes('dinheiro') || painLower.includes('invest') || painLower.includes('valuation') || painLower.includes('sócio')) {
+                showSuggestion('Ana Silva', 'Investidora Anjo', 'Especialista em captar recursos e estruturar negócios.', 'Ana Silva');
+            }
+            // REGRA 2: Match com Vendas/Marketing
+            else if (painLower.includes('venda') || painLower.includes('marketing') || painLower.includes('cliente') || painLower.includes('crescer')) {
+                showSuggestion('Julia Brand', 'Head de Growth', 'Especialista em tráfego, funil de vendas e crescimento.', 'Julia Brand');
+            }
+            // REGRA 3: Match com Tecnologia
+            else if (painLower.includes('código') || painLower.includes('app') || painLower.includes('sistema') || painLower.includes('bug')) {
+                showSuggestion('Carlos Tech', 'CTO & Arquiteto', 'Líder técnico focado em desenvolvimento seguro e escalável.', 'Carlos Tech');
+            }
+            // SEM MATCH
+            else {
+                addMessage("Entendi seu desafio. É algo bem específico e ainda não temos um mentor automático para isso. <br><br>Vou <strong>cadastrar sua solicitação</strong> para nossa curadoria humana buscar alguém para você.", 'bot');
+                setTimeout(() => {
+                    addMessage("✅ Solicitação cadastrada com sucesso! Entraremos em contato por e-mail.", 'bot');
+                }, 2000);
+            }
+        }
+
+        function showSuggestion(name, role, desc, id) {
+            const cardHTML = `
+                <div class="chat-suggestion-card">
+                    <h5>Encontrei um Match! 🎉</h5>
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                        <div>
+                            <strong>${name}</strong><br>
+                            <small>${role}</small>
+                        </div>
+                    </div>
+                    <p>${desc}</p>
+                    <button class="btn-chat-action" onclick="connectFromChat('${id}')">Solicitar Conexão Agora</button>
                 </div>
             `;
-            addMessage(buttons, 'bot');
+            addMessage(cardHTML, 'bot');
         }
 
-        function redirectToForm(msg) {
-            addMessage(msg, 'bot');
-            setTimeout(() => {
-                addMessage("Abrindo formulário de cadastro...", 'bot');
-                setTimeout(() => {
-                    toggleChat();
-                    openModal('Novo Desafio Personalizado');
-                }, 1500);
-            }, 1000);
+        function connectFromChat(mentorName) {
+            toggleChat(); // Fecha chat
+            document.getElementById('modalMentorName').innerText = mentorName;
+            document.getElementById('successModal').style.display = 'flex'; // Abre modal sucesso
         }
 
-        function closeTicket() {
-            addMessage("Que ótimo! Fico feliz em ter ajudado de forma rápida. O chamado foi encerrado.", 'bot');
-            setTimeout(() => toggleChat(), 3000);
+        // Funções antigas (filtros e modal padrão)
+        function openModal(name) {
+            document.getElementById('modalMentorName').innerText = name;
+            document.getElementById('successModal').style.display = 'flex';
         }
-
-        function forceFormOpen() {
-            addMessage("Sem problemas. Vou abrir o formulário para você descrever melhor.", 'bot');
-            setTimeout(() => {
-                toggleChat();
-                openModal('Novo Desafio (Via Chat)');
-            }, 1500);
+        
+        function filterMentors(cat) {
+            // Lógica simples de filtro visual
+            document.querySelectorAll('.mentor-card').forEach(card => {
+                card.style.display = (cat === 'all' || card.dataset.category === cat) ? 'flex' : 'none';
+            });
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
         }
     </script>
 </body>
