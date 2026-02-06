@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     <style>
         /* RESET GLOBAL DE SEGURANÇA */
         * {
-            box-sizing: border-box; /* Impede que o padding "estique" os elementos para fora */
+            box-sizing: border-box;
         }
 
         html, body {
             max-width: 100%;
-            overflow-x: hidden; /* Corta qualquer sobra lateral que cause scroll horizontal */
+            overflow-x: hidden;
         }
 
         #main-header {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             position: fixed;
             top: 0; 
             left: 0; 
-            right: 0; /* Garante ajuste perfeito às bordas da tela */
+            right: 0;
             z-index: 2000;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
@@ -55,12 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
             display: flex; 
             align-items: center; 
             margin-left: auto; 
-            gap: 40px; 
+            gap: 60px; /* AUMENTADO: Espaço geral */
         }
 
         .nav-links { 
             display: flex; 
-            gap: 30px;
+            gap: 50px; /* AUMENTADO: Espaço entre os botões de texto (era 30px) */
             list-style: none; 
             align-items: center; 
             margin: 0; 
@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             text-transform: uppercase; 
             white-space: nowrap;
             transition: 0.2s;
+            padding: 5px 0; /* Area de clique levemente maior verticalmente */
         }
         .nav-links li a:hover { color: #00c2cb; }
 
@@ -89,17 +90,18 @@ document.addEventListener('DOMContentLoaded', function() {
         .btn-pesquisa-header {
             background: #00c2cb; 
             color: white !important; 
-            padding: 12px 28px; 
+            padding: 12px 35px; /* AUMENTADO: Botão mais largo */
             border-radius: 50px; 
             display: flex; 
             align-items: center; 
-            gap: 10px;
+            gap: 12px;
             cursor: pointer;
             font-size: 0.95rem; 
             font-weight: 800;
             text-transform: uppercase;
             border: none;
             transition: 0.3s;
+            margin-left: 20px; /* AUMENTADO: Separa o botão de pesquisa dos links de texto */
         }
         .btn-pesquisa-header:hover { background: #00a9b0; transform: translateY(-2px); }
 
@@ -155,6 +157,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         .menu-overlay.active { display: block; opacity: 1; }
 
+        @media (max-width: 1300px) {
+            /* Ajuste intermediário para telas médias não quebrarem o menu */
+            .nav-links { gap: 25px; }
+            .nav-container { gap: 20px; }
+            .btn-pesquisa-header { margin-left: 10px; padding: 10px 20px; }
+        }
+
         @media (max-width: 1200px) {
             #main-header { height: 70px; padding: 0 20px; }
             .logo-img { height: 45px !important; }
@@ -174,9 +183,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 align-items: stretch;
                 overflow-y: auto;
                 z-index: 2100;
+                gap: 0; /* No mobile o gap é tratado pelo padding dos links */
             }
             .nav-links.active { right: 0; }
-            .nav-links > li > a { padding: 18px 25px; border-bottom: 1px solid #f0f0f0; }
+            .nav-links > li > a { padding: 18px 25px; border-bottom: 1px solid #f0f0f0; display: block; }
+            
+            /* Ajuste do botão de pesquisa no mobile para ficar dentro do menu */
+            .nav-dropdown {
+                display: block;
+                padding: 20px;
+                margin: 0;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            .btn-pesquisa-header {
+                margin: 0;
+                width: 100%;
+                justify-content: center;
+            }
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                padding-left: 10px;
+                display: block; /* Sempre mostra as opções de pesquisa no mobile */
+                background: #f9f9f9;
+            }
         }
     </style>
     `;
