@@ -12,35 +12,34 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- ESTILOS GERAIS --- */
+        /* --- RESET BÁSICO (APENAS O NECESSÁRIO) --- */
         * { box-sizing: border-box; }
         
-        /* CORRIGIDO: Body normal (sem flex), igual às outras páginas */
-        html, body {
-            margin: 0; padding: 0; width: 100%; height: 100%;
+        body {
+            margin: 0; 
+            padding: 0; 
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
             color: #1e293b;
-            overflow-x: hidden;
+            /* REMOVIDO display:flex daqui para não quebrar o Header/Footer */
         }
 
-        /* --- CONTAINER PRINCIPAL --- */
-        /* Centraliza o conteúdo e dá espaço para o Header Fixo */
-        .main-container {
+        /* --- WRAPPER PARA CENTRALIZAR APENAS O CONTEÚDO --- */
+        .page-wrapper {
             width: 100%;
-            min-height: 100vh; /* Ocupa a tela toda */
+            min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center; /* Centraliza verticalmente */
             
-            /* ESPAÇAMENTO PARA O HEADER E FOOTER NÃO TAMPAREM */
+            /* PADDING OBRIGATÓRIO PARA O HEADER NÃO TAMPAR */
             padding-top: 120px; 
-            padding-bottom: 80px;
+            padding-bottom: 60px;
             padding-left: 20px;
             padding-right: 20px;
         }
 
-        /* CARTÃO DIVIDIDO (TEXTO + CHAT) */
+        /* --- CARTÃO FLUTUANTE (DESIGN DO CHAT) --- */
         .split-layout {
             display: flex;
             width: 100%;
@@ -53,7 +52,7 @@
             box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.15);
             border: 1px solid #e2e8f0;
             position: relative;
-            z-index: 1; /* Garante que fique abaixo do header se houver sobreposição */
+            z-index: 1;
         }
 
         /* LADO ESQUERDO (TEXTO) */
@@ -67,24 +66,13 @@
             border-right: 1px solid #e2e8f0;
         }
 
-        .info-side h1 { 
-            font-size: 3rem; font-weight: 900; color: #0f172a; 
-            line-height: 1.1; margin-bottom: 20px; 
-        }
+        .info-side h1 { font-size: 3rem; font-weight: 900; color: #0f172a; line-height: 1.1; margin-bottom: 20px; }
         .info-side h1 span { color: #00c2cb; }
-        
-        .info-side p { 
-            font-size: 1.1rem; color: #64748b; line-height: 1.6; margin-bottom: 40px; 
-        }
+        .info-side p { font-size: 1.1rem; color: #64748b; line-height: 1.6; margin-bottom: 40px; }
         
         .steps { display: flex; flex-direction: column; gap: 25px; }
         .step { display: flex; align-items: center; gap: 15px; }
-        
-        .step-icon { 
-            width: 40px; height: 40px; background: #e0f2fe; color: #0284c7; 
-            border-radius: 10px; display: flex; align-items: center; justify-content: center; 
-            font-weight: 800; font-size: 1rem;
-        }
+        .step-icon { width: 40px; height: 40px; background: #e0f2fe; color: #0284c7; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; }
         .step-text { font-size: 1rem; color: #334155; font-weight: 600; }
 
         /* LADO DIREITO (CHAT) */
@@ -96,66 +84,31 @@
             display: flex; flex-direction: column; position: relative;
         }
 
-        /* Header do Chat Interno */
-        .chat-header {
-            padding: 15px 25px; background: #f0f2f5; border-bottom: 1px solid #d1d7db;
-            display: flex; align-items: center; gap: 15px; height: 70px;
-        }
-        .ai-avatar {
-            width: 45px; height: 45px; background: #00c2cb; color: white;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        .chat-header { padding: 15px 25px; background: #f0f2f5; border-bottom: 1px solid #d1d7db; display: flex; align-items: center; gap: 15px; height: 70px; }
+        .ai-avatar { width: 45px; height: 45px; background: #00c2cb; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
         .ai-info h3 { margin: 0; font-size: 1rem; color: #111b21; }
         .ai-info span { font-size: 0.8rem; color: #667781; }
 
-        /* Mensagens */
-        .chat-messages {
-            flex: 1; padding: 20px 40px; overflow-y: auto;
-            display: flex; flex-direction: column; gap: 15px;
-        }
-
-        .message {
-            max-width: 80%; padding: 10px 15px; border-radius: 8px;
-            font-size: 0.95rem; line-height: 1.5; position: relative;
-            animation: fadeIn 0.3s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
+        .chat-messages { flex: 1; padding: 20px 40px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        
+        .message { max-width: 80%; padding: 10px 15px; border-radius: 8px; font-size: 0.95rem; line-height: 1.5; position: relative; animation: fadeIn 0.3s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
         .message.bot { background: white; color: #111b21; align-self: flex-start; border-top-left-radius: 0; }
         .message.user { background: #d9fdd3; color: #111b21; align-self: flex-end; border-top-right-radius: 0; }
 
-        /* Card de Sugestão */
-        .chat-solution-card {
-            background: white; border: 1px solid #00c2cb; padding: 15px; border-radius: 8px; margin-top: 5px;
-        }
-        .chat-solution-card h4 { margin: 0 0 5px 0; color: #003366; font-size: 1rem; }
-        .chat-solution-card p { margin: 0 0 10px 0; font-size: 0.9rem; color: #555; }
-        
-        .chat-actions { display: flex; gap: 10px; }
+        .chat-solution-card { background: white; border: 1px solid #00c2cb; padding: 15px; border-radius: 8px; margin-top: 5px; }
+        .chat-actions { display: flex; gap: 10px; margin-top: 10px; }
         .action-btn { flex: 1; padding: 8px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
         .btn-accept { background: #00a884; color: white; }
         .btn-reject { background: #e9edef; color: #111b21; }
 
-        /* Input Area */
-        .chat-input-area {
-            padding: 15px 20px; background: #f0f2f5; border-top: 1px solid #d1d7db;
-            display: flex; gap: 10px; align-items: center;
-        }
-        .chat-input-area input {
-            flex: 1; padding: 12px 15px; border: none; border-radius: 8px;
-            font-size: 1rem; outline: none; background: white;
-        }
-        .chat-input-area button {
-            background: #00a884; color: white; border: none; width: 45px; height: 45px;
-            border-radius: 50%; cursor: pointer; font-size: 1.2rem;
-            display: flex; align-items: center; justify-content: center; transition: 0.2s;
-        }
-        .chat-input-area button:hover { background: #008f6f; }
+        .chat-input-area { padding: 15px 20px; background: #f0f2f5; border-top: 1px solid #d1d7db; display: flex; gap: 10px; align-items: center; }
+        .chat-input-area input { flex: 1; padding: 12px 15px; border: none; border-radius: 8px; font-size: 1rem; outline: none; background: white; }
+        .chat-input-area button { background: #00a884; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Mobile */
         @media (max-width: 900px) {
-            .main-container { padding-top: 100px; padding-bottom: 20px; display: block; min-height: auto; }
+            .page-wrapper { padding-top: 100px; padding-bottom: 20px; display: block; min-height: auto; }
             .split-layout { flex-direction: column; height: 700px; border-radius: 15px; }
             .info-side { display: none; }
             .chat-side { height: 100%; }
@@ -166,48 +119,29 @@
 
     <script src="header.js"></script>
 
-    <div class="main-container">
+    <div class="page-wrapper">
         <div class="split-layout">
             
             <div class="info-side">
                 <h1>Qual é o seu <br><span>Desafio?</span></h1>
-                <p>Nossa IA analisa sua dor e busca soluções imediatas no banco de talentos da UFLA. Se não houver match, nossa equipe assume.</p>
-                
+                <p>Nossa IA analisa sua dor e busca soluções imediatas no banco de talentos da UFLA.</p>
                 <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">1</div>
-                        <div class="step-text">Descreva o problema ao lado.</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-icon">2</div>
-                        <div class="step-text">A IA verifica o banco de dados.</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-icon">3</div>
-                        <div class="step-text">Conectamos você à solução.</div>
-                    </div>
+                    <div class="step"><div class="step-icon">1</div><div class="step-text">Descreva o problema.</div></div>
+                    <div class="step"><div class="step-icon">2</div><div class="step-text">IA verifica o banco.</div></div>
+                    <div class="step"><div class="step-icon">3</div><div class="step-text">Conexão imediata.</div></div>
                 </div>
             </div>
 
             <div class="chat-side">
                 <div class="chat-header">
                     <div class="ai-avatar"><i class="fas fa-robot"></i></div>
-                    <div class="ai-info">
-                        <h3>IPÊ.IA - Triagem</h3>
-                        <span>Online agora</span>
-                    </div>
+                    <div class="ai-info"><h3>IPÊ.IA - Triagem</h3><span>Online agora</span></div>
                 </div>
-
                 <div class="chat-messages" id="chatBox">
-                    <div class="message bot">
-                        Olá! 👋 Sou a IA do Ipê Conect.
-                        <br><br>
-                        <strong>Para começar, me descreva: qual problema ou dor sua empresa precisa resolver hoje?</strong>
-                    </div>
+                    <div class="message bot">Olá! 👋 Sou a IA do Ipê Conect.<br><br><strong>Qual problema sua empresa precisa resolver hoje?</strong></div>
                 </div>
-
                 <div class="chat-input-area">
-                    <input type="text" id="userInput" placeholder="Digite sua mensagem aqui..." onkeypress="handleEnter(event)">
+                    <input type="text" id="userInput" placeholder="Digite aqui..." onkeypress="handleEnter(event)">
                     <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -218,15 +152,13 @@
     <script src="footer.js"></script>
 
     <script>
+        // Mesma lógica de chat anterior
         const SOLUTIONS_DB = [
-            { keywords: ['praga', 'café', 'lavoura', 'drone'], name: 'AgroCorp', desc: 'Monitoramento de pragas com drones.' },
-            { keywords: ['energia', 'custo', 'solar'], name: 'GreenEnergy', desc: 'Otimização de consumo energético.' },
-            { keywords: ['venda', 'marketing', 'lead'], name: 'SalesForceX', desc: 'Automação de funil de vendas.' }
+            { keywords: ['praga', 'café', 'drone'], name: 'AgroCorp', desc: 'Monitoramento de pragas com drones.' },
+            { keywords: ['energia', 'solar'], name: 'GreenEnergy', desc: 'Otimização de consumo energético.' },
+            { keywords: ['venda', 'marketing'], name: 'SalesForceX', desc: 'Automação de funil de vendas.' }
         ];
-
-        let step = 0; 
-        let ticketData = { problem: '', name: '', email: '' };
-
+        let step = 0; let ticketData = { problem: '', name: '', email: '' };
         const chatBox = document.getElementById('chatBox');
         const userInput = document.getElementById('userInput');
 
@@ -235,112 +167,58 @@
         function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
-
             appendMessage(text, 'user');
             userInput.value = '';
-
+            
             if (step === 0) {
                 ticketData.problem = text;
                 showTyping();
                 setTimeout(() => { removeTyping(); checkSolutions(text); }, 1500);
-            } 
-            else if (step === 2) {
+            } else if (step === 2) {
                 ticketData.name = text;
-                appendMessage(`Obrigado, ${text}. Por último, qual seu **e-mail corporativo**?`, 'bot');
+                appendMessage(`Obrigado, ${text}. Qual seu e-mail?`, 'bot');
                 step = 3;
-            }
-            else if (step === 3) {
+            } else if (step === 3) {
                 ticketData.email = text;
                 finishRegistration();
             }
         }
 
-        function checkSolutions(problemText) {
-            const lowerText = problemText.toLowerCase();
-            let found = null;
-            for (let sol of SOLUTIONS_DB) {
-                if (sol.keywords.some(k => lowerText.includes(k))) { found = sol; break; }
-            }
-
+        function checkSolutions(text) {
+            let found = SOLUTIONS_DB.find(sol => sol.keywords.some(k => text.toLowerCase().includes(k)));
             if (found) {
-                step = 1; 
-                const html = `
+                step = 1;
+                appendMessageHTML(`
                     <div class="chat-solution-card">
-                        <h4>Encontrei uma solução! 💡</h4>
-                        <p>A empresa <strong>${found.name}</strong> já resolve isso: <em>${found.desc}</em></p>
-                        <p>Isso te atende?</p>
+                        <h4>Solução Encontrada: ${found.name}</h4>
+                        <p>${found.desc}</p>
                         <div class="chat-actions">
-                            <button class="action-btn btn-accept" onclick="acceptMatch('${found.name}')">Sim</button>
-                            <button class="action-btn btn-reject" onclick="rejectMatch()">Não</button>
+                            <button class="action-btn btn-accept" onclick="accept('${found.name}')">Conectar</button>
+                            <button class="action-btn btn-reject" onclick="reject()">Cadastrar Novo</button>
                         </div>
                     </div>
-                `;
-                appendMessageHTML(html, 'bot');
+                `, 'bot');
             } else {
                 startRegistration();
             }
         }
 
-        function acceptMatch(companyName) {
-            appendMessageHTML(`<div class="message user">Sim, conectar com ${companyName}</div>`, 'html-direct');
-            showTyping();
-            setTimeout(() => {
-                removeTyping();
-                appendMessage(`Perfeito! 🎉 Já notifiquei a ${companyName}. Eles entrarão em contato.`, 'bot');
-            }, 1000);
-        }
+        function startRegistration() { step = 2; appendMessage("Não encontrei match exato. Vamos cadastrar. Qual seu nome?", 'bot'); }
+        function accept(name) { appendMessage(`Ótimo! Conectando com ${name}...`, 'bot'); }
+        function reject() { appendMessageHTML('<div class="message user">Quero cadastrar.</div>', 'html-direct'); startRegistration(); }
+        function finishRegistration() { showTyping(); setTimeout(() => { removeTyping(); appendMessage("✅ Cadastrado! Entraremos em contato.", 'bot'); }, 1000); }
 
-        function rejectMatch() {
-            appendMessageHTML(`<div class="message user">Não, quero cadastrar.</div>`, 'html-direct');
-            startRegistration();
+        function appendMessage(text, type) {
+            const div = document.createElement('div'); div.className = `message ${type}`; div.innerHTML = text;
+            chatBox.appendChild(div); chatBox.scrollTop = chatBox.scrollHeight;
         }
-
-        function startRegistration() {
-            step = 2;
-            appendMessage("Entendido. Vamos cadastrar esse desafio para nossa equipe. <br><strong>Qual é o seu nome completo?</strong>", 'bot');
-        }
-
-        function finishRegistration() {
-            showTyping();
-            setTimeout(() => {
-                removeTyping();
-                appendMessage(`✅ **Desafio Cadastrado!**<br>Enviaremos detalhes para <strong>${ticketData.email}</strong>.`, 'bot');
-                userInput.disabled = true;
-                userInput.placeholder = "Atendimento finalizado.";
-            }, 1000);
-        }
-
-        function appendMessage(text, sender) {
-            const div = document.createElement('div');
-            div.classList.add('message', sender);
-            div.innerHTML = text;
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
         function appendMessageHTML(html, type) {
-            if(type === 'html-direct') {
-                chatBox.insertAdjacentHTML('beforeend', html);
-            } else {
-                const div = document.createElement('div');
-                div.classList.add('message', type);
-                div.innerHTML = html;
-                chatBox.appendChild(div);
-            }
+            if(type === 'html-direct') chatBox.insertAdjacentHTML('beforeend', html);
+            else { const div = document.createElement('div'); div.className = `message ${type}`; div.innerHTML = html; chatBox.appendChild(div); }
             chatBox.scrollTop = chatBox.scrollHeight;
         }
-
-        function showTyping() {
-            const id = 'typing';
-            const html = `<div id="${id}" class="message bot">...</div>`;
-            chatBox.insertAdjacentHTML('beforeend', html);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        function removeTyping() {
-            const el = document.getElementById('typing');
-            if (el) el.remove();
-        }
+        function showTyping() { chatBox.insertAdjacentHTML('beforeend', `<div id="typing" class="message bot">...</div>`); chatBox.scrollTop = chatBox.scrollHeight; }
+        function removeTyping() { const el = document.getElementById('typing'); if(el) el.remove(); }
     </script>
 </body>
 </html>
