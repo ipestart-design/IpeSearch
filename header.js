@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         /* HEADER FIXO */
         #main-header {
-            background-color: rgba(255, 255, 255, 0.98); /* Quase 100% opaco para leitura */
+            background-color: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(12px);
             height: 90px; 
             display: flex;
@@ -18,37 +18,30 @@ document.addEventListener('DOMContentLoaded', function() {
             top: 0; left: 0; right: 0;
             z-index: 2000;
             box-shadow: 0 2px 20px rgba(0,0,0,0.03);
-            transition: height 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
         }
 
-        /* AJUSTE SCROLL (Sutil, não esmaga a logo) */
-        #main-header.scrolled { 
-            height: 80px; /* Reduz pouco */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
-        }
+        #main-header.scrolled { height: 70px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
 
         /* LOGO */
         .logo-link { 
             text-decoration: none; 
             display: flex; 
             align-items: center;
-            height: 100%; /* Garante alinhamento */
+            z-index: 2001; /* Garante que o logo fique acima do menu mobile se precisar */
         }
         
         .logo-img { 
-            height: 60px; /* Tamanho original grande */
+            height: 55px; 
             width: auto; 
             transition: height 0.3s ease; 
             display: block;
         }
         
-        /* Logo no Scroll (Mantém visibilidade) */
-        #main-header.scrolled .logo-img { 
-            height: 52px; /* Redução mínima para manter leitura */
-        }
+        #main-header.scrolled .logo-img { height: 45px; }
 
-        /* MENU */
+        /* MENU CONTAINER */
         .nav-container { display: flex; align-items: center; margin-left: auto; gap: 40px; }
         .nav-links { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0; align-items: center; }
         
@@ -59,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             font-size: 0.9rem; 
             text-transform: uppercase; 
             letter-spacing: 0.5px;
+            white-space: nowrap; /* Impede quebra de linha no texto */
             transition: color 0.2s;
         }
         .nav-links li a:hover { color: #00c2cb; }
@@ -81,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             border: none;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0, 194, 203, 0.3);
+            white-space: nowrap;
         }
 
         .btn-pesquisa-header:hover { 
@@ -120,32 +115,93 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         .dropdown-menu li a:hover { background: #f0fdfe; color: #00c2cb !important; }
 
-        /* MOBILE */
-        .mobile-menu-btn { display: none; font-size: 1.8rem; color: #0f172a; background: none; border: none; cursor: pointer; }
+        /* HAMBURGER MENU (MOBILE) */
+        .mobile-menu-btn { 
+            display: none; 
+            font-size: 1.8rem; 
+            color: #0f172a; 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            padding: 5px;
+        }
         .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1999; }
         .menu-overlay.active { display: block; }
 
-        @media (max-width: 1200px) {
+        /* --- RESPONSIVIDADE AVANÇADA --- */
+
+        /* 1. Telas Médias (Tablets Paisagem / Notebooks Pequenos) */
+        @media (max-width: 1300px) {
+            .nav-container { gap: 20px; }
+            .nav-links { gap: 20px; }
+            .nav-links li a { font-size: 0.8rem; } /* Reduz um pouco a fonte */
+            .btn-pesquisa-header { padding: 8px 16px; font-size: 0.8rem; }
+        }
+
+        /* 2. Telas Onde o Menu Quebra (Vira Mobile) */
+        @media (max-width: 1100px) {
             #main-header { height: 70px; padding: 0 20px; }
-            /* Logo Mobile: Tamanho fixo e seguro */
-            .logo-img { height: 45px !important; } 
+            .logo-img { height: 40px !important; } 
             
             .mobile-menu-btn { display: block; }
-            .nav-container { gap: 20px; }
+            .nav-container { gap: 0; } /* Remove gap no container pai */
             
+            /* Menu Lateral Deslizante */
             .nav-links {
-                position: fixed; top: 0; right: -100%; 
-                width: 80%; max-width: 300px; height: 100vh; 
-                background: white; flex-direction: column; 
-                padding: 80px 0; box-shadow: -5px 0 20px rgba(0,0,0,0.1); 
-                transition: 0.3s; z-index: 2100; align-items: stretch;
+                position: fixed; 
+                top: 0; 
+                right: -100%; /* Começa escondido */
+                width: 80%; 
+                max-width: 320px; 
+                height: 100vh; 
+                background: white; 
+                flex-direction: column; 
+                padding: 90px 0 20px; /* Espaço pro topo */
+                box-shadow: -5px 0 20px rgba(0,0,0,0.1); 
+                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+                align-items: stretch; /* Estica os itens */
+                overflow-y: auto;
+                z-index: 2100;
+                gap: 0;
             }
-            .nav-links.active { right: 0; }
-            .nav-links li a { padding: 20px 30px; border-bottom: 1px solid #f1f5f9; display: block; }
             
-            .nav-dropdown { display: block; width: 100%; padding: 20px 30px; }
-            .btn-pesquisa-header { width: 100%; justify-content: center; margin: 0; }
-            .dropdown-menu { position: static; box-shadow: none; border: none; display: block; opacity: 1; transform: none; padding-left: 10px; }
+            .nav-links.active { right: 0; } /* Mostra menu */
+            
+            .nav-links li a { 
+                padding: 20px 30px; 
+                border-bottom: 1px solid #f1f5f9; 
+                display: block; 
+                font-size: 1rem;
+            }
+            
+            /* Ajuste do Dropdown/Botão no Mobile */
+            .nav-dropdown { 
+                display: block; 
+                width: 100%; 
+                padding: 20px 30px; 
+                border-bottom: 1px solid #f1f5f9; 
+            }
+            
+            .btn-pesquisa-header { 
+                width: 100%; 
+                justify-content: center; 
+                margin: 0; 
+                font-size: 1rem;
+                padding: 12px;
+            }
+            
+            .dropdown-menu { 
+                position: static; 
+                box-shadow: none; 
+                border: none; 
+                display: block; 
+                opacity: 1; 
+                transform: none; 
+                padding-left: 10px; 
+                background: #f8fafc;
+                margin-top: 15px;
+                border-radius: 8px;
+            }
         }
     </style>
     `;
@@ -195,13 +251,28 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleMenu() {
         navLinks.classList.toggle('active');
         menuOverlay.classList.toggle('active');
+        
+        // Troca ícone do menu
         const icon = mobileBtn.querySelector('i');
-        icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-times');
+        if (navLinks.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
     }
 
     mobileBtn.addEventListener('click', toggleMenu);
     menuOverlay.addEventListener('click', toggleMenu);
+
+    // Fechar menu ao clicar em um link
+    const links = document.querySelectorAll('.nav-links a');
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            if(window.innerWidth <= 1100) toggleMenu();
+        });
+    });
 
     // Lógica do Scroll
     window.addEventListener('scroll', () => {
