@@ -12,22 +12,17 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- ESTILOS GERAIS --- */
+        /* --- ESTILOS GERAIS DA PÁGINA --- */
         * { box-sizing: border-box; }
         
         html, body {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Cinza claro estilo Zap */
+            background-color: #f0f2f5;
             color: #1e293b;
             overflow-x: hidden;
-        }
-
-        /* AJUSTE PARA CHAT WIDGET NÃO ATRAPALHAR */
-        #chat-widget {
-            bottom: 20px !important;
-            right: 20px !important;
-            z-index: 1500 !important; /* Abaixo do header mas acima do conteúdo */
+            display: flex;
+            flex-direction: column;
         }
 
         /* --- CONTAINER PRINCIPAL --- */
@@ -35,22 +30,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: auto; /* Permite que o footer apareça abaixo */
-            margin-top: 120px; /* AUMENTADO: mais espaço para o header */
-            padding-top: 20px; 
-            padding-bottom: 40px;
+            flex: 1; /* Ocupa o espaço entre header e footer */
+            
+            /* PADDING DE SEGURANÇA DO HEADER */
+            padding-top: 140px; 
+            padding-bottom: 60px;
             padding-left: 20px;
             padding-right: 20px;
-            margin-bottom: 80px; /* Espaço para o footer */
         }
 
-        /* CARTÃO FLUTUANTE (SPLIT) */
+        /* CARTÃO DIVIDIDO (TEXTO + CHAT) */
         .split-layout {
             display: flex;
             width: 100%;
             max-width: 1200px;
-            height: 75vh; /* REDUZIDO: para não bater no chat */
-            max-height: 700px; /* Altura máxima */
+            height: 75vh;
             min-height: 600px;
             background: white;
             border-radius: 20px;
@@ -71,11 +65,8 @@
         }
 
         .info-side h1 { 
-            font-size: 3rem; 
-            font-weight: 900; 
-            color: #0f172a; 
-            line-height: 1.1; 
-            margin-bottom: 20px; 
+            font-size: 3rem; font-weight: 900; color: #0f172a; 
+            line-height: 1.1; margin-bottom: 20px; 
         }
         .info-side h1 span { color: #00c2cb; }
         
@@ -93,24 +84,19 @@
         }
         .step-text { font-size: 1rem; color: #334155; font-weight: 600; }
 
-        /* LADO DIREITO (CHAT ESTILO APP) */
+        /* LADO DIREITO (CHAT) */
         .chat-side {
-            flex: 1.4; /* Chat mais largo */
-            background: #efeae2; /* Fundo estilo WhatsApp Clean */
-            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); /* Pattern sutil opcional */
+            flex: 1.4;
+            background: #efeae2;
+            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
             background-blend-mode: overlay;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            display: flex; flex-direction: column; position: relative;
         }
 
-        /* Cabeçalho do Chat */
+        /* Header do Chat Interno */
         .chat-header {
-            padding: 15px 25px;
-            background: #f0f2f5;
-            border-bottom: 1px solid #d1d7db;
-            display: flex; align-items: center; gap: 15px;
-            height: 70px;
+            padding: 15px 25px; background: #f0f2f5; border-bottom: 1px solid #d1d7db;
+            display: flex; align-items: center; gap: 15px; height: 70px;
         }
         .ai-avatar {
             width: 45px; height: 45px; background: #00c2cb; color: white;
@@ -120,81 +106,56 @@
         .ai-info h3 { margin: 0; font-size: 1rem; color: #111b21; }
         .ai-info span { font-size: 0.8rem; color: #667781; }
 
-        /* Área de Mensagens (Scrollável) */
+        /* Mensagens */
         .chat-messages {
-            flex: 1;
-            padding: 20px 40px;
-            overflow-y: auto; /* IMPORTANTE: Barra de rolagem aqui */
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex: 1; padding: 20px 40px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 15px;
         }
 
         .message {
-            max-width: 80%;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            position: relative;
-            animation: fadeIn 0.3s ease;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            max-width: 80%; padding: 10px 15px; border-radius: 8px;
+            font-size: 0.95rem; line-height: 1.5; position: relative;
+            animation: fadeIn 0.3s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
+        .message.bot { background: white; color: #111b21; align-self: flex-start; border-top-left-radius: 0; }
+        .message.user { background: #d9fdd3; color: #111b21; align-self: flex-end; border-top-right-radius: 0; }
 
-        /* Balão da IA (Branco) */
-        .message.bot {
-            background: white;
-            color: #111b21;
-            align-self: flex-start;
-            border-top-left-radius: 0;
+        /* Card de Sugestão */
+        .chat-solution-card {
+            background: white; border: 1px solid #00c2cb; padding: 15px; border-radius: 8px; margin-top: 5px;
         }
+        .chat-solution-card h4 { margin: 0 0 5px 0; color: #003366; font-size: 1rem; }
+        .chat-solution-card p { margin: 0 0 10px 0; font-size: 0.9rem; color: #555; }
+        
+        .chat-actions { display: flex; gap: 10px; }
+        .action-btn { flex: 1; padding: 8px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; font-size: 0.9rem; }
+        .btn-accept { background: #00a884; color: white; }
+        .btn-reject { background: #e9edef; color: #111b21; }
 
-        /* Balão do Usuário (Verde/Azul) */
-        .message.user {
-            background: #d9fdd3; /* Verde Zap */
-            color: #111b21;
-            align-self: flex-end;
-            border-top-right-radius: 0;
-        }
-
-        /* Área de Input (Rodapé fixo do chat) */
+        /* Input Area */
         .chat-input-area {
-            padding: 15px 20px;
-            background: #f0f2f5;
-            border-top: 1px solid #d1d7db;
-            display: flex; gap: 10px;
-            align-items: center;
+            padding: 15px 20px; background: #f0f2f5; border-top: 1px solid #d1d7db;
+            display: flex; gap: 10px; align-items: center;
         }
         .chat-input-area input {
-            flex: 1; 
-            padding: 12px 15px; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 1rem; 
-            outline: none; 
-            background: white;
+            flex: 1; padding: 12px 15px; border: none; border-radius: 8px;
+            font-size: 1rem; outline: none; background: white;
         }
         .chat-input-area button {
-            background: #00a884; /* Verde Zap */
-            color: white; 
-            border: none; 
-            width: 45px; height: 45px; 
-            border-radius: 50%; 
-            cursor: pointer; 
-            font-size: 1.2rem;
-            display: flex; align-items: center; justify-content: center;
-            transition: 0.2s;
+            background: #00a884; color: white; border: none; width: 45px; height: 45px;
+            border-radius: 50%; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
         }
         .chat-input-area button:hover { background: #008f6f; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Responsividade Mobile */
+        /* Mobile */
         @media (max-width: 900px) {
-            .main-container { margin-top: 80px; padding-top: 20px; padding-bottom: 0; }
-            .split-layout { flex-direction: column; height: auto; min-height: calc(100vh - 80px); border-radius: 0; }
-            .info-side { padding: 40px 20px; border-right: none; display: none; /* Esconde texto no mobile pra focar no chat */ }
-            .chat-side { height: calc(100vh - 80px); } /* Chat ocupa tela toda no mobile */
+            .main-container { padding-top: 100px; padding-bottom: 20px; }
+            .split-layout { flex-direction: column; height: auto; min-height: 80vh; border-radius: 15px; }
+            .info-side { display: none; }
+            .chat-side { height: 600px; }
         }
     </style>
 </head>
@@ -207,7 +168,7 @@
             
             <div class="info-side">
                 <h1>Qual é o seu <br><span>Desafio?</span></h1>
-                <p>Nossa IA analisa sua dor e busca soluções imediatas. Se não houver match, nossa equipe assume.</p>
+                <p>Nossa IA analisa sua dor e busca soluções imediatas no banco de talentos da UFLA. Se não houver match, nossa equipe assume.</p>
                 
                 <div class="steps">
                     <div class="step">
@@ -251,7 +212,6 @@
         </div>
     </div>
 
-    <script src="header.js"></script>
     <script src="footer.js"></script>
 
     <script>
@@ -301,10 +261,35 @@
 
             if (found) {
                 step = 1; 
-                appendMessage(`Encontrei uma solução! 💡<br><br>A empresa <strong>${found.name}</strong> faz: <em>${found.desc}</em>.<br><br>Digite <strong>"SIM"</strong> para conectar ou <strong>"NÃO"</strong> para continuar o cadastro.`, 'bot');
+                const html = `
+                    <div class="chat-solution-card">
+                        <h4>Encontrei uma solução! 💡</h4>
+                        <p>A empresa <strong>${found.name}</strong> faz: <em>${found.desc}</em></p>
+                        <p>Isso te atende?</p>
+                        <div class="chat-actions">
+                            <button class="action-btn btn-accept" onclick="acceptMatch('${found.name}')">Sim</button>
+                            <button class="action-btn btn-reject" onclick="rejectMatch()">Não</button>
+                        </div>
+                    </div>
+                `;
+                appendMessageHTML(html, 'bot');
             } else {
                 startRegistration();
             }
+        }
+
+        function acceptMatch(companyName) {
+            appendMessageHTML(`<div class="message user">Sim, conectar com ${companyName}</div>`, 'html-direct');
+            showTyping();
+            setTimeout(() => {
+                removeTyping();
+                appendMessage(`Perfeito! 🎉 Já notifiquei a ${companyName}. Eles entrarão em contato.`, 'bot');
+            }, 1000);
+        }
+
+        function rejectMatch() {
+            appendMessageHTML(`<div class="message user">Não, quero cadastrar.</div>`, 'html-direct');
+            startRegistration();
         }
 
         function startRegistration() {
@@ -327,6 +312,18 @@
             div.classList.add('message', sender);
             div.innerHTML = text;
             chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function appendMessageHTML(html, type) {
+            if(type === 'html-direct') {
+                chatBox.insertAdjacentHTML('beforeend', html);
+            } else {
+                const div = document.createElement('div');
+                div.classList.add('message', type);
+                div.innerHTML = html;
+                chatBox.appendChild(div);
+            }
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
