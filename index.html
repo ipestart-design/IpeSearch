@@ -3,198 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central de Soluções - IPÊ CONECT</title>
     
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="icon" href="https://gabriel2003fonseca-prog.github.io/IpeSearch/logo2.png?v=1" type="image/png">
-    
+
+    <title>IPÊ CONECT - Conexões que Transformam</title>
     <link rel="stylesheet" href="style.css">
-
+    
     <style>
-        /* --- ESTILOS GERAIS --- */
+        /* =========================================
+           ESTILOS GERAIS
+           ========================================= */
         * { box-sizing: border-box; }
-        
-        html, body {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Cinza claro estilo Zap */
-            color: #1e293b;
-            overflow-x: hidden;
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+
+        /* Estilo Moderno para Títulos */
+        .section-intro-modern {
+            text-align: center;
+            margin-bottom: 50px;
         }
 
-        /* AJUSTE PARA CHAT WIDGET NÃO ATRAPALHAR */
-        #chat-widget {
-            bottom: 20px !important;
-            right: 20px !important;
-            z-index: 1500 !important; /* Abaixo do header mas acima do conteúdo */
+        .main-title-modern {
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #002244, #00c2cb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            margin-bottom: 8px;
         }
 
-        /* --- CONTAINER PRINCIPAL --- */
-        .main-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: auto; /* Permite que o footer apareça abaixo */
-            margin-top: 120px; /* AUMENTADO: mais espaço para o header */
-            padding-top: 20px; 
-            padding-bottom: 40px;
-            padding-left: 20px;
-            padding-right: 20px;
-            margin-bottom: 150px; /* AUMENTADO: mais espaço para o footer */
+        .section-subtitle-modern {
+            font-size: 1.1rem;
+            color: #2d3748;
+            font-weight: 600;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
         }
 
-        /* CARTÃO FLUTUANTE (SPLIT) */
-        .split-layout {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            height: 65vh; /* REDUZIDO: para deixar espaço pro footer */
-            max-height: 600px; /* Altura máxima reduzida */
-            min-height: 500px;
-            background: white;
-            border-radius: 20px;
+        /* =========================================
+           NOVO ESTILO DAS ESTATÍSTICAS (ARRUMADO)
+           ========================================= */
+        .stats-bar {
+            background: linear-gradient(135deg, #0f172a 0%, #003366 100%); /* Fundo Azul Escuro Profundo */
+            padding: 80px 20px;
+            color: white;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.15);
-            border: 1px solid #e2e8f0;
+            margin-top: -5px; /* Remove linha branca se houver */
         }
 
-        /* LADO ESQUERDO (TEXTO) */
-        .info-side {
-            flex: 1;
-            padding: 60px;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border-right: 1px solid #e2e8f0;
+        /* Padrão de fundo sutil */
+        .stats-bar::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(0, 194, 203, 0.15) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.5;
+            pointer-events: none;
         }
 
-        .info-side h1 { 
-            font-size: 3rem; 
-            font-weight: 900; 
-            color: #0f172a; 
-            line-height: 1.1; 
-            margin-bottom: 20px; 
-        }
-        .info-side h1 span { color: #00c2cb; }
-        
-        .info-side p { 
-            font-size: 1.1rem; color: #64748b; line-height: 1.6; margin-bottom: 40px; 
-        }
-        
-        .steps { display: flex; flex-direction: column; gap: 25px; }
-        .step { display: flex; align-items: center; gap: 15px; }
-        
-        .step-icon { 
-            width: 40px; height: 40px; background: #e0f2fe; color: #0284c7; 
-            border-radius: 10px; display: flex; align-items: center; justify-content: center; 
-            font-weight: 800; font-size: 1rem;
-        }
-        .step-text { font-size: 1rem; color: #334155; font-weight: 600; }
-
-        /* LADO DIREITO (CHAT ESTILO APP) */
-        .chat-side {
-            flex: 1.4; /* Chat mais largo */
-            background: #efeae2; /* Fundo estilo WhatsApp Clean */
-            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); /* Pattern sutil opcional */
-            background-blend-mode: overlay;
-            display: flex;
-            flex-direction: column;
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
             position: relative;
+            z-index: 2;
         }
 
-        /* Cabeçalho do Chat */
-        .chat-header {
-            padding: 15px 25px;
-            background: #f0f2f5;
-            border-bottom: 1px solid #d1d7db;
-            display: flex; align-items: center; gap: 15px;
-            height: 70px;
-        }
-        .ai-avatar {
-            width: 45px; height: 45px; background: #00c2cb; color: white;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .ai-info h3 { margin: 0; font-size: 1rem; color: #111b21; }
-        .ai-info span { font-size: 0.8rem; color: #667781; }
-
-        /* Área de Mensagens (Scrollável) */
-        .chat-messages {
-            flex: 1;
-            padding: 20px 40px;
-            overflow-y: auto; /* IMPORTANTE: Barra de rolagem aqui */
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s ease;
         }
 
-        .message {
-            max-width: 80%;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            position: relative;
-            animation: fadeIn 0.3s ease;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        .stat-item:hover {
+            transform: translateY(-10px);
         }
 
-        /* Balão da IA (Branco) */
-        .message.bot {
-            background: white;
-            color: #111b21;
-            align-self: flex-start;
-            border-top-left-radius: 0;
-        }
-
-        /* Balão do Usuário (Verde/Azul) */
-        .message.user {
-            background: #d9fdd3; /* Verde Zap */
-            color: #111b21;
-            align-self: flex-end;
-            border-top-right-radius: 0;
-        }
-
-        /* Área de Input (Rodapé fixo do chat) */
-        .chat-input-area {
-            padding: 15px 20px;
-            background: #f0f2f5;
-            border-top: 1px solid #d1d7db;
-            display: flex; gap: 10px;
-            align-items: center;
-        }
-        .chat-input-area input {
-            flex: 1; 
-            padding: 12px 15px; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 1rem; 
-            outline: none; 
-            background: white;
-        }
-        .chat-input-area button {
-            background: #00a884; /* Verde Zap */
-            color: white; 
-            border: none; 
-            width: 45px; height: 45px; 
-            border-radius: 50%; 
-            cursor: pointer; 
-            font-size: 1.2rem;
+        .icon-wrapper {
+            width: 80px; height: 80px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            transition: 0.2s;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: #00c2cb; /* Cor Ciano da marca */
+            box-shadow: 0 0 20px rgba(0, 194, 203, 0.15);
+            transition: all 0.3s;
         }
-        .chat-input-area button:hover { background: #008f6f; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .stat-item:hover .icon-wrapper {
+            background: #00c2cb;
+            color: #002244;
+            box-shadow: 0 0 30px rgba(0, 194, 203, 0.4);
+        }
 
-        /* Responsividade Mobile */
-        @media (max-width: 900px) {
-            .main-container { margin-top: 80px; padding-top: 20px; padding-bottom: 0; }
-            .split-layout { flex-direction: column; height: auto; min-height: calc(100vh - 80px); border-radius: 0; }
-            .info-side { padding: 40px 20px; border-right: none; display: none; /* Esconde texto no mobile pra focar no chat */ }
-            .chat-side { height: calc(100vh - 80px); } /* Chat ocupa tela toda no mobile */
+        .stat-item h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            line-height: 1;
+            background: linear-gradient(to bottom, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .main-title-modern { font-size: 2rem; }
+            .section-subtitle-modern { font-size: 1rem; padding: 0 15px; }
+            .stat-item h2 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -202,145 +140,252 @@
 
     <script src="header.js"></script>
 
-    <div class="main-container">
-        <div class="split-layout">
+    <div class="hero">
+        <video class="video-bg" autoplay muted loop playsinline>
+            <source src="video.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+        
+        <div class="hero-content">
+            <a href="https://ipetech.ufla.br/" target="_blank" class="hero-subtitle">UMA INICIATIVA IPÊTECH UFLA</a>
+            <h2>CONEXÕES QUE TRANSFORMAM</h2>
+            <p>Onde o conhecimento cria raízes e os negócios dão frutos.</p>
             
-            <div class="info-side">
-                <h1>Qual é o seu <br><span>Desafio?</span></h1>
-                <p>Nossa IA analisa sua dor e busca soluções imediatas. Se não houver match, nossa equipe assume.</p>
-                
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">1</div>
-                        <div class="step-text">Descreva o problema ao lado.</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-icon">2</div>
-                        <div class="step-text">A IA verifica o banco de dados.</div>
-                    </div>
-                    <div class="step">
-                        <div class="step-icon">3</div>
-                        <div class="step-text">Conectamos você à solução.</div>
-                    </div>
-                </div>
+            <div class="hero-actions">
+                <a href="busca.html" class="btn-cta">ENCONTRAR PESQUISADORES</a>
+                <a href="busca-empresas.html" class="btn-cta" style="background: white !important; color: #003366 !important;">ENCONTRAR EMPRESAS</a>
             </div>
-
-            <div class="chat-side">
-                <div class="chat-header">
-                    <div class="ai-avatar"><i class="fas fa-robot"></i></div>
-                    <div class="ai-info">
-                        <h3>IPÊ.IA - Triagem</h3>
-                        <span>Online agora</span>
-                    </div>
-                </div>
-
-                <div class="chat-messages" id="chatBox">
-                    <div class="message bot">
-                        Olá! 👋 Sou a IA do Ipê Conect.
-                        <br><br>
-                        <strong>Para começar, me descreva: qual problema ou dor sua empresa precisa resolver hoje?</strong>
-                    </div>
-                </div>
-
-                <div class="chat-input-area">
-                    <input type="text" id="userInput" placeholder="Digite sua mensagem aqui..." onkeypress="handleEnter(event)">
-                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
-                </div>
-            </div>
-
         </div>
     </div>
 
-    <script src="header.js"></script>
+    <div class="stats-bar">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="icon-wrapper"><i class="fas fa-users"></i></div>
+                <h2>+<span class="counter" data-target="800">0</span></h2>
+                <p>Pesquisadores</p>
+            </div>
+            <div class="stat-item">
+                <div class="icon-wrapper"><i class="fas fa-flask"></i></div>
+                <h2>+<span class="counter" data-target="150">0</span></h2>
+                <p>Grupos de Pesquisa</p>
+            </div>
+            <div class="stat-item">
+                <div class="icon-wrapper"><i class="fas fa-project-diagram"></i></div>
+                <h2>+<span class="counter" data-target="3000">0</span></h2>
+                <p>Projetos Ativos</p>
+            </div>
+            <div class="stat-item">
+                <div class="icon-wrapper"><i class="fas fa-handshake"></i></div>
+                <h2>+<span class="counter" data-target="30">0</span></h2>
+                <p>Mentores</p>
+            </div>
+        </div>
+    </div>
+
+    <section id="como-funciona" style="margin-top: 80px; padding: 40px 20px;">
+        <div class="section-intro-modern">
+            <h2 class="main-title-modern">COMO FUNCIONA?</h2>
+            <p class="section-subtitle-modern">Conectamos seu desafio à solução ideal através de busca ou cadastro assistido por IA.</p>
+        </div>
+        
+        <div class="steps-grid">
+            <div class="step-card">
+                <span class="step-number">01</span>
+                <div class="step-title">Pesquise ou Cadastre</div>
+                <div class="step-text">
+                    <strong>Busque diretamente</strong> por pesquisadores/empresas filtrando competências, <strong>OU</strong> cadastre seu desafio e nossa <strong>IA + equipe especializada</strong> encontram a solução ideal.
+                </div>
+            </div>
+            <div class="step-card">
+                <span class="step-number">02</span>
+                <div class="step-title">Analise e Conecte</div>
+                <div class="step-text">Explore portfólios, linhas de pesquisa, mentores e empresas. Receba recomendações personalizadas ou matches automáticos da nossa IA.</div>
+            </div>
+            <div class="step-card">
+                <span class="step-number">03</span>
+                <div class="step-title">Transforme em Resultado</div>
+                <div class="step-text">Estabeleça parcerias estratégicas, acelere projetos e transforme conhecimento em <strong>vantagem competitiva e inovação real</strong>.</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre">
+        <div class="content-card mission-container">
+            <div class="mission-content">
+                <h3 class="section-badge">Nossa Missão</h3>
+                
+                <p class="mission-text">
+                    O <strong>IPÊ CONECT</strong> é a plataforma oficial de integração do ecossistema de inovação da 
+                    <span class="highlight-ufla">Universidade Federal de Lavras</span>.
+                </p>
+
+                <p class="mission-text">
+                    Nascido da visão estratégica do 
+                    <a href="https://ipetech.ufla.br/" target="_blank" class="highlight-ipetech">
+                        IpêTech – Parque Científico e Tecnológico da UFLA
+                    </a>, 
+                    nosso objetivo é encurtar a distância entre a excelência acadêmica e as demandas do setor produtivo através de <strong>busca direta</strong> ou <strong>cadastro assistido por IA</strong>.
+                </p>
+
+                <div class="mission-vision-box">
+                    <p>
+                        Acreditamos que a ciência de excelência deve servir como combustível para a competitividade das empresas. 
+                        Com mais de <strong>800 pesquisadores</strong>, <strong>150 grupos de pesquisa</strong>, <strong>3000 projetos</strong> e <strong>30+ mentores</strong>, 
+                        oferecemos <strong>busca livre</strong> por competências ou <strong>triagem inteligente por IA</strong> para encontrar a solução perfeita. 
+                        Quando não há match imediato, <strong>nossa equipe especializada assume</strong>. 
+                        Aqui, <strong class="impact-text">inovação deixa de ser um conceito e se torna um ativo econômico e social</strong>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mission-visual">
+                <div class="visual-wrapper">
+                    <i class="fas fa-seedling mission-icon-main"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato">
+        <div class="content-card contact-wrapper">
+            <div class="contact-info">
+                <h3 class="section-badge">Contato</h3>
+                <h2>Vamos transformar ideias em <span>inovação?</span></h2>
+                <p>Dúvidas, sugestões ou interesse em parcerias institucionais? Nossa equipe estratégica está pronta para te atender.</p>
+                
+                <div class="contact-direct">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <span>E-mail oficial</span>
+                            <p>ipestart@ufla.br</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <span>Localização</span>
+                            <p>IpêTech - Lavras, MG</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="contactForm" action="https://formsubmit.co/ipestart@ufla.br" method="POST" class="modern-form">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Nome Completo</label>
+                    <input type="text" name="nome" placeholder="Como podemos te chamar?" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-at"></i> E-mail</label>
+                    <input type="email" name="email" placeholder="seu@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-comment-alt"></i> Sua Mensagem</label>
+                    <textarea name="mensagem" rows="4" placeholder="Conte-nos sobre seu projeto ou dúvida..." required></textarea>
+                </div>
+
+                <div class="consent-container">
+                    <label class="modern-checkbox">
+                        <input type="checkbox" id="consentimento" required style="width: auto; margin-right: 10px;">
+                        <span>Estou de acordo com o tratamento dos meus dados conforme a <strong>LGPD</strong>.</span>
+                    </label>
+                </div>
+
+                <button type="submit" id="btnSubmit" class="btn-cta" style="width: 100%; justify-content: center; display: flex; align-items: center; gap: 10px;">
+                    <span>Enviar Mensagem</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
     <script src="footer.js"></script>
+    <script src="chat.js"></script>
 
     <script>
-        const SOLUTIONS_DB = [
-            { keywords: ['praga', 'café', 'lavoura', 'drone'], name: 'AgroCorp', desc: 'Monitoramento de pragas com drones.' },
-            { keywords: ['energia', 'custo', 'solar'], name: 'GreenEnergy', desc: 'Otimização de consumo energético.' },
-            { keywords: ['venda', 'marketing', 'lead'], name: 'SalesForceX', desc: 'Automação de funil de vendas.' }
-        ];
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- LÓGICA DO FORMULÁRIO (AJAX) ---
+        const contactForm = document.getElementById('contactForm');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const originalBtnContent = btnSubmit.innerHTML;
 
-        let step = 0; 
-        let ticketData = { problem: '', name: '', email: '' };
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        const chatBox = document.getElementById('chatBox');
-        const userInput = document.getElementById('userInput');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = 'Enviando... <i class="fas fa-spinner fa-spin"></i>';
 
-        function handleEnter(e) { if (e.key === 'Enter') sendMessage(); }
+            const formData = new FormData(contactForm);
 
-        function sendMessage() {
-            const text = userInput.value.trim();
-            if (!text) return;
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('✅ Mensagem enviada com sucesso!');
+                    contactForm.reset();
+                } else {
+                    alert('⚠️ Erro ao enviar. Tente novamente.');
+                }
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalBtnContent;
+            })
+            .catch(error => {
+                alert('⚠️ Erro ao enviar. Tente novamente.');
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalBtnContent;
+            });
+        });
 
-            appendMessage(text, 'user');
-            userInput.value = '';
-
-            if (step === 0) {
-                ticketData.problem = text;
-                showTyping();
-                setTimeout(() => { removeTyping(); checkSolutions(text); }, 1500);
-            } 
-            else if (step === 2) {
-                ticketData.name = text;
-                appendMessage(`Obrigado, ${text}. Por último, qual seu **e-mail corporativo**?`, 'bot');
-                step = 3;
+        // --- LÓGICA DOS CONTADORES (Estatísticas) ---
+        const counters = document.querySelectorAll('.counter');
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                counters.forEach(c => {
+                    const target = +c.getAttribute('data-target');
+                    const update = () => {
+                        const count = +c.innerText;
+                        const inc = target / 100;
+                        if(count < target) { 
+                            c.innerText = Math.ceil(count + inc); 
+                            setTimeout(update, 20); 
+                        } else { 
+                            c.innerText = target; 
+                        }
+                    }; 
+                    update();
+                });
+                observer.disconnect();
             }
-            else if (step === 3) {
-                ticketData.email = text;
-                finishRegistration();
-            }
-        }
+        }, { threshold: 0.5 });
+        
+        const stats = document.querySelector('.stats-bar');
+        if(stats) observer.observe(stats);
 
-        function checkSolutions(problemText) {
-            const lowerText = problemText.toLowerCase();
-            let found = null;
-            for (let sol of SOLUTIONS_DB) {
-                if (sol.keywords.some(k => lowerText.includes(k))) { found = sol; break; }
-            }
-
-            if (found) {
-                step = 1; 
-                appendMessage(`Encontrei uma solução! 💡<br><br>A empresa <strong>${found.name}</strong> faz: <em>${found.desc}</em>.<br><br>Digite <strong>"SIM"</strong> para conectar ou <strong>"NÃO"</strong> para continuar o cadastro.`, 'bot');
-            } else {
-                startRegistration();
-            }
-        }
-
-        function startRegistration() {
-            step = 2;
-            appendMessage("Entendido. Vamos cadastrar esse desafio para nossa equipe. <br><strong>Qual é o seu nome completo?</strong>", 'bot');
-        }
-
-        function finishRegistration() {
-            showTyping();
-            setTimeout(() => {
-                removeTyping();
-                appendMessage(`✅ **Desafio Cadastrado!**<br>Enviaremos detalhes para <strong>${ticketData.email}</strong>.`, 'bot');
-                userInput.disabled = true;
-                userInput.placeholder = "Atendimento finalizado.";
-            }, 1000);
-        }
-
-        function appendMessage(text, sender) {
-            const div = document.createElement('div');
-            div.classList.add('message', sender);
-            div.innerHTML = text;
-            chatBox.appendChild(div);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        function showTyping() {
-            const id = 'typing';
-            const html = `<div id="${id}" class="message bot">...</div>`;
-            chatBox.insertAdjacentHTML('beforeend', html);
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        function removeTyping() {
-            const el = document.getElementById('typing');
-            if (el) el.remove();
-        }
+        // --- ROLAGEM SUAVE ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) { 
+                    window.scrollTo({ 
+                        top: target.offsetTop - 90, 
+                        behavior: 'smooth' 
+                    }); 
+                }
+            });
+        });
+    });
     </script>
 </body>
 </html>
