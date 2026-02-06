@@ -1,206 +1,302 @@
 document.addEventListener('DOMContentLoaded', function() {
     const headerStyle = `
     <style>
-        /* RESET & BASE */
-        * { box-sizing: border-box; }
-        body { margin: 0; padding: 0; width: 100%; }
-
-        /* HEADER FIXO */
         #main-header {
-            background-color: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            height: 90px; 
+            background-color: #ffffff;
+            height: 100px; 
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 5%;
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 0; left: 0; width: 100%;
             z-index: 2000;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
         }
 
-        #main-header.scrolled { height: 70px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        #main-header.scrolled { height: 80px; }
 
-        /* LOGO */
+        /* LOGO - VISIBILIDADE TOTAL */
         .logo-link { 
-            text-decoration: none; 
-            display: flex; 
-            align-items: center;
-            z-index: 2001; /* Garante que o logo fique acima do menu mobile se precisar */
+            display: flex !important; 
+            align-items: center; 
+            flex-shrink: 0; 
+            min-width: 180px;
+            opacity: 1 !important;
+            visibility: visible !important;
+            text-decoration: none;
+            position: relative;
+            z-index: 2050 !important; /* Z-index muito alto */
         }
         
         .logo-img { 
-            height: 55px; 
+            height: 70px; 
             width: auto; 
-            transition: height 0.3s ease; 
-            display: block;
+            transition: all 0.3s ease; 
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
         
-        #main-header.scrolled .logo-img { height: 45px; }
+        #main-header.scrolled .logo-img { 
+            height: 55px;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
 
-        /* MENU CONTAINER */
-        .nav-container { display: flex; align-items: center; margin-left: auto; gap: 40px; }
-        .nav-links { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0; align-items: center; }
-        
+        /* CONTAINER DO MENU */
+        .nav-container { 
+            display: flex; 
+            align-items: center; 
+            margin-left: auto; 
+            gap: 40px; 
+        }
+
+        .nav-links { 
+            display: flex; 
+            gap: 30px;
+            list-style: none; 
+            align-items: center; 
+            margin: 0; 
+            padding: 0; 
+        }
+
         .nav-links li a {
-            color: #334155; 
+            color: #003366; 
             text-decoration: none; 
-            font-weight: 600;
-            font-size: 0.9rem; 
+            font-weight: 700;
+            font-size: 0.95rem; 
             text-transform: uppercase; 
-            letter-spacing: 0.5px;
-            white-space: nowrap; /* Impede quebra de linha no texto */
-            transition: color 0.2s;
+            white-space: nowrap;
+            transition: 0.2s;
         }
         .nav-links li a:hover { color: #00c2cb; }
 
-        /* BOTÃO PESQUISAR */
-        .nav-dropdown { position: relative; display: flex; align-items: center; }
+        /* DROPDOWN PESQUISAR */
+        .nav-dropdown { 
+            position: relative; 
+            display: inline-block; 
+            padding-bottom: 20px; 
+            margin-bottom: -20px;
+        }
 
         .btn-pesquisa-header {
-            background: #00c2cb;
+            background: #00c2cb; 
             color: white !important; 
-            padding: 10px 24px;
+            padding: 12px 28px; 
             border-radius: 50px; 
             display: flex; 
             align-items: center; 
-            gap: 8px;
+            gap: 10px;
             cursor: pointer;
-            font-size: 0.85rem; 
-            font-weight: 700;
+            font-size: 0.95rem; 
+            font-weight: 800;
             text-transform: uppercase;
             border: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 194, 203, 0.3);
-            white-space: nowrap;
+            transition: 0.3s;
         }
+        .btn-pesquisa-header:hover { background: #00a9b0; transform: translateY(-2px); }
 
-        .btn-pesquisa-header:hover { 
-            background: #009aa3; 
-            transform: translateY(-1px); 
-            box-shadow: 0 6px 15px rgba(0, 194, 203, 0.4);
-        }
-        
-        /* DROPDOWN */
         .dropdown-menu {
             display: none; 
             position: absolute; 
-            top: 130%; right: 0; 
+            top: 100%; 
+            right: 0; 
             background: white; 
-            min-width: 220px; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            border-radius: 12px; 
+            min-width: 230px; 
+            box-shadow: 0 10px 30px rgba(0,51,102,0.15);
+            border-radius: 15px; 
             padding: 10px 0; 
             list-style: none;
-            border: 1px solid #f1f5f9;
+            border: 1px solid #f0f0f0;
             z-index: 2100;
-            animation: fadeInDrop 0.2s ease forwards;
-            opacity: 0; transform: translateY(-10px);
         }
-        
-        @keyframes fadeInDrop { to { opacity: 1; transform: translateY(0); } }
 
+        .nav-dropdown::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 25px;
+            display: none;
+        }
+        .nav-dropdown:hover::after { display: block; }
         .nav-dropdown:hover .dropdown-menu { display: block; }
 
+        .dropdown-menu li { width: 100%; border: none !important; margin: 0 !important; }
         .dropdown-menu li a {
-            padding: 12px 20px;
-            display: flex; align-items: center; gap: 10px;
-            color: #475569 !important;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #003366 !important;
             text-transform: none !important;
             font-size: 0.95rem !important;
-            font-weight: 500 !important;
+            font-weight: 600 !important;
         }
-        .dropdown-menu li a:hover { background: #f0fdfe; color: #00c2cb !important; }
+        .dropdown-menu li a:hover { background: #f8fbfe; color: #00c2cb !important; }
 
-        /* HAMBURGER MENU (MOBILE) */
-        .mobile-menu-btn { 
+        /* MOBILE */
+        .mobile-menu-btn {
             display: none; 
-            font-size: 1.8rem; 
-            color: #0f172a; 
+            font-size: 2rem; 
+            color: #003366; 
+            cursor: pointer; 
             background: none; 
             border: none; 
-            cursor: pointer; 
-            padding: 5px;
-        }
-        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1999; }
-        .menu-overlay.active { display: block; }
-
-        /* --- RESPONSIVIDADE AVANÇADA --- */
-
-        /* 1. Telas Médias (Tablets Paisagem / Notebooks Pequenos) */
-        @media (max-width: 1300px) {
-            .nav-container { gap: 20px; }
-            .nav-links { gap: 20px; }
-            .nav-links li a { font-size: 0.8rem; } /* Reduz um pouco a fonte */
-            .btn-pesquisa-header { padding: 8px 16px; font-size: 0.8rem; }
+            margin-left: 20px;
+            z-index: 2200;
         }
 
-        /* 2. Telas Onde o Menu Quebra (Vira Mobile) */
-        @media (max-width: 1100px) {
-            #main-header { height: 70px; padding: 0 20px; }
-            .logo-img { height: 40px !important; } 
+        /* OVERLAY ESCURO */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 1200px) {
+            #main-header { 
+                height: 70px; 
+                padding: 0 20px;
+                background-color: #ffffff !important;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+            }
             
-            .mobile-menu-btn { display: block; }
-            .nav-container { gap: 0; } /* Remove gap no container pai */
+            #main-header.scrolled { height: 70px; }
             
-            /* Menu Lateral Deslizante */
+            .logo-img { 
+                height: 45px !important; 
+            }
+            
+            /* Garantir que o conteúdo não fique sob o header */
+            body {
+                padding-top: 0 !important;
+            }
+            
+            .mobile-menu-btn { 
+                display: block; 
+            }
+            
             .nav-links {
                 position: fixed; 
                 top: 0; 
-                right: -100%; /* Começa escondido */
-                width: 80%; 
-                max-width: 320px; 
+                right: -100%; 
+                width: 85%; 
+                max-width: 320px;
                 height: 100vh; 
                 background: white; 
                 flex-direction: column; 
-                padding: 90px 0 20px; /* Espaço pro topo */
-                box-shadow: -5px 0 20px rgba(0,0,0,0.1); 
-                transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-                align-items: stretch; /* Estica os itens */
+                padding: 80px 0 30px 0;
+                box-shadow: -10px 0 30px rgba(0,0,0,0.2); 
+                transition: right 0.4s ease; 
+                gap: 0;
+                align-items: stretch;
                 overflow-y: auto;
                 z-index: 2100;
-                gap: 0;
             }
             
-            .nav-links.active { right: 0; } /* Mostra menu */
-            
-            .nav-links li a { 
-                padding: 20px 30px; 
-                border-bottom: 1px solid #f1f5f9; 
-                display: block; 
+            .nav-links.active { 
+                right: 0; 
+            }
+
+            /* Itens do menu mobile */
+            .nav-links > li {
+                border-bottom: 1px solid #f0f0f0;
+                margin: 0 !important;
+            }
+
+            .nav-links > li > a {
+                padding: 18px 25px;
+                display: block;
                 font-size: 1rem;
+                white-space: normal;
             }
-            
-            /* Ajuste do Dropdown/Botão no Mobile */
+
+            /* DROPDOWN NO MOBILE */
             .nav-dropdown { 
-                display: block; 
                 width: 100%; 
-                padding: 20px 30px; 
-                border-bottom: 1px solid #f1f5f9; 
+                padding-bottom: 0; 
+                margin-bottom: 0;
             }
-            
-            .btn-pesquisa-header { 
-                width: 100%; 
-                justify-content: center; 
-                margin: 0; 
+
+            .btn-pesquisa-header {
+                width: 100%;
+                padding: 18px 25px;
+                border-radius: 0;
+                justify-content: space-between;
                 font-size: 1rem;
-                padding: 12px;
             }
-            
+
+            .btn-pesquisa-header .fa-chevron-down {
+                transition: transform 0.3s ease;
+            }
+
+            .nav-dropdown.open .btn-pesquisa-header .fa-chevron-down {
+                transform: rotate(180deg);
+            }
+
             .dropdown-menu { 
                 position: static; 
+                display: none;
                 box-shadow: none; 
                 border: none; 
-                display: block; 
-                opacity: 1; 
-                transform: none; 
-                padding-left: 10px; 
-                background: #f8fafc;
-                margin-top: 15px;
-                border-radius: 8px;
+                background: #f8fbfe; 
+                width: 100%;
+                border-radius: 0;
+                padding: 0;
+            }
+
+            .nav-dropdown.open .dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-menu li a {
+                padding: 15px 25px 15px 45px !important;
+                font-size: 0.9rem !important;
+            }
+
+            /* Fechar menu ao clicar nos links */
+            .nav-links a:not(.btn-pesquisa-header) {
+                position: relative;
+            }
+        }
+
+        /* Tablets */
+        @media (max-width: 768px) {
+            .nav-links {
+                width: 90%;
+                max-width: 280px;
+            }
+        }
+
+        /* Celulares pequenos */
+        @media (max-width: 480px) {
+            #main-header {
+                padding: 0 15px;
+            }
+            
+            .logo-img {
+                height: 40px !important;
+            }
+
+            .nav-links {
+                width: 100%;
+                max-width: 100%;
             }
         }
     </style>
@@ -220,13 +316,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li><a href="index.html#sobre">Nossa Missão</a></li>
                 <li><a href="cadastro.html">Quero Participar</a></li>
                 <li><a href="mentores.html">Mentores</a></li>
-                <li><a href="central.html">Central de Soluções</a></li>
+                <li><a href="desafios.html">Desafios</a></li>
                 <li><a href="index.html#contato">Fale Conosco</a></li>
-                <li class="nav-dropdown">
+                <li class="nav-dropdown" id="navDropdown">
                     <div class="btn-pesquisa-header">
-                        <i class="fas fa-search"></i>
-                        <span>Pesquisar</span>
-                        <i class="fas fa-chevron-down" style="font-size: 0.7em; opacity: 0.8;"></i>
+                        <span><i class="fas fa-search"></i> Pesquisar</span>
+                        <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
                     </div>
                     <ul class="dropdown-menu">
                         <li><a href="busca.html"><i class="fas fa-user-graduate"></i> Pesquisadores</a></li>
@@ -247,40 +342,65 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileBtn = document.getElementById('mobileBtn');
     const navLinks = document.getElementById('navLinks');
     const menuOverlay = document.getElementById('menuOverlay');
+    const navDropdown = document.getElementById('navDropdown');
+    const dropdownBtn = navDropdown.querySelector('.btn-pesquisa-header');
 
-    function toggleMenu() {
+    // Toggle menu mobile
+    mobileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         navLinks.classList.toggle('active');
         menuOverlay.classList.toggle('active');
-        
-        // Troca ícone do menu
-        const icon = mobileBtn.querySelector('i');
-        if (navLinks.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
+        mobileBtn.querySelector('i').classList.toggle('fa-bars');
+        mobileBtn.querySelector('i').classList.toggle('fa-times');
+        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+    });
+
+    // Fechar menu ao clicar no overlay
+    menuOverlay.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        mobileBtn.querySelector('i').classList.add('fa-bars');
+        mobileBtn.querySelector('i').classList.remove('fa-times');
+        document.body.style.overflow = '';
+    });
+
+    // Dropdown toggle no mobile
+    dropdownBtn.addEventListener('click', (e) => {
+        if (window.innerWidth <= 1200) {
+            e.preventDefault();
+            navDropdown.classList.toggle('open');
         }
-    }
+    });
 
-    mobileBtn.addEventListener('click', toggleMenu);
-    menuOverlay.addEventListener('click', toggleMenu);
-
-    // Fechar menu ao clicar em um link
-    const links = document.querySelectorAll('.nav-links a');
-    links.forEach(link => {
+    // Fechar menu ao clicar em links (exceto dropdown)
+    navLinks.querySelectorAll('a:not(.btn-pesquisa-header)').forEach(link => {
         link.addEventListener('click', () => {
-            if(window.innerWidth <= 1100) toggleMenu();
+            if (window.innerWidth <= 1200) {
+                navLinks.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                mobileBtn.querySelector('i').classList.add('fa-bars');
+                mobileBtn.querySelector('i').classList.remove('fa-times');
+                document.body.style.overflow = '';
+            }
         });
     });
 
-    // Lógica do Scroll
+    // Scroll header effect
     window.addEventListener('scroll', () => {
         const header = document.getElementById('main-header');
-        if (window.scrollY > 20) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+        if (window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+    });
+
+    // Fechar menu ao redimensionar para desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 1200) {
+            navLinks.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            navDropdown.classList.remove('open');
+            mobileBtn.querySelector('i').classList.add('fa-bars');
+            mobileBtn.querySelector('i').classList.remove('fa-times');
+            document.body.style.overflow = '';
         }
     });
 });
