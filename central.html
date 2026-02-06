@@ -28,9 +28,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            /* AUMENTADO: Padding gigante para o header nunca tampar */
-            padding-top: 140px; 
+            min-height: calc(100vh - 100px); /* Desconta altura do header */
+            margin-top: 100px; /* Espaço para o header fixo */
+            padding-top: 40px; 
             padding-bottom: 40px;
             padding-left: 20px;
             padding-right: 20px;
@@ -182,10 +182,10 @@
 
         /* Responsividade Mobile */
         @media (max-width: 900px) {
-            .main-container { padding-top: 120px; padding-bottom: 0; }
-            .split-layout { flex-direction: column; height: auto; min-height: 100vh; border-radius: 0; }
+            .main-container { margin-top: 80px; padding-top: 20px; padding-bottom: 0; }
+            .split-layout { flex-direction: column; height: auto; min-height: calc(100vh - 80px); border-radius: 0; }
             .info-side { padding: 40px 20px; border-right: none; display: none; /* Esconde texto no mobile pra focar no chat */ }
-            .chat-side { height: calc(100vh - 120px); } /* Chat ocupa tela toda no mobile */
+            .chat-side { height: calc(100vh - 80px); } /* Chat ocupa tela toda no mobile */
         }
     </style>
 </head>
