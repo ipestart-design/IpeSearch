@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Desafio com IA - IPÊ CONECT</title>
+    <title>Central de Soluções - IPÊ CONECT</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -12,75 +12,83 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- ESTILOS GERAIS --- */
+        /* --- ESTILOS GERAIS CLEAN --- */
         * { box-sizing: border-box; }
         
         html, body {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Inter', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
+            background-color: #f8fafc; /* Fundo Claro */
+            color: #1e293b; /* Texto Escuro */
             overflow-x: hidden;
         }
 
-        /* Fundo Dinâmico */
-        body::before {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            z-index: -2;
-        }
-        body::after {
-            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 194, 203, 0.1), transparent 60%);
-            z-index: -1; pointer-events: none;
-        }
-
-        /* --- LAYOUT CENTRALIZADO --- */
+        /* --- CONTAINER PRINCIPAL (CORREÇÃO DE ESPAÇAMENTO) --- */
         .main-container {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 120px 20px 40px; /* Espaço pro Header */
+            /* Padding aumentado para o Header não tampar */
+            padding: 180px 20px 60px; 
         }
 
         .split-layout {
             display: flex;
             width: 100%;
             max-width: 1200px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: white; /* Cartão Branco */
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            min-height: 600px;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+            border: 1px solid #e2e8f0;
+            min-height: 650px;
         }
 
-        /* Lado Esquerdo (Texto) */
+        /* LADO ESQUERDO (TEXTO) */
         .info-side {
             flex: 1;
             padding: 60px;
-            color: white;
+            background: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            border-right: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid #f1f5f9;
         }
 
-        .info-side h1 { font-size: 3rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
-        .info-side h1 span { color: #00c2cb; }
-        .info-side p { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; }
+        .info-side h1 { 
+            font-size: 3rem; 
+            font-weight: 900; 
+            color: #0f172a; /* Azul Escuro */
+            line-height: 1.1; 
+            margin-bottom: 20px; 
+        }
+        .info-side h1 span { color: #00c2cb; } /* Destaque Ciano */
         
-        .steps { display: flex; flex-direction: column; gap: 15px; }
+        .info-side p { 
+            font-size: 1.1rem; 
+            color: #64748b; /* Cinza médio */
+            line-height: 1.6; 
+            margin-bottom: 40px; 
+        }
+        
+        .steps { display: flex; flex-direction: column; gap: 20px; }
         .step { display: flex; align-items: center; gap: 15px; }
-        .step-icon { width: 40px; height: 40px; background: rgba(0,194,203,0.1); color: #00c2cb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .step-text { font-size: 0.95rem; color: #e2e8f0; }
+        
+        .step-icon { 
+            width: 45px; height: 45px; 
+            background: #f0fdfe; 
+            color: #00c2cb; 
+            border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: 800; font-size: 1.1rem;
+        }
+        .step-text { font-size: 1rem; color: #334155; font-weight: 500; }
 
-        /* Lado Direito (Chat) */
+        /* LADO DIREITO (CHAT) */
         .chat-side {
-            flex: 1.2;
-            background: #fff;
+            flex: 1.3;
+            background: #f8fafc;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -88,19 +96,20 @@
 
         .chat-header {
             padding: 20px 30px;
-            border-bottom: 1px solid #f1f5f9;
-            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
             display: flex; align-items: center; gap: 15px;
         }
         .ai-avatar {
-            width: 45px; height: 45px; background: #0f172a; color: #00c2cb;
+            width: 45px; height: 45px; background: #00c2cb; color: white;
             border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0, 194, 203, 0.3);
         }
         .ai-info h3 { margin: 0; font-size: 1.1rem; color: #0f172a; }
         .ai-info span { font-size: 0.8rem; color: #059669; font-weight: 600; display: flex; align-items: center; gap: 5px; }
         .dot { width: 8px; height: 8px; background: #059669; border-radius: 50%; animation: blink 2s infinite; }
 
-        /* Area de Mensagens */
+        /* MENSAGENS */
         .chat-messages {
             flex: 1;
             padding: 30px;
@@ -108,100 +117,80 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            background: #ffffff;
         }
 
         .message {
             max-width: 85%;
-            padding: 15px 20px;
-            border-radius: 12px;
+            padding: 16px 20px;
+            border-radius: 16px;
             font-size: 0.95rem;
             line-height: 1.5;
             position: relative;
             animation: slideUp 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
         }
 
         .message.bot {
-            background: #f1f5f9;
+            background: white;
             color: #334155;
             align-self: flex-start;
-            border-bottom-left-radius: 2px;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #e2e8f0;
         }
 
         .message.user {
-            background: #0f172a;
+            background: #0f172a; /* Azul Escuro */
             color: white;
             align-self: flex-end;
-            border-bottom-right-radius: 2px;
+            border-bottom-right-radius: 4px;
         }
 
-        /* Area de Input */
-        .chat-input-area {
-            padding: 20px 30px;
-            border-top: 1px solid #f1f5f9;
-            display: flex;
-            gap: 15px;
-            background: #fff;
-        }
-
-        .chat-input-area input {
-            flex: 1;
-            padding: 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 12px;
-            font-size: 1rem;
-            outline: none;
-            transition: border 0.3s;
-        }
-        .chat-input-area input:focus { border-color: #00c2cb; }
-
-        .chat-input-area button {
-            background: #00c2cb;
-            color: white;
-            border: none;
-            width: 50px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: 0.2s;
-        }
-        .chat-input-area button:hover { background: #009aa3; transform: scale(1.05); }
-
-        /* Elementos Interativos do Chat */
+        /* CARD DE SOLUÇÃO DENTRO DO CHAT */
         .chat-solution-card {
-            background: #f0fdfe;
+            background: white;
             border: 1px solid #00c2cb;
-            padding: 15px;
+            padding: 20px;
             border-radius: 12px;
             margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 194, 203, 0.1);
         }
-        .chat-solution-card h4 { margin: 0 0 5px 0; color: #003366; }
-        .chat-solution-card p { margin: 0 0 15px 0; font-size: 0.9rem; color: #555; }
+        .chat-solution-card h4 { margin: 0 0 5px 0; color: #003366; font-size: 1.1rem; }
+        .chat-solution-card p { margin: 0 0 15px 0; font-size: 0.9rem; color: #64748b; }
         
         .chat-actions { display: flex; gap: 10px; flex-wrap: wrap; }
         .action-btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: 0.2s;
+            flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: 0.2s;
         }
-        .btn-accept { background: #059669; color: white; }
-        .btn-accept:hover { background: #047857; }
+        .btn-accept { background: #00c2cb; color: white; }
+        .btn-accept:hover { background: #008c94; }
         
-        .btn-reject { background: #cbd5e1; color: #334155; }
-        .btn-reject:hover { background: #94a3b8; color: white; }
+        .btn-reject { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .btn-reject:hover { background: #e2e8f0; }
+
+        /* INPUT */
+        .chat-input-area {
+            padding: 20px 30px;
+            border-top: 1px solid #e2e8f0;
+            display: flex; gap: 15px;
+            background: white;
+        }
+        .chat-input-area input {
+            flex: 1; padding: 15px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 1rem; outline: none; transition: border 0.3s;
+        }
+        .chat-input-area input:focus { border-color: #00c2cb; }
+        .chat-input-area button {
+            background: #0f172a; color: white; border: none; width: 50px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; transition: 0.2s;
+        }
+        .chat-input-area button:hover { background: #00c2cb; }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Responsividade */
         @media (max-width: 900px) {
-            .split-layout { flex-direction: column; height: auto; }
-            .info-side { padding: 40px 20px; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .main-container { padding-top: 120px; }
+            .split-layout { flex-direction: column; height: auto; border-radius: 0; }
+            .info-side { padding: 40px 20px; border-right: none; border-bottom: 1px solid #e2e8f0; }
             .chat-side { height: 600px; }
         }
     </style>
@@ -215,16 +204,16 @@
             
             <div class="info-side">
                 <h1>Qual é o seu <br><span>Desafio?</span></h1>
-                <p>Nossa IA analisa sua dor e busca soluções imediatas. Se não tivermos a resposta agora, nossa equipe vai atrás para você.</p>
+                <p>Nossa IA analisa sua dor e busca soluções imediatas no banco de talentos da UFLA. Se não houver match, nossa equipe assume.</p>
                 
                 <div class="steps">
                     <div class="step">
                         <div class="step-icon">1</div>
-                        <div class="step-text">Descreva seu problema no chat.</div>
+                        <div class="step-text">Descreva seu problema no chat ao lado.</div>
                     </div>
                     <div class="step">
                         <div class="step-icon">2</div>
-                        <div class="step-text">A IA verifica nosso banco de soluções.</div>
+                        <div class="step-text">A IA verifica soluções existentes.</div>
                     </div>
                     <div class="step">
                         <div class="step-icon">3</div>
@@ -244,15 +233,14 @@
 
                 <div class="chat-messages" id="chatBox">
                     <div class="message bot">
-                        Olá! Sou a inteligência artificial do Ipê Conect. <br><br>
-                        Estou aqui para cadastrar seu desafio ou te conectar com quem já resolve ele.
+                        Olá! Sou a inteligência artificial do Ipê Conect.
                         <br><br>
-                        <strong>Para começar, me descreva: qual é o problema ou dor que você precisa resolver hoje?</strong>
+                        <strong>Para começar, me descreva: qual é o problema ou dor que sua empresa precisa resolver hoje?</strong>
                     </div>
                 </div>
 
                 <div class="chat-input-area">
-                    <input type="text" id="userInput" placeholder="Ex: Preciso reduzir custos com energia..." onkeypress="handleEnter(event)">
+                    <input type="text" id="userInput" placeholder="Ex: Preciso reduzir custos de energia..." onkeypress="handleEnter(event)">
                     <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -260,22 +248,18 @@
         </div>
     </div>
 
-    <script src="header.js"></script>
     <script src="footer.js"></script>
     <script>
         // ==========================================================
-        // BANCO DE DADOS SIMULADO (Substitua por API real)
+        // DADOS PARA A IA CONSULTAR (SIMULAÇÃO)
         // ==========================================================
-        const EXISTING_SOLUTIONS = [
+        const SOLUTIONS_DB = [
             { keywords: ['praga', 'café', 'lavoura', 'drone'], name: 'AgroCorp', desc: 'Monitoramento de pragas com drones e visão computacional.' },
             { keywords: ['energia', 'custo', 'solar', 'elétrica'], name: 'GreenEnergy', desc: 'Otimização de consumo energético industrial.' },
             { keywords: ['venda', 'marketing', 'lead', 'cliente'], name: 'SalesForceX', desc: 'Automação de funil de vendas B2B.' }
         ];
 
-        // ==========================================================
-        // LÓGICA DO FLUXO
-        // ==========================================================
-        let step = 0; // 0: Problema, 1: Decisão (Match), 2: Nome, 3: Email
+        let step = 0; 
         let ticketData = { problem: '', name: '', email: '' };
 
         const chatBox = document.getElementById('chatBox');
@@ -289,121 +273,99 @@
             const text = userInput.value.trim();
             if (!text) return;
 
-            // Adiciona msg do usuário
             appendMessage(text, 'user');
             userInput.value = '';
 
-            // Fluxo
+            // Fluxo da Conversa
             if (step === 0) {
-                // Usuário acabou de enviar o problema
                 ticketData.problem = text;
                 showTyping();
-                
-                setTimeout(() => {
-                    removeTyping();
-                    checkSolutions(text);
-                }, 1500);
+                setTimeout(() => { removeTyping(); checkSolutions(text); }, 1500);
             } 
             else if (step === 2) {
-                // Usuário enviou o nome
                 ticketData.name = text;
-                appendMessage(`Obrigado, ${text}. Por último, qual seu **e-mail corporativo** para entrarmos em contato?`, 'bot');
+                appendMessage(`Obrigado, ${text}. Por último, qual seu **e-mail corporativo**?`, 'bot');
                 step = 3;
             }
             else if (step === 3) {
-                // Usuário enviou email (Final)
                 ticketData.email = text;
                 finishRegistration();
             }
         }
 
-        // 1. CHECAR SE EXISTE SOLUÇÃO
         function checkSolutions(problemText) {
             const lowerText = problemText.toLowerCase();
             let found = null;
 
-            // Busca simples por palavra-chave (pode ser API aqui)
-            for (let sol of EXISTING_SOLUTIONS) {
+            for (let sol of SOLUTIONS_DB) {
                 if (sol.keywords.some(k => lowerText.includes(k))) {
-                    found = sol;
-                    break;
+                    found = sol; break;
                 }
             }
 
             if (found) {
-                // ACHOU MATCH!
-                step = 1; // Modo decisão
+                step = 1; 
                 const html = `
                     <div class="chat-solution-card">
                         <h4>Encontrei uma solução! 💡</h4>
-                        <p>Temos a empresa <strong>${found.name}</strong> no nosso banco que faz exatamente isso: <em>${found.desc}</em></p>
-                        <p>Isso resolve seu problema?</p>
+                        <p>A empresa <strong>${found.name}</strong> já resolve isso: <em>${found.desc}</em></p>
+                        <p>Isso te atende?</p>
                         <div class="chat-actions">
-                            <button class="action-btn btn-accept" onclick="acceptMatch('${found.name}')">Sim, me conectar!</button>
-                            <button class="action-btn btn-reject" onclick="rejectMatch()">Não, quero cadastrar meu problema</button>
+                            <button class="action-btn btn-accept" onclick="acceptMatch('${found.name}')">Sim, conectar!</button>
+                            <button class="action-btn btn-reject" onclick="rejectMatch()">Não, cadastrar problema</button>
                         </div>
                     </div>
                 `;
                 appendMessageHTML(html, 'bot');
             } else {
-                // NÃO ACHOU
                 startRegistration();
             }
         }
 
-        // 2. ACEITOU O MATCH
         function acceptMatch(companyName) {
-            appendMessageHTML(`<div class="message user">Sim, quero me conectar com a ${companyName}.</div>`, 'html-direct');
+            appendMessageHTML(`<div class="message user">Quero me conectar com a ${companyName}.</div>`, 'html-direct');
             showTyping();
             setTimeout(() => {
                 removeTyping();
-                appendMessage(`Perfeito! 🎉 Já notifiquei a ${companyName} sobre seu interesse. Eles entrarão em contato em breve. Mais alguma coisa?`, 'bot');
-                // Aqui você enviaria os dados para o backend
+                appendMessage(`Perfeito! 🎉 Já notifiquei a ${companyName}. Eles entrarão em contato.`, 'bot');
             }, 1000);
         }
 
-        // 3. REJEITOU O MATCH (OU NÃO TINHA) -> CADASTRO DE DOR
         function rejectMatch() {
-            appendMessageHTML(`<div class="message user">Não, quero cadastrar.</div>`, 'html-direct');
+            appendMessageHTML(`<div class="message user">Não, quero cadastrar meu problema.</div>`, 'html-direct');
             startRegistration();
         }
 
         function startRegistration() {
-            step = 2; // Pede Nome
-            appendMessage("Entendido. É um desafio específico e vamos tratar com nossa equipe de curadoria.", 'bot');
-            setTimeout(() => {
-                appendMessage("Para registrarmos esse chamado, qual é o seu **nome completo**?", 'bot');
-            }, 800);
+            step = 2;
+            appendMessage("Entendido. Vamos cadastrar esse desafio para nossa equipe analisar. <br><strong>Qual é o seu nome completo?</strong>", 'bot');
         }
 
-        // 4. FINALIZAÇÃO
         function finishRegistration() {
             showTyping();
-            // Aqui enviaria para o formsubmit ou backend
             setTimeout(() => {
                 removeTyping();
-                appendMessage(`✅ **Desafio Cadastrado com Sucesso!**<br><br>Recebemos sua demanda: <em>"${ticketData.problem}"</em>.<br><br>Nossa equipe vai analisar e buscar a solução ideal no mercado ou na universidade. Te avisaremos pelo email <strong>${ticketData.email}</strong>.`, 'bot');
+                appendMessage(`✅ **Desafio Cadastrado!**<br>Nossa equipe vai buscar a solução ideal e te avisaremos pelo email <strong>${ticketData.email}</strong>.`, 'bot');
                 userInput.disabled = true;
                 userInput.placeholder = "Atendimento finalizado.";
             }, 1500);
         }
 
-        // --- UTILITÁRIOS ---
+        // --- UTILS ---
         function appendMessage(text, sender) {
             const div = document.createElement('div');
             div.classList.add('message', sender);
-            div.innerHTML = text; // Permite HTML básico como <strong>
+            div.innerHTML = text;
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         function appendMessageHTML(html, type) {
             if(type === 'html-direct') {
-                // Adiciona o HTML bruto diretamente (usado para simular msg do usuario via clique)
                 chatBox.insertAdjacentHTML('beforeend', html);
             } else {
                 const div = document.createElement('div');
-                div.classList.add('message', type); // type = bot
+                div.classList.add('message', type);
                 div.innerHTML = html;
                 chatBox.appendChild(div);
             }
