@@ -12,29 +12,30 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- ESTILOS GERAIS DA PÁGINA --- */
+        /* --- ESTILOS GERAIS --- */
         * { box-sizing: border-box; }
         
+        /* CORRIGIDO: Body normal (sem flex), igual às outras páginas */
         html, body {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
             color: #1e293b;
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
         }
 
         /* --- CONTAINER PRINCIPAL --- */
+        /* Centraliza o conteúdo e dá espaço para o Header Fixo */
         .main-container {
+            width: 100%;
+            min-height: 100vh; /* Ocupa a tela toda */
             display: flex;
             align-items: center;
             justify-content: center;
-            flex: 1; /* Ocupa o espaço entre header e footer */
             
-            /* PADDING DE SEGURANÇA DO HEADER */
-            padding-top: 140px; 
-            padding-bottom: 60px;
+            /* ESPAÇAMENTO PARA O HEADER E FOOTER NÃO TAMPAREM */
+            padding-top: 120px; 
+            padding-bottom: 80px;
             padding-left: 20px;
             padding-right: 20px;
         }
@@ -51,6 +52,8 @@
             overflow: hidden;
             box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.15);
             border: 1px solid #e2e8f0;
+            position: relative;
+            z-index: 1; /* Garante que fique abaixo do header se houver sobreposição */
         }
 
         /* LADO ESQUERDO (TEXTO) */
@@ -152,10 +155,10 @@
 
         /* Mobile */
         @media (max-width: 900px) {
-            .main-container { padding-top: 100px; padding-bottom: 20px; }
-            .split-layout { flex-direction: column; height: auto; min-height: 80vh; border-radius: 15px; }
+            .main-container { padding-top: 100px; padding-bottom: 20px; display: block; min-height: auto; }
+            .split-layout { flex-direction: column; height: 700px; border-radius: 15px; }
             .info-side { display: none; }
-            .chat-side { height: 600px; }
+            .chat-side { height: 100%; }
         }
     </style>
 </head>
@@ -264,7 +267,7 @@
                 const html = `
                     <div class="chat-solution-card">
                         <h4>Encontrei uma solução! 💡</h4>
-                        <p>A empresa <strong>${found.name}</strong> faz: <em>${found.desc}</em></p>
+                        <p>A empresa <strong>${found.name}</strong> já resolve isso: <em>${found.desc}</em></p>
                         <p>Isso te atende?</p>
                         <div class="chat-actions">
                             <button class="action-btn btn-accept" onclick="acceptMatch('${found.name}')">Sim</button>
