@@ -85,17 +85,18 @@ document.addEventListener('DOMContentLoaded', function() {
         .btn-pesquisa-header {
             background: #00c2cb; 
             color: white !important; 
-            padding: 12px 28px; 
+            padding: 10px 22px; 
             border-radius: 50px; 
             display: flex; 
             align-items: center; 
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
-            font-size: 0.95rem; 
-            font-weight: 800;
+            font-size: 0.85rem; 
+            font-weight: 700;
             text-transform: uppercase;
             border: none;
             transition: 0.3s;
+            white-space: nowrap;
         }
         .btn-pesquisa-header:hover { background: #00a9b0; transform: translateY(-2px); }
 
@@ -316,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li><a href="index.html#sobre">Nossa Missão</a></li>
                 <li><a href="cadastro.html">Quero Participar</a></li>
                 <li><a href="mentores.html">Mentores</a></li>
-                <li><a href="central.html">Central de Soluções</a></li>
+                <li><a href="desafios.html">Desafios</a></li>
                 <li><a href="index.html#contato">Fale Conosco</a></li>
                 <li class="nav-dropdown" id="navDropdown">
                     <div class="btn-pesquisa-header">
