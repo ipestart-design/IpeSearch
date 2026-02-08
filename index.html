@@ -410,28 +410,38 @@
 
         // --- LÓGICA DOS CONTADORES ---
         const counters = document.querySelectorAll('.counter');
+        
+        function startCounters() {
+            counters.forEach(c => {
+                const target = +c.getAttribute('data-target');
+                let current = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        c.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        c.textContent = Math.ceil(current);
+                    }
+                }, 20);
+            });
+        }
+
+        // Inicia quando a seção stats aparecer na tela
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                counters.forEach(c => {
-                    const target = +c.getAttribute('data-target');
-                    const update = () => {
-                        const count = +c.innerText;
-                        const inc = target / 100;
-                        if(count < target) { 
-                            c.innerText = Math.ceil(count + inc); 
-                            setTimeout(update, 20); 
-                        } else { 
-                            c.innerText = target; 
-                        }
-                    }; 
-                    update();
-                });
-                observer.disconnect();
-            }
-        }, { threshold: 0.5 });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startCounters();
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
         
         const stats = document.querySelector('.stats-bar');
-        if(stats) observer.observe(stats);
+        if (stats) {
+            observer.observe(stats);
+        }
 
         // --- ROLAGEM SUAVE ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
