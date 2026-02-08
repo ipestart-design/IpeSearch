@@ -254,32 +254,32 @@
     <section id="como-funciona" style="margin-top: 100px; padding: 40px 20px;">
         <div class="section-intro-modern">
             <h2 class="main-title-modern">COMO FUNCIONA?</h2>
-            <p class="section-subtitle-modern">Conecte-se ao ecossistema de inovação em 3 passos estratégicos</p>
+            <p class="section-subtitle-modern">Três passos para conectar seu negócio ao conhecimento científico</p>
         </div>
         
         <div class="steps-grid">
             <div class="step-card">
                 <div class="step-icon"><i class="fas fa-search"></i></div>
                 <div class="step-number">01</div>
-                <div class="step-title">Busque ou Cadastre</div>
+                <div class="step-title">Busque</div>
                 <div class="step-text">
-                    Pesquise diretamente por <strong>pesquisadores, empresas e mentores</strong> filtrando por área de atuação, ou cadastre seu desafio tecnológico e nossa <strong>equipe especializada</strong> encontrará a solução adequada.
+                    Encontre pesquisadores, empresas e mentores especializados através de filtros por área de atuação e competências técnicas.
                 </div>
             </div>
             <div class="step-card">
                 <div class="step-icon"><i class="fas fa-handshake"></i></div>
                 <div class="step-number">02</div>
-                <div class="step-title">Analise e Conecte</div>
+                <div class="step-title">Conecte</div>
                 <div class="step-text">
-                    Explore portfólios, linhas de pesquisa e áreas de expertise. Receba <strong>recomendações personalizadas</strong> baseadas no perfil e necessidades do seu projeto.
+                    Analise portfólios, linhas de pesquisa e histórico de projetos. Estabeleça contato direto com os especialistas.
                 </div>
             </div>
             <div class="step-card">
                 <div class="step-icon"><i class="fas fa-rocket"></i></div>
                 <div class="step-number">03</div>
-                <div class="step-title">Transforme em Inovação</div>
+                <div class="step-title">Inove</div>
                 <div class="step-text">
-                    Estabeleça parcerias estratégicas, acelere projetos de P&D e transforme conhecimento científico em <strong>resultados mensuráveis para o seu negócio</strong>.
+                    Desenvolva parcerias estratégicas e transforme conhecimento científico em resultados para o seu negócio.
                 </div>
             </div>
         </div>
@@ -300,16 +300,13 @@
                     <a href="https://ipetech.ufla.br/" target="_blank" class="highlight-ipetech">
                         IpêTech – Parque Científico e Tecnológico da UFLA
                     </a>, 
-                    nosso objetivo é encurtar a distância entre a excelência acadêmica e as demandas do setor produtivo através de <strong>conexões estratégicas</strong> e <strong>soluções personalizadas</strong>.
+                    conectamos empresas a soluções científicas de ponta, encurtando a distância entre a academia e o mercado.
                 </p>
 
                 <div class="mission-vision-box">
                     <p>
-                        Acreditamos que a ciência de excelência deve servir como combustível para a competitividade das empresas. 
-                        Com mais de <strong>800 pesquisadores</strong>, <strong>150 grupos de pesquisa</strong>, <strong>3000 projetos</strong> e <strong>30+ mentores</strong>, 
-                        oferecemos <strong>busca especializada</strong> por competências e <strong>consultoria técnica</strong> para encontrar a solução ideal. 
-                        Nossa <strong>equipe dedicada</strong> garante o match perfeito entre desafios empresariais e conhecimento acadêmico. 
-                        Aqui, <strong class="impact-text">inovação deixa de ser um conceito e se torna um ativo econômico e social</strong>.
+                        Nossa plataforma facilita o acesso a pesquisadores, empresas parceiras e mentores especializados, 
+                        criando um ecossistema onde <strong class="impact-text">conhecimento científico se transforma em vantagem competitiva real</strong>.
                     </p>
                 </div>
             </div>
@@ -380,7 +377,7 @@
         </div>
     </section>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="header.js"></script>
+    <script src="header.js"></script>
     <script src="footer.js"></script>
     <script src="chat.js"></script>
 
@@ -425,25 +422,30 @@
 
         // --- LÓGICA DOS CONTADORES ---
         const counters = document.querySelectorAll('.counter');
+        let hasAnimated = false;
         
         function startCounters() {
+            if (hasAnimated) return;
+            hasAnimated = true;
+            
             counters.forEach(c => {
                 const target = +c.getAttribute('data-target');
                 let current = 0;
-                const increment = target / 100;
+                const increment = target / 80; // Divisor menor = animação mais rápida
+                
                 const timer = setInterval(() => {
                     current += increment;
                     if (current >= target) {
-                        c.textContent = target;
+                        c.textContent = target.toLocaleString('pt-BR');
                         clearInterval(timer);
                     } else {
-                        c.textContent = Math.ceil(current);
+                        c.textContent = Math.ceil(current).toLocaleString('pt-BR');
                     }
-                }, 20);
+                }, 25);
             });
         }
 
-        // Inicia quando a seção stats aparecer na tela
+        // Método 1: Observer quando stats aparecer
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -451,12 +453,19 @@
                     observer.disconnect();
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.2 });
         
         const stats = document.querySelector('.stats-bar');
         if (stats) {
             observer.observe(stats);
         }
+        
+        // Método 2: Fallback após 2 segundos (caso observer falhe)
+        setTimeout(() => {
+            if (!hasAnimated) {
+                startCounters();
+            }
+        }, 2000);
 
         // --- ROLAGEM SUAVE ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
