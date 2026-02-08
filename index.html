@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <title>IPÊ CONECT - Conexões que Transformam</title>
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="style.css?v=6.0">
     
     <style>
-        /* RESET GLOBAL PARA EVITAR OVERFLOW */
+        /* RESET GLOBAL */
         * { 
             box-sizing: border-box; 
             margin: 0;
@@ -26,7 +26,7 @@
             overflow-x: hidden;
         }
 
-        /* Estilo Moderno e Equilibrado para as Seções */
+        /* TÍTULOS DAS SEÇÕES */
         .section-intro-modern {
             text-align: center;
             margin-bottom: 50px;
@@ -53,32 +53,283 @@
             opacity: 0.9;
         }
 
+        /* ESTATÍSTICAS */
+        .stats-bar {
+            background: white;
+            padding: 50px 20px;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            background: #f8fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(135deg, #003366, #00c2cb);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            border-color: #00c2cb;
+            background: white;
+            box-shadow: 0 8px 20px rgba(0, 194, 203, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .stat-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .icon-wrapper {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #e0f2fe, #bfdbfe);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #0284c7;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover .icon-wrapper {
+            background: linear-gradient(135deg, #003366, #00c2cb);
+            color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .stat-item h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 0;
+            color: #0f172a;
+            line-height: 1;
+            transition: color 0.3s;
+        }
+
+        .stat-item:hover h2 {
+            color: #00c2cb;
+        }
+
+        .stat-item p {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 600;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* COMO FUNCIONA */
+        #como-funciona {
+            background: #f8fafb;
+            padding: 80px 20px;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .step-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #003366, #00c2cb);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            border-color: #00c2cb;
+            box-shadow: 0 10px 30px rgba(0, 194, 203, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .step-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .step-number {
+            display: inline-block;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00c2cb;
+            opacity: 0.2;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .step-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 15px;
+        }
+
+        .step-text {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* NOSSA MISSÃO */
+        #sobre {
+            background: white;
+            padding: 80px 20px;
+        }
+
+        .mission-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 50px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .mission-content {
+            padding-right: 20px;
+        }
+
+        /* RESPONSIVIDADE */
         @media (max-width: 768px) {
             .main-title-modern { font-size: 2rem; }
             .section-subtitle-modern { font-size: 1rem; padding: 0 15px; }
             
-            /* Hero mobile */
             .hero { padding: 120px 20px 60px; }
             .hero-content h2 { font-size: 2.5rem; }
             .hero-content p { font-size: 1.1rem; }
             .hero-actions { flex-direction: column; gap: 15px; }
             .btn-cta { width: 100%; text-align: center; }
             
-            /* Stats mobile */
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-            .stat-item h2 { font-size: 2rem; }
-            
-            /* Steps mobile */
-            .steps-grid { grid-template-columns: 1fr; }
+            .stats-bar { padding: 40px 15px; }
+            .stats-grid { 
+                gap: 12px; 
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .stat-item { 
+                padding: 15px;
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .icon-wrapper { 
+                width: 40px; 
+                height: 40px; 
+                font-size: 1.1rem;
+            }
+            .stat-info { align-items: center; }
+            .stat-item h2 { font-size: 1.5rem; }
+            .stat-item p { font-size: 0.65rem; }
         }
 
         @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: 1fr; }
             .hero-content h2 { font-size: 2rem; }
+            .stats-grid { gap: 10px; }
+            .stat-item { padding: 12px; }
+            .stat-item h2 { font-size: 1.3rem; }
+        }
+
+        @media (max-width: 900px) {
+            #como-funciona { padding: 60px 15px; }
+            #sobre { padding: 60px 15px; }
+            
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 15px;
+            }
+            .step-card { padding: 30px 25px; }
+            .step-number { font-size: 2.5rem; }
+            .step-title { font-size: 1.5rem; }
+            
+            .mission-container {
+                grid-template-columns: 1fr;
+                padding: 30px 20px;
+            }
+            .mission-content { padding-right: 0; }
+        }
+
+        @media (max-width: 480px) {
+            #como-funciona { padding: 40px 10px; }
+            #sobre { padding: 40px 10px; }
+            
+            .step-card {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+            .step-number { font-size: 2rem; }
+            .step-title { font-size: 1.3rem; }
+            .step-text { font-size: 0.95rem; }
+            
+            .mission-container {
+                padding: 25px 15px;
+                border-radius: 12px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <script src="header.js"></script>
 
     <div class="hero">
         <video class="video-bg" autoplay muted loop playsinline>
@@ -131,158 +382,7 @@
         </div>
     </div>
 
-    <style>
-        /* ===== ESTATÍSTICAS COMPACTAS HORIZONTAIS ===== */
-        .stats-bar {
-            background: white;
-            padding: 50px 20px;
-            border-top: 1px solid #e5e7eb;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .stats-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        /* Card horizontal compacto */
-        .stat-item {
-            background: #f8fafb;
-            border: 2px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 20px 25px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(135deg, #003366, #00c2cb);
-            transform: scaleY(0);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-item:hover {
-            border-color: #00c2cb;
-            background: white;
-            box-shadow: 0 8px 20px rgba(0, 194, 203, 0.12);
-            transform: translateY(-3px);
-        }
-
-        .stat-item:hover::before {
-            transform: scaleY(1);
-        }
-
-        /* Ícone compacto */
-        .icon-wrapper {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #e0f2fe, #bfdbfe);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #0284c7;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover .icon-wrapper {
-            background: linear-gradient(135deg, #003366, #00c2cb);
-            color: white;
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* Info */
-        .stat-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .stat-item h2 {
-            font-size: 2rem;
-            font-weight: 900;
-            margin: 0;
-            color: #0f172a;
-            line-height: 1;
-            transition: color 0.3s;
-        }
-
-        .stat-item:hover h2 {
-            color: #00c2cb;
-        }
-
-        .stat-item p {
-            font-size: 0.85rem;
-            color: #64748b;
-            font-weight: 600;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .stats-bar { padding: 40px 15px; }
-            .stats-grid { 
-                gap: 12px; 
-                grid-template-columns: repeat(2, 1fr);
-                max-width: 100%;
-            }
-            .stat-item { 
-                padding: 15px;
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            .icon-wrapper { 
-                width: 40px; 
-                height: 40px; 
-                font-size: 1.1rem;
-                margin: 0 auto;
-            }
-            .stat-info {
-                align-items: center;
-            }
-            .stat-item h2 { 
-                font-size: 1.5rem;
-            }
-            .stat-item p { 
-                font-size: 0.65rem;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid { 
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            .stat-item {
-                padding: 12px;
-            }
-            .stat-item h2 {
-                font-size: 1.3rem;
-            }
-        }
-    </style>
-
-    <section id="como-funciona" style="margin-top: 100px; padding: 40px 20px;">
+    <section id="como-funciona">
         <div class="section-intro-modern">
             <h2 class="main-title-modern">COMO FUNCIONA?</h2>
             <p class="section-subtitle-modern">Três passos para conectar seu negócio ao conhecimento científico</p>
@@ -405,53 +505,40 @@
         </div>
     </section>
 
-    <script src="header.js"></script>
     <script src="footer.js"></script>
     <script src="chat.js"></script>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- LÓGICA DO FORMULÁRIO (AJAX) ---
         const contactForm = document.getElementById('contactForm');
         const btnSubmit = document.getElementById('btnSubmit');
         const originalBtnContent = btnSubmit.innerHTML;
 
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = 'Enviando... <i class="fas fa-spinner fa-spin"></i>';
 
-            const formData = new FormData(contactForm);
-
             fetch(contactForm.action, {
                 method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                body: new FormData(contactForm),
+                headers: { 'Accept': 'application/json' }
             })
             .then(response => {
-                if (response.ok) {
-                    alert('✅ Mensagem enviada com sucesso!');
-                    contactForm.reset();
-                } else {
-                    alert('⚠️ Erro ao enviar. Tente novamente.');
-                }
+                alert(response.ok ? '✅ Mensagem enviada!' : '⚠️ Erro ao enviar.');
+                if (response.ok) contactForm.reset();
                 btnSubmit.disabled = false;
                 btnSubmit.innerHTML = originalBtnContent;
             })
-            .catch(error => {
-                alert('⚠️ Erro ao enviar. Tente novamente.');
+            .catch(() => {
+                alert('⚠️ Erro ao enviar.');
                 btnSubmit.disabled = false;
                 btnSubmit.innerHTML = originalBtnContent;
             });
         });
 
-        // --- CONTADORES DAS ESTATÍSTICAS ---
-        const counters = document.querySelectorAll('.counter');
-        
-        counters.forEach(counter => {
+        // CONTADORES
+        document.querySelectorAll('.counter').forEach(counter => {
             const target = parseInt(counter.getAttribute('data-target'));
             let current = 0;
             const increment = Math.ceil(target / 50);
@@ -467,133 +554,16 @@
             }, 30);
         });
 
-        // --- ROLAGEM SUAVE ---
+        // SCROLL SUAVE
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) { 
-                    window.scrollTo({ 
-                        top: target.offsetTop - 90, 
-                        behavior: 'smooth' 
-                    }); 
-                }
+                if (target) window.scrollTo({ top: target.offsetTop - 90, behavior: 'smooth' });
             });
         });
     });
     </script>
-
-<style>
-/* ===== CARDS COMO FUNCIONA REDESENHADOS ===== */
-.steps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.step-card {
-    background: white;
-    border: 2px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 40px 30px;
-    text-align: left;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.step-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #003366, #00c2cb);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.step-card:hover {
-    border-color: #00c2cb;
-    box-shadow: 0 10px 30px rgba(0, 194, 203, 0.15);
-    transform: translateY(-5px);
-}
-
-.step-card:hover::before {
-    transform: scaleX(1);
-}
-
-.step-number {
-    display: inline-block;
-    font-size: 3rem;
-    font-weight: 900;
-    color: #00c2cb;
-    opacity: 0.2;
-    line-height: 1;
-    margin-bottom: 20px;
-}
-
-.step-title {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #0f172a;
-    margin-bottom: 15px;
-}
-
-.step-text {
-    font-size: 1rem;
-    color: #64748b;
-    line-height: 1.7;
-}
-
-/* AJUSTE SEÇÃO NOSSA MISSÃO */
-#sobre {
-    background: white;
-    padding: 80px 20px;
-}
-
-.mission-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: #f8fafb;
-    border: 2px solid #e5e7eb;
-    border-radius: 16px;
-    padding: 50px;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 40px;
-    align-items: center;
-}
-
-@media (max-width: 900px) {
-    .mission-container {
-        grid-template-columns: 1fr;
-        padding: 30px 20px;
-    }
-    
-    .steps-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 0 15px;
-    }
-    
-    .step-card {
-        padding: 30px 25px;
-    }
-    
-    .step-number {
-        font-size: 2.5rem;
-    }
-    
-    .step-title {
-        font-size: 1.5rem;
-    }
-}
-</style>
 
 </body>
 </html>
