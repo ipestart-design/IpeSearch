@@ -89,27 +89,197 @@
     <div class="stats-bar">
         <div class="stats-grid">
             <div class="stat-item">
-                <div class="icon-wrapper"><i class="fas fa-users"></i></div>
-                <h2>+<span class="counter" data-target="800">0</span></h2>
-                <p>Pesquisadores</p>
+                <div class="stat-card">
+                    <div class="icon-wrapper"><i class="fas fa-users"></i></div>
+                    <h2>+<span class="counter" data-target="800">0</span></h2>
+                    <p>Pesquisadores</p>
+                    <div class="stat-decoration"></div>
+                </div>
             </div>
             <div class="stat-item">
-                <div class="icon-wrapper"><i class="fas fa-layer-group"></i></div>
-                <h2>+<span class="counter" data-target="150">0</span></h2>
-                <p>Grupos de Pesquisa</p>
+                <div class="stat-card">
+                    <div class="icon-wrapper"><i class="fas fa-layer-group"></i></div>
+                    <h2>+<span class="counter" data-target="150">0</span></h2>
+                    <p>Grupos de Pesquisa</p>
+                    <div class="stat-decoration"></div>
+                </div>
             </div>
             <div class="stat-item">
-                <div class="icon-wrapper"><i class="fas fa-file-alt"></i></div>
-                <h2>+<span class="counter" data-target="3000">0</span></h2>
-                <p>Projetos Cadastrados</p>
+                <div class="stat-card">
+                    <div class="icon-wrapper"><i class="fas fa-file-alt"></i></div>
+                    <h2>+<span class="counter" data-target="3000">0</span></h2>
+                    <p>Projetos Cadastrados</p>
+                    <div class="stat-decoration"></div>
+                </div>
             </div>
             <div class="stat-item">
-                <div class="icon-wrapper"><i class="fas fa-user-tie"></i></div>
-                <h2>+<span class="counter" data-target="30">0</span></h2>
-                <p>Mentores</p>
+                <div class="stat-card">
+                    <div class="icon-wrapper"><i class="fas fa-user-tie"></i></div>
+                    <h2>+<span class="counter" data-target="30">0</span></h2>
+                    <p>Mentores</p>
+                    <div class="stat-decoration"></div>
+                </div>
             </div>
         </div>
     </div>
+
+    <style>
+        /* ===== ESTATÍSTICAS PREMIUM COM GLASSMORPHISM ===== */
+        .stats-bar {
+            background: linear-gradient(135deg, #0a1628 0%, #001a33 50%, #003366 100%);
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efeito de partículas/estrelas */
+        .stats-bar::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent);
+            background-size: 200% 200%;
+            animation: stars 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes stars {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-item {
+            perspective: 1000px;
+        }
+
+        /* Card com glassmorphism */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            background: rgba(0, 194, 203, 0.1);
+            border-color: rgba(0, 194, 203, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 194, 203, 0.3);
+        }
+
+        /* Decoração de canto */
+        .stat-decoration {
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 194, 203, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .stat-card:hover .stat-decoration {
+            opacity: 1;
+        }
+
+        /* Ícone com gradiente */
+        .icon-wrapper {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #00c2cb, #0ea5e9);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 194, 203, 0.4);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+
+        .stat-card:hover .icon-wrapper {
+            transform: rotateY(360deg);
+            box-shadow: 0 15px 40px rgba(0, 194, 203, 0.6);
+        }
+
+        .stat-card:hover .icon-wrapper::before {
+            left: 100%;
+        }
+
+        /* Números com brilho */
+        .stat-card h2 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 20px 0 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #00c2cb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 194, 203, 0.5);
+            position: relative;
+        }
+
+        /* Texto */
+        .stat-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .stats-bar { padding: 60px 15px; }
+            .stats-grid { gap: 20px; grid-template-columns: repeat(2, 1fr); }
+            .stat-card { padding: 30px 20px; }
+            .icon-wrapper { width: 70px; height: 70px; font-size: 2rem; }
+            .stat-card h2 { font-size: 2.5rem; }
+            .stat-card p { font-size: 0.8rem; letter-spacing: 1px; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .stat-card h2 { font-size: 3rem; }
+        }
+    </style>
 
     <section id="como-funciona" style="margin-top: 100px; padding: 40px 20px;">
         <div class="section-intro-modern">
