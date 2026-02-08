@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <li><a href="index.html">Início</a></li>
                     <li><a href="index.html#sobre">Nossa Missão</a></li>
                     <li><a href="mentores.html">Mentores</a></li>
-                    <li><a href="desafios.html">Desafios</a></li>
+                    <li><a href="central.html">Central de Soluções</a></li>
                 </ul>
             </div>
 
