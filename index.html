@@ -14,6 +14,18 @@
     <link rel="stylesheet" href="style.css?v=5.0">
     
     <style>
+        /* RESET GLOBAL PARA EVITAR OVERFLOW */
+        * { 
+            box-sizing: border-box; 
+            margin: 0;
+            padding: 0;
+        }
+        
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
         /* Estilo Moderno e Equilibrado para as Seções */
         .section-intro-modern {
             text-align: center;
@@ -242,29 +254,32 @@
     <section id="como-funciona" style="margin-top: 100px; padding: 40px 20px;">
         <div class="section-intro-modern">
             <h2 class="main-title-modern">COMO FUNCIONA?</h2>
-            <p class="section-subtitle-modern">Conecte-se ao ecossistema de inovação em 3 passos simples</p>
+            <p class="section-subtitle-modern">Conecte-se ao ecossistema de inovação em 3 passos estratégicos</p>
         </div>
         
         <div class="steps-grid">
             <div class="step-card">
-                <span class="step-number">01</span>
+                <div class="step-icon"><i class="fas fa-search"></i></div>
+                <div class="step-number">01</div>
                 <div class="step-title">Busque ou Cadastre</div>
                 <div class="step-text">
-                    Pesquise diretamente por <strong>pesquisadores, empresas e mentores</strong> filtrando por área de atuação, ou cadastre seu desafio e deixe nossa <strong>IA encontrar a solução perfeita</strong> para você.
+                    Pesquise diretamente por <strong>pesquisadores, empresas e mentores</strong> filtrando por área de atuação, ou cadastre seu desafio tecnológico e nossa <strong>equipe especializada</strong> encontrará a solução adequada.
                 </div>
             </div>
             <div class="step-card">
-                <span class="step-number">02</span>
+                <div class="step-icon"><i class="fas fa-handshake"></i></div>
+                <div class="step-number">02</div>
                 <div class="step-title">Analise e Conecte</div>
                 <div class="step-text">
-                    Explore portfólios, linhas de pesquisa e áreas de expertise. Receba <strong>recomendações personalizadas</strong> ou matches automáticos baseados no seu desafio.
+                    Explore portfólios, linhas de pesquisa e áreas de expertise. Receba <strong>recomendações personalizadas</strong> baseadas no perfil e necessidades do seu projeto.
                 </div>
             </div>
             <div class="step-card">
-                <span class="step-number">03</span>
+                <div class="step-icon"><i class="fas fa-rocket"></i></div>
+                <div class="step-number">03</div>
                 <div class="step-title">Transforme em Inovação</div>
                 <div class="step-text">
-                    Estabeleça parcerias estratégicas, acelere projetos de P&D e transforme conhecimento científico em <strong>resultados concretos para o seu negócio</strong>.
+                    Estabeleça parcerias estratégicas, acelere projetos de P&D e transforme conhecimento científico em <strong>resultados mensuráveis para o seu negócio</strong>.
                 </div>
             </div>
         </div>
@@ -285,15 +300,15 @@
                     <a href="https://ipetech.ufla.br/" target="_blank" class="highlight-ipetech">
                         IpêTech – Parque Científico e Tecnológico da UFLA
                     </a>, 
-                    nosso objetivo é encurtar a distância entre a excelência acadêmica e as demandas do setor produtivo através de <strong>busca direta</strong> ou <strong>cadastro assistido por IA</strong>.
+                    nosso objetivo é encurtar a distância entre a excelência acadêmica e as demandas do setor produtivo através de <strong>conexões estratégicas</strong> e <strong>soluções personalizadas</strong>.
                 </p>
 
                 <div class="mission-vision-box">
                     <p>
                         Acreditamos que a ciência de excelência deve servir como combustível para a competitividade das empresas. 
                         Com mais de <strong>800 pesquisadores</strong>, <strong>150 grupos de pesquisa</strong>, <strong>3000 projetos</strong> e <strong>30+ mentores</strong>, 
-                        oferecemos <strong>busca livre</strong> por competências ou <strong>triagem inteligente por IA</strong> para encontrar a solução perfeita. 
-                        Quando não há match imediato, <strong>nossa equipe especializada assume</strong>. 
+                        oferecemos <strong>busca especializada</strong> por competências e <strong>consultoria técnica</strong> para encontrar a solução ideal. 
+                        Nossa <strong>equipe dedicada</strong> garante o match perfeito entre desafios empresariais e conhecimento acadêmico. 
                         Aqui, <strong class="impact-text">inovação deixa de ser um conceito e se torna um ativo econômico e social</strong>.
                     </p>
                 </div>
@@ -319,7 +334,7 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <span>E-mail oficial</span>
-                            <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b627b6e787f6a797f4b7e6d676a256979">[email&#160;protected]</a></p>
+                            <p>ipestart@ufla.br</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -410,28 +425,159 @@
 
         // --- LÓGICA DOS CONTADORES ---
         const counters = document.querySelectorAll('.counter');
+        
+        function startCounters() {
+            counters.forEach(c => {
+                const target = +c.getAttribute('data-target');
+                let current = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        c.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        c.textContent = Math.ceil(current);
+                    }
+                }, 20);
+            });
+        }
+
+        // Inicia quando a seção stats aparecer na tela
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                counters.forEach(c => {
-                    const target = +c.getAttribute('data-target');
-                    const update = () => {
-                        const count = +c.innerText;
-                        const inc = target / 100;
-                        if(count < target) { 
-                            c.innerText = Math.ceil(count + inc); 
-                            setTimeout(update, 20); 
-                        } else { 
-                            c.innerText = target; 
-                        }
-                    }; 
-                    update();
-                });
-                observer.disconnect();
-            }
-        }, { threshold: 0.5 });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    startCounters();
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
         
         const stats = document.querySelector('.stats-bar');
-        if(stats) observer.observe(stats);
+        if (stats) {
+            observer.observe(stats);
+        }
 
         // --- ROLAGEM SUAVE ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+<style>
+/* ===== CARDS COMO FUNCIONA REDESENHADOS ===== */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.step-card {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #003366, #00c2cb);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.step-card:hover {
+    border-color: #00c2cb;
+    box-shadow: 0 10px 30px rgba(0, 194, 203, 0.15);
+    transform: translateY(-8px);
+}
+
+.step-card:hover::before {
+    transform: scaleX(1);
+}
+
+.step-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #e0f2fe, #bfdbfe);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2.5rem;
+    color: #0284c7;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover .step-icon {
+    background: linear-gradient(135deg, #003366, #00c2cb);
+    color: white;
+    transform: scale(1.1) rotate(5deg);
+}
+
+.step-number {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #00c2cb;
+    background: #e0f2fe;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+}
+
+.step-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.step-text {
+    font-size: 1rem;
+    color: #64748b;
+    line-height: 1.7;
+}
+
+/* AJUSTE SEÇÃO NOSSA MISSÃO PARA ACOMPANHAR */
+#sobre {
+    background: white;
+    padding: 80px 20px;
+}
+
+.mission-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #f8fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 50px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .mission-container {
+        grid-template-columns: 1fr;
+        padding: 30px 20px;
+    }
+    
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
