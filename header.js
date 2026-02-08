@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li><a href="index.html#sobre">Nossa Missão</a></li>
                 <li><a href="cadastro.html">Quero Participar</a></li>
                 <li><a href="mentores.html">Mentores</a></li>
-                <li><a href="desafios.html">Desafios</a></li>
+                <li><a href="central.html">Central de Soluções</a></li>
                 <li><a href="index.html#contato">Fale Conosco</a></li>
                 <li class="nav-dropdown" id="navDropdown">
                     <div class="btn-pesquisa-header">
