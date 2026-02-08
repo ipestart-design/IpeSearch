@@ -259,7 +259,6 @@
         
         <div class="steps-grid">
             <div class="step-card">
-                <div class="step-icon"><i class="fas fa-search"></i></div>
                 <div class="step-number">01</div>
                 <div class="step-title">Busque</div>
                 <div class="step-text">
@@ -267,7 +266,6 @@
                 </div>
             </div>
             <div class="step-card">
-                <div class="step-icon"><i class="fas fa-handshake"></i></div>
                 <div class="step-number">02</div>
                 <div class="step-title">Conecte</div>
                 <div class="step-text">
@@ -275,7 +273,6 @@
                 </div>
             </div>
             <div class="step-card">
-                <div class="step-icon"><i class="fas fa-rocket"></i></div>
                 <div class="step-number">03</div>
                 <div class="step-title">Inove</div>
                 <div class="step-text">
@@ -420,52 +417,32 @@
             });
         });
 
-        // --- LÓGICA DOS CONTADORES ---
-        const counters = document.querySelectorAll('.counter');
-        let hasAnimated = false;
-        
-        function startCounters() {
-            if (hasAnimated) return;
-            hasAnimated = true;
+        // --- LÓGICA DOS CONTADORES (VERSÃO SIMPLES QUE FUNCIONA) ---
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
             
-            counters.forEach(c => {
-                const target = +c.getAttribute('data-target');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000; // 2 segundos
+                const step = target / (duration / 16); // 60fps
                 let current = 0;
-                const increment = target / 80; // Divisor menor = animação mais rápida
                 
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        c.textContent = target.toLocaleString('pt-BR');
-                        clearInterval(timer);
+                const updateCounter = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
                     } else {
-                        c.textContent = Math.ceil(current).toLocaleString('pt-BR');
+                        counter.textContent = target;
                     }
-                }, 25);
+                };
+                
+                updateCounter();
             });
         }
-
-        // Método 1: Observer quando stats aparecer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    startCounters();
-                    observer.disconnect();
-                }
-            });
-        }, { threshold: 0.2 });
         
-        const stats = document.querySelector('.stats-bar');
-        if (stats) {
-            observer.observe(stats);
-        }
-        
-        // Método 2: Fallback após 2 segundos (caso observer falhe)
-        setTimeout(() => {
-            if (!hasAnimated) {
-                startCounters();
-            }
-        }, 2000);
+        // Inicia IMEDIATAMENTE após 500ms
+        setTimeout(animateCounters, 500);
 
         // --- ROLAGEM SUAVE ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -473,7 +450,7 @@
 /* ===== CARDS COMO FUNCIONA REDESENHADOS ===== */
 .steps-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
@@ -485,9 +462,8 @@
     border: 2px solid #e5e7eb;
     border-radius: 16px;
     padding: 40px 30px;
-    text-align: center;
+    text-align: left;
     transition: all 0.3s ease;
-    cursor: pointer;
     position: relative;
     overflow: hidden;
 }
@@ -507,51 +483,28 @@
 .step-card:hover {
     border-color: #00c2cb;
     box-shadow: 0 10px 30px rgba(0, 194, 203, 0.15);
-    transform: translateY(-8px);
+    transform: translateY(-5px);
 }
 
 .step-card:hover::before {
     transform: scaleX(1);
 }
 
-.step-icon {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, #e0f2fe, #bfdbfe);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 2.5rem;
-    color: #0284c7;
-    transition: all 0.3s ease;
-}
-
-.step-card:hover .step-icon {
-    background: linear-gradient(135deg, #003366, #00c2cb);
-    color: white;
-    transform: scale(1.1) rotate(5deg);
-}
-
 .step-number {
     display: inline-block;
-    font-size: 1rem;
-    font-weight: 800;
+    font-size: 3rem;
+    font-weight: 900;
     color: #00c2cb;
-    background: #e0f2fe;
-    padding: 8px 16px;
-    border-radius: 20px;
-    margin-bottom: 15px;
+    opacity: 0.2;
+    line-height: 1;
+    margin-bottom: 20px;
 }
 
 .step-title {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 800;
     color: #0f172a;
     margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: -0.5px;
 }
 
 .step-text {
@@ -587,6 +540,20 @@
     
     .steps-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .step-card {
+        padding: 30px 25px;
+    }
+    
+    .step-number {
+        font-size: 2.5rem;
+    }
+    
+    .step-title {
+        font-size: 1.5rem;
     }
 }
 </style>
