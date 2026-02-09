@@ -27,7 +27,7 @@
                 <h1 class="search-title">Encontre Pesquisadores da UFLA</h1>
                 
                 <div class="search-container-modern">
-                    <input type="text" id="searchInput" placeholder="Busque por nome, área, departamento, projeto...">
+                    <input type="text" id="searchInput" placeholder="Busque por nome, área, subárea, departamento...">
                     <button id="clearBtn" class="btn-clear-modern hidden" type="button" aria-label="Limpar pesquisa">
                         <i class="fas fa-times"></i>
                     </button>
@@ -80,7 +80,10 @@
 
                 <div class="info-grid">
                     <div class="info-item"><strong>E-mail Institucional</strong><p><a href="#" id="prof-email"></a></p></div>
-                    <div class="info-item"><strong>Área de Atuação</strong><p id="prof-area"></p></div>
+                    <div class="info-item"><strong>Telefone / Ramal</strong><p id="prof-telefone"></p></div>
+                    
+                    <div class="info-item"><strong>Grande Área</strong><p id="prof-area"></p></div>
+                    <div class="info-item"><strong>Subáreas / Especialidades</strong><p id="prof-subarea"></p></div>
                 </div>
 
                 <h2 class="section-title">Biografia / Apresentação</h2>
@@ -121,7 +124,6 @@
             renderizarCards(todosPesquisadores);
         };
 
-        // --- PARSER CSV AVANÇADO (Lida com quebra de linha dentro da célula) ---
         function parseCSV(text) {
             const rows = [];
             let currentRow = [];
@@ -133,29 +135,18 @@
                 const nextChar = text[i+1];
 
                 if (char === '"') {
-                    if (insideQuote && nextChar === '"') {
-                        currentVal += '"';
-                        i++; // Pula o escape
-                    } else {
-                        insideQuote = !insideQuote;
-                    }
+                    if (insideQuote && nextChar === '"') { currentVal += '"'; i++; } 
+                    else { insideQuote = !insideQuote; }
                 } else if (char === ',' && !insideQuote) {
-                    currentRow.push(currentVal);
-                    currentVal = '';
+                    currentRow.push(currentVal); currentVal = '';
                 } else if ((char === '\n' || char === '\r') && !insideQuote) {
-                    if (char === '\r' && nextChar === '\n') i++; // Pula \r\n
-                    currentRow.push(currentVal);
-                    rows.push(currentRow);
-                    currentRow = [];
-                    currentVal = '';
+                    if (char === '\r' && nextChar === '\n') i++; 
+                    currentRow.push(currentVal); rows.push(currentRow); currentRow = []; currentVal = '';
                 } else {
                     currentVal += char;
                 }
             }
-            if (currentVal || currentRow.length > 0) {
-                currentRow.push(currentVal);
-                rows.push(currentRow);
-            }
+            if (currentVal || currentRow.length > 0) { currentRow.push(currentVal); rows.push(currentRow); }
             return rows;
         }
 
@@ -163,47 +154,42 @@
             const rows = parseCSV(csvText);
             if (rows.length < 2) return [];
 
-            // 1. Identificar cabeçalhos dinamicamente
             const headers = rows[0].map(h => removerAcentos(h.trim()));
-            console.log("Cabeçalhos detectados:", headers);
-
-            // 2. Criar mapa de índices (procura colunas por palavras-chave)
+            
             const map = {
                 nome: headers.findIndex(h => h.includes('nome') || h.includes('docente')),
-                dept: headers.findIndex(h => h.includes('departamento') || h.includes('centro') || h.includes('lotacao')),
-                email: headers.findIndex(h => h.includes('email') || h.includes('e-mail') || h.includes('contato')),
-                area: headers.findIndex(h => h === 'area' || h.includes('area de atuacao') || h.includes('grande area')),
-                resumo: headers.findIndex(h => h.includes('resumo') || h.includes('apresentacao') || h.includes('biografia') || h.includes('curriculo')),
-                projetos: headers.findIndex(h => h.includes('projeto') || h.includes('projetos'))
+                dept: headers.findIndex(h => h.includes('departamento') || h.includes('centro')),
+                email: headers.findIndex(h => h.includes('email') || h.includes('e-mail')),
+                // Mapeamento do Telefone
+                telefone: headers.findIndex(h => h.includes('telefone') || h.includes('ramal') || h.includes('celular')), 
+                area: headers.findIndex(h => h === 'area' || h.includes('grande area')),
+                subarea: headers.findIndex(h => h.includes('subarea') || h.includes('area de atuacao')),
+                resumo: headers.findIndex(h => h.includes('resumo') || h.includes('apresentacao')),
+                projetos: headers.findIndex(h => h.includes('projeto'))
             };
 
             const pesquisadores = [];
 
-            // 3. Iterar dados
             for (let i = 1; i < rows.length; i++) {
                 const col = rows[i];
-                if (col.length < 2) continue; // Linha vazia
+                if (col.length < 2) continue; 
 
-                // Extração segura usando o mapa
-                const nome = map.nome > -1 ? col[map.nome] : (col[1] || ''); // Fallback para col 1 se falhar
-                
-                // Limpeza básica
+                const nome = map.nome > -1 ? col[map.nome] : (col[1] || ''); 
                 const nomeLimpo = nome.replace(/^"|"$/g, '').trim();
 
-                // Filtro de qualidade (Ignora linhas de lixo/cabeçalho repetido)
                 if (!nomeLimpo || nomeLimpo.length < 4 || nomeLimpo.toLowerCase().includes('nome do servidor')) continue;
 
                 pesquisadores.push({
                     Nome: nomeLimpo,
                     Departamento: map.dept > -1 ? col[map.dept] : 'UFLA',
                     Email: map.email > -1 ? col[map.email] : '',
+                    Telefone: map.telefone > -1 ? col[map.telefone] : '', // Captura Telefone
                     Area: map.area > -1 ? col[map.area] : 'Pesquisa e Inovação',
+                    Subareas: map.subarea > -1 ? col[map.subarea] : '',
                     Apresentacao: map.resumo > -1 ? col[map.resumo] : '',
                     Projetos: map.projetos > -1 ? col[map.projetos] : ''
                 });
             }
-            
-            console.log(`Processados ${pesquisadores.length} pesquisadores.`);
             return pesquisadores;
         }
 
@@ -217,7 +203,7 @@
         function filtrarResultados(termo) {
             const t = removerAcentos(termo);
             const filtrados = todosPesquisadores.filter(p => 
-                removerAcentos(`${p.Nome} ${p.Departamento} ${p.Area} ${p.Apresentacao}`).includes(t)
+                removerAcentos(`${p.Nome} ${p.Departamento} ${p.Area} ${p.Subareas} ${p.Apresentacao}`).includes(t)
             );
             renderizarCards(filtrados);
         }
@@ -227,7 +213,6 @@
             container.innerHTML = lista.length ? '' : '<div class="no-results"><i class="fas fa-search"></i><p>Nenhum pesquisador encontrado para este termo.</p></div>';
             document.getElementById('counter').innerText = lista.length ? `${lista.length} pesquisadores encontrados` : '';
             
-            // Paginação virtual (renderiza apenas os primeiros 100 para performance inicial)
             const listaRender = lista.slice(0, 100); 
 
             listaRender.forEach(p => {
@@ -235,8 +220,6 @@
                 card.className = 'card';
                 card.onclick = () => abrirPerfil(p);
                 
-                // REMOVIDO: Lógica do avatar (bolinha)
-
                 card.innerHTML = `
                     <h3>${p.Nome}</h3>
                     <div class="card-dept"><i class="fas fa-university"></i> ${p.Departamento || 'UFLA'}</div>
@@ -253,6 +236,7 @@
             document.getElementById('prof-nome').innerText = d.Nome;
             document.getElementById('prof-dept').innerText = d.Departamento || 'Departamento não informado';
             
+            // E-mail
             const emailEl = document.getElementById('prof-email');
             if (d.Email && d.Email.length > 3) {
                 emailEl.innerText = d.Email;
@@ -262,9 +246,18 @@
                 emailEl.parentElement.parentElement.style.display = 'none';
             }
 
+            // Telefone
+            const telEl = document.getElementById('prof-telefone');
+            if (d.Telefone && d.Telefone.length > 3) {
+                telEl.innerText = d.Telefone;
+                telEl.parentElement.style.display = 'block';
+            } else {
+                telEl.parentElement.style.display = 'none';
+            }
+
             document.getElementById('prof-area').innerText = d.Area || 'Não especificada';
+            document.getElementById('prof-subarea').innerText = d.Subareas || 'Não detalhada';
             
-            // Trata quebras de linha na apresentação
             const bioLimpa = d.Apresentacao ? d.Apresentacao.replace(/\n/g, '<br>') : 'Informações biográficas não disponíveis na base de dados.';
             document.getElementById('prof-apresentacao').innerHTML = bioLimpa;
 
@@ -281,14 +274,12 @@
             document.getElementById('search-view').classList.remove('hidden');
         }
 
-        // Eventos de Pesquisa
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
         
         searchInput.addEventListener('input', (e) => {
             const val = e.target.value;
             clearBtn.classList.toggle('hidden', !val);
-            // Debounce simples para não travar em digitação rápida
             clearTimeout(window.searchTimeout);
             window.searchTimeout = setTimeout(() => filtrarResultados(val), 300);
         });
@@ -304,15 +295,12 @@
         .no-results { text-align: center; padding: 40px; color: #94a3b8; }
         .no-results i { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; }
         
-        /* REMOVIDO: .card-avatar-placeholder {...} */
-        
         .area-tag {
             background: #f1f5f9; color: #475569; padding: 4px 10px; 
             border-radius: 4px; font-size: 0.8rem; font-weight: 600;
             display: inline-block; margin-top: 5px;
         }
 
-        /* Ajuste fino para o título do card sem o avatar */
         .card h3 {
             margin-top: 0;
             margin-bottom: 10px;
