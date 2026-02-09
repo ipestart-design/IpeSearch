@@ -52,7 +52,9 @@
         </section>
 
         <div id="counter" style="text-align: center; color: #5A6A85; font-weight: 500; margin-top: 30px;"></div>
-        <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">Carregando pesquisadores...</div>
+        <div id="loading" style="text-align: center; padding: 20px; display: none; color: #003366;">
+            <i class="fas fa-spinner fa-spin"></i> Carregando pesquisadores...
+        </div>
 
         <div class="results-container" id="resultsContainer"></div>
     </div>
@@ -84,7 +86,8 @@
                 <h2 class="section-title">Biografia / Apresentação</h2>
                 <div class="text-content" id="prof-apresentacao"></div>
                 
-                <div class="last-update" id="prof-update"></div>
+                <h2 class="section-title">Projetos & Linhas de Pesquisa</h2>
+                <div class="text-content" id="prof-projetos" style="font-size: 0.9rem; color: #555;"></div>
             </div>
         </div>
     </div>
@@ -107,40 +110,142 @@
             loading.style.display = 'block';
             try {
                 const response = await fetch(`${GOOGLE_SHEET_CSV_URL}&t=${new Date().getTime()}`);
+                if (!response.ok) throw new Error("Erro ao acessar planilha");
                 const texto = await response.text();
                 todosPesquisadores = processarCSV(texto);
-            } catch (erro) { console.error(erro); }
+            } catch (erro) { 
+                console.error(erro);
+                document.getElementById('resultsContainer').innerHTML = '<p style="text-align:center; color:red">Erro ao carregar dados. Tente novamente mais tarde.</p>';
+            }
             loading.style.display = 'none';
             renderizarCards(todosPesquisadores);
         };
 
+        // --- PARSER CSV AVANÇADO (Lida com quebra de linha dentro da célula) ---
+        function parseCSV(text) {
+            const rows = [];
+            let currentRow = [];
+            let currentVal = '';
+            let insideQuote = false;
+            
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const nextChar = text[i+1];
+
+                if (char === '"') {
+                    if (insideQuote && nextChar === '"') {
+                        currentVal += '"';
+                        i++; // Pula o escape
+                    } else {
+                        insideQuote = !insideQuote;
+                    }
+                } else if (char === ',' && !insideQuote) {
+                    currentRow.push(currentVal);
+                    currentVal = '';
+                } else if ((char === '\n' || char === '\r') && !insideQuote) {
+                    if (char === '\r' && nextChar === '\n') i++; // Pula \r\n
+                    currentRow.push(currentVal);
+                    rows.push(currentRow);
+                    currentRow = [];
+                    currentVal = '';
+                } else {
+                    currentVal += char;
+                }
+            }
+            if (currentVal || currentRow.length > 0) {
+                currentRow.push(currentVal);
+                rows.push(currentRow);
+            }
+            return rows;
+        }
+
+        function processarCSV(csvText) {
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) return [];
+
+            // 1. Identificar cabeçalhos dinamicamente
+            const headers = rows[0].map(h => removerAcentos(h.trim()));
+            console.log("Cabeçalhos detectados:", headers);
+
+            // 2. Criar mapa de índices (procura colunas por palavras-chave)
+            const map = {
+                nome: headers.findIndex(h => h.includes('nome') || h.includes('docente')),
+                dept: headers.findIndex(h => h.includes('departamento') || h.includes('centro') || h.includes('lotacao')),
+                email: headers.findIndex(h => h.includes('email') || h.includes('e-mail') || h.includes('contato')),
+                area: headers.findIndex(h => h === 'area' || h.includes('area de atuacao') || h.includes('grande area')),
+                resumo: headers.findIndex(h => h.includes('resumo') || h.includes('apresentacao') || h.includes('biografia') || h.includes('curriculo')),
+                projetos: headers.findIndex(h => h.includes('projeto') || h.includes('projetos'))
+            };
+
+            const pesquisadores = [];
+
+            // 3. Iterar dados
+            for (let i = 1; i < rows.length; i++) {
+                const col = rows[i];
+                if (col.length < 2) continue; // Linha vazia
+
+                // Extração segura usando o mapa
+                const nome = map.nome > -1 ? col[map.nome] : (col[1] || ''); // Fallback para col 1 se falhar
+                
+                // Limpeza básica
+                const nomeLimpo = nome.replace(/^"|"$/g, '').trim();
+
+                // Filtro de qualidade (Ignora linhas de lixo/cabeçalho repetido)
+                if (!nomeLimpo || nomeLimpo.length < 4 || nomeLimpo.toLowerCase().includes('nome do servidor')) continue;
+
+                pesquisadores.push({
+                    Nome: nomeLimpo,
+                    Departamento: map.dept > -1 ? col[map.dept] : 'UFLA',
+                    Email: map.email > -1 ? col[map.email] : '',
+                    Area: map.area > -1 ? col[map.area] : 'Pesquisa e Inovação',
+                    Apresentacao: map.resumo > -1 ? col[map.resumo] : '',
+                    Projetos: map.projetos > -1 ? col[map.projetos] : ''
+                });
+            }
+            
+            console.log(`Processados ${pesquisadores.length} pesquisadores.`);
+            return pesquisadores;
+        }
+
         function filtrarTag(tag) {
-            document.getElementById('searchInput').value = tag;
+            const input = document.getElementById('searchInput');
+            input.value = tag;
             filtrarResultados(tag);
+            document.getElementById('clearBtn').classList.remove('hidden');
         }
 
         function filtrarResultados(termo) {
             const t = removerAcentos(termo);
             const filtrados = todosPesquisadores.filter(p => 
-                removerAcentos(`${p.Nome} ${p.Departamento} ${p.Area}`).includes(t)
+                removerAcentos(`${p.Nome} ${p.Departamento} ${p.Area} ${p.Apresentacao}`).includes(t)
             );
             renderizarCards(filtrados);
         }
 
         function renderizarCards(lista) {
             const container = document.getElementById('resultsContainer');
-            container.innerHTML = lista.length ? '' : '<p style="text-align:center">Nenhum professor encontrado.</p>';
+            container.innerHTML = lista.length ? '' : '<div class="no-results"><i class="fas fa-search"></i><p>Nenhum pesquisador encontrado para este termo.</p></div>';
             document.getElementById('counter').innerText = lista.length ? `${lista.length} pesquisadores encontrados` : '';
             
-            lista.forEach(p => {
+            // Paginação virtual (renderiza apenas os primeiros 50 para performance inicial se lista for gigante)
+            const listaRender = lista.slice(0, 100); 
+
+            listaRender.forEach(p => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => abrirPerfil(p);
+                
+                // Lógica simples para avatar (Iniciais)
+                const iniciais = p.Nome.split(' ').slice(0,2).map(n => n[0]).join('');
+
                 card.innerHTML = `
+                    <div class="card-avatar-placeholder">${iniciais}</div>
                     <h3>${p.Nome}</h3>
-                    <div class="card-dept">${p.Departamento}</div>
-                    <div class="card-content-area"><strong>Área:</strong> ${p.Area}</div>
-                    <div class="card-footer"><div class="card-hint">Ver perfil →</div></div>
+                    <div class="card-dept"><i class="fas fa-university"></i> ${p.Departamento || 'UFLA'}</div>
+                    <div class="card-content-area">
+                        <span class="area-tag">${p.Area || 'Geral'}</span>
+                    </div>
+                    <div class="card-footer"><div class="card-hint">Ver perfil completo <i class="fas fa-arrow-right"></i></div></div>
                 `;
                 container.appendChild(card);
             });
@@ -148,11 +253,25 @@
 
         function abrirPerfil(d) {
             document.getElementById('prof-nome').innerText = d.Nome;
-            document.getElementById('prof-dept').innerText = d.Departamento;
-            document.getElementById('prof-email').innerText = d.Email || 'Não informado';
-            document.getElementById('prof-email').href = d.Email ? `mailto:${d.Email}` : '#';
-            document.getElementById('prof-area').innerText = d.Area || 'Não informada';
-            document.getElementById('prof-apresentacao').innerText = d.Apresentacao || 'Sem biografia disponível.';
+            document.getElementById('prof-dept').innerText = d.Departamento || 'Departamento não informado';
+            
+            const emailEl = document.getElementById('prof-email');
+            if (d.Email && d.Email.length > 3) {
+                emailEl.innerText = d.Email;
+                emailEl.href = `mailto:${d.Email}`;
+                emailEl.parentElement.parentElement.style.display = 'block';
+            } else {
+                emailEl.parentElement.parentElement.style.display = 'none';
+            }
+
+            document.getElementById('prof-area').innerText = d.Area || 'Não especificada';
+            
+            // Trata quebras de linha na apresentação
+            const bioLimpa = d.Apresentacao ? d.Apresentacao.replace(/\n/g, '<br>') : 'Informações biográficas não disponíveis na base de dados.';
+            document.getElementById('prof-apresentacao').innerHTML = bioLimpa;
+
+            const projLimpo = d.Projetos ? d.Projetos.replace(/\n/g, '<br>') : 'Sem projetos listados recentemente.';
+            document.getElementById('prof-projetos').innerHTML = projLimpo;
             
             document.getElementById('search-view').classList.add('hidden');
             document.getElementById('profile-view').classList.remove('hidden');
@@ -164,120 +283,40 @@
             document.getElementById('search-view').classList.remove('hidden');
         }
 
-        function processarCSV(csv) {
-            // Parser CSV mais robusto usando biblioteca nativa
-            function parseCSVLine(line) {
-                const result = [];
-                let current = '';
-                let inQuotes = false;
-                
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    const nextChar = line[i + 1];
-                    
-                    if (char === '"' && nextChar === '"') {
-                        // Aspas duplas escapadas
-                        current += '"';
-                        i++; // Pula próximo
-                    } else if (char === '"') {
-                        inQuotes = !inQuotes;
-                    } else if (char === ',' && !inQuotes) {
-                        result.push(current);
-                        current = '';
-                    } else {
-                        current += char;
-                    }
-                }
-                result.push(current);
-                return result;
-            }
-            
-            const lines = csv.split(/\r?\n/); // Suporta \n e \r\n
-            const header = lines[0];
-            console.log('Header CSV:', header);
-            
-            const pesquisadores = [];
-            
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line) continue;
-                
-                const cols = parseCSVLine(line);
-                
-                // Limpa aspas do início e fim
-                const cleanCols = cols.map(c => {
-                    if (!c) return '';
-                    let cleaned = c.trim();
-                    if (cleaned.startsWith('"')) cleaned = cleaned.substring(1);
-                    if (cleaned.endsWith('"')) cleaned = cleaned.substring(0, cleaned.length - 1);
-                    return cleaned.trim();
-                });
-                
-                // Mapeia colunas
-                const nome = cleanCols[1] || '';
-                const departamento = cleanCols[2] || '';
-                const email = cleanCols[3] || '';
-                const telefone = cleanCols[4] || '';
-                const area = cleanCols[5] || '';
-                const subareas = cleanCols[6] || '';
-                const linhas = cleanCols[7] || '';
-                const projetos = cleanCols[8] || '';
-                const apresentacao = cleanCols[9] || '';
-                
-                // Debug das primeiras 3 linhas
-                if (i <= 3) {
-                    console.log(`Linha ${i}:`, {
-                        nome,
-                        departamento,
-                        area,
-                        totalCols: cleanCols.length
-                    });
-                }
-                
-                // Validação: verifica se é um nome válido
-                const pareceNome = nome && 
-                                   nome.length >= 3 && 
-                                   nome.length < 80 &&
-                                   /^[A-ZÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/i.test(nome) && // Começa com letra maiúscula
-                                   !nome.toLowerCase().includes('doutorad') &&
-                                   !nome.toLowerCase().includes('mestrad') &&
-                                   !nome.toLowerCase().includes('graduação') &&
-                                   !nome.toLowerCase().startsWith('com ') &&
-                                   !nome.toLowerCase().startsWith('possui ') &&
-                                   !nome.includes('ATUA') &&
-                                   !nome.includes('PROFESSOR');
-                
-                if (!pareceNome) continue;
-                
-                pesquisadores.push({
-                    Nome: nome,
-                    Departamento: departamento || 'Não informado',
-                    Email: email,
-                    Telefone: telefone,
-                    Area: area || 'Não informada',
-                    Subareas: subareas,
-                    LinhasPesquisa: linhas,
-                    Projetos: projetos,
-                    Apresentacao: apresentacao || 'Sem biografia disponível.'
-                });
-            }
-            
-            console.log(`Total de pesquisadores válidos: ${pesquisadores.length}`);
-            return pesquisadores;
-        }
-
-        // Lógica do botão Limpar
+        // Eventos de Pesquisa
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearBtn');
-        searchInput.addEventListener('input', () => {
-            clearBtn.classList.toggle('hidden', !searchInput.value);
-            filtrarResultados(searchInput.value);
+        
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            clearBtn.classList.toggle('hidden', !val);
+            // Debounce simples para não travar em digitação rápida
+            clearTimeout(window.searchTimeout);
+            window.searchTimeout = setTimeout(() => filtrarResultados(val), 300);
         });
+
         clearBtn.addEventListener('click', () => {
             searchInput.value = '';
             clearBtn.classList.add('hidden');
             filtrarResultados('');
         });
     </script>
+
+    <style>
+        .no-results { text-align: center; padding: 40px; color: #94a3b8; }
+        .no-results i { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; }
+        
+        .card-avatar-placeholder {
+            width: 50px; height: 50px; background: #e0f2fe; color: #003366;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.2rem; margin-bottom: 15px;
+        }
+        
+        .area-tag {
+            background: #f1f5f9; color: #475569; padding: 4px 10px; 
+            border-radius: 4px; font-size: 0.8rem; font-weight: 600;
+            display: inline-block; margin-top: 5px;
+        }
+    </style>
 </body>
 </html>
