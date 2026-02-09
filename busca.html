@@ -155,16 +155,28 @@
             if (rows.length < 2) return [];
 
             const headers = rows[0].map(h => removerAcentos(h.trim()));
+            console.log('Headers encontrados:', headers);
             
+            // --- CORREÇÃO DO MAPEAMENTO ---
             const map = {
+                // Nome Completo
                 nome: headers.findIndex(h => h.includes('nome') || h.includes('docente')),
+                // Departamento
                 dept: headers.findIndex(h => h.includes('departamento') || h.includes('centro')),
+                // E-mail
                 email: headers.findIndex(h => h.includes('email') || h.includes('e-mail')),
-                // Mapeamento do Telefone
-                telefone: headers.findIndex(h => h.includes('telefone') || h.includes('ramal') || h.includes('celular')), 
-                area: headers.findIndex(h => h === 'area' || h.includes('grande area')),
-                subarea: headers.findIndex(h => h.includes('subarea') || h.includes('area de atuacao')),
-                resumo: headers.findIndex(h => h.includes('resumo') || h.includes('apresentacao')),
+                // Telefone
+                telefone: headers.findIndex(h => h.includes('telefone') || h.includes('ramal')), 
+                
+                // CORREÇÃO AQUI: Área de Atuação (Coluna F da sua imagem)
+                area: headers.findIndex(h => h === 'area de atuacao' || h.includes('grande area') || (h.includes('area') && !h.includes('sub'))),
+                
+                // CORREÇÃO AQUI: Subáreas (Coluna G da sua imagem)
+                subarea: headers.findIndex(h => h.includes('subarea') || h.includes('especialidade')),
+                
+                // Mini Apresentação
+                resumo: headers.findIndex(h => h.includes('apresentacao') || h.includes('resumo') || h.includes('biografia')),
+                // Projetos
                 projetos: headers.findIndex(h => h.includes('projeto'))
             };
 
@@ -183,9 +195,9 @@
                     Nome: nomeLimpo,
                     Departamento: map.dept > -1 ? col[map.dept] : 'UFLA',
                     Email: map.email > -1 ? col[map.email] : '',
-                    Telefone: map.telefone > -1 ? col[map.telefone] : '', // Captura Telefone
-                    Area: map.area > -1 ? col[map.area] : 'Pesquisa e Inovação',
-                    Subareas: map.subarea > -1 ? col[map.subarea] : '',
+                    Telefone: map.telefone > -1 ? col[map.telefone] : '',
+                    Area: map.area > -1 ? col[map.area] : 'Área não informada',
+                    Subareas: map.subarea > -1 ? col[map.subarea] : '', // Agora pega corretamente
                     Apresentacao: map.resumo > -1 ? col[map.resumo] : '',
                     Projetos: map.projetos > -1 ? col[map.projetos] : ''
                 });
