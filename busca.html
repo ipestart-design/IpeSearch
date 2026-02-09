@@ -165,7 +165,7 @@
         }
 
         function processarCSV(csv) {
-            // Parser CSV que lida corretamente com vírgulas dentro de aspas
+            // Parser CSV mais robusto usando biblioteca nativa
             function parseCSVLine(line) {
                 const result = [];
                 let current = '';
@@ -173,64 +173,97 @@
                 
                 for (let i = 0; i < line.length; i++) {
                     const char = line[i];
+                    const nextChar = line[i + 1];
                     
-                    if (char === '"') {
+                    if (char === '"' && nextChar === '"') {
+                        // Aspas duplas escapadas
+                        current += '"';
+                        i++; // Pula próximo
+                    } else if (char === '"') {
                         inQuotes = !inQuotes;
                     } else if (char === ',' && !inQuotes) {
-                        result.push(current.trim());
+                        result.push(current);
                         current = '';
                     } else {
                         current += char;
                     }
                 }
-                result.push(current.trim());
+                result.push(current);
                 return result;
             }
             
-            const lines = csv.split('\n').slice(1); // Pula header
-            return lines.map(line => {
-                if (!line.trim()) return null;
+            const lines = csv.split(/\r?\n/); // Suporta \n e \r\n
+            const header = lines[0];
+            console.log('Header CSV:', header);
+            
+            const pesquisadores = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
                 
                 const cols = parseCSVLine(line);
                 
-                // Limpa aspas de todas as colunas
-                const cleanCols = cols.map(c => c?.replace(/^"|"$/g, '').trim());
+                // Limpa aspas do início e fim
+                const cleanCols = cols.map(c => {
+                    if (!c) return '';
+                    let cleaned = c.trim();
+                    if (cleaned.startsWith('"')) cleaned = cleaned.substring(1);
+                    if (cleaned.endsWith('"')) cleaned = cleaned.substring(0, cleaned.length - 1);
+                    return cleaned.trim();
+                });
                 
-                // Extrai os dados
+                // Mapeia colunas
                 const nome = cleanCols[1] || '';
-                const departamento = cleanCols[2] || 'Não informado';
+                const departamento = cleanCols[2] || '';
                 const email = cleanCols[3] || '';
                 const telefone = cleanCols[4] || '';
-                const area = cleanCols[5] || 'Não informada';
+                const area = cleanCols[5] || '';
                 const subareas = cleanCols[6] || '';
                 const linhas = cleanCols[7] || '';
                 const projetos = cleanCols[8] || '';
-                const apresentacao = cleanCols[9] || 'Sem biografia disponível.';
+                const apresentacao = cleanCols[9] || '';
                 
-                // Validação: nome não pode ser muito longo (provavelmente é texto de bio)
-                // e não pode começar com minúscula ou ter muitas palavras
-                const nomeValido = nome && 
-                                   nome.length < 100 && 
-                                   nome.length > 2 &&
-                                   !nome.startsWith('possui ') &&
-                                   !nome.startsWith('COM ') &&
-                                   !nome.includes('DOUTORADO') &&
-                                   !nome.includes('MESTRADO');
+                // Debug das primeiras 3 linhas
+                if (i <= 3) {
+                    console.log(`Linha ${i}:`, {
+                        nome,
+                        departamento,
+                        area,
+                        totalCols: cleanCols.length
+                    });
+                }
                 
-                if (!nomeValido) return null;
+                // Validação: verifica se é um nome válido
+                const pareceNome = nome && 
+                                   nome.length >= 3 && 
+                                   nome.length < 80 &&
+                                   /^[A-ZÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/i.test(nome) && // Começa com letra maiúscula
+                                   !nome.toLowerCase().includes('doutorad') &&
+                                   !nome.toLowerCase().includes('mestrad') &&
+                                   !nome.toLowerCase().includes('graduação') &&
+                                   !nome.toLowerCase().startsWith('com ') &&
+                                   !nome.toLowerCase().startsWith('possui ') &&
+                                   !nome.includes('ATUA') &&
+                                   !nome.includes('PROFESSOR');
                 
-                return {
+                if (!pareceNome) continue;
+                
+                pesquisadores.push({
                     Nome: nome,
-                    Departamento: departamento,
+                    Departamento: departamento || 'Não informado',
                     Email: email,
                     Telefone: telefone,
-                    Area: area,
+                    Area: area || 'Não informada',
                     Subareas: subareas,
                     LinhasPesquisa: linhas,
                     Projetos: projetos,
-                    Apresentacao: apresentacao
-                };
-            }).filter(p => p !== null);
+                    Apresentacao: apresentacao || 'Sem biografia disponível.'
+                });
+            }
+            
+            console.log(`Total de pesquisadores válidos: ${pesquisadores.length}`);
+            return pesquisadores;
         }
 
         // Lógica do botão Limpar
