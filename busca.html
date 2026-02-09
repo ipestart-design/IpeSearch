@@ -227,7 +227,7 @@
             container.innerHTML = lista.length ? '' : '<div class="no-results"><i class="fas fa-search"></i><p>Nenhum pesquisador encontrado para este termo.</p></div>';
             document.getElementById('counter').innerText = lista.length ? `${lista.length} pesquisadores encontrados` : '';
             
-            // Paginação virtual (renderiza apenas os primeiros 50 para performance inicial se lista for gigante)
+            // Paginação virtual (renderiza apenas os primeiros 100 para performance inicial)
             const listaRender = lista.slice(0, 100); 
 
             listaRender.forEach(p => {
@@ -235,11 +235,9 @@
                 card.className = 'card';
                 card.onclick = () => abrirPerfil(p);
                 
-                // Lógica simples para avatar (Iniciais)
-                const iniciais = p.Nome.split(' ').slice(0,2).map(n => n[0]).join('');
+                // REMOVIDO: Lógica do avatar (bolinha)
 
                 card.innerHTML = `
-                    <div class="card-avatar-placeholder">${iniciais}</div>
                     <h3>${p.Nome}</h3>
                     <div class="card-dept"><i class="fas fa-university"></i> ${p.Departamento || 'UFLA'}</div>
                     <div class="card-content-area">
@@ -306,16 +304,19 @@
         .no-results { text-align: center; padding: 40px; color: #94a3b8; }
         .no-results i { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; }
         
-        .card-avatar-placeholder {
-            width: 50px; height: 50px; background: #e0f2fe; color: #003366;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 1.2rem; margin-bottom: 15px;
-        }
+        /* REMOVIDO: .card-avatar-placeholder {...} */
         
         .area-tag {
             background: #f1f5f9; color: #475569; padding: 4px 10px; 
             border-radius: 4px; font-size: 0.8rem; font-weight: 600;
             display: inline-block; margin-top: 5px;
+        }
+
+        /* Ajuste fino para o título do card sem o avatar */
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
         }
     </style>
 </body>
