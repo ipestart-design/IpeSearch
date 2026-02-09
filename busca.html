@@ -153,6 +153,7 @@
             document.getElementById('prof-email').href = d.Email ? `mailto:${d.Email}` : '#';
             document.getElementById('prof-area').innerText = d.Area || 'Não informada';
             document.getElementById('prof-apresentacao').innerText = d.Apresentacao || 'Sem biografia disponível.';
+            
             document.getElementById('search-view').classList.add('hidden');
             document.getElementById('profile-view').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -167,14 +168,30 @@
             const lines = csv.split('\n').slice(1);
             return lines.map(line => {
                 const cols = line.split(',');
+                // ORDEM CORRETA DA PLANILHA:
+                // 0: ID/ATUALIZAÇÃO
+                // 1: NOME COMPLETO
+                // 2: DEPARTAMENTO
+                // 3: E-MAIL
+                // 4: TELEFONE (OPCIONAL)
+                // 5: ÁREA DE ATUAÇÃO
+                // 6: SUBAREAS
+                // 7: LINHAS DE PESQUISA
+                // 8: PROJETOS DE PESQUISA
+                // 9: MINI APRESENTAÇÃO
+                
                 return {
-                    Nome: cols[1]?.trim(), 
-                    Departamento: cols[2]?.trim(), 
-                    Email: cols[3]?.trim(),
-                    Area: cols[5]?.trim(), 
-                    Apresentacao: cols[9]?.trim()
+                    Nome: cols[1]?.trim() || 'Sem nome', 
+                    Departamento: cols[2]?.trim() || 'Não informado', 
+                    Email: cols[3]?.trim() || '',
+                    Telefone: cols[4]?.trim() || '',
+                    Area: cols[5]?.trim() || 'Não informada',
+                    Subareas: cols[6]?.trim() || '',
+                    LinhasPesquisa: cols[7]?.trim() || '',
+                    Projetos: cols[8]?.trim() || '',
+                    Apresentacao: cols[9]?.trim() || 'Sem biografia disponível.'
                 };
-            }).filter(p => p.Nome);
+            }).filter(p => p.Nome && p.Nome !== 'Sem nome');
         }
 
         // Lógica do botão Limpar
