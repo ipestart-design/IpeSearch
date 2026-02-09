@@ -193,30 +193,44 @@
                 
                 const cols = parseCSVLine(line);
                 
-                // ORDEM CORRETA DA PLANILHA (conforme imagem):
-                // 0: ID/ATUALIZAÇÃO
-                // 1: NOME COMPLETO
-                // 2: DEPARTAMENTO
-                // 3: E-MAIL
-                // 4: TELEFONE (OPCIONAL)
-                // 5: ÁREA DE ATUAÇÃO
-                // 6: SUBAREAS
-                // 7: LINHAS DE PESQUISA
-                // 8: PROJETOS DE PESQUISA
-                // 9: MINI APRESENTAÇÃO
+                // Limpa aspas de todas as colunas
+                const cleanCols = cols.map(c => c?.replace(/^"|"$/g, '').trim());
+                
+                // Extrai os dados
+                const nome = cleanCols[1] || '';
+                const departamento = cleanCols[2] || 'Não informado';
+                const email = cleanCols[3] || '';
+                const telefone = cleanCols[4] || '';
+                const area = cleanCols[5] || 'Não informada';
+                const subareas = cleanCols[6] || '';
+                const linhas = cleanCols[7] || '';
+                const projetos = cleanCols[8] || '';
+                const apresentacao = cleanCols[9] || 'Sem biografia disponível.';
+                
+                // Validação: nome não pode ser muito longo (provavelmente é texto de bio)
+                // e não pode começar com minúscula ou ter muitas palavras
+                const nomeValido = nome && 
+                                   nome.length < 100 && 
+                                   nome.length > 2 &&
+                                   !nome.startsWith('possui ') &&
+                                   !nome.startsWith('COM ') &&
+                                   !nome.includes('DOUTORADO') &&
+                                   !nome.includes('MESTRADO');
+                
+                if (!nomeValido) return null;
                 
                 return {
-                    Nome: cols[1]?.replace(/"/g, '').trim() || 'Sem nome',
-                    Departamento: cols[2]?.replace(/"/g, '').trim() || 'Não informado',
-                    Email: cols[3]?.replace(/"/g, '').trim() || '',
-                    Telefone: cols[4]?.replace(/"/g, '').trim() || '',
-                    Area: cols[5]?.replace(/"/g, '').trim() || 'Não informada',
-                    Subareas: cols[6]?.replace(/"/g, '').trim() || '',
-                    LinhasPesquisa: cols[7]?.replace(/"/g, '').trim() || '',
-                    Projetos: cols[8]?.replace(/"/g, '').trim() || '',
-                    Apresentacao: cols[9]?.replace(/"/g, '').trim() || 'Sem biografia disponível.'
+                    Nome: nome,
+                    Departamento: departamento,
+                    Email: email,
+                    Telefone: telefone,
+                    Area: area,
+                    Subareas: subareas,
+                    LinhasPesquisa: linhas,
+                    Projetos: projetos,
+                    Apresentacao: apresentacao
                 };
-            }).filter(p => p && p.Nome && p.Nome !== 'Sem nome' && p.Nome.length > 2);
+            }).filter(p => p !== null);
         }
 
         // Lógica do botão Limpar
